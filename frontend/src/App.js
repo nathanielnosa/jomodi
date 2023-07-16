@@ -1,23 +1,32 @@
+import React, { useEffect, useState } from 'react';
+import { MantineProvider, Text } from '@mantine/core';
+import {
+  BrowserRouter as Router,
+  Route,
+  Routes,
+  Navigate,
+} from "react-router-dom";
+import MainRoute from './router/MainRoute';
 import Header from './components/Header';
 import Footer from './components/Footer';
-import NewsLetter from './components/NewsLetter';
-import Home from './pages/Home';
-import Store from './pages/Store';
-import Checkout from './pages/Checkout';
-import Product from './pages/Product';
-
+import NavCat from './components/NavCat';
 function App() {
   return (
-    <div>
-      <Header />
-      {/* <Store /> */}
-      {/* <Checkout /> */}
-      {/* <Home />   */}
-      <Product />
-      <NewsLetter />
-      <Footer />
-    </div>
+
+      <MantineProvider withGlobalStyles withNormalizeCSS>
+    
+        <Router>
+        <Header />
+          <Routes>
+          <Route path="/*" element={<MainRoute />} />
+          </Routes>
+        <Footer />
+        </Router>
+
+      </MantineProvider>
+
   );
 }
 
 export default App;
+

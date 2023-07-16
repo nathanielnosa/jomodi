@@ -24,6 +24,18 @@ function Product() {
         ],
     };
 
+    const settings2 = {
+        dots: true,
+        infinite: true,
+        slidesToShow: 1,
+        slidesToScroll: 1,
+        appendDots: (dots) => <ul>{dots}</ul>,
+        customPaging: () => <li>•</li>,
+        draggable: true,
+        adaptiveHeight: true,
+        variableWidth: true,
+    };
+
     return (
         <>
 
@@ -58,40 +70,20 @@ function Product() {
                         <div class="col-md-5 col-md-push-2">
 
                             <div id="product-main-img">
-                                <Carousel
-                                    withIndicators
-                                    height="auto"
-                                    dragFree
-                                    slideGap="md"
-                                    align="start"
-                                    loop
-                                >
-                                    <Carousel.Slide>
-                                        <div class="product-preview">
-                                            <img src="./img/product01.png" alt="" />
-                                        </div>
-
-                                    </Carousel.Slide>
-                                    <Carousel.Slide>
-                                        <div class="product-preview">
-                                            <img src="./img/product03.png" alt="" />
-                                        </div>
-                                    </Carousel.Slide>
-
-                                    <Carousel.Slide>
-                                        <div class="product-preview">
-                                            <img src="./img/product06.png" alt="" />
-                                        </div>
-                                    </Carousel.Slide>
-
-                                    <Carousel.Slide>
-                                        <div class="product-preview">
-                                            <img src="./img/product08.png" alt="" />
-                                        </div>
-                                    </Carousel.Slide>
-
-
-                                </Carousel>
+                                <Slider {...settings2}>
+                                    <div className="product-preview">
+                                        <img src="./img/product01.png" alt="" />
+                                    </div>
+                                    <div className="product-preview">
+                                        <img src="./img/product03.png" alt="" />
+                                    </div>
+                                    <div className="product-preview">
+                                        <img src="./img/product06.png" alt="" />
+                                    </div>
+                                    <div className="product-preview">
+                                        <img src="./img/product08.png" alt="" />
+                                    </div>
+                                </Slider>
                             </div>
                         </div>
 

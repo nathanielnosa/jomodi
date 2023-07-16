@@ -3,8 +3,11 @@ import WishCart from './WishCart'
 import Search from './Search'
 import NavCat from './NavCat'
 import TopHeader from './TopHeader'
+import { Link } from 'react-router-dom'
+
 
 function Header() {
+
     return (
         <div>
             <header>
@@ -13,11 +16,15 @@ function Header() {
                     <div className="container">
                         <div className="row">
                             <div className="col-md-3">
-                                <div className="header-logo">
-                                    <a href="#" className="logo">
-                                        <img src="./img/logo.png" alt="" />
-                                    </a>
-                                </div>
+                                <Link to="/">
+                                    <div className="header-logo">
+                                        <div className="logo">
+                                            <img src="./img/logo.png" alt="" />
+                                        </div>
+                                    </div>
+
+                                </Link>
+
                             </div>
                             <Search />
                             <WishCart />
