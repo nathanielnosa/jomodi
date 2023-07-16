@@ -34,7 +34,7 @@ function TopSelling() {
 
                                       <div className="product">
                                           <div className="product-img">
-                                              <img src="./img/product06.png" alt="" />
+                                              <img src="/img/product06.png" alt="" />
                                               <div className="product-label">
                                                   <span className="sale">-30%</span>
                                                   <span className="new">NEW</span>
@@ -66,7 +66,7 @@ function TopSelling() {
 
                                       <div className="product">
                                           <div className="product-img">
-                                              <img src="./img/product07.png" alt="" />
+                                              <img src="/img/product07.png" alt="" />
                                               <div className="product-label">
                                                   <span className="new">NEW</span>
                                               </div>
@@ -97,7 +97,7 @@ function TopSelling() {
 
                                       <div className="product">
                                           <div className="product-img">
-                                              <img src="./img/product08.png" alt="" />
+                                              <img src="/img/product08.png" alt="" />
                                               <div className="product-label">
                                                   <span className="sale">-30%</span>
                                               </div>
@@ -123,7 +123,7 @@ function TopSelling() {
 
                                       <div className="product">
                                           <div className="product-img">
-                                              <img src="./img/product09.png" alt="" />
+                                              <img src="/img/product09.png" alt="" />
                                           </div>
                                           <div className="product-body">
                                               <p className="product-category">Category</p>
@@ -151,7 +151,7 @@ function TopSelling() {
 
                                       <div className="product">
                                           <div className="product-img">
-                                              <img src="./img/product01.png" alt="" />
+                                              <img src="/img/product01.png" alt="" />
                                           </div>
                                           <div className="product-body">
                                               <p className="product-category">Category</p>

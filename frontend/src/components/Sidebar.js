@@ -1,10 +1,23 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { API_URL } from '../constants';
+import { Link } from 'react-router-dom';
 
 function Sidebar() {
 	const [categories, setCategories] = useState([]);
 	const [brands, setBrands] = useState([]);
+	const [products, setProducts] = useState([]);
+
+	useEffect(() => {
+		axios.get(`${API_URL}product/product_detail/`)
+			.then(res => {
+				console.log(res.data);
+				setProducts(res.data.results);
+			})
+			.catch(err => {
+				console.log(err);
+			});
+	}, []);
 
 	useEffect(() => {
 		axios.get(API_URL + 'category/category/')
@@ -87,38 +100,31 @@ function Sidebar() {
 
 			<div className="aside">
 				<h3 className="aside-title">Top selling</h3>
-				<div className="product-widget">
-					<div className="product-img">
-						<img src="./img/product01.png" alt="" />
-					</div>
-					<div className="product-body">
-						<p className="product-category">Category</p>
-						<h3 className="product-name"><a href="#">product name goes here</a></h3>
-						<h4 className="product-price">$980.00 <del className="product-old-price">$990.00</del></h4>
-					</div>
-				</div>
+					{
+						products?.map((product, index) => (
+							<div key={index} className="product-widget">
+								<div className="product-img">
+									<img src={product?.image} alt="" />
+								</div>
+								<div className="product-body">
+									<p className="product-category">
+										{
+											product?.category?.name
+										}
+									</p>
+									<h3 className="product-name">
+										<Link to={`/product/${product?.id}`}>
+										{
+											product?.name
+										}
+										</Link></h3>
+									<h4 className="product-price">${product?.price} <del className="product-old-price">${product?.cancel_price}</del></h4>
+								</div>
+							</div>
+						))
+					}
 
-				<div className="product-widget">
-					<div className="product-img">
-						<img src="./img/product02.png" alt="" />
-					</div>
-					<div className="product-body">
-						<p className="product-category">Category</p>
-						<h3 className="product-name"><a href="#">product name goes here</a></h3>
-						<h4 className="product-price">$980.00 <del className="product-old-price">$990.00</del></h4>
-					</div>
-				</div>
 
-				<div className="product-widget">
-					<div className="product-img">
-						<img src="./img/product03.png" alt="" />
-					</div>
-					<div className="product-body">
-						<p className="product-category">Category</p>
-						<h3 className="product-name"><a href="#">product name goes here</a></h3>
-						<h4 className="product-price">$980.00 <del className="product-old-price">$990.00</del></h4>
-					</div>
-				</div>
 			</div>
 
 		</div>

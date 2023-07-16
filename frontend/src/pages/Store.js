@@ -1,9 +1,22 @@
-import React from 'react'
+import React, {useState, useEffect} from 'react'
 import Sidebar from '../components/Sidebar'
 import StoreTop from '../components/StoreTop'
 import ProductCard from '../components/ProductCard'
+import axios from 'axios'
+import { API_URL } from '../constants'
 
 function Store() {
+  const [products, setProducts] = useState([])
+
+  useEffect(() => {
+    axios.get(`${API_URL}product/product_detail/`)
+      .then(res => {
+        setProducts(res.data.results)
+      })
+      .catch(err => {
+        console.log(err)
+      })
+  }, [])
   return (
     <div class="section">
       <div class="container">
@@ -15,7 +28,14 @@ function Store() {
             <StoreTop />
 
             <div class="row">
-              <ProductCard  />
+              {
+                products.map((product, index) => {
+                  return (
+                    <ProductCard product={product} key={index} />
+                  )
+                })
+              }
+         
             </div>
             <div class="store-filter clearfix">
               <span class="store-qty">Showing 20-100 products</span>

@@ -7,7 +7,19 @@ import Slider from 'react-slick';
 import { Link } from 'react-router-dom';
 import CardProduct from './CardProduct';
 
-function NewProduct() {
+function NewProduct({product}) {
+
+    const [products, setProducts] = useState([])
+
+    useEffect(() => {
+        axios.get(`${API_URL}product/product_detail/`)
+            .then(res => {
+                setProducts(res.data.results)
+            })
+            .catch(err => {
+                console.log(err)
+            })
+    }, [])
     const settings = {
         dots: true,
         infinite: true,
@@ -56,21 +68,12 @@ function NewProduct() {
                                             { maxWidth: 'sm', slideSize: '100%', slideGap: 0 },
                                         ]}
                                     >
-                                        <Carousel.Slide>
-                                            <CardProduct />
-                                        </Carousel.Slide>
-                                        <Carousel.Slide>
-                                            <CardProduct />
-                                        </Carousel.Slide>
-                                        <Carousel.Slide>
-                                            <CardProduct />
-                                        </Carousel.Slide>
-                                        <Carousel.Slide>
-                                            <CardProduct />
-                                        </Carousel.Slide>
-                                        <Carousel.Slide>
-                                            <CardProduct />
-                                        </Carousel.Slide>
+                                        {products?.map((product, index) => (
+                                            <Carousel.Slide key={index}>
+                                                <CardProduct product={product} />
+                                            </Carousel.Slide>
+                                        ))
+                                        }
                                     </Carousel>
                                 </div>
                             </div>

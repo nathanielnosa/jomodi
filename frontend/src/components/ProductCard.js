@@ -1,24 +1,32 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 
-function ProductCard() {
+function ProductCard({product}) {
     return (
         <>
             <div class="col-md-4 col-xs-6">
                 <div class="product">
                     <div class="product-img">
-                        <img src="./img/product01.png" alt="" />
+                        <img src={product.image} alt="" />
                         <div class="product-label">
                             <span class="sale">-30%</span>
                             <span class="new">NEW</span>
                         </div>
                     </div>
                     <div class="product-body">
-                        <p class="product-category">Category</p>
+                        <p class="product-category">
+                            {product?.category?.name}
+                        </p>
                         <h3 class="product-name">
-                            <Link to='/product'>product name goes here</Link>
+                            <Link to={`/product/${product.id}`}>
+                                {product?.name}
+                            </Link>
                         </h3>
-                        <h4 class="product-price">$980.00 <del class="product-old-price">$990.00</del></h4>
+                        <h4 class="product-price">${
+                            product?.price
+                        } <del class="product-old-price">
+                                ${product?.cancel_price}
+                            </del></h4>
                         <div class="product-rating">
                             <i class="fa fa-star"></i>
                             <i class="fa fa-star"></i>
