@@ -245,7 +245,6 @@ function Store() {
 
               <div class="clearfix visible-sm visible-xs"></div>
 
-    alt=""/
               <div class="col-md-4 col-xs-6">
                 <div class="product">
                   <div class="product-img">
