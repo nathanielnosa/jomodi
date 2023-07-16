@@ -14,14 +14,13 @@ function Home() {
 
 
     return (
-        <>
+        <div>
             <HomeTop />
             <NewProduct />
             <HotDeal />
             <NewProduct />
             <TopSellingChip />
-
-        </>
+        </div>
     )
 }
 

@@ -66,6 +66,24 @@ function Product() {
             });
     }, [product]);
 
+    const handleAddToCart = (product) => {
+        // Get the existing cart items from local storage
+        const existingCartItems = JSON.parse(localStorage.getItem('cartItems')) || [];
+
+        // Check if the product already exists in the cart
+        const productIndex = existingCartItems.findIndex(item => item.id === product.id);
+
+        if (productIndex !== -1) {
+            // If the product already exists, increase its quantity
+            existingCartItems[productIndex].quantity += 1;
+        } else {
+            // If the product doesn't exist, add it to the cart
+            existingCartItems.push({ ...product, quantity: 1 });
+        }
+
+        // Store the updated cart items in local storage
+        localStorage.setItem('cartItems', JSON.stringify(existingCartItems));
+    };
 
     console.log(product)
     console.log(`${API_URL}product/image_fetch/?product_id=${id}/`)
@@ -96,16 +114,16 @@ function Product() {
                                 <li><a href="#">All Categories</a></li>
                                 <li>
                                     <Link to={`/category/${product?.category?.id}`}>
-                                    {
-                                        product?.category?.name
-                                    }
-                                </Link></li>
+                                        {
+                                            product?.category?.name
+                                        }
+                                    </Link></li>
                                 <li>
                                     <Link to={`/category/${product?.category?.id}`}>
-                                    {
-                                        product?.brand?.name
-                                    }
-                                </Link></li>
+                                        {
+                                            product?.brand?.name
+                                        }
+                                    </Link></li>
                                 <li class="active">
                                     {
                                         product?.name
@@ -219,7 +237,7 @@ function Product() {
                                             <span class="qty-down">-</span>
                                         </div>
                                     </div>
-                                    <button class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> add to cart</button>
+                                    <button class="add-to-cart-btn" onClick={() => handleAddToCart(product)}><i class="fa fa-shopping-cart"></i> add to cart</button>
                                 </div>
 
                                 <ul class="product-btns">
@@ -514,8 +532,8 @@ function Product() {
                                             </p>
                                             <h3 class="product-name">
                                                 <Link to={`/product/${product?.id}`}>
-                                                {product?.name}
-                                            </Link></h3>
+                                                    {product?.name}
+                                                </Link></h3>
                                             <h4 class="product-price">${product?.price} <del class="product-old-price">${product?.cancel_price}</del></h4>
                                             <div class="product-rating">
                                             </div>
@@ -525,7 +543,7 @@ function Product() {
                                             </div>
                                         </div>
                                         <div class="add-to-cart">
-                                            <button class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> add to cart</button>
+                                            <button class="add-to-cart-btn" onClick={() => handleAddToCart(product)}><i class="fa fa-shopping-cart"></i> add to cart</button>
                                         </div>
                                     </div>
                                 </div>

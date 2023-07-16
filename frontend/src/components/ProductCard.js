@@ -2,49 +2,68 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 
 function ProductCard({product}) {
+    const handleAddToCart = (product) => {
+        // Get the existing cart items from local storage
+        const existingCartItems = JSON.parse(localStorage.getItem('cartItems')) || [];
+
+        // Check if the product already exists in the cart
+        const productIndex = existingCartItems.findIndex(item => item.id === product.id);
+
+        if (productIndex !== -1) {
+            // If the product already exists, increase its quantity
+            existingCartItems[productIndex].quantity += 1;
+        } else {
+            // If the product doesn't exist, add it to the cart
+            existingCartItems.push({ ...product, quantity: 1 });
+        }
+
+        // Store the updated cart items in local storage
+        localStorage.setItem('cartItems', JSON.stringify(existingCartItems));
+    };
+
     return (
         <>
-            <div class="col-md-4 col-xs-6">
-                <div class="product">
-                    <div class="product-img">
+            <div className="col-md-4 col-xs-6">
+                <div className="product">
+                    <div className="product-img">
                         <img src={product.image} alt="" />
-                        <div class="product-label">
-                            <span class="sale">-30%</span>
-                            <span class="new">NEW</span>
+                        <div className="product-label">
+                            <span className="sale">-30%</span>
+                            <span className="new">NEW</span>
                         </div>
                     </div>
-                    <div class="product-body">
-                        <p class="product-category">
+                    <div className="product-body">
+                        <p className="product-category">
                             {product?.category?.name}
                         </p>
-                        <h3 class="product-name">
+                        <h3 className="product-name">
                             <Link to={`/product/${product.id}`}>
                                 {product?.name}
                             </Link>
                         </h3>
-                        <h4 class="product-price">${
+                        <h4 className="product-price">${
                             product?.price
-                        } <del class="product-old-price">
+                        } <del className="product-old-price">
                                 ${product?.cancel_price}
                             </del></h4>
-                        <div class="product-rating">
-                            <i class="fa fa-star"></i>
-                            <i class="fa fa-star"></i>
-                            <i class="fa fa-star"></i>
-                            <i class="fa fa-star"></i>
-                            <i class="fa fa-star"></i>
+                        <div className="product-rating">
+                            <i className="fa fa-star"></i>
+                            <i className="fa fa-star"></i>
+                            <i className="fa fa-star"></i>
+                            <i className="fa fa-star"></i>
+                            <i className="fa fa-star"></i>
                         </div>
-                        <div class="product-btns">
-                            <button class="add-to-wishlist"><i class="fa fa-heart-o"></i><span class="tooltipp">add to wishlist</span></button>
-                            <button class="quick-view"><i class="fa fa-eye"></i><span class="tooltipp">quick view</span></button>
+                        <div className="product-btns">
+                            <button className="add-to-wishlist"><i className="fa fa-heart-o"></i><span className="tooltipp">add to wishlist</span></button>
+                            <button className="quick-view"><i className="fa fa-eye"></i><span className="tooltipp">quick view</span></button>
                         </div>
                     </div>
-                    <div class="add-to-cart">
-                        <button class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> add to cart</button>
+                    <div className="add-to-cart">
+                        <button className="add-to-cart-btn" onClick={() => handleAddToCart(product)}><i className="fa fa-shopping-cart"></i> add to cart</button>
                     </div>
                 </div>
             </div>
-            <div class="clearfix visible-sm visible-xs"></div>
+            <div className="clearfix visible-sm visible-xs"></div>
         </>
     )
 }

@@ -7,7 +7,7 @@ import Slider from 'react-slick';
 import { Link } from 'react-router-dom';
 import CardProduct from './CardProduct';
 
-function NewProduct({product}) {
+function NewProduct({ product }) {
 
     const [products, setProducts] = useState([])
 
@@ -56,25 +56,12 @@ function NewProduct({product}) {
                         <div className="row">
                             <div className="products-tabs">
                                 <div id="tab1" className="tab-pane active">
-                                    <Carousel
-                                        withIndicators
-                                        slideSize="33.333333%"
-                                        slideGap="md"
-                                        loop
-                                        align="start"
-                                        slidesToScroll={3}
-                                        breakpoints={[
-                                            { maxWidth: 'md', slideSize: '50%' },
-                                            { maxWidth: 'sm', slideSize: '100%', slideGap: 0 },
-                                        ]}
-                                    >
+                                    <Slider {...settings}>
                                         {products?.map((product, index) => (
-                                            <Carousel.Slide key={index}>
-                                                <CardProduct product={product} />
-                                            </Carousel.Slide>
+                                            <CardProduct product={product} />
                                         ))
                                         }
-                                    </Carousel>
+                                    </Slider>
                                 </div>
                             </div>
                         </div>

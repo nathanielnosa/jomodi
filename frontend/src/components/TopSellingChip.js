@@ -1,7 +1,36 @@
-import React from 'react'
+import React, {useEffect, useState} from 'react'
 import { Carousel } from '@mantine/carousel';
+import { API_URL } from '../constants'
+import axios from 'axios'
+import { Link } from 'react-router-dom';
+import Slider from 'react-slick';
 
 function TopSellingChip() {
+
+    const settings = {
+        dots: true,
+        infinite: true,
+        slidesToShow: 1,
+        slidesToScroll: 1,
+        appendDots: (dots) => <ul>{dots}</ul>,
+        customPaging: () => <li>•</li>,
+        draggable: true,
+        adaptiveHeight: true,
+        variableWidth: true,
+    };
+
+    const [products, setProducts] = useState([]);
+
+    useEffect(() => {
+        axios.get(`${API_URL}product/product_detail/`)
+            .then(res => {
+                console.log(res.data);
+                setProducts(res.data.results);
+            })
+            .catch(err => {
+                console.log(err);
+            });
+    }, []);
     return (
 
         <div className="section">
@@ -17,106 +46,31 @@ function TopSellingChip() {
                             </div>
                         </div>
 
-                        <Carousel
-                            withIndicators
-                            height="100%"
-                            slideSize="100%"
-                            slideGap="md"
-                            loop
-                            align="start"
-                            breakpoints={[
-                                { maxWidth: 'md', slideSize: '50%' },
-                                { maxWidth: 'sm', slideSize: '100%', slideGap: 0 },
-                            ]}
-                        >
-                            <Carousel.Slide>
+                        <Slider {...settings}>
                                 <div>
-
-                                    <div className="product-widget">
-                                        <div className="product-img">
-                                            <img src="./img/product07.png" alt="" />
-                                        </div>
-                                        <div className="product-body">
-                                            <p className="product-category">Category</p>
-                                            <h3 className="product-name"><a href="#">product name goes here</a></h3>
-                                            <h4 className="product-price">$980.00 <del className="product-old-price">$990.00</del></h4>
-                                        </div>
-                                    </div>
-
-
-
-                                    <div className="product-widget">
-                                        <div className="product-img">
-                                            <img src="./img/product08.png" alt="" />
-                                        </div>
-                                        <div className="product-body">
-                                            <p className="product-category">Category</p>
-                                            <h3 className="product-name"><a href="#">product name goes here</a></h3>
-                                            <h4 className="product-price">$980.00 <del className="product-old-price">$990.00</del></h4>
-                                        </div>
-                                    </div>
-
-
-
-                                    <div className="product-widget">
-                                        <div className="product-img">
-                                            <img src="./img/product09.png" alt="" />
-                                        </div>
-                                        <div className="product-body">
-                                            <p className="product-category">Category</p>
-                                            <h3 className="product-name"><a href="#">product name goes here</a></h3>
-                                            <h4 className="product-price">$980.00 <del className="product-old-price">$990.00</del></h4>
-                                        </div>
-                                    </div>
+                                    {
+                                        products?.map((product, index) => (
+                                            <div key={index} className="product-widget">
+                                                <div className="product-img">
+                                                    <img src={product.image} alt="" />
+                                                </div>
+                                                <div className="product-body">
+                                                    <p className="product-category">
+                                                        {product?.category?.name}
+                                                    </p>
+                                                    <h3 className="product-name">
+                                                        <Link to={`/product/${product.id}`}>
+                                                            {product.name}
+                                                        </Link></h3>
+                                                    <h4 className="product-price">$980.00 <del className="product-old-price">${product.price}</del></h4>
+                                                </div>
+                                            </div>
+                                        ))
+                                    }
 
                                 </div>
-                            </Carousel.Slide>
-                            <Carousel.Slide>
-                                <div>
+                        </Slider>
 
-                                    <div className="product-widget">
-                                        <div className="product-img">
-                                            <img src="./img/product01.png" alt="" />
-                                        </div>
-                                        <div className="product-body">
-                                            <p className="product-category">Category</p>
-                                            <h3 className="product-name"><a href="#">product name goes here</a></h3>
-                                            <h4 className="product-price">$980.00 <del className="product-old-price">$990.00</del></h4>
-                                        </div>
-                                    </div>
-
-
-
-                                    <div className="product-widget">
-                                        <div className="product-img">
-                                            <img src="./img/product02.png" alt="" />
-                                        </div>
-                                        <div className="product-body">
-                                            <p className="product-category">Category</p>
-                                            <h3 className="product-name"><a href="#">product name goes here</a></h3>
-                                            <h4 className="product-price">$980.00 <del className="product-old-price">$990.00</del></h4>
-                                        </div>
-                                    </div>
-
-
-
-                                    <div className="product-widget">
-                                        <div className="product-img">
-                                            <img src="./img/product03.png" alt="" />
-                                        </div>
-                                        <div className="product-body">
-                                            <p className="product-category">Category</p>
-                                            <h3 className="product-name"><a href="#">product name goes here</a></h3>
-                                            <h4 className="product-price">$980.00 <del className="product-old-price">$990.00</del></h4>
-                                        </div>
-                                    </div>
-
-                                </div>
-
-                            </Carousel.Slide>
-
-
-                        </Carousel>
                     </div>
                     <div className="col-md-4 col-xs-6">
                         <div className="section-title">
@@ -126,106 +80,31 @@ function TopSellingChip() {
                             </div>
                         </div>
 
-                        <Carousel
-                            withIndicators
-                            height="100%"
-                            slideSize="100%"
-                            slideGap="md"
-                            loop
-                            align="start"
-                            breakpoints={[
-                                { maxWidth: 'md', slideSize: '50%' },
-                                { maxWidth: 'sm', slideSize: '100%', slideGap: 0 },
-                            ]}
-                        >
-                            <Carousel.Slide>
-                                <div>
-
-                                    <div className="product-widget">
-                                        <div className="product-img">
-                                            <img src="./img/product07.png" alt="" />
+                        <Slider {...settings}>
+                            <div>
+                                {
+                                    products?.map((product, index) => (
+                                        <div key={index} className="product-widget">
+                                            <div className="product-img">
+                                                <img src={product.image} alt="" />
+                                            </div>
+                                            <div className="product-body">
+                                                <p className="product-category">
+                                                    {product?.category?.name}
+                                                </p>
+                                                <h3 className="product-name">
+                                                    <Link to={`/product/${product.id}`}>
+                                                        {product.name}
+                                                    </Link></h3>
+                                                <h4 className="product-price">$980.00 <del className="product-old-price">${product.price}</del></h4>
+                                            </div>
                                         </div>
-                                        <div className="product-body">
-                                            <p className="product-category">Category</p>
-                                            <h3 className="product-name"><a href="#">product name goes here</a></h3>
-                                            <h4 className="product-price">$980.00 <del className="product-old-price">$990.00</del></h4>
-                                        </div>
-                                    </div>
+                                    ))
+                                }
 
+                            </div>
+                        </Slider>
 
-
-                                    <div className="product-widget">
-                                        <div className="product-img">
-                                            <img src="./img/product08.png" alt="" />
-                                        </div>
-                                        <div className="product-body">
-                                            <p className="product-category">Category</p>
-                                            <h3 className="product-name"><a href="#">product name goes here</a></h3>
-                                            <h4 className="product-price">$980.00 <del className="product-old-price">$990.00</del></h4>
-                                        </div>
-                                    </div>
-
-
-
-                                    <div className="product-widget">
-                                        <div className="product-img">
-                                            <img src="./img/product09.png" alt="" />
-                                        </div>
-                                        <div className="product-body">
-                                            <p className="product-category">Category</p>
-                                            <h3 className="product-name"><a href="#">product name goes here</a></h3>
-                                            <h4 className="product-price">$980.00 <del className="product-old-price">$990.00</del></h4>
-                                        </div>
-                                    </div>
-
-                                </div>
-                            </Carousel.Slide>
-                            <Carousel.Slide>
-                                <div>
-
-                                    <div className="product-widget">
-                                        <div className="product-img">
-                                            <img src="./img/product01.png" alt="" />
-                                        </div>
-                                        <div className="product-body">
-                                            <p className="product-category">Category</p>
-                                            <h3 className="product-name"><a href="#">product name goes here</a></h3>
-                                            <h4 className="product-price">$980.00 <del className="product-old-price">$990.00</del></h4>
-                                        </div>
-                                    </div>
-
-
-
-                                    <div className="product-widget">
-                                        <div className="product-img">
-                                            <img src="./img/product02.png" alt="" />
-                                        </div>
-                                        <div className="product-body">
-                                            <p className="product-category">Category</p>
-                                            <h3 className="product-name"><a href="#">product name goes here</a></h3>
-                                            <h4 className="product-price">$980.00 <del className="product-old-price">$990.00</del></h4>
-                                        </div>
-                                    </div>
-
-
-
-                                    <div className="product-widget">
-                                        <div className="product-img">
-                                            <img src="./img/product03.png" alt="" />
-                                        </div>
-                                        <div className="product-body">
-                                            <p className="product-category">Category</p>
-                                            <h3 className="product-name"><a href="#">product name goes here</a></h3>
-                                            <h4 className="product-price">$980.00 <del className="product-old-price">$990.00</del></h4>
-                                        </div>
-                                    </div>
-
-                                </div>
-
-                            </Carousel.Slide>
-
-
-                        </Carousel>
                     </div>
                     <div className="col-md-4 col-xs-6">
                         <div className="section-title">
@@ -235,107 +114,33 @@ function TopSellingChip() {
                             </div>
                         </div>
 
-                        <Carousel
-                            withIndicators
-                            height="100%"
-                            slideSize="100%"
-                            slideGap="md"
-                            loop
-                            align="start"
-                            breakpoints={[
-                                { maxWidth: 'md', slideSize: '50%' },
-                                { maxWidth: 'sm', slideSize: '100%', slideGap: 0 },
-                            ]}
-                        >
-                            <Carousel.Slide>
-                                <div>
-
-                                    <div className="product-widget">
-                                        <div className="product-img">
-                                            <img src="./img/product07.png" alt="" />
+                        <Slider {...settings}>
+                            <div>
+                                {
+                                    products?.map((product, index) => (
+                                        <div key={index} className="product-widget">
+                                            <div className="product-img">
+                                                <img src={product.image} alt="" />
+                                            </div>
+                                            <div className="product-body">
+                                                <p className="product-category">
+                                                    {product?.category?.name}
+                                                </p>
+                                                <h3 className="product-name">
+                                                    <Link to={`/product/${product.id}`}>
+                                                        {product.name}
+                                                    </Link></h3>
+                                                <h4 className="product-price">$980.00 <del className="product-old-price">${product.price}</del></h4>
+                                            </div>
                                         </div>
-                                        <div className="product-body">
-                                            <p className="product-category">Category</p>
-                                            <h3 className="product-name"><a href="#">product name goes here</a></h3>
-                                            <h4 className="product-price">$980.00 <del className="product-old-price">$990.00</del></h4>
-                                        </div>
-                                    </div>
+                                    ))
+                                }
 
+                            </div>
+                        </Slider>
 
-
-                                    <div className="product-widget">
-                                        <div className="product-img">
-                                            <img src="./img/product08.png" alt="" />
-                                        </div>
-                                        <div className="product-body">
-                                            <p className="product-category">Category</p>
-                                            <h3 className="product-name"><a href="#">product name goes here</a></h3>
-                                            <h4 className="product-price">$980.00 <del className="product-old-price">$990.00</del></h4>
-                                        </div>
-                                    </div>
-
-
-
-                                    <div className="product-widget">
-                                        <div className="product-img">
-                                            <img src="./img/product09.png" alt="" />
-                                        </div>
-                                        <div className="product-body">
-                                            <p className="product-category">Category</p>
-                                            <h3 className="product-name"><a href="#">product name goes here</a></h3>
-                                            <h4 className="product-price">$980.00 <del className="product-old-price">$990.00</del></h4>
-                                        </div>
-                                    </div>
-
-                                </div>
-                            </Carousel.Slide>
-                            <Carousel.Slide>
-                                <div>
-
-                                    <div className="product-widget">
-                                        <div className="product-img">
-                                            <img src="./img/product01.png" alt="" />
-                                        </div>
-                                        <div className="product-body">
-                                            <p className="product-category">Category</p>
-                                            <h3 className="product-name"><a href="#">product name goes here</a></h3>
-                                            <h4 className="product-price">$980.00 <del className="product-old-price">$990.00</del></h4>
-                                        </div>
-                                    </div>
-
-
-
-                                    <div className="product-widget">
-                                        <div className="product-img">
-                                            <img src="./img/product02.png" alt="" />
-                                        </div>
-                                        <div className="product-body">
-                                            <p className="product-category">Category</p>
-                                            <h3 className="product-name"><a href="#">product name goes here</a></h3>
-                                            <h4 className="product-price">$980.00 <del className="product-old-price">$990.00</del></h4>
-                                        </div>
-                                    </div>
-
-
-
-                                    <div className="product-widget">
-                                        <div className="product-img">
-                                            <img src="./img/product03.png" alt="" />
-                                        </div>
-                                        <div className="product-body">
-                                            <p className="product-category">Category</p>
-                                            <h3 className="product-name"><a href="#">product name goes here</a></h3>
-                                            <h4 className="product-price">$980.00 <del className="product-old-price">$990.00</del></h4>
-                                        </div>
-                                    </div>
-
-                                </div>
-
-                            </Carousel.Slide>
-
-
-                        </Carousel>
                     </div>
+                   
                 </div>
 
             </div>
