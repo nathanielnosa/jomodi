@@ -1,6 +1,15 @@
-import React from 'react'
+import React, {useEffect, useState} from 'react'
 
 function Checkout() {
+    const [cartItems, setCartItems] = useState([]);
+
+    useEffect(() => {
+        // Get cart items from local storage
+        const existingCartItems = JSON.parse(localStorage.getItem('cartItems')) || [];
+        setCartItems(existingCartItems);
+    }, []);
+
+    const cartTotal = cartItems.reduce((total, item) => total + item.quantity * item.price, 0);
     return (
         <>
 
@@ -129,14 +138,13 @@ function Checkout() {
                                     <div><strong>TOTAL</strong></div>
                                 </div>
                                 <div class="order-products">
-                                    <div class="order-col">
-                                        <div>1x Product Name Goes Here</div>
-                                        <div>$980.00</div>
-                                    </div>
-                                    <div class="order-col">
-                                        <div>2x Product Name Goes Here</div>
-                                        <div>$980.00</div>
-                                    </div>
+                                    {cartItems.map((item, index) => (
+                                        <div className="order-col" key={index}>
+                                            <div>{item.quantity}x {item.name}</div>
+                                            <div>${(item.quantity * item.price).toFixed(2)}</div>
+                                        </div>
+                                    ))}
+                                   
                                 </div>
                                 <div class="order-col">
                                     <div>Shiping</div>
@@ -144,7 +152,7 @@ function Checkout() {
                                 </div>
                                 <div class="order-col">
                                     <div><strong>TOTAL</strong></div>
-                                    <div><strong class="order-total">$2940.00</strong></div>
+                                    <div><strong class="order-total">${cartTotal.toFixed(2)}</strong></div>
                                 </div>
                             </div>
                             <div class="payment-method">
