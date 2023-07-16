@@ -12,7 +12,7 @@ function Home() {
             <HomeTop />
             <NewProduct />
             <HotDeal />
-            <TopSelling />
+            <NewProduct />
             <TopSellingChip />
 
         </>
