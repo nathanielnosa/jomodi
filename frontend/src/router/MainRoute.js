@@ -14,7 +14,7 @@ function MainRoute() {
                 <Route index element={<Home />} />
                 <Route path="/store" element={<Store />} />
                 <Route path="/checkout" element={<Checkout />} />
-                <Route path="/product/:id" element={<Product />} />
+                <Route path="/product" element={<Product />} />
                 <Route path="/category/:id" element={<Store />} />
                 <Route path="*" element={<h1>Not Found</h1>} />
             </Route>
