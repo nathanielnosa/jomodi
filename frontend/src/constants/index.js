@@ -1,0 +1,1 @@
+export const API_URL = 'https://web-production-d35c.up.railway.app/'

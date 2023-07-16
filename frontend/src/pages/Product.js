@@ -1,6 +1,41 @@
 import React from 'react'
-
+import { Carousel } from '@mantine/carousel';
+import Slider from 'react-slick';
 function Product() {
+    const settings = {
+        vertical: true,
+        infinite: true,
+        slidesToShow: 3,
+        slidesToScroll: 3,
+        dots: true,
+        verticalSwiping: true,
+        appendDots: (dots) => <ul>{dots}</ul>,
+        customPaging: () => <li>•</li>,
+        responsive: [
+            {
+                breakpoint: 768,
+                settings: {
+                    slidesToShow: 1,
+                    slidesToScroll: 1,
+                    vertical: false,
+                    verticalSwiping: false,
+                },
+            },
+        ],
+    };
+
+    const settings2 = {
+        dots: true,
+        infinite: true,
+        slidesToShow: 1,
+        slidesToScroll: 1,
+        appendDots: (dots) => <ul>{dots}</ul>,
+        customPaging: () => <li>•</li>,
+        draggable: true,
+        adaptiveHeight: true,
+        variableWidth: true,
+    };
+
     return (
         <>
 
@@ -33,45 +68,46 @@ function Product() {
                     <div class="row">
 
                         <div class="col-md-5 col-md-push-2">
+
                             <div id="product-main-img">
-                                <div class="product-preview">
-                                    <img src="./img/product01.png" alt="" />
-                                </div>
-
-                                <div class="product-preview">
-                                    <img src="./img/product03.png" alt="" />
-                                </div>
-
-                                <div class="product-preview">
-                                    <img src="./img/product06.png" alt="" />
-                                </div>
-
-                                <div class="product-preview">
-                                    <img src="./img/product08.png" alt="" />
-                                </div>
+                                <Slider {...settings2}>
+                                    <div className="product-preview">
+                                        <img src="./img/product01.png" alt="" />
+                                    </div>
+                                    <div className="product-preview">
+                                        <img src="./img/product03.png" alt="" />
+                                    </div>
+                                    <div className="product-preview">
+                                        <img src="./img/product06.png" alt="" />
+                                    </div>
+                                    <div className="product-preview">
+                                        <img src="./img/product08.png" alt="" />
+                                    </div>
+                                </Slider>
                             </div>
                         </div>
 
 
 
                         <div class="col-md-2  col-md-pull-5">
+
                             <div id="product-imgs">
-                                <div class="product-preview">
-                                    <img src="./img/product01.png" alt="" />
-                                </div>
-
-                                <div class="product-preview">
-                                    <img src="./img/product03.png" alt="" />
-                                </div>
-
-                                <div class="product-preview">
-                                    <img src="./img/product06.png" alt="" />
-                                </div>
-
-                                <div class="product-preview">
-                                    <img src="./img/product08.png" alt="" />
-                                </div>
+                                <Slider {...settings}>
+                                    <div className="product-preview">
+                                        <img src="./img/product01.png" alt="" />
+                                    </div>
+                                    <div className="product-preview">
+                                        <img src="./img/product03.png" alt="" />
+                                    </div>
+                                    <div className="product-preview">
+                                        <img src="./img/product06.png" alt="" />
+                                    </div>
+                                    <div className="product-preview">
+                                        <img src="./img/product08.png" alt="" />
+                                    </div>
+                                </Slider>
                             </div>
+
                         </div>
 
 

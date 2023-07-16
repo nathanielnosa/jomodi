@@ -1,4 +1,5 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 
 function WishCart() {
     return (
@@ -49,7 +50,8 @@ function WishCart() {
                         </div>
                         <div className="cart-btns">
                             <a href="#">View Cart</a>
-                            <a href="#">Checkout  <i className="fa fa-arrow-circle-right"></i></a>
+                            <Link to='/checkout'>Checkout  <i className="fa fa-arrow-circle-right"></i></Link>
+                            {/* <a href="#">Checkout  <i className="fa fa-arrow-circle-right"></i></a> */}
                         </div>
                     </div>
                 </div>
