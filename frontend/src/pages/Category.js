@@ -14,7 +14,7 @@ function Store() {
     const [maxPrice, setMaxPrice] = useState(0);
     const [minPrice, setMinPrice] = useState(0);
 
-
+    const [selectedBrands, setSelectedBrands] = useState([]);
 
     useEffect(() => {
         axios.get(`${API_URL}product/category_product_fetch/?category_id=${id}`)
@@ -33,19 +33,33 @@ function Store() {
                 console.log(err)
             })
     }, [id])
+
+
+    const filteredProducts = selectedBrands.length === 0
+        ? products
+        : products?.filter((product) => {
+            const brandMatch = selectedBrands.some((id) => id === product?.brand?.id);
+            const priceMatch = product.price >= minPrice && product.price <= maxPrice;
+            return (brandMatch) && priceMatch;
+        });
+
+
     return (
         <div className="section">
             <div className="container">
                 <div className="row">
-                    <CatSidebar max={maxPrice} min={minPrice} />
+                    <CatSidebar max={maxPrice} min={minPrice}
+                        
+                        selectedBrands={selectedBrands}
+                       
+                        onBrandChange={setSelectedBrands}
+                    />
 
                     <div id="store" className="col-md-9">
-
                         <StoreTop />
-
                         <div className="row">
                             {
-                                products.map((product, index) => {
+                                filteredProducts?.map((product, index) => {
                                     return (
                                         <ProductCard product={product} key={index} />
                                     )

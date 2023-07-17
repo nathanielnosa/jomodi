@@ -11,6 +11,7 @@ import { addToCart } from '../actions/cartActions';
 
 function Product() {
     const { id } = useParams();
+    const [quantity, setQuantity] = useState(1);
     const [product, setProduct] = useState([])
     const [images, setImages] = useState([])
     const [relatedProducts, setRelatedProducts] = useState([])
@@ -19,6 +20,17 @@ function Product() {
     const handleAddToCart = (product) => {
         dispatch(addToCart(product));
     };
+
+    const addQuantity = () => {
+        setQuantity(quantity + 1);
+    };
+
+    const subtractQuantity = () => {
+        if (quantity > 1) {
+            setQuantity(quantity - 1);
+        }
+    };
+
     const settings = {
         vertical: true,
         infinite: true,
@@ -227,9 +239,16 @@ function Product() {
                                     <div className="qty-label">
                                         Qty
                                         <div className="input-number">
-                                            <input type="number" />
-                                            <span className="qty-up">+</span>
-                                            <span className="qty-down">-</span>
+                                            <input type="number" 
+                                            value={quantity}
+                                            onChange={(e) => setQuantity(e.target.value)}
+                                            />
+                                            <span className="qty-up"
+                                            onClick={addQuantity}
+                                            >+</span>
+                                            <span className="qty-down"
+                                            onClick={subtractQuantity}
+                                            >-</span>
                                         </div>
                                     </div>
                                     <button className="add-to-cart-btn" onClick={() => handleAddToCart(product)}><i className="fa fa-shopping-cart"></i> add to cart</button>
