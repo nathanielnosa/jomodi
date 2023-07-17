@@ -2,12 +2,17 @@ import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { addToCart } from '../actions/cartActions';
+import { addToWishlist } from '../actions/wishActions';
 
 function CardProduct({ product }) {
     const dispatch = useDispatch();
 
     const handleAddToCart = (product) => {
         dispatch(addToCart(product));
+    };
+
+    const handleAddToWishlist = (product) => {
+        dispatch(addToWishlist(product));
     };
 
     return (
@@ -43,13 +48,13 @@ function CardProduct({ product }) {
                         <i className="fa fa-star"></i>
                     </div>
                     <div className="product-btns">
-                        <button className="add-to-wishlist">
-                            <i className="fa fa-heart-o"></i>
-                            <span className="tooltipp">add to wishlist</span>
-                        </button>
+                        <button className="add-to-wishlist" onClick={() => handleAddToWishlist(product)}><i className="fa fa-heart-o"></i><span className="tooltipp">add to wishlist</span></button>
+
+
                         <button className="quick-view">
-                            <i className="fa fa-eye"></i>
-                            <span className="tooltipp">quick view</span>
+                            <Link to={`/product/${product.id}`}>
+                                <i className="fa fa-eye"></i><span className="tooltipp">quick view</span>
+                            </Link>
                         </button>
                     </div>
                 </div>
