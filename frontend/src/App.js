@@ -17,8 +17,6 @@ import store from './actions/store';
 function App() {
   return (
     <Provider store={store}>
-      <MantineProvider withGlobalStyles withNormalizeCSS>
-      
         <Router>
         <Header />
           <Routes>
@@ -26,7 +24,6 @@ function App() {
           </Routes>
         <Footer />
         </Router>
-      </MantineProvider>
     </Provider>
 
   );

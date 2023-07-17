@@ -7,21 +7,35 @@ import { API_URL } from '../constants'
 
 function Store() {
   const [products, setProducts] = useState([])
+  const [maxPrice, setMaxPrice] = useState(0);
+  const [minPrice, setMinPrice] = useState(0);
 
   useEffect(() => {
-    axios.get(`${API_URL}product/product_detail/`)
-      .then(res => {
-        setProducts(res.data.results)
+    axios
+      .get(`${API_URL}product/product_detail/`)
+      .then((res) => {
+        // Set the products state
+        setProducts(res.data.results);
+
+        // Calculate the maximum and minimum prices
+        const prices = res.data.results.map((product) => product.price);
+        const maxPrice = Math.max(...prices);
+        const minPrice = Math.min(...prices);
+
+        // Set the maxPrice and minPrice states
+        setMaxPrice(maxPrice);
+        setMinPrice(minPrice);
       })
-      .catch(err => {
-        console.log(err)
-      })
-  }, [])
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
+
   return (
     <div class="section">
       <div class="container">
         <div class="row">
-          <Sidebar />
+          <Sidebar max={maxPrice} min={minPrice} />
 
           <div id="store" class="col-md-9">
 
