@@ -2,24 +2,28 @@ import React, { useState, useEffect } from 'react'
 import Sidebar from '../components/Sidebar'
 import StoreTop from '../components/StoreTop'
 import ProductCard from '../components/ProductCard'
-import { useParams } from 'react-router-dom';
 import axios from 'axios'
 import { API_URL } from '../constants'
-import CatSidebar from '../components/CatSidebar';
+import { useParams } from 'react-router-dom'
 
-function Store() {
+function SearchPage() {
+    const { keyword } = useParams();
     const [products, setProducts] = useState([])
-    const { id } = useParams();
-
     const [maxPrice, setMaxPrice] = useState(0);
     const [minPrice, setMinPrice] = useState(0);
 
-
-
     useEffect(() => {
-        axios.get(`${API_URL}product/category_product_fetch/?category_id=${id}`)
-            .then(res => {
-                setProducts(res.data.results)
+        axios
+            .get(`${API_URL}product/product_detail/`)
+            .then((res) => {
+                // Filter products based on keyword
+                const filteredProducts = res.data.results.filter((product) =>
+                    product.name.toLowerCase().includes(keyword.toLowerCase())
+                );
+
+                // Set the products state
+                setProducts(filteredProducts);
+
                 // Calculate the maximum and minimum prices
                 const prices = res.data.results.map((product) => product.price);
                 const maxPrice = Math.max(...prices);
@@ -29,15 +33,16 @@ function Store() {
                 setMaxPrice(maxPrice);
                 setMinPrice(minPrice);
             })
-            .catch(err => {
-                console.log(err)
-            })
-    }, [id])
+            .catch((err) => {
+                console.log(err);
+            });
+    }, [keyword]);
+
     return (
         <div className="section">
             <div className="container">
                 <div className="row">
-                    <CatSidebar max={maxPrice} min={minPrice} />
+                    <Sidebar max={maxPrice} min={minPrice} />
 
                     <div id="store" className="col-md-9">
 
@@ -45,16 +50,19 @@ function Store() {
 
                         <div className="row">
                             {
-                                products.map((product, index) => {
+                                products.length > 0 ?
+                               ( products?.map((product, index) => {
                                     return (
                                         <ProductCard product={product} key={index} />
                                     )
-                                })
+                                })) : (
+                                    <h3>No products found</h3>
+                                )
                             }
 
                         </div>
                         <div className="store-filter clearfix">
-                            <span className="store-qty">Showing 20-100 products</span>
+                            <span className="store-qty">Showing {products?.length} products</span>
                             <ul className="store-pagination">
                                 <li className="active">1</li>
                                 <li><a href="#">2</a></li>
@@ -74,4 +82,4 @@ function Store() {
     )
 }
 
-export default Store
+export default SearchPage

@@ -2,17 +2,17 @@ import React from 'react'
 
 function BreadCrumb() {
   return (
-      <div id="breadcrumb" class="section">
+      <div id="breadcrumb" className="section">
 
-          <div class="container">
+          <div className="container">
    
-              <div class="row">
-                  <div class="col-md-12">
-                      <ul class="breadcrumb-tree">
+              <div className="row">
+                  <div className="col-md-12">
+                      <ul className="breadcrumb-tree">
                           <li><a href="#">Home</a></li>
                           <li><a href="#">All Categories</a></li>
                           <li><a href="#">Accessories</a></li>
-                          <li class="active">Headphones (227,490 Results)</li>
+                          <li className="active">Headphones (227,490 Results)</li>
                       </ul>
                   </div>
               </div>
