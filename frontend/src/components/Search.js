@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { API_URL } from '../constants';
+import { Link } from 'react-router-dom';
 
 function Search() {
     const [categories, setCategories] = useState([]);
+    const [keyword, setKeyword] = useState('');
 
     useEffect(() => {
         axios.get(API_URL + 'category/category/')
@@ -28,8 +30,14 @@ function Search() {
                             ))
                       }
                   </select>
-                  <input className="input" placeholder="Search here" />
-                  <button className="search-btn">Search</button>
+                  <input className="input" placeholder="Search here"
+                  value={keyword} onChange={(e) => setKeyword(e.target.value)}
+                  />
+                  <Link to={`/search/${keyword}`}>
+                  <button className="search-btn">
+                   <i className="fa fa-search"></i>
+                  </button>
+                  </Link>
               </form>
           </div>
       </div>

@@ -7,27 +7,41 @@ import { API_URL } from '../constants'
 
 function Store() {
   const [products, setProducts] = useState([])
+  const [maxPrice, setMaxPrice] = useState(0);
+  const [minPrice, setMinPrice] = useState(0);
 
   useEffect(() => {
-    axios.get(`${API_URL}product/product_detail/`)
-      .then(res => {
-        setProducts(res.data.results)
-      })
-      .catch(err => {
-        console.log(err)
-      })
-  }, [])
-  return (
-    <div class="section">
-      <div class="container">
-        <div class="row">
-          <Sidebar />
+    axios
+      .get(`${API_URL}product/product_detail/`)
+      .then((res) => {
+        // Set the products state
+        setProducts(res.data.results);
 
-          <div id="store" class="col-md-9">
+        // Calculate the maximum and minimum prices
+        const prices = res.data.results.map((product) => product.price);
+        const maxPrice = Math.max(...prices);
+        const minPrice = Math.min(...prices);
+
+        // Set the maxPrice and minPrice states
+        setMaxPrice(maxPrice);
+        setMinPrice(minPrice);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
+
+  return (
+    <div className="section">
+      <div className="container">
+        <div className="row">
+          <Sidebar max={maxPrice} min={minPrice} />
+
+          <div id="store" className="col-md-9">
 
             <StoreTop />
 
-            <div class="row">
+            <div className="row">
               {
                 products.map((product, index) => {
                   return (
@@ -37,14 +51,14 @@ function Store() {
               }
          
             </div>
-            <div class="store-filter clearfix">
-              <span class="store-qty">Showing 20-100 products</span>
-              <ul class="store-pagination">
-                <li class="active">1</li>
+            <div className="store-filter clearfix">
+              <span className="store-qty">Showing {products?.length} products</span>
+              <ul className="store-pagination">
+                <li className="active">1</li>
                 <li><a href="#">2</a></li>
                 <li><a href="#">3</a></li>
                 <li><a href="#">4</a></li>
-                <li><a href="#"><i class="fa fa-angle-right"></i></a></li>
+                <li><a href="#"><i className="fa fa-angle-right"></i></a></li>
               </ul>
             </div>
 

@@ -2,11 +2,15 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { API_URL } from '../constants';
 import { Link } from 'react-router-dom';
+import Slider from '@mui/material/Slider';
 
-function Sidebar() {
+function Sidebar({max, min}) {
 	const [categories, setCategories] = useState([]);
 	const [brands, setBrands] = useState([]);
 	const [products, setProducts] = useState([]);
+	const [maxPrice, setMaxPrice] = useState(max);
+	const [minPrice, setMinPrice] = useState(min);
+
 
 	useEffect(() => {
 		axios.get(`${API_URL}product/product_detail/`)
@@ -18,6 +22,22 @@ function Sidebar() {
 				console.log(err);
 			});
 	}, []);
+
+	const addMaxPrice = () => {
+		setMaxPrice(maxPrice + 1000);
+	};
+
+	const addMinPrice = () => {
+		setMinPrice(minPrice + 1000);
+	}
+
+	const subtractMaxPrice = () => {
+		setMaxPrice(maxPrice - 1000);
+	};
+
+	const subtractMinPrice = () => {
+		setMinPrice(minPrice - 1000);
+	};
 
 	useEffect(() => {
 		axios.get(API_URL + 'category/category/')
@@ -65,19 +85,52 @@ function Sidebar() {
 			<div className="aside">
 				<h3 className="aside-title">Price</h3>
 				<div className="price-filter">
-					<div id="price-slider"></div>
+					<div id="price-slider">
+						<Slider
+							value={[minPrice, maxPrice]}
+							onChange={(event, value) => {
+								setMinPrice(value[0]);
+								setMaxPrice(value[1]);
+							}}
+							min={min}
+							max={max}
+							step={1}
+							orientation="horizontal"
+							sx={{ width: "100%", color: "#ff0000" }}
+						/>
+					</div>
 					<div className="input-number price-min">
-						<input id="price-min" type="number" />
-						<span className="qty-up">+</span>
-						<span className="qty-down">-</span>
+						<input
+							id="price-min"
+							type="number"
+							value={minPrice}
+							onChange={(e) => setMinPrice(e.target.value)}
+						/>
+						<span className="qty-up" onClick={addMinPrice}>
+							+
+						</span>
+						<span className="qty-down" onClick={subtractMinPrice}>
+							-
+						</span>
 					</div>
 					<span>-</span>
 					<div className="input-number price-max">
-						<input id="price-max" type="number" />
-						<span className="qty-up">+</span>
-						<span className="qty-down">-</span>
+						<input
+							id="price-max"
+							type="number"
+							value={maxPrice}
+							onChange={(e) => setMaxPrice(e.target.value)}
+						/>
+						<span className="qty-up" onClick={addMaxPrice}>
+							+
+						</span>
+						<span className="qty-down" onClick={subtractMaxPrice}>
+							-
+						</span>
 					</div>
 				</div>
+
+
 			</div>
 
 			<div className="aside">

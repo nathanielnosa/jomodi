@@ -5,6 +5,8 @@ import Home from '../pages/Home';
 import Store from '../pages/Store';
 import Checkout from '../pages/Checkout';
 import Product from '../pages/Product';
+import Category from '../pages/Category';
+import SearchPage from '../pages/SearchPage';
 
 
 function MainRoute() {
@@ -15,7 +17,8 @@ function MainRoute() {
                 <Route path="/store" element={<Store />} />
                 <Route path="/checkout" element={<Checkout />} />
                 <Route path="/product/:id" element={<Product />} />
-                <Route path="/category/:id" element={<Store />} />
+                <Route path="/category/:id" element={<Category />} />
+                <Route path="search/:keyword" element={<SearchPage />} />
                 <Route path="*" element={<h1>Not Found</h1>} />
             </Route>
         </Routes>

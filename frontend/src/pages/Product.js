@@ -5,12 +5,20 @@ import axios from 'axios';
 import { useParams } from 'react-router-dom';
 import { API_URL } from '../constants';
 import { Link } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
+import { addToCart } from '../actions/cartActions';
+
 
 function Product() {
     const { id } = useParams();
     const [product, setProduct] = useState([])
     const [images, setImages] = useState([])
     const [relatedProducts, setRelatedProducts] = useState([])
+    const dispatch = useDispatch();
+
+    const handleAddToCart = (product) => {
+        dispatch(addToCart(product));
+    };
     const settings = {
         vertical: true,
         infinite: true,
@@ -66,24 +74,7 @@ function Product() {
             });
     }, [product]);
 
-    const handleAddToCart = (product) => {
-        // Get the existing cart items from local storage
-        const existingCartItems = JSON.parse(localStorage.getItem('cartItems')) || [];
 
-        // Check if the product already exists in the cart
-        const productIndex = existingCartItems.findIndex(item => item.id === product.id);
-
-        if (productIndex !== -1) {
-            // If the product already exists, increase its quantity
-            existingCartItems[productIndex].quantity += 1;
-        } else {
-            // If the product doesn't exist, add it to the cart
-            existingCartItems.push({ ...product, quantity: 1 });
-        }
-
-        // Store the updated cart items in local storage
-        localStorage.setItem('cartItems', JSON.stringify(existingCartItems));
-    };
 
     console.log(product)
     console.log(`${API_URL}product/image_fetch/?product_id=${id}/`)
@@ -103,13 +94,13 @@ function Product() {
     return (
         <div>
 
-            <div id="breadcrumb" class="section">
+            <div id="breadcrumb" className="section">
 
-                <div class="container">
+                <div className="container">
 
-                    <div class="row">
-                        <div class="col-md-12">
-                            <ul class="breadcrumb-tree">
+                    <div className="row">
+                        <div className="col-md-12">
+                            <ul className="breadcrumb-tree">
                                 <li>
                                     <Link to="/">
                                     Home</Link></li>
@@ -128,7 +119,7 @@ function Product() {
                                             product?.brand?.name
                                         }
                                     </Link></li>
-                                <li class="active">
+                                <li className="active">
                                     {
                                         product?.name
                                     }
@@ -143,13 +134,13 @@ function Product() {
 
 
 
-            <div class="section">
+            <div className="section">
 
-                <div class="container">
+                <div className="container">
 
-                    <div class="row">
+                    <div className="row">
 
-                        <div class="col-md-5 col-md-push-2">
+                        <div className="col-md-5 col-md-push-2">
 
                             <div id="product-main-img">
                                 <Slider {...settings2}>
@@ -171,7 +162,7 @@ function Product() {
 
 
 
-                        <div class="col-md-2  col-md-pull-5">
+                        <div className="col-md-2  col-md-pull-5">
 
                             <div id="product-imgs">
                                 <Slider {...settings}>
@@ -189,26 +180,26 @@ function Product() {
 
 
 
-                        <div class="col-md-5">
-                            <div class="product-details">
-                                <h2 class="product-name">
+                        <div className="col-md-5">
+                            <div className="product-details">
+                                <h2 className="product-name">
                                     {
                                         product?.name
                                     }
                                 </h2>
                                 <div>
-                                    <div class="product-rating">
-                                        <i class="fa fa-star"></i>
-                                        <i class="fa fa-star"></i>
-                                        <i class="fa fa-star"></i>
-                                        <i class="fa fa-star"></i>
-                                        <i class="fa fa-star-o"></i>
+                                    <div className="product-rating">
+                                        <i className="fa fa-star"></i>
+                                        <i className="fa fa-star"></i>
+                                        <i className="fa fa-star"></i>
+                                        <i className="fa fa-star"></i>
+                                        <i className="fa fa-star-o"></i>
                                     </div>
-                                    <a class="review-link" href="#">10 Review(s) | Add your review</a>
+                                    <a className="review-link" href="#">10 Review(s) | Add your review</a>
                                 </div>
                                 <div>
-                                    <h3 class="product-price">${product?.price}0 <del class="product-old-price">${product?.cancel_price}</del></h3>
-                                    <span class="product-available">In Stock</span>
+                                    <h3 className="product-price">${product?.price}0 <del className="product-old-price">${product?.cancel_price}</del></h3>
+                                    <span className="product-available">In Stock</span>
                                 </div>
                                 <p style={{
                                     whiteSpace: "wrap",
@@ -217,50 +208,50 @@ function Product() {
                                     {product?.description}
                                 </p>
 
-                                <div class="product-options">
+                                <div className="product-options">
                                     <label>
                                         Size
-                                        <select class="input-select">
+                                        <select className="input-select">
                                             <option value="0">X</option>
                                         </select>
                                     </label>
                                     <label>
                                         Color
-                                        <select class="input-select">
+                                        <select className="input-select">
                                             <option value="0">Red</option>
                                         </select>
                                     </label>
                                 </div>
 
-                                <div class="add-to-cart">
-                                    <div class="qty-label">
+                                <div className="add-to-cart">
+                                    <div className="qty-label">
                                         Qty
-                                        <div class="input-number">
+                                        <div className="input-number">
                                             <input type="number" />
-                                            <span class="qty-up">+</span>
-                                            <span class="qty-down">-</span>
+                                            <span className="qty-up">+</span>
+                                            <span className="qty-down">-</span>
                                         </div>
                                     </div>
-                                    <button class="add-to-cart-btn" onClick={() => handleAddToCart(product)}><i class="fa fa-shopping-cart"></i> add to cart</button>
+                                    <button className="add-to-cart-btn" onClick={() => handleAddToCart(product)}><i className="fa fa-shopping-cart"></i> add to cart</button>
                                 </div>
 
-                                <ul class="product-btns">
-                                    <li><a href="#"><i class="fa fa-heart-o"></i> add to wishlist</a></li>
-                                    <li><a href="#"><i class="fa fa-exchange"></i> add to compare</a></li>
+                                <ul className="product-btns">
+                                    <li><i className="fa fa-heart-o"></i> add to wishlist</li>
+                                  
                                 </ul>
 
-                                <ul class="product-links">
+                                <ul className="product-links">
                                     <li>Category:</li>
-                                    <li><a href="#">
+                                    <li>
                                         {
                                             product?.category?.name
                                         }
-                                    </a></li>
-                                    <li><a href="#">
+                                    </li>
+                                    <li>
                                         {
                                             product?.brand?.name
                                         }
-                                    </a></li>
+                                    </li>
                                 </ul>
 
 
@@ -268,20 +259,20 @@ function Product() {
                         </div>
 
 
-                        <div class="col-md-12">
+                        <div className="col-md-12">
                             <div id="product-tab">
 
-                                <ul class="tab-nav">
-                                    <li class="active"><a data-toggle="tab" href="#tab1">Description</a></li>
+                                <ul className="tab-nav">
+                                    <li className="active"><a data-toggle="tab" href="#tab1">Description</a></li>
                                     <li><a data-toggle="tab" href="#tab2">Details</a></li>
                                     {/* <li><a data-toggle="tab" href="#tab3">Reviews (3)</a></li> */}
                                 </ul>
 
-                                <div class="tab-content">
+                                <div className="tab-content">
 
-                                    <div id="tab1" class="tab-pane fade in active">
-                                        <div class="row">
-                                            <div class="col-md-12">
+                                    <div id="tab1" className="tab-pane fade in active">
+                                        <div className="row">
+                                            <div className="col-md-12">
                                                 <p style={{
                                                     whiteSpace: "wrap",
                                                     wordWrap: "break-word"
@@ -294,9 +285,9 @@ function Product() {
                                         </div>
                                     </div>
 
-                                    <div id="tab2" class="tab-pane fade in">
-                                        <div class="row">
-                                            <div class="col-md-12">
+                                    <div id="tab2" className="tab-pane fade in">
+                                        <div className="row">
+                                            <div className="col-md-12">
                                                 <p style={{
                                                     whiteSpace: "wrap",
                                                     wordWrap: "break-word"
@@ -320,49 +311,49 @@ function Product() {
 
             </div >
 
-            <div class="section">
+            <div className="section">
 
-                <div class="container">
+                <div className="container">
 
-                    <div class="row">
+                    <div className="row">
 
-                        <div class="col-md-12">
-                            <div class="section-title text-center">
-                                <h3 class="title">Related Products</h3>
+                        <div className="col-md-12">
+                            <div className="section-title text-center">
+                                <h3 className="title">Related Products</h3>
                             </div>
                         </div>
 
                         {
                             relatedProducts.map((product, index) => (
 
-                                <div class="col-md-3 col-xs-6">
-                                    <div class="product">
-                                        <div class="product-img">
+                                <div className="col-md-3 col-xs-6">
+                                    <div className="product">
+                                        <div className="product-img">
                                             <img src={product.image} alt="" />
-                                            <div class="product-label">
-                                                <span class="sale">-30%</span>
+                                            <div className="product-label">
+                                                <span className="sale">-30%</span>
                                             </div>
                                         </div>
-                                        <div class="product-body">
-                                            <p class="product-category">
+                                        <div className="product-body">
+                                            <p className="product-category">
                                                 {
                                                     product?.category?.name
                                                 }
                                             </p>
-                                            <h3 class="product-name">
+                                            <h3 className="product-name">
                                                 <Link to={`/product/${product?.id}`}>
                                                     {product?.name}
                                                 </Link></h3>
-                                            <h4 class="product-price">${product?.price} <del class="product-old-price">${product?.cancel_price}</del></h4>
-                                            <div class="product-rating">
+                                            <h4 className="product-price">${product?.price} <del className="product-old-price">${product?.cancel_price}</del></h4>
+                                            <div className="product-rating">
                                             </div>
-                                            <div class="product-btns">
-                                                <button class="add-to-wishlist"><i class="fa fa-heart-o"></i><span class="tooltipp">add to wishlist</span></button>
-                                                <button class="quick-view"><i class="fa fa-eye"></i><span class="tooltipp">quick view</span></button>
+                                            <div className="product-btns">
+                                                <button className="add-to-wishlist"><i className="fa fa-heart-o"></i><span className="tooltipp">add to wishlist</span></button>
+                                                <button className="quick-view"><i className="fa fa-eye"></i><span className="tooltipp">quick view</span></button>
                                             </div>
                                         </div>
-                                        <div class="add-to-cart">
-                                            <button class="add-to-cart-btn" onClick={() => handleAddToCart(product)}><i class="fa fa-shopping-cart"></i> add to cart</button>
+                                        <div className="add-to-cart">
+                                            <button className="add-to-cart-btn" onClick={() => handleAddToCart(product)}><i className="fa fa-shopping-cart"></i> add to cart</button>
                                         </div>
                                     </div>
                                 </div>
