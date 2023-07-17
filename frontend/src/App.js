@@ -6,15 +6,19 @@ import {
   Routes,
   Navigate,
 } from "react-router-dom";
+import { Provider } from 'react-redux';
 import MainRoute from './router/MainRoute';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import NavCat from './components/NavCat';
+import store from './actions/store';
+
+
 function App() {
   return (
-
+    <Provider store={store}>
       <MantineProvider withGlobalStyles withNormalizeCSS>
-    
+      
         <Router>
         <Header />
           <Routes>
@@ -22,8 +26,8 @@ function App() {
           </Routes>
         <Footer />
         </Router>
-
       </MantineProvider>
+    </Provider>
 
   );
 }

@@ -5,12 +5,20 @@ import axios from 'axios';
 import { useParams } from 'react-router-dom';
 import { API_URL } from '../constants';
 import { Link } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
+import { addToCart } from '../actions/cartActions';
+
 
 function Product() {
     const { id } = useParams();
     const [product, setProduct] = useState([])
     const [images, setImages] = useState([])
     const [relatedProducts, setRelatedProducts] = useState([])
+    const dispatch = useDispatch();
+
+    const handleAddToCart = (product) => {
+        dispatch(addToCart(product));
+    };
     const settings = {
         vertical: true,
         infinite: true,
@@ -66,24 +74,7 @@ function Product() {
             });
     }, [product]);
 
-    const handleAddToCart = (product) => {
-        // Get the existing cart items from local storage
-        const existingCartItems = JSON.parse(localStorage.getItem('cartItems')) || [];
 
-        // Check if the product already exists in the cart
-        const productIndex = existingCartItems.findIndex(item => item.id === product.id);
-
-        if (productIndex !== -1) {
-            // If the product already exists, increase its quantity
-            existingCartItems[productIndex].quantity += 1;
-        } else {
-            // If the product doesn't exist, add it to the cart
-            existingCartItems.push({ ...product, quantity: 1 });
-        }
-
-        // Store the updated cart items in local storage
-        localStorage.setItem('cartItems', JSON.stringify(existingCartItems));
-    };
 
     console.log(product)
     console.log(`${API_URL}product/image_fetch/?product_id=${id}/`)
@@ -245,22 +236,22 @@ function Product() {
                                 </div>
 
                                 <ul class="product-btns">
-                                    <li><a href="#"><i class="fa fa-heart-o"></i> add to wishlist</a></li>
-                                    <li><a href="#"><i class="fa fa-exchange"></i> add to compare</a></li>
+                                    <li><i class="fa fa-heart-o"></i> add to wishlist</li>
+                                  
                                 </ul>
 
                                 <ul class="product-links">
                                     <li>Category:</li>
-                                    <li><a href="#">
+                                    <li>
                                         {
                                             product?.category?.name
                                         }
-                                    </a></li>
-                                    <li><a href="#">
+                                    </li>
+                                    <li>
                                         {
                                             product?.brand?.name
                                         }
-                                    </a></li>
+                                    </li>
                                 </ul>
 
 

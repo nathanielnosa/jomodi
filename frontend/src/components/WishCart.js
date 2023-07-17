@@ -1,40 +1,23 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
+import { addToCart, removeFromCart } from '../actions/cartActions';
 
 function WishCart() {
-    const [cartItems, setCartItems] = useState([]);
+    const cartItems = useSelector((state) => state.cart.cartItems);
+    const dispatch = useDispatch();
 
     useEffect(() => {
-        // Get cart items from local storage
-        const existingCartItems = JSON.parse(localStorage.getItem('cartItems')) || [];
-        setCartItems(existingCartItems);
-    }, [true]);
-
-    const handleAddToCart = (product) => {
-        // Check if the product already exists in the cart
-        const productIndex = cartItems.findIndex((item) => item.id === product.id);
-
-        if (productIndex !== -1) {
-            // If the product already exists, increase its quantity
-            const updatedCartItems = [...cartItems];
-            updatedCartItems[productIndex].quantity += 1;
-            setCartItems(updatedCartItems);
-        } else {
-            // If the product doesn't exist, add it to the cart
-            const updatedCartItems = [...cartItems, { ...product, quantity: 1 }];
-            setCartItems(updatedCartItems);
-        }
-
         // Update cart items in local storage
         localStorage.setItem('cartItems', JSON.stringify(cartItems));
+    }, [cartItems]);
+
+    const handleAddToCart = (product) => {
+        dispatch(addToCart(product));
     };
 
     const handleRemoveFromCart = (index) => {
-        const updatedCartItems = [...cartItems];
-        updatedCartItems.splice(index, 1);
-        setCartItems(updatedCartItems);
-        // Update cart items in local storage
-        localStorage.setItem('cartItems', JSON.stringify(updatedCartItems));
+        dispatch(removeFromCart(index));
     };
 
     const cartQuantity = cartItems.length;
@@ -96,7 +79,6 @@ function WishCart() {
                     </a>
                 </div>
             </div>
-
         </div>
     );
 }

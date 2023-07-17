@@ -1,26 +1,15 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
+import { Link } from 'react-router-dom' 
+import { useSelector, useDispatch } from 'react-redux';
+import { addToCart } from '../actions/cartActions';
+
 
 function ProductCard({product}) {
+    const dispatch = useDispatch();
+
     const handleAddToCart = (product) => {
-        // Get the existing cart items from local storage
-        const existingCartItems = JSON.parse(localStorage.getItem('cartItems')) || [];
-
-        // Check if the product already exists in the cart
-        const productIndex = existingCartItems.findIndex(item => item.id === product.id);
-
-        if (productIndex !== -1) {
-            // If the product already exists, increase its quantity
-            existingCartItems[productIndex].quantity += 1;
-        } else {
-            // If the product doesn't exist, add it to the cart
-            existingCartItems.push({ ...product, quantity: 1 });
-        }
-
-        // Store the updated cart items in local storage
-        localStorage.setItem('cartItems', JSON.stringify(existingCartItems));
+        dispatch(addToCart(product));
     };
-
     return (
         <>
             <div className="col-md-4 col-xs-6">
