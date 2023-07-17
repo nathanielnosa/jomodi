@@ -33,10 +33,13 @@ function Store() {
       });
   }, []);
 
-  const filteredProducts = products.filter((product) => {
+  const filteredProducts = selectedBrands.length === 0 && selectedCategories.length === 0
+    ? products
+    : products.filter((product) => {
     const categoryMatch = selectedCategories.some((id) => id === product?.category?.id);
     const brandMatch = selectedBrands.some((id) => id === product?.brand?.id);
-    return categoryMatch || brandMatch;
+    const priceMatch = product.price >= minPrice && product.price <= maxPrice;
+    return (categoryMatch || brandMatch) && priceMatch;
   });
 
 

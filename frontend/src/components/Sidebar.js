@@ -21,6 +21,7 @@ function Sidebar({ max, min, selectedCategories, selectedBrands, onCategoryChang
 		}
 	};
 
+
 	const handleBrandChange = (brandId) => {
 		const isSelected = selectedBrands.includes(brandId);
 

@@ -5,13 +5,23 @@ import { Link } from 'react-router-dom';
 import Slider from '@mui/material/Slider';
 import { useParams } from 'react-router-dom';
 
-function CatSidebar({ max, min }) {
+function CatSidebar({ max, min, selectedBrands, onBrandChange }) {
     const { id } = useParams();
     const [brands, setBrands] = useState([]);
     const [products, setProducts] = useState([]);
     const [maxPrice, setMaxPrice] = useState(max);
     const [minPrice, setMinPrice] = useState(min);
 
+
+    const handleBrandChange = (brandId) => {
+        const isSelected = selectedBrands.includes(brandId);
+
+        if (isSelected) {
+            onBrandChange(selectedBrands.filter((id) => id !== brandId));
+        } else {
+            onBrandChange([...selectedBrands, brandId]);
+        }
+    };
 
     useEffect(() => {
         axios.get(`${API_URL}product/product_detail/`)
@@ -112,7 +122,11 @@ function CatSidebar({ max, min }) {
                     {
                         brands?.map((brand, index) => (
                             <div className="input-checkbox">
-                                <input type="checkbox" id={`brand-${brand.id}`} />
+                                <input type="checkbox" 
+                                    id={`brand-${brand.id}`}
+                                    checked={selectedBrands.includes(brand.id)}
+                                    onChange={() => handleBrandChange(brand.id)}
+                                />
                                 <label htmlFor={`brand-${brand.id}`}>
                                     <span></span>
                                     {brand.name}
