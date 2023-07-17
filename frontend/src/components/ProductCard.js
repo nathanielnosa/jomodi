@@ -12,7 +12,7 @@ function ProductCard({product}) {
     };
     return (
         <>
-            <div className="col-md-4 col-xs-6">
+            <div className="col-md-4 col-xs-12">
                 <div className="product">
                     <div className="product-img">
                         <img src={product.image} alt="" />
