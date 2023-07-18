@@ -11,21 +11,26 @@ function SearchPage() {
     const [products, setProducts] = useState([])
     const [maxPrice, setMaxPrice] = useState(0);
     const [minPrice, setMinPrice] = useState(0);
+    const [maxPriceSlider, setMaxPriceSlider] = useState(maxPrice);
+    const [minPriceSlider, setMinPriceSlider] = useState(minPrice);
+    const [selectedCategories, setSelectedCategories] = useState([]);
+    const [selectedBrands, setSelectedBrands] = useState([]);
 
     useEffect(() => {
         axios
             .get(`${API_URL}product/product_detail/`)
             .then((res) => {
                 // Filter products based on keyword
+                console.log(res.data.results);
                 const filteredProducts = res.data.results.filter((product) =>
-                    product.name.toLowerCase().includes(keyword.toLowerCase())
+                    product?.name && product?.name.toLowerCase().includes(keyword.toLowerCase())
                 );
 
                 // Set the products state
                 setProducts(filteredProducts);
 
                 // Calculate the maximum and minimum prices
-                const prices = res.data.results.map((product) => product.price);
+                const prices = filteredProducts.map((product) => product.price);
                 const maxPrice = Math.max(...prices);
                 const minPrice = Math.min(...prices);
 
@@ -38,11 +43,36 @@ function SearchPage() {
             });
     }, [keyword]);
 
+    const filteredProducts = products.filter((product) => {
+        const categoryMatch = selectedCategories.some((id) => id === product?.category?.id);
+        const brandMatch = selectedBrands.some((id) => id === product?.brand?.id);
+        const priceMatch = product.price >= minPriceSlider && product.price <= maxPriceSlider;
+
+        if ((selectedCategories.length === 0 && selectedBrands.length === 0) &&
+            ((maxPriceSlider == maxPrice && minPriceSlider == minPrice) || (maxPriceSlider == 0 && minPriceSlider == 0))) {
+            return true;
+        }
+        else if (maxPriceSlider != maxPrice || minPriceSlider != minPrice) {
+            return priceMatch;
+        }
+        else {
+            return (categoryMatch || brandMatch) && priceMatch;
+        }
+    });
     return (
         <div className="section">
             <div className="container">
                 <div className="row">
-                    <Sidebar max={maxPrice} min={minPrice} />
+                    <Sidebar
+                        max={maxPrice}
+                        min={minPrice}
+                        selectedCategories={selectedCategories}
+                        selectedBrands={selectedBrands}
+                        onCategoryChange={setSelectedCategories}
+                        onBrandChange={setSelectedBrands}
+                        updateMaxPrice={setMaxPriceSlider} // Pass the setMaxPriceSlider function to update maxPriceSlider
+                        updateMinPrice={setMinPriceSlider} // Pass the setMinPriceSlider function to update minPriceSlider
+                    />
 
                     <div id="store" className="col-md-9">
 
@@ -50,7 +80,7 @@ function SearchPage() {
 
                         <div className="row">
                             {
-                                products.length > 0 ?
+                                filteredProducts.length > 0 ?
                                ( products?.map((product, index) => {
                                     return (
                                         <ProductCard product={product} key={index} />
