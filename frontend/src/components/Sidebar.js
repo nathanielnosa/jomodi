@@ -4,7 +4,7 @@ import { API_URL } from '../constants';
 import { Link } from 'react-router-dom';
 import Slider from '@mui/material/Slider';
 
-function Sidebar({ max, min, selectedCategories, selectedBrands, onCategoryChange, onBrandChange }) {
+function Sidebar({ max, min, selectedCategories, selectedBrands, onCategoryChange, onBrandChange, updateMaxPrice, updateMinPrice }) {
 	const [categories, setCategories] = useState([]);
 	const [brands, setBrands] = useState([]);
 	const [products, setProducts] = useState([]);
@@ -20,7 +20,6 @@ function Sidebar({ max, min, selectedCategories, selectedBrands, onCategoryChang
 			onCategoryChange([...selectedCategories, categoryId]);
 		}
 	};
-
 
 	const handleBrandChange = (brandId) => {
 		const isSelected = selectedBrands.includes(brandId);
@@ -46,18 +45,22 @@ function Sidebar({ max, min, selectedCategories, selectedBrands, onCategoryChang
 
 	const addMaxPrice = () => {
 		setMaxPrice(maxPrice + 1000);
+		updateMaxPrice(maxPrice + 1000);
 	};
 
 	const addMinPrice = () => {
 		setMinPrice(minPrice + 1000);
-	};
+		updateMinPrice(minPrice + 1000);
+	}
 
 	const subtractMaxPrice = () => {
 		setMaxPrice(maxPrice - 1000);
+		updateMaxPrice(maxPrice - 1000);
 	};
 
 	const subtractMinPrice = () => {
 		setMinPrice(minPrice - 1000);
+		updateMinPrice(minPrice - 1000);
 	};
 
 	useEffect(() => {
@@ -71,6 +74,8 @@ function Sidebar({ max, min, selectedCategories, selectedBrands, onCategoryChang
 				console.log(err);
 			});
 	}, []);
+
+
 
 	useEffect(() => {
 		axios
@@ -116,12 +121,15 @@ function Sidebar({ max, min, selectedCategories, selectedBrands, onCategoryChang
 							onChange={(event, value) => {
 								setMinPrice(value[0]);
 								setMaxPrice(value[1]);
+								updateMinPrice(value[0]);
+								updateMaxPrice(value[1]);
 							}}
 							min={min}
 							max={max}
 							step={1}
+							valueLabelDisplay="auto"
+							valueLabelFormat={(value) => `$${value}`} // Optional: To display the value as currency
 							orientation="horizontal"
-							sx={{ width: '100%', color: '#ff0000' }}
 						/>
 					</div>
 					<div className="input-number price-min">
@@ -129,7 +137,7 @@ function Sidebar({ max, min, selectedCategories, selectedBrands, onCategoryChang
 							id="price-min"
 							type="number"
 							value={minPrice}
-							onChange={(e) => setMinPrice(e.target.value)}
+							onChange={(e) => {setMinPrice(e.target.value); updateMinPrice(e.target.value)}}
 						/>
 						<span className="qty-up" onClick={addMinPrice}>
 							+
@@ -144,7 +152,7 @@ function Sidebar({ max, min, selectedCategories, selectedBrands, onCategoryChang
 							id="price-max"
 							type="number"
 							value={maxPrice}
-							onChange={(e) => setMaxPrice(e.target.value)}
+							onChange={(e) => {setMaxPrice(e.target.value); updateMaxPrice(e.target.value)}}
 						/>
 						<span className="qty-up" onClick={addMaxPrice}>
 							+
@@ -156,6 +164,7 @@ function Sidebar({ max, min, selectedCategories, selectedBrands, onCategoryChang
 				</div>
 			</div>
 
+			{/* Rest of the code */}
 			<div className="aside">
 				<h3 className="aside-title">Brand</h3>
 				<div className="checkbox-filter">

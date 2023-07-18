@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 import Slider from '@mui/material/Slider';
 import { useParams } from 'react-router-dom';
 
-function CatSidebar({ max, min, selectedBrands, onBrandChange }) {
+function CatSidebar({ max, min, selectedBrands, onBrandChange, updateMaxPrice, updateMinPrice }) {
     const { id } = useParams();
     const [brands, setBrands] = useState([]);
     const [products, setProducts] = useState([]);
@@ -36,18 +36,22 @@ function CatSidebar({ max, min, selectedBrands, onBrandChange }) {
 
     const addMaxPrice = () => {
         setMaxPrice(maxPrice + 1000);
+        updateMaxPrice(maxPrice + 1000);
     };
 
     const addMinPrice = () => {
         setMinPrice(minPrice + 1000);
+        updateMinPrice(minPrice + 1000);
     }
 
     const subtractMaxPrice = () => {
         setMaxPrice(maxPrice - 1000);
+        updateMaxPrice(maxPrice - 1000);
     };
 
     const subtractMinPrice = () => {
         setMinPrice(minPrice - 1000);
+        updateMinPrice(minPrice - 1000);
     };
 
     useEffect(() => {
@@ -74,12 +78,15 @@ function CatSidebar({ max, min, selectedBrands, onBrandChange }) {
                             onChange={(event, value) => {
                                 setMinPrice(value[0]);
                                 setMaxPrice(value[1]);
+                                updateMinPrice(value[0]);
+                                updateMaxPrice(value[1]);
                             }}
                             min={min}
                             max={max}
                             step={1}
+                            valueLabelDisplay="auto"
+                            valueLabelFormat={(value) => `$${value}`} // Optional: To display the value as currency
                             orientation="horizontal"
-                            sx={{ width: "100%", color: "#ff0000" }}
                         />
                     </div>
                     <div className="input-number price-min">
@@ -87,7 +94,7 @@ function CatSidebar({ max, min, selectedBrands, onBrandChange }) {
                             id="price-min"
                             type="number"
                             value={minPrice}
-                            onChange={(e) => setMinPrice(e.target.value)}
+                            onChange={(e) => { setMinPrice(e.target.value); updateMinPrice(e.target.value) }}
                         />
                         <span className="qty-up" onClick={addMinPrice}>
                             +
@@ -102,7 +109,7 @@ function CatSidebar({ max, min, selectedBrands, onBrandChange }) {
                             id="price-max"
                             type="number"
                             value={maxPrice}
-                            onChange={(e) => setMaxPrice(e.target.value)}
+                            onChange={(e) => { setMaxPrice(e.target.value); updateMaxPrice(e.target.value) }}
                         />
                         <span className="qty-up" onClick={addMaxPrice}>
                             +
@@ -112,8 +119,6 @@ function CatSidebar({ max, min, selectedBrands, onBrandChange }) {
                         </span>
                     </div>
                 </div>
-
-
             </div>
 
             <div className="aside">

@@ -28,11 +28,15 @@ function ProductCard({ product }) {
                         </div>
                     </div>
                     <div className="product-body">
-                        <p className="product-category">
+                        <p className="product-category" style={{
+                            textDecoration: 'none',
+                        }}>
                             {product?.category?.name}
                         </p>
                         <h3 className="product-name">
-                            <Link to={`/product/${product.id}`}>
+                            <Link to={`/product/${product.id}`} style={{
+                                textDecoration: 'none',
+                            }}>
                                 {product?.name}
                             </Link>
                         </h3>
