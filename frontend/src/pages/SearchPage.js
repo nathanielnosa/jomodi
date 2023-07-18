@@ -95,13 +95,13 @@ function SearchPage() {
                         </div>
                         <div className="store-filter clearfix">
                             <span className="store-qty">Showing {products?.length} products</span>
-                            <ul className="store-pagination">
+                            {/* <ul className="store-pagination">
                                 <li className="active">1</li>
                                 <li><a href="#">2</a></li>
                                 <li><a href="#">3</a></li>
                                 <li><a href="#">4</a></li>
                                 <li><a href="#"><i className="fa fa-angle-right"></i></a></li>
-                            </ul>
+                            </ul> */}
                         </div>
 
                     </div>

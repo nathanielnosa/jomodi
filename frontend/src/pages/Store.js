@@ -83,7 +83,7 @@ return (
 
           <div className="store-filter clearfix">
             <span className="store-qty">Showing {filteredProducts.length} products</span>
-            <ul className="store-pagination">
+            {/* <ul className="store-pagination">
               <li className="active">1</li>
               <li>
                 <a href="#">2</a>
@@ -99,7 +99,7 @@ return (
                   <i className="fa fa-angle-right"></i>
                 </a>
               </li>
-            </ul>
+            </ul> */}
           </div>
         </div>
       </div>

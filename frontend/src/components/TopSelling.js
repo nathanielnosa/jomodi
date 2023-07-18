@@ -8,6 +8,7 @@ import { Link } from 'react-router-dom';
 import CardProduct from './CardProduct';
 import TopSellingChip from './TopSellingChip';
 import TopSellingTab from './TopSellingTab';
+import TopProductCard from './TopProductCard';
 
 function TopSelling({ product }) {
     const sliderRef = useRef();
@@ -69,11 +70,11 @@ function TopSelling({ product }) {
                                     <Slider {...settings} ref={sliderRef}>
                                         {
                                         category ? products?.filter(product => product.category === category).map((product, index) => (
-                                            <CardProduct product={product} />
+                                            <TopProductCard product={product} />
                                         )) 
                                         :
                                         products?.map((product, index) => (
-                                            <CardProduct product={product} />
+                                            <TopProductCard product={product} />
                                         ))
                                         }
                                     </Slider>
