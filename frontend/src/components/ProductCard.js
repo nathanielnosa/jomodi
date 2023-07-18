@@ -1,18 +1,24 @@
 import React from 'react'
-import { Link } from 'react-router-dom' 
+import { Link } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux';
 import { addToCart } from '../actions/cartActions';
+import { addToWishlist } from '../actions/wishActions';
 
 
-function ProductCard({product}) {
+function ProductCard({ product }) {
     const dispatch = useDispatch();
 
     const handleAddToCart = (product) => {
         dispatch(addToCart(product));
     };
+
+    const handleAddToWishlist = (product) => {
+        dispatch(addToWishlist(product));
+    };
+
     return (
         <>
-            <div className="col-md-4 col-xs-6">
+            <div className="col-md-4 col-xs-12">
                 <div className="product">
                     <div className="product-img">
                         <img src={product.image} alt="" />
@@ -43,8 +49,16 @@ function ProductCard({product}) {
                             <i className="fa fa-star"></i>
                         </div>
                         <div className="product-btns">
-                            <button className="add-to-wishlist"><i className="fa fa-heart-o"></i><span className="tooltipp">add to wishlist</span></button>
-                            <button className="quick-view"><i className="fa fa-eye"></i><span className="tooltipp">quick view</span></button>
+                            <button className="add-to-wishlist" onClick={() => handleAddToWishlist(product)}><i className="fa fa-heart-o"></i><span className="tooltipp">add to wishlist</span></button>
+
+
+                            <button className="quick-view">
+                                <Link to={`/product/${product.id}`}>
+                                    <i className="fa fa-eye"></i><span className="tooltipp">quick view</span>
+                                </Link>
+                            </button>
+
+
                         </div>
                     </div>
                     <div className="add-to-cart">

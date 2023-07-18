@@ -6,7 +6,7 @@ function HomeTop() {
         <div className="section">
             <div className="container">
                 <div className="row">
-                    <div className="col-md-4 col-xs-6">
+                    <div className="col-md-4 col-xs-12">
                         <Link to='store' className="cta-btn">
                             <div className="shop">
                                 <div className="shop-img">
@@ -19,7 +19,7 @@ function HomeTop() {
                             </div>
                         </Link>
                     </div>
-                    <div className="col-md-4 col-xs-6">
+                    <div className="col-md-4 col-xs-12">
                         <Link to='store' className="cta-btn">
                             <div className="shop">
                                 <div className="shop-img">
@@ -33,7 +33,7 @@ function HomeTop() {
                         </Link>
 
                     </div>
-                    <div className="col-md-4 col-xs-6">
+                    <div className="col-md-4 col-xs-12">
                         <Link to='store' className="cta-btn">
                             <div className="shop">
                                 <div className="shop-img">

@@ -2,6 +2,7 @@
 
 const initialState = {
     cartItems: [],
+    wishlistItems: [],
 };
 
 const cartReducer = (state = initialState, action) => {
@@ -33,10 +34,10 @@ const cartReducer = (state = initialState, action) => {
                 ...state,
                 cartItems: updatedCartItems,
             };
-
         default:
             return state;
     }
 };
+
 
 export default cartReducer;

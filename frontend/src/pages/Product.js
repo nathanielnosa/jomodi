@@ -7,6 +7,7 @@ import { API_URL } from '../constants';
 import { Link } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { addToCart } from '../actions/cartActions';
+import { addToWishlist } from '../actions/wishActions';
 
 
 function Product() {
@@ -19,6 +20,10 @@ function Product() {
 
     const handleAddToCart = (product) => {
         dispatch(addToCart(product));
+    };
+
+    const handleAddToWishlist = (product) => {
+        dispatch(addToWishlist(product));
     };
 
     const addQuantity = () => {
@@ -115,10 +120,10 @@ function Product() {
                             <ul className="breadcrumb-tree">
                                 <li>
                                     <Link to="/">
-                                    Home</Link></li>
+                                        Home</Link></li>
                                 <li>
                                     <Link to="/store">
-                                    All Categories</Link></li>
+                                        All Categories</Link></li>
                                 <li>
                                     <Link to={`/category/${product?.category?.id}`}>
                                         {
@@ -239,15 +244,15 @@ function Product() {
                                     <div className="qty-label">
                                         Qty
                                         <div className="input-number">
-                                            <input type="number" 
-                                            value={quantity}
-                                            onChange={(e) => setQuantity(e.target.value)}
+                                            <input type="number"
+                                                value={quantity}
+                                                onChange={(e) => setQuantity(e.target.value)}
                                             />
                                             <span className="qty-up"
-                                            onClick={addQuantity}
+                                                onClick={addQuantity}
                                             >+</span>
                                             <span className="qty-down"
-                                            onClick={subtractQuantity}
+                                                onClick={subtractQuantity}
                                             >-</span>
                                         </div>
                                     </div>
@@ -256,7 +261,7 @@ function Product() {
 
                                 <ul className="product-btns">
                                     <li><i className="fa fa-heart-o"></i> add to wishlist</li>
-                                  
+
                                 </ul>
 
                                 <ul className="product-links">
@@ -367,8 +372,14 @@ function Product() {
                                             <div className="product-rating">
                                             </div>
                                             <div className="product-btns">
-                                                <button className="add-to-wishlist"><i className="fa fa-heart-o"></i><span className="tooltipp">add to wishlist</span></button>
-                                                <button className="quick-view"><i className="fa fa-eye"></i><span className="tooltipp">quick view</span></button>
+                                                <button className="add-to-wishlist" onClick={() => handleAddToWishlist(product)}><i className="fa fa-heart-o"></i><span className="tooltipp">add to wishlist</span></button>
+
+
+                                                <button className="quick-view">
+                                                    <Link to={`/product/${product.id}`}>
+                                                        <i className="fa fa-eye"></i><span className="tooltipp">quick view</span>
+                                                    </Link>
+                                                </button>
                                             </div>
                                         </div>
                                         <div className="add-to-cart">

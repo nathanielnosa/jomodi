@@ -13,3 +13,5 @@ export const removeFromCart = (index) => {
         payload: index,
     };
 };
+
+
