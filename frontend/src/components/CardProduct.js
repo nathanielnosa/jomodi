@@ -35,7 +35,11 @@ function CardProduct({ product }) {
                 <div className="product-body">
                     <p className="product-category">{product?.category?.name}</p>
                     <h3 className="product-name">
-                        <Link to={`/product/${product.id}`}>{product?.name}</Link>
+                        <Link to={`/product/${product.id}`}
+                        style={{
+                            textDecoration: 'none',
+                        }}
+                        >{product?.name}</Link>
                     </h3>
                     <h4 className="product-price">
                         ${product?.price} <del className="product-old-price">${product?.cancel_price}</del>

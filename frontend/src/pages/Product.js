@@ -119,19 +119,27 @@ function Product() {
                         <div className="col-md-12">
                             <ul className="breadcrumb-tree">
                                 <li>
-                                    <Link to="/">
+                                    <Link to="/" style={{
+                                        textDecoration: 'none',
+                                    }}>
                                         Home</Link></li>
                                 <li>
-                                    <Link to="/store">
+                                    <Link to="/store" style={{
+                                        textDecoration: 'none',
+                                    }}>
                                         All Categories</Link></li>
                                 <li>
-                                    <Link to={`/category/${product?.category?.id}`}>
+                                    <Link to={`/category/${product?.category?.id}`} style={{
+                                        textDecoration: 'none',
+                                    }}>
                                         {
                                             product?.category?.name
                                         }
                                     </Link></li>
                                 <li>
-                                    <Link to={`/category/${product?.category?.id}`}>
+                                    <Link to={`/category/${product?.category?.id}`} style={{
+                                        textDecoration: 'none',
+                                    }}>
                                         {
                                             product?.brand?.name
                                         }
@@ -212,7 +220,9 @@ function Product() {
                                         <i className="fa fa-star"></i>
                                         <i className="fa fa-star-o"></i>
                                     </div>
-                                    <a className="review-link" href="#">10 Review(s) | Add your review</a>
+                                    <a className="review-link" href="#" style={{
+                                        textDecoration: 'none',
+                                    }}>10 Review(s) | Add your review</a>
                                 </div>
                                 <div>
                                     <h3 className="product-price">${product?.price}0 <del className="product-old-price">${product?.cancel_price}</del></h3>
@@ -287,8 +297,12 @@ function Product() {
                             <div id="product-tab">
 
                                 <ul className="tab-nav">
-                                    <li className="active"><a data-toggle="tab" href="#tab1">Description</a></li>
-                                    <li><a data-toggle="tab" href="#tab2">Details</a></li>
+                                    <li className="active"><a data-toggle="tab" href="#tab1" style={{
+                                        textDecoration: 'none',
+                                    }}>Description</a></li>
+                                    <li><a data-toggle="tab" href="#tab2" style={{
+                                        textDecoration: 'none',
+                                    }}>Details</a></li>
                                     {/* <li><a data-toggle="tab" href="#tab3">Reviews (3)</a></li> */}
                                 </ul>
 
@@ -365,7 +379,9 @@ function Product() {
                                                 }
                                             </p>
                                             <h3 className="product-name">
-                                                <Link to={`/product/${product?.id}`}>
+                                                <Link to={`/product/${product?.id}`} style={{
+                                                    textDecoration: 'none',
+                                                }}>
                                                     {product?.name}
                                                 </Link></h3>
                                             <h4 className="product-price">${product?.price} <del className="product-old-price">${product?.cancel_price}</del></h4>

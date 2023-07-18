@@ -13,7 +13,8 @@ function Store() {
 
     const [maxPrice, setMaxPrice] = useState(0);
     const [minPrice, setMinPrice] = useState(0);
-
+    const [maxPriceSlider, setMaxPriceSlider] = useState(0);
+    const [minPriceSlider, setMinPriceSlider] = useState(0);
     const [selectedBrands, setSelectedBrands] = useState([]);
 
     useEffect(() => {
@@ -35,14 +36,21 @@ function Store() {
     }, [id])
 
 
-    const filteredProducts = selectedBrands.length === 0
-        ? products
-        : products?.filter((product) => {
-            const brandMatch = selectedBrands.some((id) => id === product?.brand?.id);
-            const priceMatch = product.price >= minPrice && product.price <= maxPrice;
-            return (brandMatch) && priceMatch;
-        });
+    const filteredProducts = products.filter((product) => {
+        const brandMatch = selectedBrands.some((id) => id === product?.brand?.id);
+        const priceMatch = product.price >= minPriceSlider && product.price <= maxPriceSlider;
 
+        if ((selectedBrands.length === 0) &&
+            ((maxPriceSlider == maxPrice && minPriceSlider == minPrice) || (maxPriceSlider == 0 && minPriceSlider == 0))) {
+            return true;
+        }
+        else if (maxPriceSlider != maxPrice || minPriceSlider != minPrice) {
+            return priceMatch;
+        }
+        else {
+            return (brandMatch) && priceMatch;
+        }
+    });
 
     return (
         <div className="section">
@@ -53,6 +61,8 @@ function Store() {
                         selectedBrands={selectedBrands}
                        
                         onBrandChange={setSelectedBrands}
+                        updateMaxPrice={setMaxPriceSlider} // Pass the setMaxPrice function to update maxPrice
+                        updateMinPrice={setMinPriceSlider} // Pass the setMinPrice function to update minPrice
                     />
 
                     <div id="store" className="col-md-9">

@@ -59,7 +59,9 @@ function TopSellingChip() {
                                                         {product?.category?.name}
                                                     </p>
                                                     <h3 className="product-name">
-                                                        <Link to={`/product/${product.id}`}>
+                                                        <Link to={`/product/${product.id}`} style={{
+                                                            textDecoration: 'none',
+                                                        }}>
                                                             {product.name}
                                                         </Link></h3>
                                                     <h4 className="product-price">$980.00 <del className="product-old-price">${product.price}</del></h4>
@@ -93,7 +95,9 @@ function TopSellingChip() {
                                                     {product?.category?.name}
                                                 </p>
                                                 <h3 className="product-name">
-                                                    <Link to={`/product/${product.id}`}>
+                                                    <Link to={`/product/${product.id}`} style={{
+                                                        textDecoration: 'none',
+                                                    }}>
                                                         {product.name}
                                                     </Link></h3>
                                                 <h4 className="product-price">$980.00 <del className="product-old-price">${product.price}</del></h4>
@@ -127,7 +131,9 @@ function TopSellingChip() {
                                                     {product?.category?.name}
                                                 </p>
                                                 <h3 className="product-name">
-                                                    <Link to={`/product/${product.id}`}>
+                                                    <Link to={`/product/${product.id}`} style={{
+                                                        textDecoration: 'none',
+                                                    }}>
                                                         {product.name}
                                                     </Link></h3>
                                                 <h4 className="product-price">$980.00 <del className="product-old-price">${product.price}</del></h4>
