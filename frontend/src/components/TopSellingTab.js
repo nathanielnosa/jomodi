@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { API_URL } from '../constants';
 
-function NewProductTab({ filterCategory }) {
+function TopSellingTab({ filterCategory }) {
     const [categories, setCategories] = useState([]);
 
     useEffect(() => {
@@ -18,7 +18,7 @@ function NewProductTab({ filterCategory }) {
     return (
         <div className="col-md-12">
             <div className="section-title">
-                <h3 className="title">New Products</h3>
+                <h3 className="title">Top Selling Products</h3>
                 <div className="section-nav">
                     <ul className="section-tab-nav tab-nav">
                         {
@@ -41,4 +41,4 @@ function NewProductTab({ filterCategory }) {
     )
 }
 
-export default NewProductTab
+export default TopSellingTab

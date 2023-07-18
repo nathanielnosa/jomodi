@@ -79,7 +79,7 @@ function WishCart() {
                         </div>
                         <div className="cart-btns">
                             {/* <Link to="/cart">View Favourite list</Link> */}
-                            <Link to="/checkout">
+                            <Link to="/wishlist">
                                 View List <i className="fa fa-arrow-circle-right"></i>
                             </Link>
                         </div>

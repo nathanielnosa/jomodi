@@ -6,6 +6,7 @@ import { Link } from 'react-router-dom';
 function Search() {
     const [categories, setCategories] = useState([]);
     const [keyword, setKeyword] = useState('');
+    const [category, setCategory] = useState(0);
 
     useEffect(() => {
         axios.get(API_URL + 'category/category/')
@@ -22,18 +23,22 @@ function Search() {
       <div className="col-md-6">
           <div className="header-search">
               <form>
-                  <select className="input-select">
+                  <select className="input-select" value={category} onChange={
+                        (e) => setCategory(e.target.value)
+                  }>
                       <option value="0">All Categories</option>
                       {
                             categories?.map((category) => (
-                                <option key={category.id} value={category.id}>{category.name}</option>
+                                <option key={category.id} value={category.id}
+                                
+                                >{category.name}</option>
                             ))
                       }
                   </select>
                   <input className="input" placeholder="Search here"
                   value={keyword} onChange={(e) => setKeyword(e.target.value)}
                   />
-                  <Link to={`/search/${keyword}`}>
+                  <Link to={`/search/${keyword}/${category}`}>
                   <button className="search-btn">
                    <i className="fa fa-search"></i>
                   </button>

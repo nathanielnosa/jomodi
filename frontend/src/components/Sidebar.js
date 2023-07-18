@@ -3,6 +3,7 @@ import axios from 'axios';
 import { API_URL } from '../constants';
 import { Link } from 'react-router-dom';
 import Slider from '@mui/material/Slider';
+import { Accordion } from '@mantine/core';
 
 function Sidebar({ max, min, selectedCategories, selectedBrands, onCategoryChange, onBrandChange, updateMaxPrice, updateMinPrice }) {
 	const [categories, setCategories] = useState([]);
@@ -91,82 +92,131 @@ function Sidebar({ max, min, selectedCategories, selectedBrands, onCategoryChang
 
 	return (
 		<div id="aside" className="col-md-3">
+		
 			<div className="aside">
-				<h3 className="aside-title">Categories</h3>
-				<div className="checkbox-filter">
-					{categories?.map((category, index) => (
-						<div className="input-checkbox" key={category.id}>
-							<input
-								type="checkbox"
-								id={`category-${category.id}`}
-								checked={selectedCategories.includes(category.id)}
-								onChange={() => handleCategoryChange(category.id)}
-							/>
-							<label htmlFor={`category-${category.id}`}>
-								<span></span>
-								{category.name}
-								<small>(120)</small>
-							</label>
-						</div>
-					))}
-				</div>
+				<Accordion radius="xl" defaultValue="customization">
+					<Accordion.Item value="customization">
+						<Accordion.Control style={{
+							fontSize: "15px"
+						}}>
+							Categories
+						</Accordion.Control>
+						<Accordion.Panel>
+							{categories?.map((category, index) => (
+								<div className="input-checkbox" key={category.id}>
+									<input
+										type="checkbox"
+										id={`category-${category.id}`}
+										checked={selectedCategories.includes(category.id)}
+										onChange={() => handleCategoryChange(category.id)}
+									/>
+									<label htmlFor={`category-${category.id}`}>
+										<span></span>
+										{category.name}
+										<small>(120)</small>
+									</label>
+								</div>
+							))}
+						</Accordion.Panel>
+					</Accordion.Item>
+				</Accordion>
+				
 			</div>
 
 			<div className="aside">
-				<h3 className="aside-title">Price</h3>
-				<div className="price-filter">
-					<div id="price-slider">
-						<Slider
-							value={[minPrice, maxPrice]}
-							onChange={(event, value) => {
-								setMinPrice(value[0]);
-								setMaxPrice(value[1]);
-								updateMinPrice(value[0]);
-								updateMaxPrice(value[1]);
-							}}
-							min={min}
-							max={max}
-							step={1}
-							valueLabelDisplay="auto"
-							valueLabelFormat={(value) => `$${value}`} // Optional: To display the value as currency
-							orientation="horizontal"
-						/>
-					</div>
-					<div className="input-number price-min">
-						<input
-							id="price-min"
-							type="number"
-							value={minPrice}
-							onChange={(e) => {setMinPrice(e.target.value); updateMinPrice(e.target.value)}}
-						/>
-						<span className="qty-up" onClick={addMinPrice}>
-							+
-						</span>
-						<span className="qty-down" onClick={subtractMinPrice}>
-							-
-						</span>
-					</div>
-					<span>-</span>
-					<div className="input-number price-max">
-						<input
-							id="price-max"
-							type="number"
-							value={maxPrice}
-							onChange={(e) => {setMaxPrice(e.target.value); updateMaxPrice(e.target.value)}}
-						/>
-						<span className="qty-up" onClick={addMaxPrice}>
-							+
-						</span>
-						<span className="qty-down" onClick={subtractMaxPrice}>
-							-
-						</span>
-					</div>
-				</div>
+				<Accordion radius="xl" defaultValue="customization">
+					<Accordion.Item value="customization">
+						<Accordion.Control style={{
+							fontSize: "15px"
+						}}>
+							Price
+						</Accordion.Control>
+						<Accordion.Panel>
+							<div className="price-filter">
+								<div id="price-slider">
+									<Slider
+										value={[minPrice, maxPrice]}
+										onChange={(event, value) => {
+											setMinPrice(value[0]);
+											setMaxPrice(value[1]);
+											updateMinPrice(value[0]);
+											updateMaxPrice(value[1]);
+										}}
+										min={min}
+										max={max}
+										step={1}
+										valueLabelDisplay="auto"
+										valueLabelFormat={(value) => `$${value}`} // Optional: To display the value as currency
+										orientation="horizontal"
+									/>
+								</div>
+								<div className="input-number price-min">
+									<input
+										id="price-min"
+										type="number"
+										value={minPrice}
+										onChange={(e) => { setMinPrice(e.target.value); updateMinPrice(e.target.value) }}
+									/>
+									<span className="qty-up" onClick={addMinPrice}>
+										+
+									</span>
+									<span className="qty-down" onClick={subtractMinPrice}>
+										-
+									</span>
+								</div>
+								<span>-</span>
+								<div className="input-number price-max">
+									<input
+										id="price-max"
+										type="number"
+										value={maxPrice}
+										onChange={(e) => { setMaxPrice(e.target.value); updateMaxPrice(e.target.value) }}
+									/>
+									<span className="qty-up" onClick={addMaxPrice}>
+										+
+									</span>
+									<span className="qty-down" onClick={subtractMaxPrice}>
+										-
+									</span>
+								</div>
+							</div>
+						</Accordion.Panel>
+					</Accordion.Item>
+				</Accordion>
+			
 			</div>
 
 			{/* Rest of the code */}
 			<div className="aside">
-				<h3 className="aside-title">Brand</h3>
+				<Accordion radius="xl" defaultValue="customization">
+					<Accordion.Item value="customization">
+						<Accordion.Control style={{
+							fontSize: "15px"
+						}}>
+							Brand
+						</Accordion.Control>
+						<Accordion.Panel>
+							<div className="checkbox-filter">
+								{brands?.map((brand, index) => (
+									<div className="input-checkbox" key={brand.id}>
+										<input
+											type="checkbox"
+											id={`brand-${brand.id}`}
+											checked={selectedBrands.includes(brand.id)}
+											onChange={() => handleBrandChange(brand.id)}
+										/>
+										<label htmlFor={`brand-${brand.id}`}>
+											<span></span>
+											{brand.name}
+											<small>(578)</small>
+										</label>
+									</div>
+								))}
+							</div>
+						</Accordion.Panel>
+					</Accordion.Item>
+				</Accordion>
+				{/* <h3 className="aside-title">Brand</h3>
 				<div className="checkbox-filter">
 					{brands?.map((brand, index) => (
 						<div className="input-checkbox" key={brand.id}>
@@ -183,27 +233,7 @@ function Sidebar({ max, min, selectedCategories, selectedBrands, onCategoryChang
 							</label>
 						</div>
 					))}
-				</div>
-			</div>
-
-			<div className="aside">
-				<h3 className="aside-title">Top selling</h3>
-				{products?.map((product, index) => (
-					<div key={index} className="product-widget">
-						<div className="product-img">
-							<img src={product?.image} alt="" />
-						</div>
-						<div className="product-body">
-							<p className="product-category">{product?.category?.name}</p>
-							<h3 className="product-name">
-								<Link to={`/product/${product?.id}`}>{product?.name}</Link>
-							</h3>
-							<h4 className="product-price">
-								${product?.price} <del className="product-old-price">${product?.cancel_price}</del>
-							</h4>
-						</div>
-					</div>
-				))}
+				</div> */}
 			</div>
 		</div>
 	);

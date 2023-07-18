@@ -13,7 +13,7 @@ import Zoom from 'react-medium-image-zoom';
 import 'react-medium-image-zoom/dist/styles.css';
 import '../styles/imageZoom.css'
 
-function Product() {
+function TopProduct() {
     const { id } = useParams();
     const [quantity, setQuantity] = useState(1);
     const [product, setProduct] = useState([]);
@@ -72,7 +72,7 @@ function Product() {
 
     useEffect(() => {
         axios
-            .get(`${API_URL}product/product_detail/${id}/`)
+            .get(`${API_URL}product/top_product_detail/${id}/`)
             .then((res) => {
                 console.log(res.data);
                 setProduct(res.data);
@@ -84,7 +84,7 @@ function Product() {
 
     useEffect(() => {
         axios
-            .get(`${API_URL}product/image_fetch/?product_id=${id}`)
+            .get(`${API_URL}product/top_image_fetch/?product_id=${id}`)
             .then((res) => {
                 console.log(res.data);
                 setImages(res.data.results);
@@ -443,4 +443,4 @@ function Product() {
     );
 }
 
-export default Product;
+export default TopProduct;

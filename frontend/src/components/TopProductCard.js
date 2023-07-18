@@ -4,8 +4,9 @@ import { Link } from 'react-router-dom';
 import { addToCart } from '../actions/cartActions';
 import { addToWishlist } from '../actions/wishActions';
 import { Notification } from '@mantine/core';
+import TopProduct from '../pages/TopProduct';
 
-function CardProduct({ product }) {
+function TopProductCard({ product }) {
     const dispatch = useDispatch();
     const [showCartNotification, setShowCartNotification] = React.useState(false);
     const [showWishlistNotification, setShowWishlistNotification] = React.useState(false);
@@ -67,7 +68,7 @@ function CardProduct({ product }) {
                     <div className="product-body">
                         <p className="product-category">{product?.category?.name}</p>
                         <h3 className="product-name">
-                            <Link to={`/product/${product.id}`}
+                            <Link to={`/newproduct/${product.id}`}
                                 style={{
                                     textDecoration: 'none',
                                 }}
@@ -107,4 +108,4 @@ function CardProduct({ product }) {
     );
 }
 
-export default CardProduct;
+export default TopProductCard;

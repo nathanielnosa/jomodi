@@ -7,7 +7,7 @@ import { API_URL } from '../constants'
 import { useParams } from 'react-router-dom'
 
 function SearchPage() {
-    const { keyword } = useParams();
+    const { keyword, categoryid } = useParams();
     const [products, setProducts] = useState([])
     const [maxPrice, setMaxPrice] = useState(0);
     const [minPrice, setMinPrice] = useState(0);
@@ -16,15 +16,17 @@ function SearchPage() {
     const [selectedCategories, setSelectedCategories] = useState([]);
     const [selectedBrands, setSelectedBrands] = useState([]);
 
+
     useEffect(() => {
         axios
             .get(`${API_URL}product/product_detail/`)
             .then((res) => {
                 // Filter products based on keyword
                 console.log(res.data.results);
-                const filteredProducts = res.data.results.filter((product) =>
-                    product?.name && product?.name.toLowerCase().includes(keyword.toLowerCase())
-                );
+                const filteredProducts = categoryid == 0 ? 
+                res.data.results.filter((product) => product.name.toLowerCase().includes(keyword.toLowerCase())) 
+                : res.data.results.filter((product) => product.name.toLowerCase().includes(keyword.toLowerCase()) 
+                && product.category.id == categoryid);
 
                 // Set the products state
                 setProducts(filteredProducts);
@@ -41,7 +43,7 @@ function SearchPage() {
             .catch((err) => {
                 console.log(err);
             });
-    }, [keyword]);
+    }, [keyword, categoryid]);
 
     const filteredProducts = products.filter((product) => {
         const categoryMatch = selectedCategories.some((id) => id === product?.category?.id);
@@ -93,13 +95,13 @@ function SearchPage() {
                         </div>
                         <div className="store-filter clearfix">
                             <span className="store-qty">Showing {products?.length} products</span>
-                            <ul className="store-pagination">
+                            {/* <ul className="store-pagination">
                                 <li className="active">1</li>
                                 <li><a href="#">2</a></li>
                                 <li><a href="#">3</a></li>
                                 <li><a href="#">4</a></li>
                                 <li><a href="#"><i className="fa fa-angle-right"></i></a></li>
-                            </ul>
+                            </ul> */}
                         </div>
 
                     </div>
