@@ -20,12 +20,25 @@ function TopSellingChip() {
     };
 
     const [products, setProducts] = useState([]);
+    const [product2, setProduct2] = useState([]);
+    const [product3, setProduct3] = useState([]);
 
     useEffect(() => {
         axios.get(`${API_URL}product/product_detail/`)
             .then(res => {
                 console.log(res.data);
-                setProducts(res.data.results);
+                // Randomly shuffle the products array
+                const shuffledProducts = res.data.results.sort(() => 0.5 - Math.random());
+                const shuffledProducts2 = res.data.results.sort(() => 0.5 - Math.random());
+                const shuffledProducts3 = res.data.results.sort(() => 0.5 - Math.random());
+
+                // Select the first 3 products from the shuffled array
+                const selectedProducts = shuffledProducts.slice(0, 3);
+                const selectedProducts2 = shuffledProducts2.slice(0, 3);
+                const selectedProducts3 = shuffledProducts3.slice(0, 3);
+                setProducts(selectedProducts);
+                setProduct2(selectedProducts2);
+                setProduct3(selectedProducts3);
             })
             .catch(err => {
                 console.log(err);
@@ -64,7 +77,9 @@ function TopSellingChip() {
                                                         }}>
                                                             {product.name}
                                                         </Link></h3>
-                                                    <h4 className="product-price">$980.00 <del className="product-old-price">${product.price}</del></h4>
+                                                    <h4 className="product-price">₹{
+                                                        product.price
+                                                    } <del className="product-old-price">₹{product?.cancel_price}</del></h4>
                                                 </div>
                                             </div>
                                         ))
@@ -85,7 +100,7 @@ function TopSellingChip() {
                         <Slider {...settings}>
                             <div>
                                 {
-                                    products?.map((product, index) => (
+                                    product3?.map((product, index) => (
                                         <div key={index} className="product-widget">
                                             <div className="product-img">
                                                 <img src={product.image} alt="" />
@@ -100,7 +115,9 @@ function TopSellingChip() {
                                                     }}>
                                                         {product.name}
                                                     </Link></h3>
-                                                <h4 className="product-price">$980.00 <del className="product-old-price">${product.price}</del></h4>
+                                                <h4 className="product-price">₹{
+                                                    product.price
+                                                } <del className="product-old-price">₹{product?.cancel_price}</del></h4>
                                             </div>
                                         </div>
                                     ))
@@ -121,7 +138,7 @@ function TopSellingChip() {
                         <Slider {...settings}>
                             <div>
                                 {
-                                    products?.map((product, index) => (
+                                    product2?.map((product, index) => (
                                         <div key={index} className="product-widget">
                                             <div className="product-img">
                                                 <img src={product.image} alt="" />
@@ -136,7 +153,9 @@ function TopSellingChip() {
                                                     }}>
                                                         {product.name}
                                                     </Link></h3>
-                                                <h4 className="product-price">$980.00 <del className="product-old-price">${product.price}</del></h4>
+                                                <h4 className="product-price">₹{
+                                                    product.price
+                                                } <del className="product-old-price">₹{product?.cancel_price}</del></h4>
                                             </div>
                                         </div>
                                     ))

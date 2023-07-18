@@ -10,13 +10,10 @@ import axios from 'axios'
 
 
 function Home() {
-
-
-
     return (
         <div>
             <HomeTop />
-            <NewProduct />
+            <TopSelling />
             <HotDeal />
             <NewProduct />
             <TopSellingChip />

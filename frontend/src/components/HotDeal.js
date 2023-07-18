@@ -1,8 +1,29 @@
-import React from 'react'
+import React, {useEffect, useState} from 'react'
+import { Link } from 'react-router-dom'
+import { API_URL } from '../constants'
+import axios from 'axios'
+
 
 function HotDeal() {
+    const [banner, setBanner] = useState()
+
+    useEffect(() => {
+        axios.get(API_URL + 'product/home_banner_image/1/')
+            .then(res => {
+                console.log(res.data);
+                setBanner(res.data);
+            })
+            .catch(err => {
+                console.log(err);
+            });
+    }, []);
+
   return (
-      <div id="hot-deal" className="section">
+      <div id="hot-deal" className="section"
+      style={{
+            backgroundImage: `url(${banner?.image})`,
+      }}
+      >
           <div className="container">
               <div className="row">
                   <div className="col-md-12">

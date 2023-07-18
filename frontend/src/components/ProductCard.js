@@ -1,32 +1,61 @@
-import React from 'react'
+import React, {useState, useEffect} from 'react'
 import { Link } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux';
 import { addToCart } from '../actions/cartActions';
 import { addToWishlist } from '../actions/wishActions';
-
+import { Notification } from '@mantine/core';
 
 function ProductCard({ product }) {
     const dispatch = useDispatch();
 
+    const [showCartNotification, setShowCartNotification] = React.useState(false);
+    const [showWishlistNotification, setShowWishlistNotification] = React.useState(false);
+
     const handleAddToCart = (product) => {
         dispatch(addToCart(product));
+        setShowCartNotification(true);
     };
 
     const handleAddToWishlist = (product) => {
         dispatch(addToWishlist(product));
+        setShowWishlistNotification(true);
     };
 
     return (
         <>
             <div className="col-md-4 col-xs-12">
+                {
+                    showCartNotification && (
+                        <Notification color="green" radius="xs" title="Added to Cart"
+                            onClose={() => setShowCartNotification(false)}
+                        ></Notification>
+
+                    )
+                }
+
+                {
+                    showWishlistNotification && (
+                        <Notification color="green" radius="xs" title="Added to Wishlist"
+                            onClose={() => setShowWishlistNotification(false)}
+                        ></Notification>
+                    )
+                }
                 <div className="product">
+                    <Link to={`/product/${product.id}`} style={{
+                        textDecoration: 'none',
+                    }}>
                     <div className="product-img">
                         <img src={product.image} alt="" />
                         <div className="product-label">
-                            <span className="sale">-30%</span>
-                            <span className="new">NEW</span>
+                                {
+                                    product?.discount ? <span className="sale">-{product?.discount}%</span> : ''
+                                }
+                                {
+                                    product?.new == true ? <span className="new">NEW</span> : ''
+                                }
                         </div>
                     </div>
+                    </Link>
                     <div className="product-body">
                         <p className="product-category" style={{
                             textDecoration: 'none',
@@ -40,10 +69,10 @@ function ProductCard({ product }) {
                                 {product?.name}
                             </Link>
                         </h3>
-                        <h4 className="product-price">${
+                        <h4 className="product-price">₹{
                             product?.price
                         } <del className="product-old-price">
-                                ${product?.cancel_price}
+                                ₹{product?.cancel_price}
                             </del></h4>
                         <div className="product-rating">
                             <i className="fa fa-star"></i>

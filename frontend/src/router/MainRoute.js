@@ -18,7 +18,7 @@ function MainRoute() {
                 <Route path="/checkout" element={<Checkout />} />
                 <Route path="/product/:id" element={<Product />} />
                 <Route path="/category/:id" element={<Category />} />
-                <Route path="search/:keyword" element={<SearchPage />} />
+                <Route path="search/:keyword/:categoryid" element={<SearchPage />} />
                 <Route path="*" element={<h1>Not Found</h1>} />
             </Route>
         </Routes>

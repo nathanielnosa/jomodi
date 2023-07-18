@@ -186,7 +186,7 @@ function Sidebar({ max, min, selectedCategories, selectedBrands, onCategoryChang
 				</div>
 			</div>
 
-			<div className="aside">
+			{/* <div className="aside">
 				<h3 className="aside-title">Top selling</h3>
 				{products?.map((product, index) => (
 					<div key={index} className="product-widget">
@@ -204,7 +204,7 @@ function Sidebar({ max, min, selectedCategories, selectedBrands, onCategoryChang
 						</div>
 					</div>
 				))}
-			</div>
+			</div> */}
 		</div>
 	);
 }

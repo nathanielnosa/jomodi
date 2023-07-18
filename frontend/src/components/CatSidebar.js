@@ -143,7 +143,7 @@ function CatSidebar({ max, min, selectedBrands, onBrandChange, updateMaxPrice, u
                 </div>
             </div>
 
-            <div className="aside">
+            {/* <div className="aside">
                 <h3 className="aside-title">Top selling</h3>
                 {
                     products?.map((product, index) => (
@@ -170,7 +170,7 @@ function CatSidebar({ max, min, selectedBrands, onBrandChange, updateMaxPrice, u
                 }
 
 
-            </div>
+            </div> */}
 
         </div>
 

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { API_URL } from '../constants';
 
-function NewProductTab({ filterCategory }) {
+function TopSellingTab({ filterCategory }) {
     const [categories, setCategories] = useState([]);
 
     useEffect(() => {
@@ -41,4 +41,4 @@ function NewProductTab({ filterCategory }) {
     )
 }
 
-export default NewProductTab
+export default TopSellingTab
