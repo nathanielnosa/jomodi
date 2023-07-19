@@ -23,6 +23,7 @@ function Product() {
     const [showCartNotification, setShowCartNotification] = React.useState(false);
     const [showWishlistNotification, setShowWishlistNotification] = React.useState(false);
     const [zoomImage, setZoomImage] = useState("");
+    
     const dispatch = useDispatch();
     const handleAddToCart = (product) => {
         dispatch(addToCart(product, quantity));
@@ -45,7 +46,7 @@ function Product() {
                 },
             }),
         })
-        
+
     };
 
     const handleAddToCart2 = (product) => {
@@ -264,7 +265,29 @@ function Product() {
                             height: '100px',
                         }}>
                             <div id="product-imgs">
-                                <Slider {...settings}>
+                                <Carousel
+                                    slideSize="15%"
+                                    height={700}
+                                    align="start"
+                                    orientation="vertical"
+                                    slideGap="xs"
+                                    loop
+                                    controlsOffset="xs" controlSize={51} dragFree>
+                                    {images.map((image, index) => (
+                                        <Carousel.Slide>
+                                            <div key={index} className="product-preview">
+                                                <img src={image.image} alt="" onMouseEnter={() => setZoomImage(image.image)}
+                                                    style={{
+
+                                                        border: '1px solid black'
+                                                    }}
+                                                />
+                                            </div>
+                                        </Carousel.Slide>
+
+                                    ))}
+                                </Carousel>
+                                {/* <Slider {...settings}>
                                     {images.map((image, index) => (
                                         <div key={index} className="product-preview" style={{
                                             height: '10px',
@@ -272,13 +295,13 @@ function Product() {
                                             <img src={image.image} alt="" onMouseEnter={() => setZoomImage(image.image)} />
                                         </div>
                                     ))}
-                                </Slider>
+                                </Slider> */}
                             </div>
                         </div>
 
                         <div className="col-md-5">
                             <div className="product-details">
-                               
+
                                 <h2 className="product-name">{product?.name}</h2>
                                 <div>
 
@@ -320,7 +343,7 @@ function Product() {
                                         Qty
                                         <div className="input-number">
                                             <input
-                                            className="input-select"
+                                                className="input-select"
                                                 type="number"
                                                 value={quantity}
                                                 onChange={(e) => setQuantity(e.target.value)}
@@ -342,8 +365,9 @@ function Product() {
 
                                     <button
                                         className="add-to-cart-btn"
-                                        onClick={() => {handleAddToCart(product);
-                                        alert("Working on Payment")
+                                        onClick={() => {
+                                            handleAddToCart(product);
+                                            alert("Working on Payment")
                                         }}
                                         style={{
                                             marginLeft: '20px',
@@ -438,7 +462,7 @@ function Product() {
 
             <div className="section">
                 <div className="container">
-                   
+
                     <div className="row">
                         <div className="col-md-12">
                             <div className="section-title text-center">
@@ -471,16 +495,16 @@ function Product() {
 
                         {relatedProducts.map((product, index) => (
                             <div className="col-md-3 col-xs-6">
-                            
+
                                 <div className="product">
                                     <Link to={`/product/${product.id}`} style={{
                                         textDecoration: 'none',
                                     }}>
                                         <div className="product-img">
                                             <img src={product.image} alt=""
-                                            style={{
-                                                height: "200px"
-                                            }}
+                                                style={{
+                                                    height: "200px"
+                                                }}
                                             />
                                             <div className="product-label">
                                                 <span className="sale">-30%</span>
