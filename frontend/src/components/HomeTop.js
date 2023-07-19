@@ -14,7 +14,7 @@ function HomeTop() {
                 const shuffledCategories = res.data.results.sort(() => 0.5 - Math.random());
 
                 // Select the first 3 products from the shuffled array for each group
-                const selectedCategories = shuffledCategories.slice(0, 2);
+                const selectedCategories = shuffledCategories.slice(0, 3);
                 setCategories(selectedCategories);
             })
             .catch(err => {
@@ -25,9 +25,9 @@ function HomeTop() {
 
     return (
         <div className="section">
-            <div className="container">
+            <div>
                 <div className="row">
-                    <div className="col-md-4 col-xs-12">
+                    <div className="col-md-3 col-xs-12">
                         <Link to='/store' className="cta-btn">
                             <div className="shop" style={{
                                 backgroundImage: `url(/img/shop01.png)`,
@@ -43,9 +43,7 @@ function HomeTop() {
                                 onMouseLeave={(e) => {
                                     e.currentTarget.style.backgroundSize = 'cover'; // Reset the background size on mouse leave
                                 }}>
-                                {/* <div className="shop-img">
-                                    <img src="./img/shop01.png" alt="" />
-                                </div> */}
+                           
                                 <div className="shop-body">
                                     <h3>All<br />Collection</h3>
                                     <a href="#" className="cta-btn" style={{
@@ -58,7 +56,7 @@ function HomeTop() {
                     </div>
                     {
                         categories?.map((category, index) => (
-                            <div className="col-md-4 col-xs-12">
+                            <div className="col-md-3 col-xs-12">
                                 <Link to={`/category/${category.id}`} className="cta-btn">
                                     <div className="shop"
                                         style={{

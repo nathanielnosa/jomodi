@@ -21,6 +21,13 @@ function TopSellingTab({ filterCategory }) {
                 <h3 className="title">Top Selling Products</h3>
                 <div className="section-nav">
                     <ul className="section-tab-nav tab-nav">
+                        <li><a data-toggle="tab" href="#tab1" style={{
+                            textDecoration: 'none',
+                        }}
+                            onClick={() => filterCategory(null)}
+                        >
+                            All
+                        </a></li>
                         {
                             categories?.map((category) => (
                                 <li><a data-toggle="tab" href="#tab1" style={{

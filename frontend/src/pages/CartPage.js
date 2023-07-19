@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { addToCart, removeFromCart } from '../actions/cartActions';
 import { addToWishlist, removeFromWishlist } from '../actions/wishActions';
-import { Text, Button, Badge } from '@mantine/core';
+import { Button, Group } from '@mantine/core';
 
 function CartPage() {
   const cartItems = useSelector((state) => state.cart.cartItems);
@@ -23,15 +23,25 @@ function CartPage() {
     dispatch(removeFromCart(index));
   };
 
+
   const cartQuantity = cartItems.length;
   const cartTotal = cartItems.reduce((total, item) => total + item.quantity * item.price, 0);
 
   return (
     <div className="col-md-12 clearfix">
-      <div>
-        <div className="cart-list">
+      <div style={{
+        alignContent: "center",
+        alignItems: "center",
+        margin: "200"
+        
+      }}>
+        <div className="cart-list" style={{
+          padding: "20px"
+        }}>
           {cartItems.map((item, index) => (
-            <div className="product-widget" key={index} style={{ padding: "20px" }}>
+            <div className="product-widget" key={index} style={{
+              padding: "20px"
+            }}>
               <div className="product-img">
                 <img src={item.image} alt="" />
               </div>
@@ -43,34 +53,26 @@ function CartPage() {
                   <span className="qty">{item.quantity}x</span>${item.price.toFixed(2)}
                 </h4>
               </div>
-              <Button
-                variant="light"
-                color="red"
-                style={{ marginLeft: 'auto' }}
-                onClick={() => handleRemoveFromCart(index)}
-              >
-                <i className="fa fa-trash"></i> {/* You can use any icon here */}
-              </Button>
+              <button className="delete" onClick={() => handleRemoveFromCart(index)}>
+                <i className="fa fa-close"></i>
+              </button>
             </div>
           ))}
         </div>
         <div className="cart-summary">
-          <Text size="sm">
-            <Badge color="teal" variant="filled">
-              {cartQuantity}
-            </Badge>{' '}
-            Item(s) selected
-          </Text>
+          <small>{cartQuantity} Item(s) selected</small>
           <h5>SUBTOTAL: ${cartTotal.toFixed(2)}</h5>
         </div>
-        <div className="cart-btns" style={{ fontSize: "20px" }}>
-          <Link to="/checkout">
-            <Button color="blue" size="lg" fullWidth>
+        <Group>
+          <Button>
+            <Link to="/checkout">
               Checkout <i className="fa fa-arrow-circle-right"></i>
-            </Button>
-          </Link>
-        </div>
+            </Link>
+          </Button>
+         
+        </Group>
       </div>
+
     </div>
   );
 }

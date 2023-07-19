@@ -56,7 +56,7 @@ function Store() {
 
   return (
     <div className="section">
-      <div className="container">
+      <div>
         <div className="row">
           <CatSidebar
             max={maxPrice || maxPriceSlider}

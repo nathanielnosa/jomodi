@@ -130,11 +130,6 @@ function CatSidebar({ max, min, selectedBrands, onBrandChange, updateMaxPrice, u
                         </Accordion.Panel>
                     </Accordion.Item>
                 </Accordion>
-
-            </div>
-
-            {/* Rest of the code */}
-            <div className="aside">
                 <Accordion radius="xl" defaultValue="customization">
                     <Accordion.Item value="customization">
                         <Accordion.Control style={{

@@ -8,10 +8,11 @@ import { Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { addToCart } from "../actions/cartActions";
 import { addToWishlist } from "../actions/wishActions";
-import { Notification } from "@mantine/core";
+import { Notification, Alert } from "@mantine/core";
 import Zoom from 'react-medium-image-zoom';
 import 'react-medium-image-zoom/dist/styles.css';
 import '../styles/imageZoom.css'
+import { notifications } from '@mantine/notifications';
 
 function Product() {
     const { id } = useParams();
@@ -23,17 +24,77 @@ function Product() {
     const [showWishlistNotification, setShowWishlistNotification] = React.useState(false);
     const [zoomImage, setZoomImage] = useState("");
     const dispatch = useDispatch();
-
     const handleAddToCart = (product) => {
         dispatch(addToCart(product));
-        setShowCartNotification(true);
+        notifications.show({
+            title: 'Successfully Added to Cart',
+            message: 'Successfully Added Cart! 🤥',
+            styles: (theme) => ({
+                root: {
+                    backgroundColor: theme.colors.green[6],
+                    borderColor: theme.colors.green[6],
 
+                    '&::before': { backgroundColor: theme.white },
+                },
+
+                title: { color: theme.white },
+                description: { color: theme.white },
+                closeButton: {
+                    color: theme.white,
+                    '&:hover': { backgroundColor: theme.colors.green[7] },
+                },
+            }),
+        })
     };
 
     const handleAddToWishlist = (product) => {
         dispatch(addToWishlist(product));
-        setShowWishlistNotification(true);
+        notifications.show({
+            title: 'Successfully Added your Wish List',
+            message: 'Successfully Added your Wish List! 🤥',
+            styles: (theme) => ({
+                root: {
+                    backgroundColor: theme.colors.green[6],
+                    borderColor: theme.colors.green[6],
+
+                    '&::before': { backgroundColor: theme.white },
+                },
+
+                title: { color: theme.white },
+                description: { color: theme.white },
+                closeButton: {
+                    color: theme.white,
+                    '&:hover': { backgroundColor: theme.colors.green[7] },
+                },
+            }),
+        })
     };
+
+
+
+    useEffect(() => {
+        if (showWishlistNotification) {
+            // Set a timeout of 2 seconds to close the alert
+            const timeoutId = setTimeout(() => {
+                setShowWishlistNotification(false);
+            }, 2000);
+
+            // Clean up the timeout when the component unmounts or when the alert is closed manually
+            return () => clearTimeout(timeoutId);
+        }
+    }, [showWishlistNotification]);
+
+    useEffect(() => {
+        if (showCartNotification) {
+            // Set a timeout of 2 seconds to close the alert
+            const timeoutId = setTimeout(() => {
+                setShowCartNotification(false);
+            }, 2000);
+
+            // Clean up the timeout when the component unmounts or when the alert is closed manually
+            return () => clearTimeout(timeoutId);
+        }
+    }, [showCartNotification]);
 
     const addQuantity = () => {
         setQuantity(quantity + 1);
@@ -45,10 +106,13 @@ function Product() {
         }
     };
 
+    const totalSlides = images?.length;
+    const slidesToShow = Math.min(totalSlides, 5);
+
     const settings = {
         vertical: true,
         infinite: true,
-        slidesToShow: 3,
+        slidesToShow: slidesToShow,
         slidesToScroll: 3,
         dots: true,
         verticalSwiping: true,
@@ -65,9 +129,6 @@ function Product() {
                 },
             },
         ],
-        // Set the slider height to 100px
-        // Note: You can adjust the height as needed
-        // Make sure to add this style to your CSS file or inline style
     };
 
     useEffect(() => {
@@ -167,7 +228,7 @@ function Product() {
             <div className="section">
                 <div className="container">
                     <div className="row">
-                        <div className="col-md-5 col-md-push-2">
+                        <div className="col-md-5 col-md-push-24">
                             <div id="product-main-img" >
                                 <div className="product-preview">
                                     <img src={zoomImage || product.image} alt="" />
@@ -176,13 +237,15 @@ function Product() {
                             </div>
                         </div>
 
-                        <div className="col-md-2  col-md-pull-5" style={{
+                        <div className="col-md-1  col-md-pull-6" style={{
                             height: '100px',
                         }}>
                             <div id="product-imgs">
                                 <Slider {...settings}>
                                     {images.map((image, index) => (
-                                        <div key={index} className="product-preview">
+                                        <div key={index} className="product-preview" style={{
+                                            height: '10px',
+                                        }}>
                                             <img src={image.image} alt="" onMouseEnter={() => setZoomImage(image.image)} />
                                         </div>
                                     ))}
@@ -352,30 +415,40 @@ function Product() {
 
             <div className="section">
                 <div className="container">
+                   
                     <div className="row">
                         <div className="col-md-12">
                             <div className="section-title text-center">
                                 <h3 className="title">Related Products</h3>
+                                {" "}
+                                {showCartNotification && (
+                                    <Alert
+                                        title="Added to Cart"
+                                        color="green"
+                                        radius="xl"
+                                        variant="filled"
+                                        withCloseButton
+                                        closeButtonLabel="Close alert"
+                                        onClose={() => setShowCartNotification(false)}
+                                    ></Alert>
+                                )}
+                                {showWishlistNotification && (
+                                    <Alert
+                                        title="Added to Wishlist"
+                                        color="green"
+                                        radius="xl"
+                                        variant="filled"
+                                        withCloseButton
+                                        closeButtonLabel="Close alert"
+                                        onClose={() => setShowWishlistNotification(false)}
+                                    />
+                                )}
                             </div>
                         </div>
 
                         {relatedProducts.map((product, index) => (
                             <div className="col-md-3 col-xs-6">
-                                {
-                                    showCartNotification && (
-                                        <Notification color="green" radius="xs" title="Added to Cart"
-                                            onClose={() => setShowCartNotification(false)}
-                                        ></Notification>
-                                    )
-                                }
-
-                                {
-                                    showWishlistNotification && (
-                                        <Notification color="green" radius="xs" title="Added to Wishlist"
-                                            onClose={() => setShowWishlistNotification(false)}
-                                        ></Notification>
-                                    )
-                                }
+                            
                                 <div className="product">
                                     <Link to={`/product/${product.id}`} style={{
                                         textDecoration: 'none',

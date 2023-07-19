@@ -9,8 +9,6 @@ import Category from '../pages/Category';
 import SearchPage from '../pages/SearchPage';
 import WishListPage from '../pages/WishListPage';
 import CartPage from '../pages/CartPage';
-import NewProduct from '../pages/NewProduct';
-import TopProduct from '../pages/TopProduct';
 
 function MainRoute() {
     return (
@@ -22,8 +20,6 @@ function MainRoute() {
                 <Route path="/wishlist" element={<WishListPage />} />
                 <Route path="/cart" element={<CartPage />} />
                 <Route path="/product/:id" element={<Product />} />
-                <Route path="/newproduct/:id" element={<NewProduct />} />
-                <Route path="/topproduct/:id" element={<TopProduct />} />
                 <Route path="/category/:id" element={<Category />} />
                 <Route path="search/:keyword/:categoryid" element={<SearchPage />} />
 

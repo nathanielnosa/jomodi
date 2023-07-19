@@ -16,7 +16,7 @@ function TopSelling({ product }) {
     const [category, setCategory] = useState()
 
     useEffect(() => {
-        axios.get(`${API_URL}product/top_product_detail/`)
+        axios.get(`${API_URL}product/top_product/`)
             .then(res => {
                 setProducts(res.data.results)
             })
@@ -30,9 +30,12 @@ function TopSelling({ product }) {
         setTimeout(startAutoSlide, 1000); // Start the auto-slide again after 3 seconds
     };
 
+    const totalSlides = products?.length;
+    const slidesToShow = totalSlides > 4 ? Math.min(totalSlides, 5) : totalSlides ;
+
     const settings = {
         infinite: true,
-        slidesToShow: 4,
+        slidesToShow: slidesToShow,
         slidesToScroll: 3,
         dots: true,
         autoplay: true,
@@ -55,12 +58,12 @@ function TopSelling({ product }) {
                 },
             },
         ],
-        autoplaySpeed: 3000,
+        autoplaySpeed: 2000,
     };
 
     return (
         <div className="section">
-            <div className="container">
+            <div>
                 <div className="row">
                   <TopSellingTab filterCategory={setCategory} />
                     <div className="col-md-12">
