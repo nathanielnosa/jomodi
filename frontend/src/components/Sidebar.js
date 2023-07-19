@@ -113,7 +113,7 @@ function Sidebar({ max, min, selectedCategories, selectedBrands, onCategoryChang
 									<label htmlFor={`category-${category.id}`}>
 										<span></span>
 										{category.name}
-										<small>(120)</small>
+										{/* <small>(120)</small> */}
 									</label>
 								</div>
 							))}
@@ -199,7 +199,7 @@ function Sidebar({ max, min, selectedCategories, selectedBrands, onCategoryChang
 										<label htmlFor={`brand-${brand.id}`}>
 											<span></span>
 											{brand.name}
-											<small>(578)</small>
+											{/* <small>(578)</small> */}
 										</label>
 									</div>
 								))}

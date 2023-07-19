@@ -150,7 +150,7 @@ function CatSidebar({ max, min, selectedBrands, onBrandChange, updateMaxPrice, u
                                         <label htmlFor={`brand-${brand.id}`}>
                                             <span></span>
                                             {brand.name}
-                                            <small>(578)</small>
+                                            {/* <small>(578)</small> */}
                                         </label>
                                     </div>
                                 ))}
