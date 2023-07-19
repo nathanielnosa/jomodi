@@ -89,7 +89,7 @@ function TopProductCard({ product }) {
                     <div className="product-body">
                         <p className="product-category">{product?.category?.name}</p>
                         <h3 className="product-name">
-                            <Link to={`/newproduct/${product.id}`}
+                            <Link to={`/product/${product.id}`}
                                 style={{
                                     textDecoration: 'none',
                                 }}
