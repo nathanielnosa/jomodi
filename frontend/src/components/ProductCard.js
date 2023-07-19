@@ -37,7 +37,7 @@ function ProductCard({ product }) {
     }, [showCartNotification]);
 
     const handleAddToCart = (product) => {
-        dispatch(addToCart(product));
+        dispatch(addToCart(product, 1));
         notifications.show({
             title: 'Successfully Added to Cart',
             message: 'Successfully Added Cart! 🤥',
@@ -84,29 +84,7 @@ function ProductCard({ product }) {
 
     return (
         <>
-            {/* {" "}
-            {showCartNotification && (
-                <Alert
-                    title="Added to Cart"
-                    color="green"
-                    radius="xl"
-                    variant="filled"
-                    withCloseButton
-                    closeButtonLabel="Close alert"
-                    onClose={() => setShowCartNotification(false)}
-                ></Alert>
-            )}
-            {showWishlistNotification && (
-                <Alert
-                    title="Added to Wishlist"
-                    color="green"
-                    radius="xl"
-                    variant="filled"
-                    withCloseButton
-                    closeButtonLabel="Close alert"
-                    onClose={() => setShowWishlistNotification(false)}
-                />
-            )} */}
+          
             <div className="col-md-3 col-xs-12">
                 <div className="product">
                     <Link

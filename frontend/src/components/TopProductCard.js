@@ -12,7 +12,8 @@ function TopProductCard({ product }) {
     const [showWishlistNotification, setShowWishlistNotification] = React.useState(false);
 
     const handleAddToCart = (product) => {
-        dispatch(addToCart(product));
+        dispatch(addToCart(product, 1));
+        
         notifications.show({
             title: 'Successfully Added to Cart',
             message: 'Successfully Added Cart! 🤥',
@@ -88,7 +89,7 @@ function TopProductCard({ product }) {
                     <div className="product-body">
                         <p className="product-category">{product?.category?.name}</p>
                         <h3 className="product-name">
-                            <Link to={`/newproduct/${product.id}`}
+                            <Link to={`/product/${product.id}`}
                                 style={{
                                     textDecoration: 'none',
                                 }}

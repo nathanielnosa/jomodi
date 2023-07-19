@@ -107,7 +107,7 @@ function NewProductCard({ product }) {
                     </Button>
                 </Group> */}
                 <div className="product">
-                    <Link to={`/newproduct/${product.id}`} style={{
+                    <Link to={`/product/${product.id}`} style={{
                         textDecoration: 'none',
                     }}>
                         <div className="product-img">
