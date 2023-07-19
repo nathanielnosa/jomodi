@@ -25,7 +25,7 @@ function Product() {
     const [zoomImage, setZoomImage] = useState("");
     const dispatch = useDispatch();
     const handleAddToCart = (product) => {
-        dispatch(addToCart(product));
+        dispatch(addToCart(product, quantity));
         notifications.show({
             title: 'Successfully Added to Cart',
             message: 'Successfully Added Cart! 🤥',
@@ -45,6 +45,31 @@ function Product() {
                 },
             }),
         })
+        
+    };
+
+    const handleAddToCart2 = (product) => {
+        dispatch(addToCart(product, 1));
+        notifications.show({
+            title: 'Successfully Added to Cart',
+            message: 'Successfully Added Cart! 🤥',
+            styles: (theme) => ({
+                root: {
+                    backgroundColor: theme.colors.green[6],
+                    borderColor: theme.colors.green[6],
+
+                    '&::before': { backgroundColor: theme.white },
+                },
+
+                title: { color: theme.white },
+                description: { color: theme.white },
+                closeButton: {
+                    color: theme.white,
+                    '&:hover': { backgroundColor: theme.colors.green[7] },
+                },
+            }),
+        })
+
     };
 
     const handleAddToWishlist = (product) => {
@@ -86,12 +111,10 @@ function Product() {
 
     useEffect(() => {
         if (showCartNotification) {
-            // Set a timeout of 2 seconds to close the alert
             const timeoutId = setTimeout(() => {
                 setShowCartNotification(false);
             }, 2000);
 
-            // Clean up the timeout when the component unmounts or when the alert is closed manually
             return () => clearTimeout(timeoutId);
         }
     }, [showCartNotification]);
@@ -255,21 +278,7 @@ function Product() {
 
                         <div className="col-md-5">
                             <div className="product-details">
-                                {
-                                    showCartNotification && (
-                                        <Notification color="green" radius="xs" title="Added to Cart"
-                                            onClose={() => setShowCartNotification(false)}
-                                        ></Notification>
-                                    )
-                                }
-
-                                {
-                                    showWishlistNotification && (
-                                        <Notification color="green" radius="xs" title="Added to Wishlist"
-                                            onClose={() => setShowWishlistNotification(false)}
-                                        ></Notification>
-                                    )
-                                }
+                               
                                 <h2 className="product-name">{product?.name}</h2>
                                 <div>
 
@@ -311,6 +320,7 @@ function Product() {
                                         Qty
                                         <div className="input-number">
                                             <input
+                                            className="input-select"
                                                 type="number"
                                                 value={quantity}
                                                 onChange={(e) => setQuantity(e.target.value)}
@@ -328,6 +338,19 @@ function Product() {
                                         onClick={() => handleAddToCart(product)}
                                     >
                                         <i className="fa fa-shopping-cart"></i> add to cart
+                                    </button>
+
+                                    <button
+                                        className="add-to-cart-btn"
+                                        onClick={() => {handleAddToCart(product);
+                                        alert("Working on Payment")
+                                        }}
+                                        style={{
+                                            marginLeft: '20px',
+                                            backgroundColor: "yellowgreen"
+                                        }}
+                                    >
+                                        <i className="fa fa-shopping-cart"></i> buy now
                                     </button>
                                 </div>
 
@@ -454,7 +477,11 @@ function Product() {
                                         textDecoration: 'none',
                                     }}>
                                         <div className="product-img">
-                                            <img src={product.image} alt="" />
+                                            <img src={product.image} alt=""
+                                            style={{
+                                                height: "200px"
+                                            }}
+                                            />
                                             <div className="product-label">
                                                 <span className="sale">-30%</span>
                                             </div>
@@ -501,7 +528,7 @@ function Product() {
                                     <div className="add-to-cart">
                                         <button
                                             className="add-to-cart-btn"
-                                            onClick={() => handleAddToCart(product)}
+                                            onClick={() => handleAddToCart2(product)}
                                         >
                                             <i className="fa fa-shopping-cart"></i> add to cart
                                         </button>

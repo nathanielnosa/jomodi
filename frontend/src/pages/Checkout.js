@@ -67,7 +67,7 @@ function Checkout() {
                                 <div className="form-group">
                                     <input className="input" type="tel" name="tel" placeholder="Telephone" />
                                 </div>
-                                <div className="form-group">
+                                {/* <div className="form-group">
                                     <div className="input-checkbox">
                                         <input type="checkbox" id="create-account" />
                                         <label htmlFor="create-account">
@@ -79,7 +79,7 @@ function Checkout() {
                                             <input className="input" type="password" name="password" placeholder="Enter Your Password" />
                                         </div>
                                     </div>
-                                </div>
+                                </div> */}
                             </div>
 
                             <div className="shiping-details">
