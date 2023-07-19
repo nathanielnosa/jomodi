@@ -364,14 +364,20 @@ function Product() {
                                     </button>
 
                                     <button
-                                        className="add-to-cart-btn"
+                                        
                                         onClick={() => {
                                             handleAddToCart(product);
                                             alert("Working on Payment")
                                         }}
                                         style={{
                                             marginLeft: '20px',
-                                            backgroundColor: "yellowgreen"
+                                            backgroundColor: "yellowgreen",
+                                            padding: '7px',
+                                            width: '100px',
+                                            border: '0px',
+                                            borderRadius: '5px',
+                                            textTransform: 'capitalize',
+                                            fontWeight: 'bold'
                                         }}
                                     >
                                         <i className="fa fa-shopping-cart"></i> buy now

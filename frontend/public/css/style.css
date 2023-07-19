@@ -206,13 +206,26 @@ textarea.input {
     /* Remove outline on focus */
 }
 
+.input-select2 {
+    appearance: none; /* Remove default arrow */
+      background-color: #f1f1f1;
+      border: 1px solid #ccc;
+      padding: 8px 15px;
+      font-size: 16px;
+      border-radius: 5px;
+      width: 150px;
+      outline: none; 
+      margin-left: 10px;
+    /* Remove outline on focus */
+}
+
     /* Style the arrow icon */
     .input-select::after {
       content: '\f0d7'; /* Unicode for the FontAwesome down-arrow icon */
       font-family: 'FontAwesome';
       position: absolute;
       top: 50%;
-      right: 15px;
+      right: 10px;
       transform: translateY(-50%);
       pointer-events: none;
     }
@@ -334,7 +347,7 @@ textarea.input {
 \*----------------------------*/
 
 .section {
-  padding-top: 10px;
+  padding-top: 30px;
   padding-bottom: 30px;
 }
 

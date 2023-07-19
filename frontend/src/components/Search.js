@@ -23,7 +23,7 @@ function Search() {
       <div className="col-md-6">
           <div className="header-search">
               <form>
-                  <select className="input-select" value={category} onChange={
+                  <select className="input-select2" value={category} onChange={
                         (e) => setCategory(e.target.value)
                   }>
                       <option value="0">All Categories</option>
