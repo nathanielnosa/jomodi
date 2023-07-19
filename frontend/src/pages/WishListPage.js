@@ -60,7 +60,13 @@ function WishListPage() {
                 </div>
               </div>
             ))}
+            
           </div>
+          <button className="btn btn-danger btn-lg">
+            <i className="fa fa-money-bill"></i>
+            Buy Now
+          </button>
+         
 
         </div>
       </div>
