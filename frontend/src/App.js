@@ -12,11 +12,13 @@ import Header from './components/Header';
 import Footer from './components/Footer';
 import NavCat from './components/NavCat';
 import store from './actions/store';
+import { Notifications } from '@mantine/notifications';
 
 
 function App() {
   return (
     <Provider store={store}>
+      <Notifications position="top-right" zIndex={2077} />
         <Router>
         <Header />
           <Routes>

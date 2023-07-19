@@ -3,7 +3,7 @@ import axios from 'axios';
 import { API_URL } from '../constants';
 import { Link } from 'react-router-dom';
 import Slider from '@mui/material/Slider';
-import { Accordion } from '@mantine/core';
+import { Accordion, Text } from '@mantine/core';
 
 function Sidebar({ max, min, selectedCategories, selectedBrands, onCategoryChange, onBrandChange, updateMaxPrice, updateMinPrice }) {
 	const [categories, setCategories] = useState([]);
@@ -92,7 +92,7 @@ function Sidebar({ max, min, selectedCategories, selectedBrands, onCategoryChang
 
 	return (
 		<div id="aside" className="col-md-3">
-		
+			
 			<div className="aside">
 				<Accordion radius="xl" defaultValue="customization">
 					<Accordion.Item value="customization">
@@ -120,10 +120,6 @@ function Sidebar({ max, min, selectedCategories, selectedBrands, onCategoryChang
 						</Accordion.Panel>
 					</Accordion.Item>
 				</Accordion>
-				
-			</div>
-
-			<div className="aside">
 				<Accordion radius="xl" defaultValue="customization">
 					<Accordion.Item value="customization">
 						<Accordion.Control style={{
@@ -183,11 +179,6 @@ function Sidebar({ max, min, selectedCategories, selectedBrands, onCategoryChang
 						</Accordion.Panel>
 					</Accordion.Item>
 				</Accordion>
-			
-			</div>
-
-			{/* Rest of the code */}
-			<div className="aside">
 				<Accordion radius="xl" defaultValue="customization">
 					<Accordion.Item value="customization">
 						<Accordion.Control style={{

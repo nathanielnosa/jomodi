@@ -16,7 +16,7 @@ function NewProduct({ product }) {
     const [category, setCategory] = useState()
 
     useEffect(() => {
-        axios.get(`${API_URL}product/new_product_detail//`)
+        axios.get(`${API_URL}product/new_product/`)
             .then(res => {
                 setProducts(res.data.results)
             })
@@ -29,10 +29,13 @@ function NewProduct({ product }) {
         sliderRef.current.slickNext(); // Go to the next slide
         setTimeout(startAutoSlide, 1000); // Start the auto-slide again after 3 seconds
     };
+    const totalSlides = products?.length;
+    const slidesToShow = totalSlides > 4 ? Math.min(totalSlides, 5) : totalSlides;
+    const slidesToScroll = category ? 2 : 3;
 
     const settings = {
         infinite: true,
-        slidesToShow: 4,
+        slidesToShow: slidesToShow,
         slidesToScroll: 3,
         dots: true,
         autoplay: true,
@@ -55,12 +58,12 @@ function NewProduct({ product }) {
                 },
             },
         ],
-        autoplaySpeed: 3000,
+        autoplaySpeed: 2000,
     };
 
     return (
         <div className="section">
-            <div className="container">
+            <div>
                 <div className="row">
                     <NewProductTab filterCategory={setCategory} />
                     <div className="col-md-12">
@@ -70,11 +73,11 @@ function NewProduct({ product }) {
                                     <Slider {...settings} ref={sliderRef}>
                                         {
                                             category ? products?.filter(product => product.category === category).map((product, index) => (
-                                                <NewProductCard product={product} />
+                                                <NewProductCard product={product} key={index} />
                                             ))
                                                 :
                                                 products?.map((product, index) => (
-                                                    <NewProductCard product={product} />
+                                                    <NewProductCard product={product} key={index} />
                                                 ))
                                         }
                                     </Slider>

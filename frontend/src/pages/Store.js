@@ -59,7 +59,7 @@ console.log((selectedCategories.length === 0 && selectedBrands.length === 0) ||
 
 return (
   <div className="section">
-    <div className="container">
+    <div>
       <div className="row">
         <Sidebar
           max={maxPrice}

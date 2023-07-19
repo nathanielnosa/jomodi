@@ -3,7 +3,8 @@ import { useSelector, useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { addToCart } from '../actions/cartActions';
 import { addToWishlist } from '../actions/wishActions';
-import { Notification } from '@mantine/core';
+import { notifications } from '@mantine/notifications';
+import { Group, Button } from '@mantine/core';
 import NewProduct from './NewProduct';
 
 function NewProductCard({ product }) {
@@ -13,19 +14,55 @@ function NewProductCard({ product }) {
 
     const handleAddToCart = (product) => {
         dispatch(addToCart(product));
-        setShowCartNotification(true);
+        notifications.show({
+            title: 'Successfully Added to Cart',
+            message: 'Successfully Added Cart! 🤥',
+            styles: (theme) => ({
+                root: {
+                    backgroundColor: theme.colors.green[6],
+                    borderColor: theme.colors.green[6],
+
+                    '&::before': { backgroundColor: theme.white },
+                },
+
+                title: { color: theme.white },
+                description: { color: theme.white },
+                closeButton: {
+                    color: theme.white,
+                    '&:hover': { backgroundColor: theme.colors.green[7] },
+                },
+            }),
+        })
     };
 
     const handleAddToWishlist = (product) => {
         dispatch(addToWishlist(product));
-        setShowWishlistNotification(true);
+        notifications.show({
+            title: 'Successfully Added your Wish List',
+            message: 'Successfully Added your Wish List! 🤥',
+            styles: (theme) => ({
+                root: {
+                    backgroundColor: theme.colors.green[6],
+                    borderColor: theme.colors.green[6],
+
+                    '&::before': { backgroundColor: theme.white },
+                },
+
+                title: { color: theme.white },
+                description: { color: theme.white },
+                closeButton: {
+                    color: theme.white,
+                    '&:hover': { backgroundColor: theme.colors.green[7] },
+                },
+            }),
+        })
     };
 
     return (
         <>
 
             <div className="col-md-12 col-xs-12">
-                {
+                {/* {
                     showCartNotification && (
                         <Notification color="green" radius="xs" title="Added to Cart"
                             onClose={() => setShowCartNotification(false)}
@@ -40,8 +77,35 @@ function NewProductCard({ product }) {
                             onClose={() => setShowWishlistNotification(false)}
                         ></Notification>
                     )
-                }
+                } */}
+                {/* <Group position="center">
+                    <Button
+                        variant="outline"
+                        onClick={() =>
+                            notifications.show({
+                                title: 'Successfully Added to Cart',
+                                message: 'Hey there, your code is awesome! 🤥',
+                                styles: (theme) => ({
+                                    root: {
+                                        backgroundColor: theme.colors.blue[6],
+                                        borderColor: theme.colors.blue[6],
 
+                                        '&::before': { backgroundColor: theme.white },
+                                    },
+
+                                    title: { color: theme.white },
+                                    description: { color: theme.white },
+                                    closeButton: {
+                                        color: theme.white,
+                                        '&:hover': { backgroundColor: theme.colors.blue[7] },
+                                    },
+                                }),
+                            })
+                        }
+                    >
+                        Show customized notification
+                    </Button>
+                </Group> */}
                 <div className="product">
                     <Link to={`/newproduct/${product.id}`} style={{
                         textDecoration: 'none',
@@ -52,12 +116,12 @@ function NewProductCard({ product }) {
                                 alt=""
                                 style={{
                                     width: '100%',
-                                    height: '300px',
+                                    height: '200px',
                                 }}
                             />
                             <div className="product-label">
                                 {
-                                    product?.discount != 0 ? <span className="sale">-{product?.discount}%</span> : ''
+                                    (product?.discount > 0 || product?.discount < 0) ? <span className="sale">-{product?.discount}%</span> : ''
                                 }
                                 {
                                     product?.new == true ? <span className="new">NEW</span> : ''
@@ -65,7 +129,7 @@ function NewProductCard({ product }) {
                             </div>
                         </div>
                     </Link>
-                    <div className="product-body">
+                    <div className="product-body" >
                         <p className="product-category">{product?.category?.name}</p>
                         <h3 className="product-name">
                             <Link to={`/product/${product.id}`}

@@ -3,8 +3,8 @@ import { useSelector, useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { addToCart } from '../actions/cartActions';
 import { addToWishlist } from '../actions/wishActions';
-import { Notification } from '@mantine/core';
-import TopProduct from '../pages/TopProduct';
+import { notifications } from '@mantine/notifications';
+
 
 function TopProductCard({ product }) {
     const dispatch = useDispatch();
@@ -13,35 +13,55 @@ function TopProductCard({ product }) {
 
     const handleAddToCart = (product) => {
         dispatch(addToCart(product));
-        setShowCartNotification(true);
+        notifications.show({
+            title: 'Successfully Added to Cart',
+            message: 'Successfully Added Cart! 🤥',
+            styles: (theme) => ({
+                root: {
+                    backgroundColor: theme.colors.green[6],
+                    borderColor: theme.colors.green[6],
+
+                    '&::before': { backgroundColor: theme.white },
+                },
+
+                title: { color: theme.white },
+                description: { color: theme.white },
+                closeButton: {
+                    color: theme.white,
+                    '&:hover': { backgroundColor: theme.colors.green[7] },
+                },
+            }),
+        })
     };
 
     const handleAddToWishlist = (product) => {
         dispatch(addToWishlist(product));
-        setShowWishlistNotification(true);
+        notifications.show({
+            title: 'Successfully Added your Wish List',
+            message: 'Successfully Added your Wish List! 🤥',
+            styles: (theme) => ({
+                root: {
+                    backgroundColor: theme.colors.green[6],
+                    borderColor: theme.colors.green[6],
+
+                    '&::before': { backgroundColor: theme.white },
+                },
+
+                title: { color: theme.white },
+                description: { color: theme.white },
+                closeButton: {
+                    color: theme.white,
+                    '&:hover': { backgroundColor: theme.colors.green[7] },
+                },
+            }),
+        })
     };
 
     return (
         <>
 
             <div className="col-md-12 col-xs-12">
-                {
-                    showCartNotification && (
-                        <Notification color="green" radius="xs" title="Added to Cart"
-                            onClose={() => setShowCartNotification(false)}
-                        ></Notification>
-
-                    )
-                }
-
-                {
-                    showWishlistNotification && (
-                        <Notification color="green" radius="xs" title="Added to Wishlist"
-                            onClose={() => setShowWishlistNotification(false)}
-                        ></Notification>
-                    )
-                }
-
+            
                 <div className="product">
                     <Link to={`/product/${product.id}`} style={{
                         textDecoration: 'none',
@@ -52,12 +72,12 @@ function TopProductCard({ product }) {
                                 alt=""
                                 style={{
                                     width: '100%',
-                                    height: '300px',
+                                    height: '200px',
                                 }}
                             />
                             <div className="product-label">
                                 {
-                                    product?.discount != 0 ? <span className="sale">-{product?.discount}%</span> : ''
+                                    (product?.discount > 0 || product?.discount < 0) ? <span className="sale">-{product?.discount}%</span> : ''
                                 }
                                 {
                                     product?.new == true ? <span className="new">NEW</span> : ''
@@ -77,13 +97,13 @@ function TopProductCard({ product }) {
                         <h4 className="product-price">
                             ₹{product?.price} <del className="product-old-price">₹{product?.cancel_price}</del>
                         </h4>
-                        <div className="product-rating">
+                        {/* <div className="product-rating">
                             <i className="fa fa-star"></i>
                             <i className="fa fa-star"></i>
                             <i className="fa fa-star"></i>
                             <i className="fa fa-star"></i>
                             <i className="fa fa-star"></i>
-                        </div>
+                        </div> */}
                         <div className="product-btns">
                             <button className="add-to-wishlist" onClick={() => handleAddToWishlist(product)}><i className="fa fa-heart-o"></i><span className="tooltipp">add to wishlist</span></button>
 
