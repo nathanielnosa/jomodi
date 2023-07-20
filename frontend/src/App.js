@@ -18,7 +18,7 @@ import { Notifications } from '@mantine/notifications';
 function App() {
   return (
     <Provider store={store}>
-      <Notifications position="top-right" zIndex={2077} />
+      <Notifications position="top-center" zIndex={2077} />
         <Router>
         <Header />
           <Routes>

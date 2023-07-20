@@ -121,9 +121,6 @@ function Checkout() {
                                 </div>
                             </div>
 
-                            <div className="order-notes">
-                                <textarea className="input" placeholder="Order Notes"></textarea>
-                            </div>
 
                         </div>
 

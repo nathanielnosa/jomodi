@@ -57,7 +57,7 @@ function HomeTop() {
                     {
                         categories?.map((category, index) => (
                             <div className="col-md-3 col-xs-12">
-                                <Link to={`/category/${category.id}`} className="cta-btn">
+                                <Link to={`/category/${category.id}/${category.name}`} className="cta-btn">
                                     <div className="shop"
                                         style={{
                                             backgroundImage: `url(${category.image})`,

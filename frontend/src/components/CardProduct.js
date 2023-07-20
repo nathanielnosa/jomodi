@@ -73,7 +73,7 @@ function CardProduct({ product }) {
                
 
                 <div className="product">
-                    <Link to={`/product/${product.id}`} style={{
+                    <Link to={`/product/${product.id}/${product.name}`} style={{
                         textDecoration: 'none',
                     }}>
                         <div className="product-img">
@@ -98,7 +98,7 @@ function CardProduct({ product }) {
                     <div className="product-body">
                         <p className="product-category">{product?.category?.name}</p>
                         <h3 className="product-name">
-                            <Link to={`/product/${product.id}`}
+                            <Link to={`/product/${product.id}/${product.name}`}
                                 style={{
                                     textDecoration: 'none',
                                 }}
@@ -119,7 +119,7 @@ function CardProduct({ product }) {
 
 
                             <button className="quick-view">
-                                <Link to={`/product/${product.id}`}>
+                                <Link to={`/product/${product.id}/${product.name}`}>
                                     <i className="fa fa-eye"></i><span className="tooltipp">quick view</span>
                                 </Link>
                             </button>

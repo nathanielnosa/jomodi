@@ -58,6 +58,7 @@ function Store() {
     <div className="section">
       <div>
         <div className="row">
+          {maxPrice !== 0 && minPrice !== 0 && (
           <CatSidebar
             max={maxPrice || maxPriceSlider}
             min={minPrice || minPriceSlider}
@@ -66,7 +67,7 @@ function Store() {
             updateMaxPrice={setMaxPriceSlider} // Pass the setMaxPrice function to update maxPrice
             updateMinPrice={setMinPriceSlider} // Pass the setMinPrice function to update minPrice
           />
-
+          )}
           <div id="store" className="col-md-9">
             <StoreTop />
             <div className="row">

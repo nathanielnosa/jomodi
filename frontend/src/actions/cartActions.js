@@ -18,3 +18,9 @@ export const removeFromCart = (index) => {
 };
 
 
+export const updateCartItemQuantity = (index, quantity) => {
+    return {
+        type: 'UPDATE_CART_ITEM_QUANTITY',
+        payload: { index, quantity },
+    };
+};

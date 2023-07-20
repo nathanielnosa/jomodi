@@ -8,13 +8,12 @@ import { Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { addToCart } from "../actions/cartActions";
 import { addToWishlist } from "../actions/wishActions";
-import { Notification, Alert } from "@mantine/core";
+import { Notification } from "@mantine/core";
 import Zoom from 'react-medium-image-zoom';
 import 'react-medium-image-zoom/dist/styles.css';
 import '../styles/imageZoom.css'
-import { notifications } from '@mantine/notifications';
 
-function Product() {
+function TopProduct() {
     const { id } = useParams();
     const [quantity, setQuantity] = useState(1);
     const [product, setProduct] = useState([]);
@@ -23,105 +22,18 @@ function Product() {
     const [showCartNotification, setShowCartNotification] = React.useState(false);
     const [showWishlistNotification, setShowWishlistNotification] = React.useState(false);
     const [zoomImage, setZoomImage] = useState("");
-    
     const dispatch = useDispatch();
+
     const handleAddToCart = (product) => {
-        dispatch(addToCart(product, quantity));
-        notifications.show({
-            title: 'Successfully Added to Cart',
-            message: 'Successfully Added Cart! 🤥',
-            styles: (theme) => ({
-                root: {
-                    backgroundColor: theme.colors.green[6],
-                    borderColor: theme.colors.green[6],
-                    height: '100px',
-                    width: 'auto',
-                    '&::before': { backgroundColor: theme.white },
-                },
-
-                title: { color: theme.white, fontSize: '20px' },
-                description: { color: theme.white },
-                closeButton: {
-                    color: theme.white,
-                    '&:hover': { backgroundColor: theme.colors.green[7] },
-                },
-            }),
-        })
-
-    };
-
-    const handleAddToCart2 = (product) => {
-        dispatch(addToCart(product, 1));
-        notifications.show({
-            title: 'Successfully Added to Cart',
-            message: 'Successfully Added Cart! 🤥',
-            styles: (theme) => ({
-                root: {
-                    backgroundColor: theme.colors.green[6],
-                    borderColor: theme.colors.green[6],
-                    height: '100px',
-                    width: 'auto',
-                    '&::before': { backgroundColor: theme.white },
-                },
-
-                title: { color: theme.white, fontSize: '20px' },
-                description: { color: theme.white },
-                closeButton: {
-                    color: theme.white,
-                    '&:hover': { backgroundColor: theme.colors.green[7] },
-                },
-            }),
-        })
+        dispatch(addToCart(product));
+        setShowCartNotification(true);
 
     };
 
     const handleAddToWishlist = (product) => {
         dispatch(addToWishlist(product));
-        notifications.show({
-            title: 'Successfully Added your Wish List',
-            message: 'Successfully Added your Wish List! 🤥',
-            styles: (theme) => ({
-                root: {
-                    backgroundColor: theme.colors.green[6],
-                    borderColor: theme.colors.green[6],
-                    height: '100px',
-                    width: 'auto',
-                    '&::before': { backgroundColor: theme.white },
-                },
-
-                title: { color: theme.white, fontSize: '20px' },
-                description: { color: theme.white },
-                closeButton: {
-                    color: theme.white,
-                    '&:hover': { backgroundColor: theme.colors.green[7] },
-                },
-            }),
-        })
+        setShowWishlistNotification(true);
     };
-
-
-
-    useEffect(() => {
-        if (showWishlistNotification) {
-            // Set a timeout of 2 seconds to close the alert
-            const timeoutId = setTimeout(() => {
-                setShowWishlistNotification(false);
-            }, 2000);
-
-            // Clean up the timeout when the component unmounts or when the alert is closed manually
-            return () => clearTimeout(timeoutId);
-        }
-    }, [showWishlistNotification]);
-
-    useEffect(() => {
-        if (showCartNotification) {
-            const timeoutId = setTimeout(() => {
-                setShowCartNotification(false);
-            }, 2000);
-
-            return () => clearTimeout(timeoutId);
-        }
-    }, [showCartNotification]);
 
     const addQuantity = () => {
         setQuantity(quantity + 1);
@@ -133,13 +45,10 @@ function Product() {
         }
     };
 
-    const totalSlides = images?.length;
-    const slidesToShow = Math.min(totalSlides, 5);
-
     const settings = {
         vertical: true,
         infinite: true,
-        slidesToShow: slidesToShow,
+        slidesToShow: 3,
         slidesToScroll: 3,
         dots: true,
         verticalSwiping: true,
@@ -156,11 +65,14 @@ function Product() {
                 },
             },
         ],
+        // Set the slider height to 100px
+        // Note: You can adjust the height as needed
+        // Make sure to add this style to your CSS file or inline style
     };
 
     useEffect(() => {
         axios
-            .get(`${API_URL}product/product_detail/${id}/`)
+            .get(`${API_URL}product/top_product_detail/${id}/`)
             .then((res) => {
                 console.log(res.data);
                 setProduct(res.data);
@@ -172,7 +84,7 @@ function Product() {
 
     useEffect(() => {
         axios
-            .get(`${API_URL}product/image_fetch/?product_id=${id}`)
+            .get(`${API_URL}product/top_image_fetch/?product_id=${id}`)
             .then((res) => {
                 console.log(res.data);
                 setImages(res.data.results);
@@ -255,7 +167,7 @@ function Product() {
             <div className="section">
                 <div className="container">
                     <div className="row">
-                        <div className="col-md-5 col-md-push-24">
+                        <div className="col-md-5 col-md-push-2">
                             <div id="product-main-img" >
                                 <div className="product-preview">
                                     <img src={zoomImage || product.image} alt="" />
@@ -264,47 +176,37 @@ function Product() {
                             </div>
                         </div>
 
-                        <div className="col-md-1  col-md-pull-6" style={{
+                        <div className="col-md-2  col-md-pull-5" style={{
                             height: '100px',
                         }}>
                             <div id="product-imgs">
-                                <Carousel
-                                    slideSize="15%"
-                                    height={700}
-                                    align="start"
-                                    orientation="vertical"
-                                    slideGap="xs"
-                                    loop
-                                    controlsOffset="xs" controlSize={51} dragFree>
+                                <Slider {...settings}>
                                     {images.map((image, index) => (
-                                        <Carousel.Slide>
-                                            <div key={index} className="product-preview">
-                                                <img src={image.image} alt="" onMouseEnter={() => setZoomImage(image.image)}
-                                                    style={{
-
-                                                        border: '1px solid black'
-                                                    }}
-                                                />
-                                            </div>
-                                        </Carousel.Slide>
-
-                                    ))}
-                                </Carousel>
-                                {/* <Slider {...settings}>
-                                    {images.map((image, index) => (
-                                        <div key={index} className="product-preview" style={{
-                                            height: '10px',
-                                        }}>
+                                        <div key={index} className="product-preview">
                                             <img src={image.image} alt="" onMouseEnter={() => setZoomImage(image.image)} />
                                         </div>
                                     ))}
-                                </Slider> */}
+                                </Slider>
                             </div>
                         </div>
 
                         <div className="col-md-5">
                             <div className="product-details">
+                                {
+                                    showCartNotification && (
+                                        <Notification color="green" radius="xs" title="Added to Cart"
+                                            onClose={() => setShowCartNotification(false)}
+                                        ></Notification>
+                                    )
+                                }
 
+                                {
+                                    showWishlistNotification && (
+                                        <Notification color="green" radius="xs" title="Added to Wishlist"
+                                            onClose={() => setShowWishlistNotification(false)}
+                                        ></Notification>
+                                    )
+                                }
                                 <h2 className="product-name">{product?.name}</h2>
                                 <div>
 
@@ -346,7 +248,6 @@ function Product() {
                                         Qty
                                         <div className="input-number">
                                             <input
-                                                className="input-select"
                                                 type="number"
                                                 value={quantity}
                                                 onChange={(e) => setQuantity(e.target.value)}
@@ -364,25 +265,6 @@ function Product() {
                                         onClick={() => handleAddToCart(product)}
                                     >
                                         <i className="fa fa-shopping-cart"></i> add to cart
-                                    </button>
-
-                                    <button
-                                        
-                                        onClick={() => {
-                                            alert("Working on Payment")
-                                        }}
-                                        style={{
-                                            marginLeft: '20px',
-                                            backgroundColor: "yellowgreen",
-                                            padding: '7px',
-                                            width: '100px',
-                                            border: '0px',
-                                            borderRadius: '5px',
-                                            textTransform: 'capitalize',
-                                            fontWeight: 'bold'
-                                        }}
-                                    >
-                                        <i className="fa fa-shopping-cart"></i> buy now
                                     </button>
                                 </div>
 
@@ -470,50 +352,36 @@ function Product() {
 
             <div className="section">
                 <div className="container">
-
                     <div className="row">
                         <div className="col-md-12">
                             <div className="section-title text-center">
                                 <h3 className="title">Related Products</h3>
-                                {" "}
-                                {showCartNotification && (
-                                    <Alert
-                                        title="Added to Cart"
-                                        color="green"
-                                        radius="xl"
-                                        variant="filled"
-                                        withCloseButton
-                                        closeButtonLabel="Close alert"
-                                        onClose={() => setShowCartNotification(false)}
-                                    ></Alert>
-                                )}
-                                {showWishlistNotification && (
-                                    <Alert
-                                        title="Added to Wishlist"
-                                        color="green"
-                                        radius="xl"
-                                        variant="filled"
-                                        withCloseButton
-                                        closeButtonLabel="Close alert"
-                                        onClose={() => setShowWishlistNotification(false)}
-                                    />
-                                )}
                             </div>
                         </div>
 
                         {relatedProducts.map((product, index) => (
                             <div className="col-md-3 col-xs-6">
+                                {
+                                    showCartNotification && (
+                                        <Notification color="green" radius="xs" title="Added to Cart"
+                                            onClose={() => setShowCartNotification(false)}
+                                        ></Notification>
+                                    )
+                                }
 
+                                {
+                                    showWishlistNotification && (
+                                        <Notification color="green" radius="xs" title="Added to Wishlist"
+                                            onClose={() => setShowWishlistNotification(false)}
+                                        ></Notification>
+                                    )
+                                }
                                 <div className="product">
                                     <Link to={`/product/${product.id}`} style={{
                                         textDecoration: 'none',
                                     }}>
                                         <div className="product-img">
-                                            <img src={product.image} alt=""
-                                                style={{
-                                                    height: "200px"
-                                                }}
-                                            />
+                                            <img src={product.image} alt="" />
                                             <div className="product-label">
                                                 <span className="sale">-30%</span>
                                             </div>
@@ -560,7 +428,7 @@ function Product() {
                                     <div className="add-to-cart">
                                         <button
                                             className="add-to-cart-btn"
-                                            onClick={() => handleAddToCart2(product)}
+                                            onClick={() => handleAddToCart(product)}
                                         >
                                             <i className="fa fa-shopping-cart"></i> add to cart
                                         </button>
@@ -575,4 +443,4 @@ function Product() {
     );
 }
 
-export default Product;
+export default TopProduct;

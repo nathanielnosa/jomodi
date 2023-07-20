@@ -39,14 +39,6 @@ function NewProduct({ product }) {
         slidesToScroll: 3,
         dots: true,
         autoplay: true,
-        appendDots: (dots) => <ul>{dots}</ul>,
-        customPaging: (i) => <li style={{
-            fontWeight: 'bold',
-            color: 'black',
-            fontSize: '20px',
-            marginLeft: 'auto',
-            marginRight: '0',
-        }}>{i === 0 ? '<' : '>'}</li>, // Custom paging with "<" and ">" icons
         responsive: [
             {
                 breakpoint: 768,
@@ -70,7 +62,7 @@ function NewProduct({ product }) {
                         <div className="row">
                             <div className="products-tabs">
                                 <div id="tab1" className="tab-pane active">
-                                    <Slider {...settings} ref={sliderRef}>
+                                    <Slider {...settings} ref={sliderRef} className='slick-container'>
                                         {
                                             category ? products?.filter(product => product.category === category).map((product, index) => (
                                                 <NewProductCard product={product} key={index} />

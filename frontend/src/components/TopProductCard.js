@@ -21,11 +21,13 @@ function TopProductCard({ product }) {
                 root: {
                     backgroundColor: theme.colors.green[6],
                     borderColor: theme.colors.green[6],
+                    height: '100px',
+                    width: 'auto',
 
                     '&::before': { backgroundColor: theme.white },
                 },
 
-                title: { color: theme.white },
+                title: { color: theme.white, fontSize: '20px' },
                 description: { color: theme.white },
                 closeButton: {
                     color: theme.white,
@@ -64,7 +66,7 @@ function TopProductCard({ product }) {
             <div className="col-md-12 col-xs-12">
             
                 <div className="product">
-                    <Link to={`/product/${product.id}`} style={{
+                    <Link to={`/product/${product.id}/${product.name}`} style={{
                         textDecoration: 'none',
                     }}>
                         <div className="product-img">
@@ -89,7 +91,7 @@ function TopProductCard({ product }) {
                     <div className="product-body">
                         <p className="product-category">{product?.category?.name}</p>
                         <h3 className="product-name">
-                            <Link to={`/product/${product.id}`}
+                            <Link to={`/product/${product.id}/${product.name}`}
                                 style={{
                                     textDecoration: 'none',
                                 }}
@@ -110,7 +112,7 @@ function TopProductCard({ product }) {
 
 
                             <button className="quick-view">
-                                <Link to={`/product/${product.id}`}>
+                                <Link to={`/product/${product.id}/${product.name}`}>
                                     <i className="fa fa-eye"></i><span className="tooltipp">quick view</span>
                                 </Link>
                             </button>

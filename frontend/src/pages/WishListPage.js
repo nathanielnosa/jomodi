@@ -29,8 +29,6 @@ function WishListPage() {
             {wishlist.map((item, index) => (
               <div key={index} className="row no-gutters" style={{
                 margin: '20px',
-                border: '1px solid #ccc',
-                padding: '20px'
               }}>
                 <div className="col-md-4">
                   <img src={item.image} className="card-img" alt="Product Image"
@@ -62,11 +60,13 @@ function WishListPage() {
             ))}
             
           </div>
+          <Group position="center">
+          
           <button className="btn btn-danger btn-lg">
             <i className="fa fa-money-bill"></i>
             Buy Now
           </button>
-         
+         </Group>
 
         </div>
       </div>
