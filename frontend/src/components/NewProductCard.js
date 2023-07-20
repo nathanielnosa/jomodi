@@ -64,50 +64,7 @@ function NewProductCard({ product }) {
         <>
 
             <div className="col-md-12 col-xs-12">
-                {/* {
-                    showCartNotification && (
-                        <Notification color="green" radius="xs" title="Added to Cart"
-                            onClose={() => setShowCartNotification(false)}
-                        ></Notification>
-
-                    )
-                }
-
-                {
-                    showWishlistNotification && (
-                        <Notification color="green" radius="xs" title="Added to Wishlist"
-                            onClose={() => setShowWishlistNotification(false)}
-                        ></Notification>
-                    )
-                } */}
-                {/* <Group position="center">
-                    <Button
-                        variant="outline"
-                        onClick={() =>
-                            notifications.show({
-                                title: 'Successfully Added to Cart',
-                                message: 'Hey there, your code is awesome! 🤥',
-                                styles: (theme) => ({
-                                    root: {
-                                        backgroundColor: theme.colors.blue[6],
-                                        borderColor: theme.colors.blue[6],
-
-                                        '&::before': { backgroundColor: theme.white },
-                                    },
-
-                                    title: { color: theme.white },
-                                    description: { color: theme.white },
-                                    closeButton: {
-                                        color: theme.white,
-                                        '&:hover': { backgroundColor: theme.colors.blue[7] },
-                                    },
-                                }),
-                            })
-                        }
-                    >
-                        Show customized notification
-                    </Button>
-                </Group> */}
+              
                 <div className="product">
                     <Link to={`/product/${product.id}/${product.name}`} style={{
                         textDecoration: 'none',
@@ -143,13 +100,7 @@ function NewProductCard({ product }) {
                         <h4 className="product-price">
                             ₹{product?.price} <del className="product-old-price">₹{product?.cancel_price}</del>
                         </h4>
-                        <div className="product-rating">
-                            <i className="fa fa-star"></i>
-                            <i className="fa fa-star"></i>
-                            <i className="fa fa-star"></i>
-                            <i className="fa fa-star"></i>
-                            <i className="fa fa-star"></i>
-                        </div>
+                
                         <div className="product-btns">
                             <button className="add-to-wishlist" onClick={() => handleAddToWishlist(product)}><i className="fa fa-heart-o"></i><span className="tooltipp">add to wishlist</span></button>
 

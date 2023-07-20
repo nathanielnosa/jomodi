@@ -62,7 +62,7 @@ function NewProduct({ product }) {
                         <div className="row">
                             <div className="products-tabs">
                                 <div id="tab1" className="tab-pane active">
-                                    <Slider {...settings} ref={sliderRef}>
+                                    <Slider {...settings} ref={sliderRef} className='slick-container'>
                                         {
                                             category ? products?.filter(product => product.category === category).map((product, index) => (
                                                 <NewProductCard product={product} key={index} />

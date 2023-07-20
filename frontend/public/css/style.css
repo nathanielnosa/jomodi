@@ -206,6 +206,12 @@ textarea.input {
     /* Remove outline on focus */
 }
 
+.slick-container {
+  max-width: auto; /* Set a fixed width to limit the number of slides in a row */
+  margin: 0 auto; /* Center the slider container */
+  height: 300px;
+}
+
 .input-select2 {
     appearance: none; /* Remove default arrow */
       background-color: #f1f1f1;

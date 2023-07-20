@@ -1,16 +1,11 @@
 import React, { useEffect, useState, useRef } from 'react';
-import NewProductTab from './NewProductTab';
-import { Carousel } from '@mantine/carousel';
 import axios from 'axios';
 import { API_URL } from '../constants';
 import Slider from 'react-slick';
-import { Link } from 'react-router-dom';
-import CardProduct from './CardProduct';
-import TopSellingChip from './TopSellingChip';
 import TopSellingTab from './TopSellingTab';
 import TopProductCard from './TopProductCard';
 
-function TopSelling({ product }) {
+function TopSelling() {
     const sliderRef = useRef();
     const [products, setProducts] = useState([]);
     const [category, setCategory] = useState();
@@ -64,7 +59,7 @@ function TopSelling({ product }) {
                         <div className="row">
                             <div className="products-tabs">
                                 <div id="tab1" className="tab-pane active">
-                                    <Slider {...settings} ref={sliderRef}>
+                                    <Slider {...settings} ref={sliderRef} className="slick-container">
                                         {category
                                             ? products
                                                 .filter((product) => product.category === category)
