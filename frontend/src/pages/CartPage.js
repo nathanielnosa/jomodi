@@ -84,7 +84,8 @@ function CartPage() {
             {cartItems.map((item, index) => (
               <div key={index} className="row no-gutters" style={{
                 margin: '3px',
-                padding: '3px'
+                padding: '3px',
+                marginTop: '10px',
               }}>
                 <div className="col-md-2">
 
@@ -103,7 +104,9 @@ function CartPage() {
                     <h5 className="card-title" style={{
                       marginBottom: '10px',
                     }}>
-                      <Link to={`/product/${item.id}`} style={
+                      <Link to={`/product/${item.id}/${item.name}`}
+                      target='_blank'
+                      style={
                         {
                           textDecoration: 'none',
                           color: 'black',

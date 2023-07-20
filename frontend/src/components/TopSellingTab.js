@@ -18,7 +18,11 @@ function TopSellingTab({ filterCategory }) {
     return (
         <div className="col-md-12">
             <div className="section-title">
-                <h3 className="title">Top Selling Products</h3>
+                <h3 className="title" style={{
+                    textDecoration: 'none',
+                    fontSize: '20px',
+                    fontWeight: 'bold',
+                }}>Top Selling Products</h3>
                 <div className="section-nav">
                     <ul className="section-tab-nav tab-nav">
                         <li><a data-toggle="tab" href="#tab1" style={{

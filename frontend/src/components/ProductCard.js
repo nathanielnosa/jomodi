@@ -40,7 +40,6 @@ function ProductCard({ product }) {
         dispatch(addToCart(product, 1));
         notifications.show({
             title: 'Successfully Added to Cart',
-            message: 'Successfully Added Cart! 🤥',
             styles: (theme) => ({
                 root: {
                     backgroundColor: theme.colors.green[6],
@@ -64,7 +63,6 @@ function ProductCard({ product }) {
         dispatch(addToWishlist(product));
         notifications.show({
             title: 'Successfully Added your Wish List',
-            message: 'Successfully Added your Wish List! 🤥',
             styles: (theme) => ({
                 root: {
                     backgroundColor: theme.colors.green[6],

@@ -6,6 +6,7 @@ import { useParams } from "react-router-dom";
 import axios from "axios";
 import { API_URL } from "../constants";
 import CatSidebar from "../components/CatSidebar";
+import { Pagination, Group } from '@mantine/core';
 
 function Store() {
   const [products, setProducts] = useState([]);
@@ -17,6 +18,8 @@ function Store() {
   const [minPriceSlider, setMinPriceSlider] = useState(0);
   const [selectedBrands, setSelectedBrands] = useState([]);
   const [sortingOption, setSortingOption] = useState('1');
+  const [page, setPage] = useState(1);
+  const itemsPerPage = 16;
 
   useEffect(() => {
     axios
@@ -61,6 +64,21 @@ function Store() {
     }
   });
 
+  const totalPages = filteredProducts.length == 0 ? Math.ceil(products?.length / itemsPerPage)
+    : Math.ceil(filteredProducts?.length / itemsPerPage);
+
+  const handlePageChange = (newPage) => {
+    setPage(newPage);
+  };
+
+  const paginatedItems = filteredProducts.length == 0 ? (products?.slice(
+    (page - 1) * itemsPerPage,
+    page * itemsPerPage)) : (
+    filteredProducts?.slice(
+      (page - 1) * itemsPerPage,
+      page * itemsPerPage)
+  );
+
   const handleSortChange = (selectedValue) => {
     // Update the sorting option state
     setSortingOption(selectedValue);
@@ -99,46 +117,47 @@ function Store() {
     <div className="section">
       <div>
         <div className="row">
-          {maxPrice !== 0 && minPrice !== 0 && (
-          <CatSidebar
-            max={maxPrice || maxPriceSlider}
-            min={minPrice || minPriceSlider}
-            selectedBrands={selectedBrands}
-            onBrandChange={setSelectedBrands}
-            updateMaxPrice={setMaxPriceSlider} // Pass the setMaxPrice function to update maxPrice
-            updateMinPrice={setMinPriceSlider} // Pass the setMinPrice function to update minPrice
-          />
+          {maxPrice !== 0 && minPrice !== 0 && ( // Render Sidebar only when maxPrice and minPrice are non-zero
+            <CatSidebar
+              max={maxPrice}
+              min={minPrice}
+              selectedBrands={selectedBrands}
+              onBrandChange={setSelectedBrands}
+              updateMaxPrice={setMaxPriceSlider} // Pass the setMaxPriceSlider function to update maxPriceSlider
+              updateMinPrice={setMinPriceSlider} // Pass the setMinPriceSlider function to update minPriceSlider
+            />
           )}
+
           <div id="store" className="col-md-9">
             <StoreTop onSortChange={handleSortChange} />
+
             <div className="row">
-              {filteredProducts.length > 0 ? filteredProducts.map((product, index) => (
-                <ProductCard product={product} key={index} />
-              )) : products.map((product, index) => (
-                <ProductCard product={product} key={index} />
-              ))}
+              {
+                filteredProducts.length == 0 ? (
+                  paginatedItems.map((products, index) => (
+
+                    <ProductCard product={products} key={index} />
+
+                  ))) : (
+                  paginatedItems.map((filteredProducts, index) => (
+                    <ProductCard product={filteredProducts} key={index} />
+                  )
+                  ))
+              }
             </div>
             <div className="store-filter clearfix">
-              <span className="store-qty">
-                Showing {products?.length} products
-              </span>
-              {/* <ul className="store-pagination">
-                <li className="active">1</li>
-                <li>
-                  <a href="#">2</a>
-                </li>
-                <li>
-                  <a href="#">3</a>
-                </li>
-                <li>
-                  <a href="#">4</a>
-                </li>
-                <li>
-                  <a href="#">
-                    <i className="fa fa-angle-right"></i>
-                  </a>
-                </li>
-              </ul> */}
+              <span className="store-qty">Showing {filteredProducts.length} products</span>
+              <Group spacing={5} position="right">
+                <Pagination my="lg" total={totalPages}
+                  value={page}
+                  onChange={handlePageChange} color="red"
+                  style={{
+                    display: 'flex',
+                    fontSize: '1.6rem',
+                  }}
+                />
+              </Group>
+
             </div>
           </div>
         </div>

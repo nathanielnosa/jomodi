@@ -4,6 +4,7 @@ import StoreTop from '../components/StoreTop';
 import ProductCard from '../components/ProductCard';
 import axios from 'axios';
 import { API_URL } from '../constants';
+import { Pagination, Group } from '@mantine/core';
 
 function Store() {
   const [products, setProducts] = useState([]);
@@ -14,6 +15,10 @@ function Store() {
   const [selectedCategories, setSelectedCategories] = useState([]);
   const [selectedBrands, setSelectedBrands] = useState([]);
   const [sortingOption, setSortingOption] = useState('1');
+  const [page, setPage] = useState(1);
+  const itemsPerPage = 16;
+
+
 
   useEffect(() => {
     axios
@@ -39,34 +44,46 @@ function Store() {
   // Update filtered products based on selected categories, brands, maxPrice, and minPrice
 
   const filteredProducts = products.filter((product) => {
-  const categoryMatch = selectedCategories.length === 0 || selectedCategories.some((id) => id === product?.category?.id);
-  const brandMatch = selectedBrands.length === 0 || selectedBrands.some((id) => id === product?.brand?.id);
+    const categoryMatch = selectedCategories.length === 0 || selectedCategories.some((id) => id === product?.category?.id);
+    const brandMatch = selectedBrands.length === 0 || selectedBrands.some((id) => id === product?.brand?.id);
 
-  // Check if minPriceSlider and maxPriceSlider are valid numbers
-  const validPriceRange = !isNaN(minPriceSlider) && !isNaN(maxPriceSlider) && minPriceSlider <= maxPriceSlider;
+    // Check if minPriceSlider and maxPriceSlider are valid numbers
+    const validPriceRange = !isNaN(minPriceSlider) && !isNaN(maxPriceSlider) && minPriceSlider <= maxPriceSlider;
 
-  // Check if the product price is within the selected price range
-  const priceMatch = validPriceRange && product.price >= minPriceSlider && product.price <= maxPriceSlider;
+    // Check if the product price is within the selected price range
+    const priceMatch = validPriceRange && product.price >= minPriceSlider && product.price <= maxPriceSlider;
 
-  if (validPriceRange) {
-    // If valid price range is applied
-    if (selectedCategories.length === 0 && selectedBrands.length === 0) {
-      // If no categories and brands are selected, apply only the price filter
-      return priceMatch;
+    if (validPriceRange) {
+      // If valid price range is applied
+      if (selectedCategories.length === 0 && selectedBrands.length === 0) {
+        // If no categories and brands are selected, apply only the price filter
+        return priceMatch;
+      } else {
+        // Apply filters based on selected categories, brands, and price range
+        return (categoryMatch && brandMatch && priceMatch);
+      }
     } else {
-      // Apply filters based on selected categories, brands, and price range
-      return (categoryMatch && brandMatch && priceMatch);
+      // If invalid price range, apply filters based on selected categories and brands only
+      return (categoryMatch && brandMatch);
     }
-  } else {
-    // If invalid price range, apply filters based on selected categories and brands only
-    return (categoryMatch && brandMatch);
-  }
-});
+  });
 
 
+  const totalPages = filteredProducts.length == 0 ? Math.ceil(products?.length / itemsPerPage)
+    : Math.ceil(filteredProducts?.length / itemsPerPage);
 
-console.log((selectedCategories.length === 0 && selectedBrands.length === 0) ||
-  (maxPriceSlider == maxPrice && minPriceSlider == minPrice));
+  const handlePageChange = (newPage) => {
+    setPage(newPage);
+  };
+
+  const paginatedItems = filteredProducts.length == 0 ? (products?.slice(
+    (page - 1) * itemsPerPage,
+    page * itemsPerPage)) : (
+    filteredProducts?.slice(
+      (page - 1) * itemsPerPage,
+      page * itemsPerPage)
+  );
+
 
   const handleSortChange = (selectedValue) => {
     // Update the sorting option state
@@ -102,58 +119,59 @@ console.log((selectedCategories.length === 0 && selectedBrands.length === 0) ||
     setProducts(sortedProducts);
   };
 
-return (
-  <div className="section">
-    <div>
-      <div className="row">
-        {maxPrice !== 0 && minPrice !== 0 && ( // Render Sidebar only when maxPrice and minPrice are non-zero
-          <Sidebar
-            max={maxPrice}
-            min={minPrice}
-            selectedCategories={selectedCategories}
-            selectedBrands={selectedBrands}
-            onCategoryChange={setSelectedCategories}
-            onBrandChange={setSelectedBrands}
-            updateMaxPrice={setMaxPriceSlider} // Pass the setMaxPriceSlider function to update maxPriceSlider
-            updateMinPrice={setMinPriceSlider} // Pass the setMinPriceSlider function to update minPriceSlider
-          />
-        )}
+  return (
+    <div className="section">
+      <div>
+        <div className="row">
+          {maxPrice !== 0 && minPrice !== 0 && ( // Render Sidebar only when maxPrice and minPrice are non-zero
+            <Sidebar
+              max={maxPrice}
+              min={minPrice}
+              selectedCategories={selectedCategories}
+              selectedBrands={selectedBrands}
+              onCategoryChange={setSelectedCategories}
+              onBrandChange={setSelectedBrands}
+              updateMaxPrice={setMaxPriceSlider} // Pass the setMaxPriceSlider function to update maxPriceSlider
+              updateMinPrice={setMinPriceSlider} // Pass the setMinPriceSlider function to update minPriceSlider
+            />
+          )}
 
-        <div id="store" className="col-md-9">
-          <StoreTop onSortChange={handleSortChange} />
+          <div id="store" className="col-md-9">
+            <StoreTop onSortChange={handleSortChange} />
 
-          <div className="row">
-            {filteredProducts.length > 0 ? filteredProducts.map((product, index) => (
-              <ProductCard product={product} key={index} />
-            )) : products.map((product, index) => (
-              <ProductCard product={product} key={index} />
-            ))}
-          </div>
-          <div className="store-filter clearfix">
-            <span className="store-qty">Showing {filteredProducts.length} products</span>
-            {/* <ul className="store-pagination">
-              <li className="active">1</li>
-              <li>
-                <a href="#">2</a>
-              </li>
-              <li>
-                <a href="#">3</a>
-              </li>
-              <li>
-                <a href="#">4</a>
-              </li>
-              <li>
-                <a href="#">
-                  <i className="fa fa-angle-right"></i>
-                </a>
-              </li>
-            </ul> */}
+            <div className="row">
+              {
+                filteredProducts.length == 0 ? (
+                  paginatedItems.map((products, index) => (
+
+                    <ProductCard product={products} key={index} />
+
+                  ))) : (
+                  paginatedItems.map((filteredProducts, index) => (
+                    <ProductCard product={filteredProducts} key={index} />
+                  )
+                  ))
+              }
+            </div>
+            <div className="store-filter clearfix">
+              <span className="store-qty">Showing {filteredProducts.length} products</span>
+              <Group spacing={5} position="right">
+                <Pagination my="lg" total={totalPages}
+                  value={page}
+                  onChange={handlePageChange} color="red" 
+                  style={{
+                    display: 'flex',
+                    fontSize: '1.6rem',
+                  }}
+                  />
+              </Group>
+             
+            </div>
           </div>
         </div>
       </div>
     </div>
-  </div>
-);
+  );
 }
 
 export default Store;
