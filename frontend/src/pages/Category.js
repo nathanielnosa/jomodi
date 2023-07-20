@@ -6,6 +6,7 @@ import { useParams } from "react-router-dom";
 import axios from "axios";
 import { API_URL } from "../constants";
 import CatSidebar from "../components/CatSidebar";
+import { Pagination, Group } from '@mantine/core';
 
 function Store() {
   const [products, setProducts] = useState([]);
@@ -17,6 +18,8 @@ function Store() {
   const [minPriceSlider, setMinPriceSlider] = useState(0);
   const [selectedBrands, setSelectedBrands] = useState([]);
   const [sortingOption, setSortingOption] = useState('1');
+  const [page, setPage] = useState(1);
+  const itemsPerPage = 16;
 
   useEffect(() => {
     axios
@@ -39,28 +42,42 @@ function Store() {
 
   const filteredProducts = products.filter((product) => {
     const brandMatch = selectedBrands.length === 0 || selectedBrands.some((id) => id === product?.brand?.id);
-    const priceMatch = product.price >= minPriceSlider && product.price <= maxPriceSlider;
 
-    if (maxPrice !== 0 && minPrice !== 0) { // Check if maxPrice and minPrice are not equal to 0
-      if (
-        (selectedBrands.length === 0) ||
-        (maxPriceSlider === maxPrice &&
-          minPriceSlider === minPrice)
-      ) {
-        // If no categories, brands, and price filters are applied, display all products
-        return true;
-      } else if (selectedBrands.length === 0) {
+    // Check if minPriceSlider and maxPriceSlider are valid numbers
+    const validPriceRange = !isNaN(minPriceSlider) && !isNaN(maxPriceSlider) && minPriceSlider <= maxPriceSlider;
+
+    // Check if the product price is within the selected price range
+    const priceMatch = validPriceRange && product.price >= minPriceSlider && product.price <= maxPriceSlider;
+
+    if (validPriceRange) {
+      // If valid price range is applied
+      if (selectedBrands.length === 0) {
         // If no categories and brands are selected, apply only the price filter
         return priceMatch;
       } else {
         // Apply filters based on selected categories, brands, and price range
-        return (brandMatch);
+        return (brandMatch && priceMatch);
       }
     } else {
-      // If maxPrice or minPrice is 0, display all products without price filtering
-      return brandMatch;
+      // If invalid price range, apply filters based on selected categories and brands only
+      return (brandMatch);
     }
   });
+
+  const totalPages = filteredProducts.length == 0 ? Math.ceil(products?.length / itemsPerPage)
+    : Math.ceil(filteredProducts?.length / itemsPerPage);
+
+  const handlePageChange = (newPage) => {
+    setPage(newPage);
+  };
+
+  const paginatedItems = filteredProducts.length == 0 ? (products?.slice(
+    (page - 1) * itemsPerPage,
+    page * itemsPerPage)) : (
+    filteredProducts?.slice(
+      (page - 1) * itemsPerPage,
+      page * itemsPerPage)
+  );
 
   const handleSortChange = (selectedValue) => {
     // Update the sorting option state
@@ -74,7 +91,7 @@ function Store() {
       case '1':
         // Sort by recommended (You can define your sorting logic here)
         // For example, you can sort by product rating, popularity, etc.
-
+        sortedProducts.sort(() => Math.random() - 0.5);
         break;
       case '2':
         // Sort by price: Low to High
@@ -100,44 +117,47 @@ function Store() {
     <div className="section">
       <div>
         <div className="row">
-          {maxPrice !== 0 && minPrice !== 0 && (
-          <CatSidebar
-            max={maxPrice || maxPriceSlider}
-            min={minPrice || minPriceSlider}
-            selectedBrands={selectedBrands}
-            onBrandChange={setSelectedBrands}
-            updateMaxPrice={setMaxPriceSlider} // Pass the setMaxPrice function to update maxPrice
-            updateMinPrice={setMinPriceSlider} // Pass the setMinPrice function to update minPrice
-          />
+          {maxPrice !== 0 && minPrice !== 0 && ( // Render Sidebar only when maxPrice and minPrice are non-zero
+            <CatSidebar
+              max={maxPrice}
+              min={minPrice}
+              selectedBrands={selectedBrands}
+              onBrandChange={setSelectedBrands}
+              updateMaxPrice={setMaxPriceSlider} // Pass the setMaxPriceSlider function to update maxPriceSlider
+              updateMinPrice={setMinPriceSlider} // Pass the setMinPriceSlider function to update minPriceSlider
+            />
           )}
+
           <div id="store" className="col-md-9">
             <StoreTop onSortChange={handleSortChange} />
+
             <div className="row">
-              {filteredProducts?.map((product, index) => {
-                return <ProductCard product={product} key={index} />;
-              })}
+              {
+                filteredProducts.length == 0 ? (
+                  paginatedItems.map((products, index) => (
+
+                    <ProductCard product={products} key={index} />
+
+                  ))) : (
+                  paginatedItems.map((filteredProducts, index) => (
+                    <ProductCard product={filteredProducts} key={index} />
+                  )
+                  ))
+              }
             </div>
             <div className="store-filter clearfix">
-              <span className="store-qty">
-                Showing {products?.length} products
-              </span>
-              {/* <ul className="store-pagination">
-                <li className="active">1</li>
-                <li>
-                  <a href="#">2</a>
-                </li>
-                <li>
-                  <a href="#">3</a>
-                </li>
-                <li>
-                  <a href="#">4</a>
-                </li>
-                <li>
-                  <a href="#">
-                    <i className="fa fa-angle-right"></i>
-                  </a>
-                </li>
-              </ul> */}
+              <span className="store-qty">Showing {filteredProducts.length} products</span>
+              <Group spacing={5} position="right">
+                <Pagination my="lg" total={totalPages}
+                  value={page}
+                  onChange={handlePageChange} color="red"
+                  style={{
+                    display: 'flex',
+                    fontSize: '1.6rem',
+                  }}
+                />
+              </Group>
+
             </div>
           </div>
         </div>

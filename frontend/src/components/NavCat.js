@@ -18,13 +18,17 @@ function NavCat() {
     }, []);
 
     return (
-        <nav id="navigation">
-            <div className="container">
+        <nav id="navigation" className="bg-gray-800 py-2">
+            <div className="container px-4">
                 <div id="responsive-nav">
-                    <ul className="main-nav nav navbar-nav">
-                        <li className="active"><Link to="/">Home</Link></li>
+                    <ul className="main-nav nav navbar-nav flex items-center justify-between">
+                        <li className="active">
+                            <Link to="/">Home</Link>
+                        </li>
                         {categories?.map((category) => (
-                            <li key={category.id}><Link to={`/category/${category.id}/${category.name}`}>{category.name}</Link></li>
+                            <li key={category.id}>
+                                <Link to={`/category/${category.id}/${category.name}`}>{category.name}</Link>
+                            </li>
                         ))}
                     </ul>
                 </div>

@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { addToCart, removeFromCart } from '../actions/cartActions';
 import { addToWishlist, removeFromWishlist } from '../actions/wishActions';
-import { Button, Group } from '@mantine/core';
+import { Button, Group, UnstyledButton, Divider } from '@mantine/core';
 
 function WishListPage() {
   const cartItems = useSelector((state) => state.cart.cartItems);
@@ -21,105 +21,142 @@ function WishListPage() {
   const wishlistQuantity = wishlist?.length;
 
   return (
-    <div className="container mt-5">
-      <div className="row">
-        <div className="col-md-8">
-          <h2>Your Wish List</h2>
+    <div className="mt-5">
+      <div className="row" style={{
+        display: 'flex',
+        justifyContent: 'center',
+      }}>
+        <div className="col-md-8" style={{
+          backgroundColor: 'white',
+          boxShadow: '0 0 10px rgba(0,0,0,0.2)',
+          margin: '15px',
+      
+        }}>
           <div className="card mb-3">
             {wishlist.map((item, index) => (
               <div key={index} className="row no-gutters" style={{
-                margin: '20px',
+                margin: '5px',
+                padding: '3px',
+                marginTop: '10px',
               }}>
-                <div className="col-md-4">
+                <div className="col-md-2">
+
                   <img src={item.image} className="card-img" alt="Product Image"
                     style={{
-                      width: "90%",
-                      height: "90%",
+                      width: "70px",
+                      height: "70px",
                     }}
                   />
                 </div>
                 <div className="col-md-8">
                   <div className="card-body">
-                    <h4 className="card-title"
-
-                    >
-                      <Link to={`/product/${item.id}`} style={
+                    <h5 className="card-title" style={{
+                      marginBottom: '10px',
+                    }}>
+                      <Link to={`/product/${item.id}/${item.name}}`}
+                        target='_blank'
+                      style={
                         {
-                          textDecoration: 'none'
+                          textDecoration: 'none',
+                          color: 'black',
+
                         }
                       }>{item.name.toUpperCase()}</Link>
-                    </h4>
-                    <p className="card-title">Price: ₹{
-                      item.price.toFixed(2)
-                    }</p>
-                    <button className="btn btn-danger btn-sm" onClick={() => handleRemoveFromWishlist(index)}>
-                      <i className="fa fa-close"></i>Remove From List</button>
+                    </h5>
+                    <Group position="left" >
+                      <del className="product-old-price" style={{
+                        marginBottom: '10px',
+                      }}>₹{item?.cancel_price}</del>
+                      <p className="card-title" style={{
+                        marginBottom: '10px',
+                      }}> ₹{
+                          item.price.toFixed(2)
+                        }</p>
+                    </Group>
+                    {/* <p className="card-title">Quantity: {item.quantity}</p> */}
+
                   </div>
                 </div>
-              </div>
-            ))}
-            
-          </div>
-          <Group position="center">
-          
-          <button className="btn btn-danger btn-lg">
-            <i className="fa fa-money-bill"></i>
-            Buy Now
-          </button>
-         </Group>
+                <div className="col-md-12">
 
+                  <Divider style={{
+                    marginTop: '10px'
+                  }} />
+                </div>
+
+              </div>
+
+            ))}
+            <Group position="right" style={{
+              boxShadow: '0 0 10px rgba(0,0,0,0.2)',
+              padding: '20px',
+            }}>
+
+              <Link to="/checkout" style={{
+                textDecoration: 'none',
+              }}>
+                <button className="btn btn-warning btn-block btn-lg">
+                  Buy Now <i className="fa fa-arrow-circle-right"></i>
+                </button> </Link>
+            </Group>
+          </div>
         </div>
       </div>
-    </div>
+    </div >
   );
 }
 
 export default WishListPage;
 
 
-{/* <div className="col-md-12 clearfix">
-  <div style={{
-    alignContent: "center",
-    alignItems: "center",
-    margin: "200"
+{/* <div className="container mt-5">
+  <div className="row">
+    <div className="col-md-8">
+      <h2>Your Wish List</h2>
+      <div className="card mb-3">
+        {wishlist.map((item, index) => (
+          <div key={index} className="row no-gutters" style={{
+            margin: '20px',
+          }}>
+            <div className="col-md-4">
+              <img src={item.image} className="card-img" alt="Product Image"
+                style={{
+                  width: "90%",
+                  height: "90%",
+                }}
+              />
+            </div>
+            <div className="col-md-8">
+              <div className="card-body">
+                <h4 className="card-title"
 
-  }}>
-    <div className="cart-list" style={{
-      padding: "20px"
-    }}>
-      {cartItems.map((item, index) => (
-        <div className="product-widget" key={index} style={{
-          padding: "20px"
-        }}>
-          <div className="product-img">
-            <img src={item.image} alt="" />
+                >
+                  <Link to={`/product/${item.id}`} style={
+                    {
+                      textDecoration: 'none'
+                    }
+                  }>{item.name.toUpperCase()}</Link>
+                </h4>
+                <p className="card-title">Price: ₹{
+                  item.price.toFixed(2)
+                }</p>
+                <button className="btn btn-danger btn-sm" onClick={() => handleRemoveFromWishlist(index)}>
+                  <i className="fa fa-close"></i>Remove From List</button>
+              </div>
+            </div>
           </div>
-          <div className="product-body">
-            <h3 className="product-name">
-              <Link to={`/product/${item.id}`}>{item.name}</Link>
-            </h3>
-            <h4 className="product-price">
-              <span className="qty">{item.quantity}x</span>${item.price.toFixed(2)}
-            </h4>
-          </div>
-          <button className="delete" onClick={() => handleRemoveFromCart(index)}>
-            <i className="fa fa-close"></i>
-          </button>
-        </div>
-      ))}
-    </div>
-    <div className="cart-summary">
-      <small>{cartQuantity} Item(s) selected</small>
-      <h5>SUBTOTAL: ${cartTotal.toFixed(2)}</h5>
-    </div>
-    <Group>
-      <Button>
-        <Link to="/checkout">
-          Checkout <i className="fa fa-arrow-circle-right"></i>
-        </Link>
-      </Button>
+        ))}
 
-    </Group>
+      </div>
+      <Group position="center">
+
+        <button className="btn btn-danger btn-lg">
+          <i className="fa fa-money-bill"></i>
+          Buy Now
+        </button>
+      </Group>
+
+    </div>
   </div>
-
-</div> */}
+</div>
+  ); */}

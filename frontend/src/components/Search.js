@@ -19,34 +19,24 @@ function Search() {
             });
     }, []);
 
-  return (
-      <div className="col-md-6">
-          <div className="header-search">
-              <form>
-                  <select className="input-select2" value={category} onChange={
-                        (e) => setCategory(e.target.value)
-                  }>
-                      <option value="0">All Categories</option>
-                      {
-                            categories?.map((category) => (
-                                <option key={category.id} value={category.id}
-                                
-                                >{category.name}</option>
-                            ))
-                      }
-                  </select>
-                  <input className="input" placeholder="Search here"
-                  value={keyword} onChange={(e) => setKeyword(e.target.value)}
-                  />
-                  <Link to={`/search/${keyword}/${category}`}>
-                  <button className="search-btn">
-                   <i className="fa fa-search"></i>
-                  </button>
-                  </Link>
-              </form>
-          </div>
-      </div>
-  )
+    return (
+        <div className="header-search">
+            <form>
+                <select className="input-select2" value={category} onChange={(e) => setCategory(e.target.value)}>
+                    <option value="0">All Categories</option>
+                    {categories?.map((category) => (
+                        <option key={category.id} value={category.id}>{category.name}</option>
+                    ))}
+                </select>
+                <input className="input" placeholder="Search here" value={keyword} onChange={(e) => setKeyword(e.target.value)} />
+                <Link to={`/search/${keyword}/${category}`}>
+                    <button className="search-btn">
+                        <i className="fa fa-search"></i>
+                    </button>
+                </Link>
+            </form>
+        </div>
+    );
 }
 
-export default Search
+export default Search;

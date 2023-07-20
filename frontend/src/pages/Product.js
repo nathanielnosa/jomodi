@@ -13,6 +13,7 @@ import Zoom from 'react-medium-image-zoom';
 import 'react-medium-image-zoom/dist/styles.css';
 import '../styles/imageZoom.css'
 import { notifications } from '@mantine/notifications';
+import 'tailwindcss/tailwind.css';
 
 function Product() {
     const { id } = useParams();
@@ -29,7 +30,6 @@ function Product() {
         dispatch(addToCart(product, quantity));
         notifications.show({
             title: 'Successfully Added to Cart',
-            message: 'Successfully Added Cart! 🤥',
             styles: (theme) => ({
                 root: {
                     backgroundColor: theme.colors.green[6],
@@ -54,7 +54,6 @@ function Product() {
         dispatch(addToCart(product, 1));
         notifications.show({
             title: 'Successfully Added to Cart',
-            message: 'Successfully Added Cart! 🤥',
             styles: (theme) => ({
                 root: {
                     backgroundColor: theme.colors.green[6],
@@ -79,7 +78,6 @@ function Product() {
         dispatch(addToWishlist(product));
         notifications.show({
             title: 'Successfully Added your Wish List',
-            message: 'Successfully Added your Wish List! 🤥',
             styles: (theme) => ({
                 root: {
                     backgroundColor: theme.colors.green[6],
@@ -147,7 +145,16 @@ function Product() {
         customPaging: () => <li>•</li>,
         responsive: [
             {
-                breakpoint: 768,
+                breakpoint: 1024, // Medium screens and above
+                settings: {
+                    slidesToShow: slidesToShow,
+                    slidesToScroll: 3,
+                    vertical: true,
+                    verticalSwiping: true,
+                },
+            },
+            {
+                breakpoint: 768, // Small screens
                 settings: {
                     slidesToShow: 1,
                     slidesToScroll: 1,
@@ -157,6 +164,7 @@ function Product() {
             },
         ],
     };
+
 
     useEffect(() => {
         axios
@@ -253,10 +261,10 @@ function Product() {
             </div>
 
             <div className="section">
-                <div className="container">
-                    <div className="row">
-                        <div className="col-md-5 col-md-push-24">
-                            <div id="product-main-img" >
+                <div className="container px-4 py-4 md:py-8 md:px-8">
+                    <div className="flex flex-wrap -mx-4">
+                        <div className="col-md-5  mb-4 md:mb-0 md:col-md-5 md:col-md-push-24">
+                            <div id="product-main-img">
                                 <div className="product-preview">
                                     <img src={zoomImage || product.image} alt="" />
                                 </div>
@@ -264,45 +272,52 @@ function Product() {
                             </div>
                         </div>
 
-                        <div className="col-md-1  col-md-pull-6" style={{
-                            height: '100px',
-                        }}>
-                            <div id="product-imgs">
+                        <div className="col-md-1 col-md-pull-6 h-20 md:col-md-1 md:col-md-pull-6 md:h-auto">
+                            {/* Change the Carousel orientation to horizontal on small screens */}
+                            <div id="product-imgs" className="md:hidden">
                                 <Carousel
                                     slideSize="15%"
                                     height={700}
                                     align="start"
-                                    orientation="vertical"
+                                    orientation="horizontal" // Change orientation to horizontal on small screens
                                     slideGap="xs"
                                     loop
-                                    controlsOffset="xs" controlSize={51} dragFree>
+                                    controlsOffset="xs" controlSize={51} dragFree
+                                >
                                     {images.map((image, index) => (
                                         <Carousel.Slide>
                                             <div key={index} className="product-preview">
-                                                <img src={image.image} alt="" onMouseEnter={() => setZoomImage(image.image)}
+                                                <img
+                                                    src={image.image}
+                                                    alt=""
+                                                    onMouseEnter={() => setZoomImage(image.image)}
                                                     style={{
-
                                                         border: '1px solid black'
                                                     }}
                                                 />
                                             </div>
                                         </Carousel.Slide>
-
                                     ))}
                                 </Carousel>
-                                {/* <Slider {...settings}>
-                                    {images.map((image, index) => (
-                                        <div key={index} className="product-preview" style={{
-                                            height: '10px',
-                                        }}>
-                                            <img src={image.image} alt="" onMouseEnter={() => setZoomImage(image.image)} />
-                                        </div>
-                                    ))}
-                                </Slider> */}
+                            </div>
+                            {/* Render individual images directly on medium and large screens */}
+                            <div id="product-imgs" className="hidden md:block">
+                                {images.map((image, index) => (
+                                    <div key={index} className="product-preview">
+                                        <img
+                                            src={image.image}
+                                            alt=""
+                                            onMouseEnter={() => setZoomImage(image.image)}
+                                            style={{
+                                                border: '1px solid black'
+                                            }}
+                                        />
+                                    </div>
+                                ))}
                             </div>
                         </div>
 
-                        <div className="col-md-5">
+                        <div className="col-md-5 mt-4 md:mt-0 md:col-md-5">
                             <div className="product-details">
 
                                 <h2 className="product-name">{product?.name}</h2>
@@ -469,43 +484,21 @@ function Product() {
             </div>
 
             <div className="section">
-                <div className="container">
+                <div className="container px-4 py-4 md:py-8 md:px-8">
 
                     <div className="row">
                         <div className="col-md-12">
                             <div className="section-title text-center">
                                 <h3 className="title">Related Products</h3>
-                                {" "}
-                                {showCartNotification && (
-                                    <Alert
-                                        title="Added to Cart"
-                                        color="green"
-                                        radius="xl"
-                                        variant="filled"
-                                        withCloseButton
-                                        closeButtonLabel="Close alert"
-                                        onClose={() => setShowCartNotification(false)}
-                                    ></Alert>
-                                )}
-                                {showWishlistNotification && (
-                                    <Alert
-                                        title="Added to Wishlist"
-                                        color="green"
-                                        radius="xl"
-                                        variant="filled"
-                                        withCloseButton
-                                        closeButtonLabel="Close alert"
-                                        onClose={() => setShowWishlistNotification(false)}
-                                    />
-                                )}
                             </div>
                         </div>
 
                         {relatedProducts.map((product, index) => (
-                            <div className="col-md-3 col-xs-6">
+                            <div className="col-md-3 col-xs-12">
 
                                 <div className="product">
-                                    <Link to={`/product/${product.id}`} style={{
+                                    <Link to={`/product/${product.id}/${product.name}`} target="_blank"
+                                     style={{
                                         textDecoration: 'none',
                                     }}>
                                         <div className="product-img">
@@ -525,7 +518,8 @@ function Product() {
                                         </p>
                                         <h3 className="product-name">
                                             <Link
-                                                to={`/product/${product?.id}`}
+                                                to={`/product/${product?.id}/${product?.name}`}
+                                                target="_blank"
                                                 style={{
                                                     textDecoration: "none",
                                                 }}
@@ -550,7 +544,7 @@ function Product() {
                                             </button>
 
                                             <button className="quick-view">
-                                                <Link to={`/product/${product.id}`}>
+                                                <Link to={`/product/${product.id}/${product.name}`} target="_blank">
                                                     <i className="fa fa-eye"></i>
                                                     <span className="tooltipp">quick view</span>
                                                 </Link>

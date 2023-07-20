@@ -40,7 +40,6 @@ function ProductCard({ product }) {
         dispatch(addToCart(product, 1));
         notifications.show({
             title: 'Successfully Added to Cart',
-            message: 'Successfully Added Cart! 🤥',
             styles: (theme) => ({
                 root: {
                     backgroundColor: theme.colors.green[6],
@@ -64,7 +63,6 @@ function ProductCard({ product }) {
         dispatch(addToWishlist(product));
         notifications.show({
             title: 'Successfully Added your Wish List',
-            message: 'Successfully Added your Wish List! 🤥',
             styles: (theme) => ({
                 root: {
                     backgroundColor: theme.colors.green[6],
@@ -88,11 +86,12 @@ function ProductCard({ product }) {
 
     return (
         <>
-          
+
             <div className="col-md-3 col-xs-12">
                 <div className="product">
                     <Link
                         to={`/product/${product.id}/${product.name}`}
+                        target="_blank"
                         style={{
                             textDecoration: "none",
                         }}
@@ -119,6 +118,11 @@ function ProductCard({ product }) {
                             className="product-category"
                             style={{
                                 textDecoration: "none",
+                                whiteSpace: "nowrap",
+                                overflow: "hidden",
+                                textOverflow: "ellipsis",
+                                width: "100%", // Adjust the width to your desired size
+                                display: "inline-block",
                             }}
                         >
                             {product?.category?.name}
@@ -126,8 +130,14 @@ function ProductCard({ product }) {
                         <h3 className="product-name">
                             <Link
                                 to={`/product/${product.id}/${product.name}`}
+                                target="_blank"
                                 style={{
                                     textDecoration: "none",
+                                    whiteSpace: "nowrap",
+                                    overflow: "hidden",
+                                    textOverflow: "ellipsis",
+                                    width: "100%", // Adjust the width to your desired size
+                                    display: "inline-block",
                                 }}
                             >
                                 {product?.name}
@@ -154,7 +164,7 @@ function ProductCard({ product }) {
                             </button>
 
                             <button className="quick-view">
-                                <Link to={`/product/${product.id}/${product.name}`}>
+                                <Link to={`/product/${product.id}/${product.name}`} target="_blank">
                                     <i className="fa fa-eye"></i>
                                     <span className="tooltipp">quick view</span>
                                 </Link>
