@@ -37,20 +37,27 @@ function Store() {
   }, [id]);
 
   const filteredProducts = products.filter((product) => {
-    const brandMatch = selectedBrands.some((id) => id === product?.brand?.id);
-    const priceMatch =
-      product.price >= minPriceSlider && product.price <= maxPriceSlider;
+    const brandMatch = selectedBrands.length === 0 || selectedBrands.some((id) => id === product?.brand?.id);
+    const priceMatch = product.price >= minPriceSlider && product.price <= maxPriceSlider;
 
-    if (
-      selectedBrands.length === 0 &&
-      ((maxPriceSlider == maxPrice && minPriceSlider == minPrice) ||
-        (maxPriceSlider == 0 && minPriceSlider == 0))
-    ) {
-      return true;
-    } else if (maxPriceSlider != maxPrice || minPriceSlider != minPrice) {
-      return priceMatch;
+    if (maxPrice !== 0 && minPrice !== 0) { // Check if maxPrice and minPrice are not equal to 0
+      if (
+        (selectedBrands.length === 0) ||
+        (maxPriceSlider === maxPrice &&
+          minPriceSlider === minPrice)
+      ) {
+        // If no categories, brands, and price filters are applied, display all products
+        return true;
+      } else if (selectedBrands.length === 0) {
+        // If no categories and brands are selected, apply only the price filter
+        return priceMatch;
+      } else {
+        // Apply filters based on selected categories, brands, and price range
+        return (brandMatch);
+      }
     } else {
-      return brandMatch && priceMatch;
+      // If maxPrice or minPrice is 0, display all products without price filtering
+      return brandMatch;
     }
   });
 

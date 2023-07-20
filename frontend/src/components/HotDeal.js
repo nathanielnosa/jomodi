@@ -94,9 +94,13 @@ function HotDeal() {
                             </ul>
                             <h2 className="text-uppercase">hot deal this week</h2>
                             <p>New Collection Up to 50% OFF</p>
-                            <a className="primary-btn cta-btn" href="#">
+                            <Link className="primary-btn cta-btn" to="/store" style={{
+                                textDecoration: 'none',
+                            }}>
+        
                                 Shop now
-                            </a>
+                   
+                            </Link>
                         </div>
                     </div>
                 </div>
