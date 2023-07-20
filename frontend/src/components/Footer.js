@@ -42,7 +42,7 @@ function Footer() {
                                 <ul className="footer-links">
                                     {
                                         categories?.map((category) => (
-                                            <li key={category.id}> <Link to={`/category/${category.id}`}>{category.name}</Link></li>
+                                            <li key={category.id}> <Link to={`/category/${category.id}/${category.name}`}>{category.name}</Link></li>
                                           
                                         ))
                                     }                              

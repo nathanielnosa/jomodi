@@ -72,7 +72,7 @@ function TopSellingChip() {
                                                         {product?.category?.name}
                                                     </p>
                                                     <h3 className="product-name">
-                                                        <Link to={`/product/${product.id}`} style={{
+                                                        <Link to={`/product/${product.id}/${product.name}`} style={{
                                                             textDecoration: 'none',
                                                         }}>
                                                             {product.name}
@@ -110,7 +110,7 @@ function TopSellingChip() {
                                                     {product?.category?.name}
                                                 </p>
                                                 <h3 className="product-name">
-                                                    <Link to={`/product/${product.id}`} style={{
+                                                    <Link to={`/product/${product.id}/${product.name}`} style={{
                                                         textDecoration: 'none',
                                                     }}>
                                                         {product.name}
@@ -148,7 +148,7 @@ function TopSellingChip() {
                                                     {product?.category?.name}
                                                 </p>
                                                 <h3 className="product-name">
-                                                    <Link to={`/product/${product.id}`} style={{
+                                                    <Link to={`/product/${product.id}/${product.name}`} style={{
                                                         textDecoration: 'none',
                                                     }}>
                                                         {product.name}

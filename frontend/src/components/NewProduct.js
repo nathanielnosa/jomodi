@@ -39,14 +39,6 @@ function NewProduct({ product }) {
         slidesToScroll: 3,
         dots: true,
         autoplay: true,
-        appendDots: (dots) => <ul>{dots}</ul>,
-        customPaging: (i) => <li style={{
-            fontWeight: 'bold',
-            color: 'black',
-            fontSize: '20px',
-            marginLeft: 'auto',
-            marginRight: '0',
-        }}>{i === 0 ? '<' : '>'}</li>, // Custom paging with "<" and ">" icons
         responsive: [
             {
                 breakpoint: 768,

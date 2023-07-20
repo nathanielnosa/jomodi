@@ -21,11 +21,12 @@ function NewProductCard({ product }) {
                 root: {
                     backgroundColor: theme.colors.green[6],
                     borderColor: theme.colors.green[6],
-
+                    height: '100px',
+                    width: 'auto',
                     '&::before': { backgroundColor: theme.white },
                 },
 
-                title: { color: theme.white },
+                title: { color: theme.white, fontSize: '20px' },
                 description: { color: theme.white },
                 closeButton: {
                     color: theme.white,
@@ -44,7 +45,8 @@ function NewProductCard({ product }) {
                 root: {
                     backgroundColor: theme.colors.green[6],
                     borderColor: theme.colors.green[6],
-
+                    height: '100px',
+                    width: 'auto',
                     '&::before': { backgroundColor: theme.white },
                 },
 
@@ -107,7 +109,7 @@ function NewProductCard({ product }) {
                     </Button>
                 </Group> */}
                 <div className="product">
-                    <Link to={`/product/${product.id}`} style={{
+                    <Link to={`/product/${product.id}/${product.name}`} style={{
                         textDecoration: 'none',
                     }}>
                         <div className="product-img">
@@ -132,7 +134,7 @@ function NewProductCard({ product }) {
                     <div className="product-body" >
                         <p className="product-category">{product?.category?.name}</p>
                         <h3 className="product-name">
-                            <Link to={`/product/${product.id}`}
+                            <Link to={`/product/${product.id}/${product.name}`}
                                 style={{
                                     textDecoration: 'none',
                                 }}
@@ -153,7 +155,7 @@ function NewProductCard({ product }) {
 
 
                             <button className="quick-view">
-                                <Link to={`/product/${product.id}`}>
+                                <Link to={`/product/${product.id}/${product.name}`}>
                                     <i className="fa fa-eye"></i><span className="tooltipp">quick view</span>
                                 </Link>
                             </button>

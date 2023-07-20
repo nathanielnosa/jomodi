@@ -24,7 +24,7 @@ function NavCat() {
                     <ul className="main-nav nav navbar-nav">
                         <li className="active"><Link to="/">Home</Link></li>
                         {categories?.map((category) => (
-                            <li key={category.id}><Link to={`/category/${category.id}`}>{category.name}</Link></li>
+                            <li key={category.id}><Link to={`/category/${category.id}/${category.name}`}>{category.name}</Link></li>
                         ))}
                     </ul>
                 </div>

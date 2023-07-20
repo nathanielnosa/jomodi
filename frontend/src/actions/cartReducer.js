@@ -35,6 +35,19 @@ const cartReducer = (state = initialState, action) => {
                 cartItems: updatedCartItems,
             };
 
+        case 'UPDATE_CART_ITEM_QUANTITY':
+            const { index, quantity } = action.payload;
+            if (quantity > 0) {
+                const updatedCartItems = [...state.cartItems];
+                updatedCartItems[index].quantity = quantity;
+                return {
+                    ...state,
+                    cartItems: updatedCartItems,
+                };
+            } else {
+                return state;
+            }
+
         default:
             return state;
     }
