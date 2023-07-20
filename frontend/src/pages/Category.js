@@ -16,6 +16,7 @@ function Store() {
   const [maxPriceSlider, setMaxPriceSlider] = useState(0);
   const [minPriceSlider, setMinPriceSlider] = useState(0);
   const [selectedBrands, setSelectedBrands] = useState([]);
+  const [sortingOption, setSortingOption] = useState('1');
 
   useEffect(() => {
     axios
@@ -61,6 +62,40 @@ function Store() {
     }
   });
 
+  const handleSortChange = (selectedValue) => {
+    // Update the sorting option state
+    setSortingOption(selectedValue);
+
+    // Implement your sorting logic based on the selectedValue
+    // For example, you can sort the filteredProducts array here
+    let sortedProducts = [...filteredProducts];
+
+    switch (selectedValue) {
+      case '1':
+        // Sort by recommended (You can define your sorting logic here)
+        // For example, you can sort by product rating, popularity, etc.
+
+        break;
+      case '2':
+        // Sort by price: Low to High
+        sortedProducts.sort((a, b) => a.price - b.price);
+        break;
+      case '3':
+        // Sort by price: High to Low
+        sortedProducts.sort((a, b) => b.price - a.price);
+        break;
+      case '4':
+        // Sort by newest arrivals (You can sort based on product timestamp or ID)
+        sortedProducts.sort((a, b) => b.id - a.id);
+        break;
+      default:
+        break;
+    }
+
+    // Update the filteredProducts state with the sorted array
+    setProducts(sortedProducts);
+  };
+
   return (
     <div className="section">
       <div>
@@ -76,7 +111,7 @@ function Store() {
           />
           )}
           <div id="store" className="col-md-9">
-            <StoreTop />
+            <StoreTop onSortChange={handleSortChange} />
             <div className="row">
               {filteredProducts?.map((product, index) => {
                 return <ProductCard product={product} key={index} />;
