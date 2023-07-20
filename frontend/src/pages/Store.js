@@ -37,31 +37,31 @@ function Store() {
   }, []);
 
   // Update filtered products based on selected categories, brands, maxPrice, and minPrice
-  const filteredProducts = products.filter((product) => {
-    const categoryMatch = selectedCategories.length === 0 || selectedCategories.some((id) => id === product?.category?.id);
-    const brandMatch = selectedBrands.length === 0 || selectedBrands.some((id) => id === product?.brand?.id);
-    const priceMatch = product.price >= minPriceSlider && product.price <= maxPriceSlider;
 
-    if (maxPrice !== 0 && minPrice !== 0) { // Check if maxPrice and minPrice are not equal to 0
-      if (
-        (selectedCategories.length === 0 && selectedBrands.length === 0) ||
-        (maxPriceSlider === maxPrice &&
-        minPriceSlider === minPrice)
-      ) {
-        // If no categories, brands, and price filters are applied, display all products
-        return true;
-      } else if (selectedCategories.length === 0 && selectedBrands.length === 0 ) {
-        // If no categories and brands are selected, apply only the price filter
-        return priceMatch;
-      } else {
-        // Apply filters based on selected categories, brands, and price range
-        return (categoryMatch && brandMatch) ;
-      }
+  const filteredProducts = products.filter((product) => {
+  const categoryMatch = selectedCategories.length === 0 || selectedCategories.some((id) => id === product?.category?.id);
+  const brandMatch = selectedBrands.length === 0 || selectedBrands.some((id) => id === product?.brand?.id);
+
+  // Check if minPriceSlider and maxPriceSlider are valid numbers
+  const validPriceRange = !isNaN(minPriceSlider) && !isNaN(maxPriceSlider) && minPriceSlider <= maxPriceSlider;
+
+  // Check if the product price is within the selected price range
+  const priceMatch = validPriceRange && product.price >= minPriceSlider && product.price <= maxPriceSlider;
+
+  if (validPriceRange) {
+    // If valid price range is applied
+    if (selectedCategories.length === 0 && selectedBrands.length === 0) {
+      // If no categories and brands are selected, apply only the price filter
+      return priceMatch;
     } else {
-      // If maxPrice or minPrice is 0, display all products without price filtering
-      return categoryMatch && brandMatch;
+      // Apply filters based on selected categories, brands, and price range
+      return (categoryMatch && brandMatch && priceMatch);
     }
-  });
+  } else {
+    // If invalid price range, apply filters based on selected categories and brands only
+    return (categoryMatch && brandMatch);
+  }
+});
 
 
 
@@ -80,7 +80,7 @@ console.log((selectedCategories.length === 0 && selectedBrands.length === 0) ||
       case '1':
         // Sort by recommended (You can define your sorting logic here)
         // For example, you can sort by product rating, popularity, etc.
-        
+        sortedProducts.sort(() => Math.random() - 0.5);
         break;
       case '2':
         // Sort by price: Low to High
@@ -123,13 +123,13 @@ return (
           <StoreTop onSortChange={handleSortChange} />
 
           <div className="row">
-            {filteredProducts.map((product, index) => (
+            {filteredProducts.length > 0 ? filteredProducts.map((product, index) => (
+              <ProductCard product={product} key={index} />
+            )) : products.map((product, index) => (
               <ProductCard product={product} key={index} />
             ))}
           </div>
-
           <div className="store-filter clearfix">
-            {maxPrice}
             <span className="store-qty">Showing {filteredProducts.length} products</span>
             {/* <ul className="store-pagination">
               <li className="active">1</li>

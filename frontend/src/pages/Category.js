@@ -39,26 +39,25 @@ function Store() {
 
   const filteredProducts = products.filter((product) => {
     const brandMatch = selectedBrands.length === 0 || selectedBrands.some((id) => id === product?.brand?.id);
-    const priceMatch = product.price >= minPriceSlider && product.price <= maxPriceSlider;
 
-    if (maxPrice !== 0 && minPrice !== 0) { // Check if maxPrice and minPrice are not equal to 0
-      if (
-        (selectedBrands.length === 0) ||
-        (maxPriceSlider === maxPrice &&
-          minPriceSlider === minPrice)
-      ) {
-        // If no categories, brands, and price filters are applied, display all products
-        return true;
-      } else if (selectedBrands.length === 0) {
+    // Check if minPriceSlider and maxPriceSlider are valid numbers
+    const validPriceRange = !isNaN(minPriceSlider) && !isNaN(maxPriceSlider) && minPriceSlider <= maxPriceSlider;
+
+    // Check if the product price is within the selected price range
+    const priceMatch = validPriceRange && product.price >= minPriceSlider && product.price <= maxPriceSlider;
+
+    if (validPriceRange) {
+      // If valid price range is applied
+      if (selectedBrands.length === 0) {
         // If no categories and brands are selected, apply only the price filter
         return priceMatch;
       } else {
         // Apply filters based on selected categories, brands, and price range
-        return (brandMatch);
+        return (brandMatch && priceMatch);
       }
     } else {
-      // If maxPrice or minPrice is 0, display all products without price filtering
-      return brandMatch;
+      // If invalid price range, apply filters based on selected categories and brands only
+      return (brandMatch);
     }
   });
 
@@ -74,7 +73,7 @@ function Store() {
       case '1':
         // Sort by recommended (You can define your sorting logic here)
         // For example, you can sort by product rating, popularity, etc.
-
+        sortedProducts.sort(() => Math.random() - 0.5);
         break;
       case '2':
         // Sort by price: Low to High
@@ -113,9 +112,11 @@ function Store() {
           <div id="store" className="col-md-9">
             <StoreTop onSortChange={handleSortChange} />
             <div className="row">
-              {filteredProducts?.map((product, index) => {
-                return <ProductCard product={product} key={index} />;
-              })}
+              {filteredProducts.length > 0 ? filteredProducts.map((product, index) => (
+                <ProductCard product={product} key={index} />
+              )) : products.map((product, index) => (
+                <ProductCard product={product} key={index} />
+              ))}
             </div>
             <div className="store-filter clearfix">
               <span className="store-qty">

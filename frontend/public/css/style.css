@@ -210,6 +210,7 @@ textarea.input {
   max-width: auto; /* Set a fixed width to limit the number of slides in a row */
   margin: 0 auto; /* Center the slider container */
   height: 300px;
+  margin-bottom: 30px;
 }
 
 .input-select2 {

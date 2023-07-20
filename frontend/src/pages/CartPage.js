@@ -3,9 +3,11 @@ import { useSelector, useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { addToCart, removeFromCart } from '../actions/cartActions';
 import { addToWishlist, removeFromWishlist } from '../actions/wishActions';
-import { Button, Group } from '@mantine/core';
+import { Button, Divider, Group, Input } from '@mantine/core';
+import { UnstyledButton, Text } from '@mantine/core';
 import { notifications } from '@mantine/notifications';
 import { updateCartItemQuantity } from '../actions/cartActions';
+import dayjs from 'dayjs';
 
 function CartPage() {
   const cartItems = useSelector((state) => state.cart.cartItems);
@@ -28,6 +30,7 @@ function CartPage() {
 
   const cartQuantity = cartItems.length;
   const cartTotal = cartItems.reduce((total, item) => total + item.quantity * item.price, 0);
+  const cartDiscount = cartItems.reduce((total, item) => total + item.quantity * item.cancel_price, 0);
 
   const handleQuantityChange = (index, newQuantity) => {
     if (newQuantity > 0) {
@@ -37,6 +40,14 @@ function CartPage() {
     }
   };
 
+  const getDeliveryDate = () => {
+    const today = dayjs();
+    const deliveryDate = today.add(7, 'day');
+
+    // Format the delivery date as "DD/MM/YYYY"
+    const formattedDeliveryDate = deliveryDate.format('DD-MMMM-YYYY');
+    return formattedDeliveryDate;
+  };
 
 
   const handleAddToWishlist = (product) => {
@@ -64,75 +75,110 @@ function CartPage() {
   };
 
   return (
-    <div className="container mt-5">
-      <div className="row" style={{
-        backgroundColor: 'white',
-      }}>
-        <div className="col-md-8">
+    <div className="mt-5">
+      <div className="row">
+        <div className="col-md-7" style={{
+          backgroundColor: 'white',
+        }}>
           <div className="card mb-3">
             {cartItems.map((item, index) => (
               <div key={index} className="row no-gutters" style={{
-                margin: '20px',
-                padding: '20px'
+                margin: '3px',
+                padding: '3px'
               }}>
-                <div className="col-md-4">
+                <div className="col-md-2">
 
                   <img src={item.image} className="card-img" alt="Product Image"
                     style={{
-                      width: "90%",
-                      height: "90%",
+                      width: "70px",
+                      height: "70px",
                     }}
                   />
-                  <div className="qty-label" style={{ marginTop: '20px' }}>
-                    <div className="input-number" style={{ width: '100px' }}>
-                      <input
-                        type="number"
-                        value={item.quantity}
-                        onChange={(e) => handleQuantityChange(index, parseInt(e.target.value, 10))}
-                      />
-                      <span className="qty-up" onClick={() => handleQuantityChange(index, item.quantity + 1)}>
-                        +
-                      </span>
-                      <span className="qty-down" onClick={() => handleQuantityChange(index, item.quantity - 1)}>
-                        -
-                      </span>
-                    </div>
-                  </div>
                 </div>
                 <div className="col-md-8">
                   <Group position="right">
-                    <p className="card-title"> Delivery in 7 days</p>
+                    <p className="card-title"> Delivery by {getDeliveryDate()} | Free </p>
                   </Group>
                   <div className="card-body">
-                    <h5 className="card-title">
+                    <h5 className="card-title" style={{
+                      marginBottom: '10px',
+                    }}>
                       <Link to={`/product/${item.id}`} style={
                         {
                           textDecoration: 'none',
-                          color: 'black'
+                          color: 'black',
+
                         }
                       }>{item.name.toUpperCase()}</Link>
                     </h5>
-                    <Group position="left">
-                      <del className="product-old-price">₹{item?.cancel_price}</del>
-                      <p className="card-title"> ₹{
-                        item.price.toFixed(2)
-                      }</p>
+                    <Group position="left" >
+                      <del className="product-old-price" style={{
+                        marginBottom: '10px',
+                      }}>₹{item?.cancel_price}</del>
+                      <p className="card-title" style={{
+                        marginBottom: '10px',
+                      }}> ₹{
+                          item.price.toFixed(2)
+                        }</p>
                     </Group>
-                    <p className="card-title">Quantity: {item.quantity}</p>
-                    <button className="btn btn-danger btn-sm" onClick={() => handleAddToWishlist(item)}>
-                      Save for Later</button>
-                    <button className="btn btn-danger btn-sm" onClick={() => handleRemoveFromCart(index)}
-                      style={{
-                        marginLeft: '20px'
-                      }}
-                    >
-                      Remove</button>
-                  </div>
+                    {/* <p className="card-title">Quantity: {item.quantity}</p> */}
 
+                  </div>
                 </div>
+                <div className="col-md-12">
+                  <Group position="left">
+
+                    <div className="qty-label">
+                      <UnstyledButton>
+                        <Group position='left'>
+                          <Button radius="xl" size="md"
+                            onClick={() => handleQuantityChange(index, item.quantity - 1)}
+                            variant="outline" color="red"
+
+                          >
+                            - </Button>
+                          <input
+                            type="number"
+                            value={item.quantity}
+                            onChange={(e) => handleQuantityChange(index, parseInt(e.target.value, 10))}
+                            style={{
+                              width: '40px', // Adjust the width to your desired size
+                              height: '24px', // Adjust the height to your desired size
+                              border: '1px solid #ccc',
+                              fontSize: '14px', // Adjust the font size to your desired size
+                              textAlign: 'center', // Center the text inside the input
+                              margin: '0 5px', // Add some spacing around the input
+                            }}
+                          />
+                          <Button radius="xl" size="md" onClick={() => handleQuantityChange(index, item.quantity + 1)} variant="outline" color="red">
+                            + </Button>
+                        </Group>
+                      </UnstyledButton>
+                    </div>
+                    <div>
+                      <button className="btn btn-lg" onClick={() => handleAddToWishlist(item)}>
+                        SAVE FOR LATER</button>
+                      <button className="btn btn-lg" onClick={() => handleRemoveFromCart(index)}
+                        style={{
+                          marginLeft: '20px'
+                        }}
+                      >
+                        REMOVE</button>
+                    </div>
+
+                  </Group>
+                  <Divider style={{
+                    marginTop: '10px'
+                  }} />
+                </div>
+
               </div>
+
             ))}
-            <Group position="right">
+            <Group position="right" style={{
+              boxShadow: '0 0 10px rgba(0,0,0,0.2)',
+              padding: '20px',
+            }}>
 
               <Link to="/checkout" style={{
                 textDecoration: 'none',
@@ -147,31 +193,107 @@ function CartPage() {
 
         </div>
         <div className="col-md-4" style={{
-          marginTop: '50px',
-          border: '1px solid black',
-          padding: '20px'
+          padding: '20px',
+          backgroundColor: 'white',
+          marginLeft: '20px'
         }}>
           <div className="card">
-            <div className="card-body">
-              <h4 className="card-title">Price Details</h4>
-              <Group position="apart">
-                <h4 className='card-title'>You have {cartQuantity} items in your cart</h4>
-              </Group>
-              <Group position="apart">
-                <h4 className="card-title">Subtotal:</h4>
+            <div className="card">
+              <div className="card-body">
+                <h4 className="card-title" style={{
+                  marginBottom: '20px',
+                  fontWeight: 'bold',
+                  fontSize: '18px',
+                  color: 'gray'
+                }}>Price Details</h4>
+                <hr />
+                {/* <Group position="apart" style={{
+                  marginTop: '20px'
+                }}>
+                  <h4 className='card-title'>You have {cartQuantity} items in your cart</h4>
+                </Group> */}
+                <Group position="apart" style={{
+                  marginTop: '20px'
+                }}>
+                  <h4 className="card-title" style={{
+                    marginBottom: '20px',
+                    fontWeight: 'bold',
+                    fontSize: '15px',
 
-                <h4> ₹{cartTotal.toFixed(0)}</h4>
-              </Group>
-              <Group position="apart">
-                <h4 className="card-title">Shipping:</h4>
-                <h4>Free</h4>
-              </Group>
-              <Group position="apart">
-                <h4 className="card-title">Total Amount:</h4>
+                  }}>Price ({cartQuantity}) items :</h4>
 
-                <h4>₹{cartTotal.toFixed(2)}</h4>
-              </Group>
+                  <h4 style={{
+                    marginBottom: '20px',
+                    fontWeight: 'bold',
+                    fontSize: '15px',
 
+                  }}> ₹{cartTotal.toFixed(0)}</h4>
+                </Group>
+                <Group position="apart" style={{
+                  marginTop: '20px'
+                }}>
+                  <h4 className="card-title" style={{
+                    marginBottom: '20px',
+                    fontWeight: 'bold',
+                    fontSize: '15px',
+
+                  }}>Discount:</h4>
+                  <h4 style={{
+                    marginBottom: '20px',
+                    fontWeight: 'bold',
+                    fontSize: '15px',
+
+                  }}>
+                    ₹{cartDiscount.toFixed(0)}
+                  </h4>
+                </Group>
+                <Group position="apart" style={{
+                  marginTop: '20px'
+                }}>
+                  <h4 className="card-title" style={{
+                    marginBottom: '20px',
+                    fontWeight: 'bold',
+                    fontSize: '15px',
+
+                  }}>Delivery Charges:</h4>
+
+                  <h4 style={{
+                    marginBottom: '20px',
+                    fontWeight: 'bold',
+                    fontSize: '15px',
+
+                  }}>Free</h4>
+                </Group>
+                <hr />
+                <Group position="apart" style={{
+                  marginTop: '20px'
+                }}>
+                  <h4 className="card-title" style={{
+                    marginBottom: '20px',
+                    fontWeight: 'bold',
+                    fontSize: '15px',
+
+                  }}>Total Amount:</h4>
+
+                  <h4 style={{
+                    marginBottom: '20px',
+                    fontWeight: 'bold',
+                    fontSize: '15px',
+
+                  }}>₹{cartTotal.toFixed(2)}</h4>
+                </Group>
+                <hr />
+                <Group position="left">
+                  <h4 className="card-title" style={{
+                    marginBottom: '20px',
+                    fontWeight: 'bold',
+                    fontSize: '15px',
+                    color: 'green',
+                    marginTop: '10px'
+                  }}>You will save ₹{cartDiscount.toFixed(2)}</h4>
+                </Group>
+
+              </div>
             </div>
           </div>
         </div>

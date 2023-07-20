@@ -1,6 +1,6 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { addToCart, removeFromCart } from '../actions/cartActions';
 import { addToWishlist, removeFromWishlist } from '../actions/wishActions';
 
@@ -39,20 +39,51 @@ function WishCart() {
     const wishlistQuantity = wishlist.length;
     const cartTotal = cartItems.reduce((total, item) => total + item.quantity * item.price, 0);
 
-    return (
-        <div className="col-md-3 clearfix">
-            <div className="header-ctn">
-                <div className="dropdown">
-                    <a className="dropdown-toggle" data-toggle="dropdown" aria-expanded="true" style={{
-                        cursor: 'pointer',
-                        textDecoration: 'none'
+    // State to handle the menu toggle
+    const [wishlistOpen, setWishlistOpen] = useState(false);
+    const [cartOpen, setCartOpen] = useState(false);
 
-                    }}>
+    // Function to handle the menu toggle
+    const handleWishlistToggle = () => {
+        setWishlistOpen((prevState) => !prevState);
+    };
+
+    const handleCartToggle = () => {
+        setCartOpen((prevState) => !prevState);
+    };
+
+    const location = useLocation();
+
+    // Close the dropdowns when the location changes (i.e., when navigating to another page)
+    useEffect(() => {
+        setWishlistOpen(false);
+        setCartOpen(false);
+    }, [location]);
+
+    return (
+        <div className="col-md-12 clearfix">
+            <div className="header-ctn" style={{ display: 'flex' }}>
+                {/* Wishlist Dropdown */}
+                <div className={`dropdown ${wishlistOpen ? 'open' : ''}`}>
+                    <a
+                        className="dropdown-toggle"
+                        onClick={handleWishlistToggle} // Add the click event to toggle the menu
+                        aria-expanded={wishlistOpen}
+                        style={{
+                            cursor: 'pointer',
+                            textDecoration: 'none',
+                        }}
+                    >
                         <i className="fa fa-heart-o"></i>
                         <span>Your Wishlist</span>
                         <div className="qty">{wishlistQuantity}</div>
                     </a>
-                    <div className="cart-dropdown">
+                    <div className={`cart-dropdown ${wishlistOpen ? 'show' : ''}`}
+                    style={{
+                        paddingLeft: '60px',
+                    }}
+                    >
+                       
                         <div className="cart-list">
                             {wishlist.map((item, index) => (
                                 <div className="product-widget" key={index}>
@@ -85,17 +116,24 @@ function WishCart() {
                         </div>
                     </div>
                 </div>
-                <div className="dropdown">
-                    <a className="dropdown-toggle" data-toggle="dropdown" aria-expanded="true" style={{
-                        cursor: 'pointer',
-                        textDecoration: 'none'
-                        
-                    }}>
+
+                {/* Cart Dropdown */}
+                <div className={`dropdown ${cartOpen ? 'open' : ''}`}>
+                    <a
+                        className="dropdown-toggle"
+                        onClick={handleCartToggle} // Add the click event to toggle the menu
+                        aria-expanded={cartOpen}
+                        style={{
+                            cursor: 'pointer',
+                            textDecoration: 'none',
+                            marginLeft: '15px', // Add some space between the dropdowns
+                        }}
+                    >
                         <i className="fa fa-shopping-cart"></i>
                         <span>Your Cart</span>
                         <div className="qty">{cartQuantity}</div>
                     </a>
-                    <div className="cart-dropdown">
+                    <div className={`cart-dropdown ${cartOpen ? 'show' : ''}`}>
                         <div className="cart-list">
                             {cartItems.map((item, index) => (
                                 <div className="product-widget" key={index}>
@@ -127,12 +165,6 @@ function WishCart() {
                             </Link>
                         </div>
                     </div>
-                </div>
-                <div className="menu-toggle">
-                    <a href="#">
-                        <i className="fa fa-bars"></i>
-                        <span>Menu</span>
-                    </a>
                 </div>
             </div>
         </div>

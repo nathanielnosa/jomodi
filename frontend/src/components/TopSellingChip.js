@@ -51,7 +51,7 @@ function TopSellingChip() {
             <div className="container">
 
                 <div className="row">
-                    <div className="col-md-4 col-xs-6">
+                    <div className="col-md-4 col-xs-12">
                         <div className="section-title">
                             <h4 className="title">Top selling</h4>
                             <div className="section-nav">
@@ -89,9 +89,9 @@ function TopSellingChip() {
                         </Slider>
 
                     </div>
-                    <div className="col-md-4 col-xs-6">
+                    <div className="col-md-4 col-xs-12">
                         <div className="section-title">
-                            <h4 className="title">Top selling</h4>
+                            <h4 className="title">New Product</h4>
                             <div className="section-nav">
                                 <div id="slick-nav-3" className="products-slick-nav"></div>
                             </div>
@@ -127,9 +127,9 @@ function TopSellingChip() {
                         </Slider>
 
                     </div>
-                    <div className="col-md-4 col-xs-6">
+                    <div className="col-md-4 col-xs-12">
                         <div className="section-title">
-                            <h4 className="title">Top selling</h4>
+                            <h4 className="title">Popular Product</h4>
                             <div className="section-nav">
                                 <div id="slick-nav-3" className="products-slick-nav"></div>
                             </div>

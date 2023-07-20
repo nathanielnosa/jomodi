@@ -63,10 +63,13 @@ function TopProductCard({ product }) {
     return (
         <>
 
-            <div className="col-md-12 col-xs-12">
+            <div className="col-md-12 col-xs-12" style={{
+                marginBottom: '90px',
+                // marginTop: '200px',
+            }}>
             
                 <div className="product">
-                    <Link to={`/product/${product.id}/${product.name}`} style={{
+                    <Link to={`/product/${product.id}/${product.name}`} target="_blank" style={{
                         textDecoration: 'none',
                     }}>
                         <div className="product-img">
@@ -91,9 +94,14 @@ function TopProductCard({ product }) {
                     <div className="product-body">
                         <p className="product-category">{product?.category?.name}</p>
                         <h3 className="product-name">
-                            <Link to={`/product/${product.id}/${product.name}`}
+                            <Link to={`/product/${product.id}/${product.name}`} target="_blank"
                                 style={{
-                                    textDecoration: 'none',
+                                    textDecoration: "none",
+                                    whiteSpace: "nowrap",
+                                    overflow: "hidden",
+                                    textOverflow: "ellipsis",
+                                    width: "100%", // Adjust the width to your desired size
+                                    display: "inline-block",
                                 }}
                             >{product?.name}</Link>
                         </h3>
