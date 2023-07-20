@@ -77,7 +77,6 @@ function Sidebar({ max, min, selectedCategories, selectedBrands, onCategoryChang
 	}, []);
 
 
-
 	useEffect(() => {
 		axios
 			.get(API_URL + 'category/brand/')
@@ -113,7 +112,9 @@ function Sidebar({ max, min, selectedCategories, selectedBrands, onCategoryChang
 									<label htmlFor={`category-${category.id}`}>
 										<span></span>
 										{category.name}
-										{/* <small>(120)</small> */}
+									   <small>({
+										   products?.filter((product) => product.category.id == category.id).length
+										})</small>
 									</label>
 								</div>
 							))}
@@ -199,7 +200,9 @@ function Sidebar({ max, min, selectedCategories, selectedBrands, onCategoryChang
 										<label htmlFor={`brand-${brand.id}`}>
 											<span></span>
 											{brand.name}
-											<small>(578)</small>
+											<small>({
+												products?.filter((product) => product.brand.id == brand.id).length
+												})</small>
 										</label>
 									</div>
 								))}
