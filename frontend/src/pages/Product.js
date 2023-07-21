@@ -380,12 +380,8 @@ function Product() {
                                     >
                                         <i className="fa fa-shopping-cart"></i> add to cart
                                     </button>
-
+                                    <Link to={`/product-checkout/${product.id}/${product.name}`} target="_blank">
                                     <button
-                                        
-                                        onClick={() => {
-                                            alert("Working on Payment")
-                                        }}
                                         style={{
                                             marginLeft: '20px',
                                             backgroundColor: "yellowgreen",
@@ -399,6 +395,7 @@ function Product() {
                                     >
                                         <i className="fa fa-shopping-cart"></i> buy now
                                     </button>
+                                    </Link>
                                 </div>
 
                                 <ul className="product-btns">

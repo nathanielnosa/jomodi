@@ -10,6 +10,7 @@ import SearchPage from '../pages/SearchPage';
 import WishListPage from '../pages/WishListPage';
 import CartPage from '../pages/CartPage';
 import WishListCheckOut from '../pages/WishListCheckOut';
+import ProductCheckout from '../pages/ProductCheckout';
 
 function MainRoute() {
     return (
@@ -24,6 +25,7 @@ function MainRoute() {
                 <Route path="/category/:id/:slug" element={<Category />} />
                 <Route path="search/:keyword/:categoryid" element={<SearchPage />} />
                 <Route path="/wishlistcheckout" element={<WishListCheckOut />} />
+                <Route path="/product-checkout/:id/:slug" element={<ProductCheckout />} />
 
                 <Route path="*" element={<h1>Not Found</h1>} />
             </Route>
