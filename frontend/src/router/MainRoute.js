@@ -14,6 +14,11 @@ import ProductCheckout from '../pages/ProductCheckout';
 import Brand from '../pages/Brand';
 import Order from '../pages/Order';
 import OrderSuccess from '../pages/OrderSuccess';
+import HelpPage from '../pages/HelpPage';
+import OrderReturn from '../pages/OrderReturn';
+import PrivacyPolicy from '../pages/PrivacyPolicy';
+import TAC from '../pages/TAC';
+import About from '../pages/About';
 
 function MainRoute() {
     return (
@@ -32,6 +37,13 @@ function MainRoute() {
                 <Route path="/brand/:id/:slug" element={<Brand />} />
                 <Route path="/order" element={<Order />} />
                 <Route path="/order-success" element={<OrderSuccess />} />
+
+                <Route path="/help" element={<HelpPage />} />
+                <Route path="/order-return" element={<OrderReturn />} />
+                <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+                <Route path="/terms-and-conditions" element={<TAC />} />
+                <Route path="/about-us" element={<About />} />
+
 
                 <Route path="*" element={<h1>Not Found</h1>} />
             </Route>

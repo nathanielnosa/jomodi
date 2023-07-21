@@ -56,11 +56,18 @@ function AppFooter() {
                             <div className="footer">
                                 <h3 className="footer-title">Information</h3>
                                 <ul className="footer-links">
-                                    <li><a href="#">About Us</a></li>
+                                    <li><Link to="/about-us">About Us</Link></li>
+                                    <li><Link to="/contact-us">Contact Us</Link></li>
+                                    <li><Link to="/privacy-policy">Privacy Policy</Link></li>
+                                    <li><Link to="/order-return">Orders and Returns</Link></li>
+                                    <li><Link to="/terms-and-conditions">Terms & Conditions</Link></li>
+                                    <li><Link to="/help">Help Page</Link></li>
+                                    
+                                    {/* <li><a href="#">About Us</a></li>
                                     <li><a href="#">Contact Us</a></li>
                                     <li><a href="#">Privacy Policy</a></li>
                                     <li><a href="#">Orders and Returns</a></li>
-                                    <li><a href="#">Terms & Conditions</a></li>
+                                    <li><a href="#">Terms & Conditions</a></li> */}
                                 </ul>
                             </div>
                         </div>
