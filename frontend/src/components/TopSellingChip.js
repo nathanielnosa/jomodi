@@ -33,10 +33,10 @@ function TopSellingChip() {
                 const shuffledProducts3 = res.data.results.sort(() => 0.5 - Math.random());
 
                 // Select the first 3 products from the shuffled array
-                const selectedProducts = shuffledProducts.slice(0, 3);
-                const selectedProducts2 = shuffledProducts2.slice(0, 3);
-                const selectedProducts3 = shuffledProducts3.slice(0, 3);
-                setProducts(selectedProducts);
+                const selectedProducts1 = shuffledProducts.slice(0, 3);
+                const selectedProducts2 = shuffledProducts.slice(3, 6);
+                const selectedProducts3 = shuffledProducts.slice(6, 9);
+                setProducts(selectedProducts1);
                 setProduct2(selectedProducts2);
                 setProduct3(selectedProducts3);
             })
@@ -50,7 +50,9 @@ function TopSellingChip() {
 
             <div className="container">
 
-                <div className="row">
+                <div className="row" style={{
+                    marginTop: '20px',
+                }}>
                     <div className="col-md-4 col-xs-12">
                         <div className="section-title">
                             <h4 className="title">Top selling</h4>

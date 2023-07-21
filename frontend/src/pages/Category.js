@@ -40,27 +40,42 @@ function Store() {
       });
   }, [id]);
 
+
   const filteredProducts = products.filter((product) => {
+    console.log("minPriceSlider:", minPriceSlider);
+    console.log("maxPriceSlider:", maxPriceSlider);
+    console.log("Product price:", product.price);
+
     const brandMatch = selectedBrands.length === 0 || selectedBrands.some((id) => id === product?.brand?.id);
 
-    // Check if minPriceSlider and maxPriceSlider are valid numbers
-    const validPriceRange = !isNaN(minPriceSlider) && !isNaN(maxPriceSlider) && minPriceSlider <= maxPriceSlider;
+    // Check if minPriceSlider and maxPriceSlider are valid numbers and minPriceSlider is less than or equal to maxPriceSlider
+    const validPriceRange = !isNaN(minPriceSlider) && !isNaN(maxPriceSlider) && (minPriceSlider <= maxPriceSlider) && maxPriceSlider !== 0 && minPriceSlider !== 0;
 
     // Check if the product price is within the selected price range
-    const priceMatch = validPriceRange && product.price >= minPriceSlider && product.price <= maxPriceSlider;
+    const priceMatch = product.price >= minPriceSlider && product.price <= maxPriceSlider;
 
     if (validPriceRange) {
       // If valid price range is applied
-      if (selectedBrands.length === 0) {
+      if ( selectedBrands.length === 0 && minPriceSlider != minPrice && maxPriceSlider != maxPrice) {
         // If no categories and brands are selected, apply only the price filter
+        console.log("here 1")
         return priceMatch;
       } else {
         // Apply filters based on selected categories, brands, and price range
-        return (brandMatch && priceMatch);
+        console.log("here 2")
+        return ( priceMatch) && (brandMatch && priceMatch);;
       }
     } else {
       // If invalid price range, apply filters based on selected categories and brands only
-      return (brandMatch);
+      if (selectedBrands.length === 0) {
+        // If no categories and brands are selected and price range is invalid, do not apply any filter
+        console.log("here 3")
+        return true;
+      } else {
+        // Apply filters based on selected categories and brands only
+        console.log("here 4")
+        return  brandMatch;
+      }
     }
   });
 
