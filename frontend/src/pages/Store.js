@@ -154,9 +154,6 @@ function Store() {
 
           <div id="store" className="col-md-9">
             <StoreTop onSortChange={handleSortChange} />
-            <h3>
-              {minPriceSlider} - {maxPriceSlider}
-            </h3>
             <div className="row">
               {
                 filteredProducts.length == 0 ? (
