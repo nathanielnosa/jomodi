@@ -44,29 +44,45 @@ function Store() {
   // Update filtered products based on selected categories, brands, maxPrice, and minPrice
 
   const filteredProducts = products.filter((product) => {
+    console.log("minPriceSlider:", minPriceSlider);
+    console.log("maxPriceSlider:", maxPriceSlider);
+    console.log("Product price:", product.price);
+
     const categoryMatch = selectedCategories.length === 0 || selectedCategories.some((id) => id === product?.category?.id);
     const brandMatch = selectedBrands.length === 0 || selectedBrands.some((id) => id === product?.brand?.id);
 
-    // Check if minPriceSlider and maxPriceSlider are valid numbers
+    // Check if minPriceSlider and maxPriceSlider are valid numbers and minPriceSlider is less than or equal to maxPriceSlider
     const validPriceRange = !isNaN(minPriceSlider) && !isNaN(maxPriceSlider) && minPriceSlider <= maxPriceSlider;
 
     // Check if the product price is within the selected price range
-    const priceMatch = validPriceRange && product.price >= minPriceSlider && product.price <= maxPriceSlider;
+    const priceMatch = product.price >= minPriceSlider && product.price <= maxPriceSlider;
 
     if (validPriceRange) {
       // If valid price range is applied
       if (selectedCategories.length === 0 && selectedBrands.length === 0) {
         // If no categories and brands are selected, apply only the price filter
+        console.log("here 1")
         return priceMatch;
       } else {
         // Apply filters based on selected categories, brands, and price range
-        return (categoryMatch && brandMatch && priceMatch);
+        console.log("here 2")
+        return categoryMatch && brandMatch && priceMatch;
       }
     } else {
       // If invalid price range, apply filters based on selected categories and brands only
-      return (categoryMatch && brandMatch);
+      if (selectedCategories.length === 0 && selectedBrands.length === 0) {
+        // If no categories and brands are selected and price range is invalid, do not apply any filter
+        console.log("here 3")
+        return true;
+      } else {
+        // Apply filters based on selected categories and brands only
+        console.log("here 4")
+        return categoryMatch && brandMatch;
+      }
     }
   });
+
+
 
 
   const totalPages = filteredProducts.length == 0 ? Math.ceil(products?.length / itemsPerPage)
@@ -91,7 +107,7 @@ function Store() {
 
     // Implement your sorting logic based on the selectedValue
     // For example, you can sort the filteredProducts array here
-    let sortedProducts = [...filteredProducts];
+    let sortedProducts = filteredProducts.length == 0 ? [...products] : [...filteredProducts];
 
     switch (selectedValue) {
       case '1':
@@ -138,7 +154,9 @@ function Store() {
 
           <div id="store" className="col-md-9">
             <StoreTop onSortChange={handleSortChange} />
-
+            <h3>
+              {minPriceSlider} - {maxPriceSlider}
+            </h3>
             <div className="row">
               {
                 filteredProducts.length == 0 ? (
@@ -154,18 +172,18 @@ function Store() {
               }
             </div>
             <div className="store-filter clearfix">
-              <span className="store-qty">Showing {filteredProducts.length} products</span>
+              <span className="store-qty">Showing {filteredProducts.length || products.length} products</span>
               <Group spacing={5} position="right">
                 <Pagination my="lg" total={totalPages}
                   value={page}
-                  onChange={handlePageChange} color="red" 
+                  onChange={handlePageChange} color="red"
                   style={{
                     display: 'flex',
                     fontSize: '1.6rem',
                   }}
-                  />
+                />
               </Group>
-             
+
             </div>
           </div>
         </div>

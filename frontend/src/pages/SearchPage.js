@@ -94,7 +94,7 @@ function SearchPage() {
 
         // Implement your sorting logic based on the selectedValue
         // For example, you can sort the filteredProducts array here
-        let sortedProducts = [...filteredProducts];
+        let sortedProducts = filteredProducts.length == 0 ? [...products] : [...filteredProducts];
 
         switch (selectedValue) {
             case '1':
@@ -157,7 +157,7 @@ function SearchPage() {
                             }
                         </div>
                         <div className="store-filter clearfix">
-                            <span className="store-qty">Showing {filteredProducts.length} products</span>
+                            <span className="store-qty">Showing {filteredProducts.length || products.length} products</span>
                             <Group spacing={5} position="right">
                                 <Pagination my="lg" total={totalPages}
                                     value={page}

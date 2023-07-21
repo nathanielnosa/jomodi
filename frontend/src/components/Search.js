@@ -22,7 +22,7 @@ function Search() {
     return (
         <div className="header-search">
             <form>
-                <select className="input-select2" value={category} onChange={(e) => setCategory(e.target.value)}>
+                <select className="search-btn2" value={category} onChange={(e) => setCategory(e.target.value)}>
                     <option value="0">All Categories</option>
                     {categories?.map((category) => (
                         <option key={category.id} value={category.id}>{category.name}</option>
@@ -30,7 +30,11 @@ function Search() {
                 </select>
                 <input className="input" placeholder="Search here" value={keyword} onChange={(e) => setKeyword(e.target.value)} />
                 <Link to={`/search/${keyword}/${category}`}>
-                    <button className="search-btn">
+                    <button className="search-btn"
+                    style={{
+                        marginTop: '10px',
+                    }}
+                    >
                         <i className="fa fa-search"></i>
                     </button>
                 </Link>

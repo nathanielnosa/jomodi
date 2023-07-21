@@ -1,15 +1,18 @@
-import React, {useEffect, useState} from 'react'
+import React, { useEffect, useState } from 'react'
 
-function Checkout() {
-    const [cartItems, setCartItems] = useState([]);
+function WishListCheckOut() {
+    const [wishItems, setWishItems] = useState([]);
+
 
     useEffect(() => {
         // Get cart items from local storage
-        const existingCartItems = JSON.parse(localStorage.getItem('cartItems')) || [];
-        setCartItems(existingCartItems);
+        const existingWishItems = JSON.parse(localStorage.getItem('wishlist')) || [];
+        setWishItems(existingWishItems);
     }, []);
 
-    const cartTotal = cartItems.reduce((total, item) => total + item.quantity * item.price, 0);
+    // const cartTotal = cartItems.reduce((total, item) => total + item.quantity * item.price, 0);
+    const wishTotal = wishItems.reduce((accumulator, item) => accumulator + item.price, 0);
+
     return (
         <>
 
@@ -67,19 +70,6 @@ function Checkout() {
                                 <div className="form-group">
                                     <input className="input" type="tel" name="tel" placeholder="Telephone" />
                                 </div>
-                                {/* <div className="form-group">
-                                    <div className="input-checkbox">
-                                        <input type="checkbox" id="create-account" />
-                                        <label htmlFor="create-account">
-                                            <span></span>
-                                            Create Account?
-                                        </label>
-                                        <div className="caption">
-                                            <p>Creata a Password for your account.</p>
-                                            <input className="input" type="password" name="password" placeholder="Enter Your Password" />
-                                        </div>
-                                    </div>
-                                </div> */}
                             </div>
 
                             <div className="shiping-details">
@@ -125,7 +115,16 @@ function Checkout() {
                         </div>
 
 
-                        <div className="col-md-5 order-details">
+                        <div className="col-md-5 order-details"
+                        style={{
+                            position: "sticky",
+                            top: 0,
+                            background: "white",
+                            boxShadow: "0 0 10px rgba(0,0,0,0.2)",
+                            padding: "20px",
+                            marginTop: "20px",
+                        }}
+                        >
                             <div className="section-title text-center">
                                 <h3 className="title">Your Order</h3>
                             </div>
@@ -135,23 +134,23 @@ function Checkout() {
                                     <div><strong>TOTAL</strong></div>
                                 </div>
                                 <div className="order-products">
-                                    {cartItems.map((item, index) => (
+                                    {wishItems.map((item, index) => (
                                         <div className="order-col" key={index}>
-                                            <div>{item.quantity}x {item.name}</div>
+                                            <div>{item.name}</div>
                                             <div>
-                                                ₹{(item.quantity * item.price).toFixed(2)}</div>
+                                                ₹{(item.price).toFixed(2)}</div>
                                         </div>
                                     ))}
-                                   
+
                                 </div>
                                 <div className="order-col">
-                                    <div>Shiping</div>
+                                    <div>Shipping</div>
                                     <div><strong>FREE</strong></div>
                                 </div>
                                 <div className="order-col">
                                     <div><strong>TOTAL</strong></div>
                                     <div><strong className="order-total">
-                                        ₹{cartTotal.toFixed(2)}</strong></div>
+                                        ₹{wishTotal.toFixed(2)}</strong></div>
                                 </div>
                             </div>
                             <div className="payment-method">
@@ -183,7 +182,7 @@ function Checkout() {
                                     </label>
                                     <div className="caption">
                                         <p>
-                                            Pay with cash upon delivery
+                                            Pay with cash upon delivery.
                                         </p>
                                     </div>
                                 </div>
@@ -207,4 +206,4 @@ function Checkout() {
     )
 }
 
-export default Checkout
+export default WishListCheckOut

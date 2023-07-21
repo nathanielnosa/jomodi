@@ -88,11 +88,15 @@ function WishListPage() {
 
             ))}
             <Group position="right" style={{
-              boxShadow: '0 0 10px rgba(0,0,0,0.2)',
-              padding: '20px',
+              position: "sticky",
+              bottom: 0,
+              background: "white",
+              boxShadow: "0 0 10px rgba(0,0,0,0.2)",
+              padding: "20px",
+              marginTop: "20px",
             }}>
 
-              <Link to="/checkout" style={{
+              <Link to="/wishlistcheckout" style={{
                 textDecoration: 'none',
               }}>
                 <button className="btn btn-warning btn-block btn-lg">
@@ -107,56 +111,3 @@ function WishListPage() {
 }
 
 export default WishListPage;
-
-
-{/* <div className="container mt-5">
-  <div className="row">
-    <div className="col-md-8">
-      <h2>Your Wish List</h2>
-      <div className="card mb-3">
-        {wishlist.map((item, index) => (
-          <div key={index} className="row no-gutters" style={{
-            margin: '20px',
-          }}>
-            <div className="col-md-4">
-              <img src={item.image} className="card-img" alt="Product Image"
-                style={{
-                  width: "90%",
-                  height: "90%",
-                }}
-              />
-            </div>
-            <div className="col-md-8">
-              <div className="card-body">
-                <h4 className="card-title"
-
-                >
-                  <Link to={`/product/${item.id}`} style={
-                    {
-                      textDecoration: 'none'
-                    }
-                  }>{item.name.toUpperCase()}</Link>
-                </h4>
-                <p className="card-title">Price: ₹{
-                  item.price.toFixed(2)
-                }</p>
-                <button className="btn btn-danger btn-sm" onClick={() => handleRemoveFromWishlist(index)}>
-                  <i className="fa fa-close"></i>Remove From List</button>
-              </div>
-            </div>
-          </div>
-        ))}
-
-      </div>
-      <Group position="center">
-
-        <button className="btn btn-danger btn-lg">
-          <i className="fa fa-money-bill"></i>
-          Buy Now
-        </button>
-      </Group>
-
-    </div>
-  </div>
-</div>
-  ); */}

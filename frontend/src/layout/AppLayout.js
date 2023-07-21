@@ -26,10 +26,10 @@ function MainLayout(props) {
             navbarOffsetBreakpoint="sm"
             asideOffsetBreakpoint="sm"
             header={
-                <Header />
+                <AppHeader />
             }
             footer={
-                <Footer />
+                <AppFooter />
             }
         >
             <Outlet />

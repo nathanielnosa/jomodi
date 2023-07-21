@@ -20,11 +20,9 @@ function App() {
     <Provider store={store}>
       <Notifications position="top-center" zIndex={2077} />
         <Router>
-        <Header />
           <Routes>
           <Route path="/*" element={<MainRoute />} />
           </Routes>
-        <Footer />
         </Router>
     </Provider>
 
