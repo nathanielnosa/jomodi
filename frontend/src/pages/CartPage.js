@@ -249,9 +249,10 @@ function CartPage() {
                     marginBottom: '20px',
                     fontWeight: 'bold',
                     fontSize: '15px',
+                    color: 'green'
 
                   }}>
-                    ₹{cartDiscount.toFixed(0)}
+                    - {" "} ₹{cartDiscount.toFixed(0) - cartTotal.toFixed(0)}
                   </h4>
                 </Group>
                 <Group position="apart" style={{
@@ -297,7 +298,7 @@ function CartPage() {
                     fontSize: '15px',
                     color: 'green',
                     marginTop: '10px'
-                  }}>You will save ₹{cartDiscount.toFixed(2)}</h4>
+                  }}>You will save ₹{cartDiscount.toFixed(2) - cartTotal} on this Order</h4>
                 </Group>
 
               </div>

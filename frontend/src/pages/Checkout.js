@@ -1,7 +1,24 @@
-import React, {useEffect, useState} from 'react'
+import { Group } from '@mantine/core';
+import axios from 'axios';
+import React, { useEffect, useState } from 'react'
+import { API_URL } from '../constants';
+import { useNavigate } from 'react-router-dom';
 
 function Checkout() {
+    const navigate = useNavigate();
     const [cartItems, setCartItems] = useState([]);
+
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const [firstName, setFirstName] = useState('');
+    const [lastName, setLastname] = useState('');
+    const [address, setAddress] = useState('');
+    const [city, setCity] = useState('');
+    const [country, setCountry] = useState('');
+    const [zipCode, setZipCode] = useState('');
+    const [telephone, setTelephone] = useState('');
+    const [paymentMethod, setPaymentMethod] = useState('');
+
 
     useEffect(() => {
         // Get cart items from local storage
@@ -9,7 +26,53 @@ function Checkout() {
         setCartItems(existingCartItems);
     }, []);
 
+
+
     const cartTotal = cartItems.reduce((total, item) => total + item.quantity * item.price, 0);
+    const cartDiscount = cartItems.reduce((total, item) => total + item.quantity * item.cancel_price, 0);
+    const productIds = cartItems?.map(item => item.id);
+
+
+    
+    const handleSubmit = () => {
+        // e.preventDefault();
+
+
+
+        const details = {
+            email: email,
+            first_name: firstName,
+            last_name: lastName,
+            address: address,
+            city: city,
+            country: country,
+            zip_code: zipCode,
+            phone: telephone,
+            paid: false,
+            total: cartTotal,
+            cancel: false,
+            payment_method: paymentMethod,
+            discount: cartDiscount,
+            order_id: "ORD" + Math.floor(Math.random() * 1000000000),
+            order_data: cartItems,
+            status: "pending",
+            products: cartItems,
+            user: 1
+
+        }
+
+
+        axios.post(`${API_URL}order/order/`, {
+            details
+        })
+            .then(res => {
+                console.log(res.data);
+                navigate('/order-success');
+            }
+            )
+            .catch(err => console.log(err));
+    }
+
     return (
         <>
 
@@ -44,84 +107,54 @@ function Checkout() {
                                     <h3 className="title">Billing address</h3>
                                 </div>
                                 <div className="form-group">
-                                    <input className="input" type="text" name="first-name" placeholder="First Name" />
+                                    <input className="input" type="text" name="first-name" placeholder="First Name"
+                                        value={firstName}
+                                        onChange={(e) => setFirstName(e.target.value)}
+                                    />
                                 </div>
                                 <div className="form-group">
-                                    <input className="input" type="text" name="last-name" placeholder="Last Name" />
+                                    <input className="input" type="text" name="last-name" placeholder="Last Name"
+                                        value={lastName}
+                                        onChange={(e) => setLastname(e.target.value)}
+                                    />
                                 </div>
                                 <div className="form-group">
-                                    <input className="input" type="email" name="email" placeholder="Email" />
+                                    <input className="input" type="email" name="email" placeholder="Email"
+                                        value={email}
+                                        onChange={(e) => setEmail(e.target.value)}
+                                    />
                                 </div>
                                 <div className="form-group">
-                                    <input className="input" type="text" name="address" placeholder="Address" />
+                                    <input className="input" type="text" name="address" placeholder="Address"
+                                        value={address}
+                                        onChange={(e) => setAddress(e.target.value)}
+                                    />
                                 </div>
                                 <div className="form-group">
-                                    <input className="input" type="text" name="city" placeholder="City" />
+                                    <input className="input" type="text" name="city" placeholder="City"
+                                        value={city}
+                                        onChange={(e) => setCity(e.target.value)}
+                                    />
                                 </div>
                                 <div className="form-group">
-                                    <input className="input" type="text" name="country" placeholder="Country" />
+                                    <input className="input" type="text" name="country" placeholder="Country"
+                                        value={country}
+                                        onChange={(e) => setCountry(e.target.value)}
+                                    />
                                 </div>
                                 <div className="form-group">
-                                    <input className="input" type="text" name="zip-code" placeholder="ZIP Code" />
+                                    <input className="input" type="text" name="zip-code" placeholder="ZIP Code"
+                                        value={zipCode}
+                                        onChange={(e) => setZipCode(e.target.value)}
+                                    />
                                 </div>
                                 <div className="form-group">
-                                    <input className="input" type="tel" name="tel" placeholder="Telephone" />
-                                </div>
-                                {/* <div className="form-group">
-                                    <div className="input-checkbox">
-                                        <input type="checkbox" id="create-account" />
-                                        <label htmlFor="create-account">
-                                            <span></span>
-                                            Create Account?
-                                        </label>
-                                        <div className="caption">
-                                            <p>Creata a Password for your account.</p>
-                                            <input className="input" type="password" name="password" placeholder="Enter Your Password" />
-                                        </div>
-                                    </div>
-                                </div> */}
-                            </div>
-
-                            <div className="shiping-details">
-                                <div className="section-title">
-                                    <h3 className="title">Shiping address</h3>
-                                </div>
-                                <div className="input-checkbox">
-                                    <input type="checkbox" id="shiping-address" />
-                                    <label htmlFor="shiping-address">
-                                        <span></span>
-                                        Ship to a diffrent address?
-                                    </label>
-                                    <div className="caption">
-                                        <div className="form-group">
-                                            <input className="input" type="text" name="first-name" placeholder="First Name" />
-                                        </div>
-                                        <div className="form-group">
-                                            <input className="input" type="text" name="last-name" placeholder="Last Name" />
-                                        </div>
-                                        <div className="form-group">
-                                            <input className="input" type="email" name="email" placeholder="Email" />
-                                        </div>
-                                        <div className="form-group">
-                                            <input className="input" type="text" name="address" placeholder="Address" />
-                                        </div>
-                                        <div className="form-group">
-                                            <input className="input" type="text" name="city" placeholder="City" />
-                                        </div>
-                                        <div className="form-group">
-                                            <input className="input" type="text" name="country" placeholder="Country" />
-                                        </div>
-                                        <div className="form-group">
-                                            <input className="input" type="text" name="zip-code" placeholder="ZIP Code" />
-                                        </div>
-                                        <div className="form-group">
-                                            <input className="input" type="tel" name="tel" placeholder="Telephone" />
-                                        </div>
-                                    </div>
+                                    <input className="input" type="tel" name="tel" placeholder="Telephone"
+                                        value={telephone}
+                                        onChange={(e) => setTelephone(e.target.value)}
+                                    />
                                 </div>
                             </div>
-
-
                         </div>
 
 
@@ -142,7 +175,7 @@ function Checkout() {
                                                 ₹{(item.quantity * item.price).toFixed(2)}</div>
                                         </div>
                                     ))}
-                                   
+
                                 </div>
                                 <div className="order-col">
                                     <div>Shiping</div>
@@ -152,41 +185,37 @@ function Checkout() {
                                     <div><strong>TOTAL</strong></div>
                                     <div><strong className="order-total">
                                         ₹{cartTotal.toFixed(2)}</strong></div>
+                                      
                                 </div>
                             </div>
                             <div className="payment-method">
-                                {/* <div className="input-radio">
-                                  <input type="radio" name="payment" id="payment-1"/>
-                                      <label htmlFor="payment-1">
-                                          <span></span>
-                                          Direct Bank Transfer
-                                      </label>
-                                      <div className="caption">
-                                          <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-                                      </div>
-                              </div> */}
-                                {/* <div className="input-radio">
-                                  <input type="radio" name="payment" id="payment-2"/>
-                                      <label htmlFor="payment-2">
-                                          <span></span>
-                                          Cheque Payment
-                                      </label>
-                                      <div className="caption">
-                                          <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-                                      </div>
-                              </div> */}
-                                <div className="input-radio">
-                                    <input type="radio" name="payment" id="payment-3" />
-                                    <label htmlFor="payment-3">
-                                        <span></span>
-                                        Payment on Delivery
-                                    </label>
-                                    <div className="caption">
-                                        <p>
-                                            Pay with cash upon delivery
-                                        </p>
+                            
+                                <Group position="left">
+                                    <div className="input-radio">
+                                        <input type="radio" name="payment" id="payment-2"
+                                        value="Pay Online"
+                                        onChange={(e) => setPaymentMethod(e.target.value)}
+                                        checked={paymentMethod === "Pay Online"}
+                                        />
+                                        <label htmlFor="payment-2">
+                                            <span></span>
+                                            Pay Online
+                                        </label>
+
                                     </div>
-                                </div>
+                                    <div className="input-radio">
+                                        <input type="radio" name="payment" id="payment-3"
+                                        value={"Cash on Delivery"}
+                                        onChange={(e) => setPaymentMethod(e.target.value)}
+                                        checked={paymentMethod === "Cash on Delivery"}
+                                        />
+                                        <label htmlFor="payment-3">
+                                            <span></span>
+                                            Cash on Delivery
+                                        </label>
+
+                                    </div>
+                                </Group>
                             </div>
                             <div className="input-checkbox">
                                 <input type="checkbox" id="terms" />
@@ -195,7 +224,9 @@ function Checkout() {
                                     I've read and accept the <a href="#">terms & conditions</a>
                                 </label>
                             </div>
-                            <a href="#" className="primary-btn order-submit">Place order</a>
+                            <button className="primary-btn order-submit"
+                                onClick={handleSubmit}
+                            >Place order</button>
                         </div>
                     </div>
 

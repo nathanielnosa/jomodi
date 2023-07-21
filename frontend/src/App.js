@@ -15,6 +15,7 @@ import store from './actions/store';
 import { Notifications } from '@mantine/notifications';
 
 
+
 function App() {
   return (
     <Provider store={store}>

@@ -560,10 +560,11 @@ textarea.input {
 
 .header-search form .search-btn2 {
   height: 40px;
-  width: 100px;
-  background: #39e1b1;
+  width: 'auto';
+  background: white;
   color: #fff;
-  font-weight: 700;
+  font-weight: 300;
+  color: #15161d;
   border: none;
   border-radius: 40px 0px 0px 40px;
 }
@@ -1708,7 +1709,8 @@ textarea.input {
 }
 
 .product-details .product-links {
-  margin-top: 15px;
+  margin-top: 5px;
+  margin-bottom: 10px;
 }
 
 .product-details .product-links li {

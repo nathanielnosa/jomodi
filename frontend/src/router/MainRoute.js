@@ -11,6 +11,9 @@ import WishListPage from '../pages/WishListPage';
 import CartPage from '../pages/CartPage';
 import WishListCheckOut from '../pages/WishListCheckOut';
 import ProductCheckout from '../pages/ProductCheckout';
+import Brand from '../pages/Brand';
+import Order from '../pages/Order';
+import OrderSuccess from '../pages/OrderSuccess';
 
 function MainRoute() {
     return (
@@ -26,6 +29,9 @@ function MainRoute() {
                 <Route path="search/:keyword/:categoryid" element={<SearchPage />} />
                 <Route path="/wishlistcheckout" element={<WishListCheckOut />} />
                 <Route path="/product-checkout/:id/:slug" element={<ProductCheckout />} />
+                <Route path="/brand/:id/:slug" element={<Brand />} />
+                <Route path="/order" element={<Order />} />
+                <Route path="/order-success" element={<OrderSuccess />} />
 
                 <Route path="*" element={<h1>Not Found</h1>} />
             </Route>

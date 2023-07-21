@@ -24,8 +24,23 @@ function Product() {
     const [showCartNotification, setShowCartNotification] = React.useState(false);
     const [showWishlistNotification, setShowWishlistNotification] = React.useState(false);
     const [zoomImage, setZoomImage] = useState("");
-    
+    const [wishlistItems, setWishlistItems] = useState([]);
+    const [sizes, setSizes] = useState([]);
+    const [colors, setColors] = useState([]);
+    const [selectedSize, setSelectedSize] = useState("");
+    const [selectedColor, setSelectedColor] = useState("");
+
+
+    const phoneNumber = 918456969102
+
     const dispatch = useDispatch();
+
+    const wishlist = useSelector((state) => state.wishlist.wishlistItems);
+    useEffect(() => {
+        // Update wishlist in local storage
+        localStorage.setItem('wishlist', JSON.stringify(wishlist));
+    }, [wishlist]);
+
     const handleAddToCart = (product) => {
         dispatch(addToCart(product, quantity));
         notifications.show({
@@ -49,6 +64,8 @@ function Product() {
         })
 
     };
+
+
 
     const handleAddToCart2 = (product) => {
         dispatch(addToCart(product, 1));
@@ -177,6 +194,31 @@ function Product() {
                 console.log(err);
             });
     }, [id]);
+
+    useEffect(() => {
+        axios
+            .get(`${API_URL}product/size/`)
+            .then((res) => {
+                console.log(res.data);
+                setSizes(res.data.results);
+            })
+            .catch((err) => {
+                console.log(err);
+            });
+    }, []);
+
+    useEffect(() => {
+        axios
+            .get(`${API_URL}product/color/`)
+            .then((res) => {
+                console.log(res.data);
+                setColors(res.data.results);
+            })
+            .catch((err) => {
+                console.log(err);
+            });
+    }, []);
+
 
     useEffect(() => {
         axios
@@ -335,6 +377,12 @@ function Product() {
                                             ₹{product?.cancel_price}
                                         </del>
                                     </h3>
+
+                                    <ul className="product-links">
+                                        <li>Category:</li>
+                                        <li>{product?.category?.name}</li>
+                                        <li>{product?.brand?.name}</li>
+                                    </ul>
                                 </div>
                                 <p
                                     style={{
@@ -346,18 +394,42 @@ function Product() {
                                 </p>
 
                                 <div className="product-options">
-                                    <label>
-                                        Size
-                                        <select className="input-select">
-                                            <option value="0">X</option>
-                                        </select>
-                                    </label>
-                                    <label>
-                                        Color
-                                        <select className="input-select">
-                                            <option value="0">Red</option>
-                                        </select>
-                                    </label>
+                                    {
+                                        product?.size && (
+                                            <label>
+                                                Size
+                                                <select className="input-select"
+                                                value={selectedSize}
+                                                onChange={(e) => setSelectedSize(e.target.value)}
+                                                >
+                                               {
+                                                    sizes.map((size, index) => (
+                                                        <option key={index} value={size.size}>{size.size}</option>
+                                                    ))
+                                               }
+                                                </select>
+                                            </label>
+                                        )
+                                    }
+                                    {
+                                        product?.color && (
+                                            <label>
+                                                Color
+                                                <select className="input-select"
+                                                value={selectedColor}
+                                                onChange={(e) => setSelectedColor(e.target.value)}
+                                                >
+                                                    {
+                                                        colors.map((color, index) => (
+                                                            <option key={index} value={color.color}>{color.color}</option>
+                                                        ))
+                                                    }
+                                                </select>
+                                               
+                                            </label>
+                                        )
+                                    }
+
                                 </div>
 
                                 <div className="add-to-cart">
@@ -385,36 +457,64 @@ function Product() {
                                         <i className="fa fa-shopping-cart"></i> add to cart
                                     </button>
                                     <Link to={`/product-checkout/${product.id}/${product.name}`} target="_blank">
-                                    <button
-                                        style={{
-                                            marginLeft: '20px',
-                                            backgroundColor: "yellowgreen",
-                                            padding: '7px',
-                                            width: '100px',
-                                            border: '0px',
-                                            borderRadius: '5px',
-                                            textTransform: 'capitalize',
-                                            fontWeight: 'bold'
-                                        }}
-                                    >
-                                        <i className="fa fa-shopping-cart"></i> buy now
-                                    </button>
+                                        <button
+                                            style={{
+                                                marginLeft: '20px',
+                                                backgroundColor: "yellowgreen",
+                                                padding: '7px',
+                                                width: '100px',
+                                                border: '0px',
+                                                borderRadius: '5px',
+                                                textTransform: 'capitalize',
+                                                fontWeight: 'bold'
+                                            }}
+                                        >
+                                            <i className="fa fa-shopping-cart"></i> buy now
+                                        </button>
                                     </Link>
                                 </div>
+                                {/* 
+                                <ul className="product-btns">
+                                    <a
+                                        href={`https://api.whatsapp.com/send?phone=+${phoneNumber}&text=Hi, I am interested in your product ${product?.name}`}
+                                        style={{
+                                            cursor: 'pointer',
+                                            marginTop: '10px',
+                                            fontWeight: 'bold',
+                                            fontSize: '15px',
+                                            textDecoration: 'none',
+                                        }}
+                                    >
+                                        <i className="fa fa-whatsapp"></i> Enquire on Whatsapp
+                                    </a>
+                                </ul> */}
 
                                 <ul className="product-btns">
+                                    <li>
+                                        <a
+                                            href={`https://api.whatsapp.com/send?phone=+${phoneNumber}&text=Hi, I am interested in your product ${product?.name}`}
+                                            style={{
+                                                cursor: 'pointer',
+                                                marginTop: '10px',
+                                                fontWeight: 'bold',
+                                                fontSize: '15px',
+                                                textDecoration: 'none',
+                                            }}
+                                        >
+                                            <i className="fa fa-whatsapp"></i> Enquire on Whatsapp
+                                        </a>
+
+                                    </li>
                                     <li onClick={() => handleAddToWishlist(product)} style={{
                                         cursor: 'pointer',
+                                        marginTop: '10px',
+                                        fontWeight: 'bold',
+                                        fontSize: '15px',
                                     }}>
                                         <i className="fa fa-heart-o" ></i> add to wishlist
                                     </li>
                                 </ul>
 
-                                <ul className="product-links">
-                                    <li>Category:</li>
-                                    <li>{product?.category?.name}</li>
-                                    <li>{product?.brand?.name}</li>
-                                </ul>
                             </div>
                         </div>
 
@@ -499,9 +599,9 @@ function Product() {
 
                                 <div className="product">
                                     <Link to={`/product/${product.id}/${product.name}`} target="_blank"
-                                     style={{
-                                        textDecoration: 'none',
-                                    }}>
+                                        style={{
+                                            textDecoration: 'none',
+                                        }}>
                                         <div className="product-img">
                                             <img src={product.image} alt=""
                                                 style={{
@@ -509,13 +609,18 @@ function Product() {
                                                 }}
                                             />
                                             <div className="product-label">
-                                                <span className="sale">-30%</span>
+                                                {product?.discount ? (
+                                                    <span className="sale">-{product?.discount}%</span>
+                                                ) : (
+                                                    ""
+                                                )}
+                                                {product?.new == true ? <span className="new">NEW</span> : ""}
                                             </div>
                                         </div>
                                     </Link>
                                     <div className="product-body">
                                         <p className="product-category"
-                                       
+
                                         >
                                             {product?.category?.name}
                                         </p>
@@ -524,14 +629,14 @@ function Product() {
                                                 to={`/product/${product?.id}/${product?.name}`}
                                                 target="_blank"
                                                 style={{
-                                                
-                                            textDecoration: "none",
-                                            whiteSpace: "nowrap",
-                                            overflow: "hidden",
-                                            textOverflow: "ellipsis",
-                                            width: "100%", // Adjust the width to your desired size
-                                            display: "inline-block",
-                                       
+
+                                                    textDecoration: "none",
+                                                    whiteSpace: "nowrap",
+                                                    overflow: "hidden",
+                                                    textOverflow: "ellipsis",
+                                                    width: "100%", // Adjust the width to your desired size
+                                                    display: "inline-block",
+
                                                 }}
                                             >
                                                 {product?.name}
