@@ -34,10 +34,8 @@ function WishListCheckOut() {
 
 
 
-    const handleSubmit = () => {
-        // e.preventDefault();
-
-
+    const handleSubmit = (e) => {
+        e.preventDefault();
 
         const details = {
             email: email,
@@ -55,16 +53,16 @@ function WishListCheckOut() {
             discount: wishDiscount,
             order_id: "ORD" + Math.floor(Math.random() * 1000000000),
             order_data: wishItems,
-            status: "pending",
+            status: "Shipping in Progress",
             products: wishItems,
             user: 1
 
         }
 
 
-        axios.post(`${API_URL}order/order/`, {
+        axios.post(`${API_URL}order/order/`, 
             details
-        })
+        )
             .then(res => {
                 console.log(res.data);
                 navigate('/order-success');
@@ -99,61 +97,66 @@ function WishListCheckOut() {
             <div className="section">
 
                 <div className="container">
-
+                    <form className="billing-details" onSubmit={handleSubmit}>
                     <div className="row">
 
                         <div className="col-md-7">
 
                             <div className="billing-details">
-                                <div className="section-title">
-                                    <h3 className="title">Billing address</h3>
-                                </div>
                                 <div className="form-group">
                                     <input className="input" type="text" name="first-name" placeholder="First Name"
                                         value={firstName}
                                         onChange={(e) => setFirstName(e.target.value)}
+                                        required
                                     />
                                 </div>
                                 <div className="form-group">
                                     <input className="input" type="text" name="last-name" placeholder="Last Name"
                                         value={lastName}
                                         onChange={(e) => setLastname(e.target.value)}
+                                        required
                                     />
                                 </div>
                                 <div className="form-group">
                                     <input className="input" type="email" name="email" placeholder="Email"
                                         value={email}
                                         onChange={(e) => setEmail(e.target.value)}
+                                        required
                                     />
                                 </div>
                                 <div className="form-group">
                                     <input className="input" type="text" name="address" placeholder="Address"
                                         value={address}
                                         onChange={(e) => setAddress(e.target.value)}
+                                        required
                                     />
                                 </div>
                                 <div className="form-group">
                                     <input className="input" type="text" name="city" placeholder="City"
                                         value={city}
                                         onChange={(e) => setCity(e.target.value)}
+                                        required
                                     />
                                 </div>
                                 <div className="form-group">
                                     <input className="input" type="text" name="country" placeholder="Country"
                                         value={country}
                                         onChange={(e) => setCountry(e.target.value)}
+                                        required
                                     />
                                 </div>
                                 <div className="form-group">
                                     <input className="input" type="text" name="zip-code" placeholder="ZIP Code"
                                         value={zipCode}
                                         onChange={(e) => setZipCode(e.target.value)}
+                                        required
                                     />
                                 </div>
                                 <div className="form-group">
                                     <input className="input" type="tel" name="tel" placeholder="Telephone"
                                         value={telephone}
                                         onChange={(e) => setTelephone(e.target.value)}
+                                        required
                                     />
                                 </div>
                             </div>
@@ -233,12 +236,16 @@ function WishListCheckOut() {
                                     I've read and accept the <a href="#">terms & conditions</a>
                                 </label>
                             </div>
-                            <button className="primary-btn order-submit"
-                                onClick={handleSubmit}
-                            >Place order</button>
+                                <button className="primary-btn order-submit" style={{
+                                    width: '100%',
+                                    color: 'white',
+                                    backgroundColor: 'red',
+                                }}
+                                    type='submit'
+                                >Place order</button>
                         </div>
                     </div>
-
+                </form>
                 </div>
 
             </div>

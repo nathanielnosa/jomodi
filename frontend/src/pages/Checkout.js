@@ -3,6 +3,7 @@ import axios from 'axios';
 import React, { useEffect, useState } from 'react'
 import { API_URL } from '../constants';
 import { useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 function Checkout() {
     const navigate = useNavigate();
@@ -232,7 +233,8 @@ function Checkout() {
                                 <input type="checkbox" id="terms" required />
                                 <label htmlFor="terms">
                                     <span></span>
-                                    I've read and accept the <a href="#">terms & conditions</a>
+                                        I've read and accept the <Link to="/terms-and-conditions"> terms & conditions
+                                        </Link> 
                                 </label>
                             </div>
                             <button className="primary-btn order-submit" style={{ width: '100%',
