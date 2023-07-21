@@ -3,7 +3,7 @@ import axios from 'axios';
 import { API_URL } from '../constants';
 import { Link } from 'react-router-dom';
 
-function Footer() {
+function AppFooter() {
     const [categories, setCategories] = useState([]);
 
     useEffect(() => {
@@ -112,4 +112,4 @@ function Footer() {
     )
 }
 
-export default Footer
+export default AppFooter

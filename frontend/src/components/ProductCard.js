@@ -125,7 +125,7 @@ function ProductCard({ product }) {
                                 display: "inline-block",
                             }}
                         >
-                            {product?.category?.name}
+                            {product?.brand?.name}
                         </p>
                         <h3 className="product-name">
                             <Link

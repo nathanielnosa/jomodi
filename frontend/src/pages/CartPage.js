@@ -124,7 +124,6 @@ function CartPage() {
                           item.price.toFixed(2)
                         }</p>
                     </Group>
-                    {/* <p className="card-title">Quantity: {item.quantity}</p> */}
 
                   </div>
                 </div>
@@ -145,12 +144,12 @@ function CartPage() {
                             value={item.quantity}
                             onChange={(e) => handleQuantityChange(index, parseInt(e.target.value, 10))}
                             style={{
-                              width: '40px', // Adjust the width to your desired size
-                              height: '24px', // Adjust the height to your desired size
+                              width: '40px', 
+                              height: '24px', 
                               border: '1px solid #ccc',
-                              fontSize: '14px', // Adjust the font size to your desired size
-                              textAlign: 'center', // Center the text inside the input
-                              margin: '0 5px', // Add some spacing around the input
+                              fontSize: '14px',
+                              textAlign: 'center',
+                              margin: '0 5px', 
                             }}
                           />
                           <Button radius="xl" size="md" onClick={() => handleQuantityChange(index, item.quantity + 1)} variant="outline" color="red">
@@ -179,8 +178,12 @@ function CartPage() {
 
             ))}
             <Group position="right" style={{
-              boxShadow: '0 0 10px rgba(0,0,0,0.2)',
-              padding: '20px',
+              position: "sticky",
+              bottom: 0,
+              background: "white",
+              boxShadow: "0 0 10px rgba(0,0,0,0.2)",
+              padding: "20px",
+              marginTop: "20px",
             }}>
 
               <Link to="/checkout" style={{
@@ -198,7 +201,13 @@ function CartPage() {
         <div className="col-md-4" style={{
           padding: '20px',
           backgroundColor: 'white',
-          marginLeft: '20px'
+          marginLeft: '20px',
+          position: "sticky",
+          top: 0,
+          background: "white",
+          boxShadow: "0 0 10px rgba(0,0,0,0.2)",
+          padding: "20px",
+          marginTop: "20px",
         }}>
           <div className="card">
             <div className="card">
@@ -210,11 +219,6 @@ function CartPage() {
                   color: 'gray'
                 }}>Price Details</h4>
                 <hr />
-                {/* <Group position="apart" style={{
-                  marginTop: '20px'
-                }}>
-                  <h4 className='card-title'>You have {cartQuantity} items in your cart</h4>
-                </Group> */}
                 <Group position="apart" style={{
                   marginTop: '20px'
                 }}>

@@ -9,6 +9,7 @@ import Category from '../pages/Category';
 import SearchPage from '../pages/SearchPage';
 import WishListPage from '../pages/WishListPage';
 import CartPage from '../pages/CartPage';
+import WishListCheckOut from '../pages/WishListCheckOut';
 
 function MainRoute() {
     return (
@@ -22,6 +23,7 @@ function MainRoute() {
                 <Route path="/product/:id/:slug" element={<Product />} />
                 <Route path="/category/:id/:slug" element={<Category />} />
                 <Route path="search/:keyword/:categoryid" element={<SearchPage />} />
+                <Route path="/wishlistcheckout" element={<WishListCheckOut />} />
 
                 <Route path="*" element={<h1>Not Found</h1>} />
             </Route>

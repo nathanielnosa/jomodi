@@ -354,7 +354,6 @@ textarea.input {
 \*----------------------------*/
 
 .section {
-  padding-top: 30px;
   padding-bottom: 30px;
 }
 
@@ -551,6 +550,22 @@ textarea.input {
   font-weight: 700;
   border: none;
   border-radius: 0px 40px 40px 0px;
+}
+.card-title {
+  font-size: 15px;
+  font-weight: 700;
+  margin-bottom: 20px;
+
+}
+
+.header-search form .search-btn2 {
+  height: 40px;
+  width: 100px;
+  background: #39e1b1;
+  color: #fff;
+  font-weight: 700;
+  border: none;
+  border-radius: 40px 0px 0px 40px;
 }
 
 /*----------------------------*\
