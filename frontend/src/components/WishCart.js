@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { Link, useLocation } from 'react-router-dom';
 import { addToCart, removeFromCart } from '../actions/cartActions';
 import { addToWishlist, removeFromWishlist } from '../actions/wishActions';
+import { Menu, Button, Text } from '@mantine/core';
 
 function WishCart() {
     const cartItems = useSelector((state) => state.cart.cartItems);
@@ -64,59 +65,74 @@ function WishCart() {
         <div className="col-md-12 clearfix">
             <div className="header-ctn" style={{ display: 'flex' }}>
                 {/* Wishlist Dropdown */}
-                <div className={`dropdown ${wishlistOpen ? 'open' : ''}`}>
-                    <a
-                        className="dropdown-toggle"
-                        onClick={handleWishlistToggle} // Add the click event to toggle the menu
-                        aria-expanded={wishlistOpen}
-                        style={{
-                            cursor: 'pointer',
-                            textDecoration: 'none',
-                        }}
-                    >
-                        <i className="fa fa-heart-o"></i>
-                        <span>Your Wishlist</span>
-                        <div className="qty">{wishlistQuantity}</div>
-                    </a>
-                    <div className={`cart-dropdown ${wishlistOpen ? 'show' : ''}`}
-                    style={{
-                        paddingLeft: '60px',
-                    }}
-                    >
-                       
-                        <div className="cart-list">
-                            {wishlist.map((item, index) => (
-                                <div className="product-widget" key={index}>
-                                    <div className="product-img">
-                                        <img src={item.image} alt="" />
-                                    </div>
-                                    <div className="product-body">
-                                        <h3 className="product-name">
-                                            <Link to={`/product/${item.id}`}>{item.name}</Link>
-                                        </h3>
-                                        <h4 className="product-price">
-                                            <span className="qty"></span>
-                                            ₹{item.price.toFixed(2)}
-                                        </h4>
-                                    </div>
-                                    <button className="delete" onClick={() => handleRemoveFromWishlist(index)}>
-                                        <i className="fa fa-close"></i>
-                                    </button>
-                                </div>
-                            ))}
-                        </div>
-                        <div className="cart-summary">
-                            <small>{wishlistQuantity} Item(s) selected</small>
-                            {/* <h5>SUBTOTAL: ${wis.toFixed(2)}</h5> */}
-                        </div>
-                        <div className="cart-btns">
-                            {/* <Link to="/cart">View Favourite list</Link> */}
-                            <Link to="/wishlist">
-                                View List <i className="fa fa-arrow-circle-right"></i>
-                            </Link>
-                        </div>
-                    </div>
-                </div>
+                <Menu shadow="md" width={200}>
+                    <Menu.Target style={{
+                        cursor: 'pointer',
+                        textDecoration: 'none',
+                        color: 'white',
+                        fontSize: '1.5rem',
+                    }}>
+                        <a
+                            className="dropdown-toggle"
+                            style={{
+                                cursor: 'pointer',
+                                textDecoration: 'none', // Add some space between the dropdowns
+                            }}
+                        >
+                            <i className="fa fa-user"></i>
+                            <span>Profile</span>
+                        </a>
+                    </Menu.Target>
+                
+
+                    <Menu.Dropdown>
+                        <Menu.Item >
+                            <Link to="/wishlist" 
+                            style={{
+                                cursor: 'pointer',
+                                textDecoration: 'none', 
+                                margin: '10px',
+                                padding: '10px',
+                                fontSize: '1.5rem',
+                            }}
+                            >Wishlist</Link>
+                        </Menu.Item>
+                        <Menu.Item >
+                            <Link to='/order'
+                                style={{
+                                    cursor: 'pointer',
+                                    textDecoration: 'none',
+                                    margin: '10px',
+                                    padding: '10px',
+                                    fontSize: '1.5rem',
+                                }}
+                            >Order</Link>
+                        </Menu.Item>
+                        <Menu.Item >
+                            <Link to='/profile'
+                                style={{
+                                    cursor: 'pointer',
+                                    textDecoration: 'none', 
+                                    margin : '10px',
+                                    padding : '10px',
+                                    fontSize : '1.5rem',
+                                }}
+                            >Profile</Link>
+                        </Menu.Item>
+                        <Menu.Divider />
+                        <Menu.Item color="red"
+                            style={{
+                                cursor: 'pointer',
+                                textDecoration: 'none', 
+                                margin: '10px',
+                                padding: '10px',
+                                fontSize: '1.5rem',
+                            }}
+                        >
+                            Logout
+                        </Menu.Item>
+                    </Menu.Dropdown>
+                </Menu>
 
                 {/* Cart Dropdown */}
                 <div className={`dropdown ${cartOpen ? 'open' : ''}`}>
@@ -127,7 +143,8 @@ function WishCart() {
                         style={{
                             cursor: 'pointer',
                             textDecoration: 'none',
-                            marginLeft: '15px', // Add some space between the dropdowns
+                            marginLeft: '15px', 
+
                         }}
                     >
                         <i className="fa fa-shopping-cart"></i>

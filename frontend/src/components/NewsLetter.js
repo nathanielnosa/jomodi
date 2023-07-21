@@ -25,11 +25,8 @@ function NewsLetter() {
             console.log(err)
             setError(true)
             setShowError(true)
-
         })
     }
-
-
   return (
       <div id="newsletter" className="section">
           <Modal opened={showModal} onClose={() => setShowModal(false)} centered>
@@ -43,7 +40,6 @@ function NewsLetter() {
           </Modal>
           <div className="container">
               <div className="row">
-                
                   <div className="col-md-12">
                       <div className="newsletter">
                           

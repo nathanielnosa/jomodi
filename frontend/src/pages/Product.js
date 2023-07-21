@@ -24,8 +24,19 @@ function Product() {
     const [showCartNotification, setShowCartNotification] = React.useState(false);
     const [showWishlistNotification, setShowWishlistNotification] = React.useState(false);
     const [zoomImage, setZoomImage] = useState("");
-    
+    const [wishlistItems, setWishlistItems] = useState([]);
+
+
+    const phoneNumber = 918456969102
+
     const dispatch = useDispatch();
+
+    const wishlist = useSelector((state) => state.wishlist.wishlistItems);
+    useEffect(() => {
+        // Update wishlist in local storage
+        localStorage.setItem('wishlist', JSON.stringify(wishlist));
+    }, [wishlist]);
+
     const handleAddToCart = (product) => {
         dispatch(addToCart(product, quantity));
         notifications.show({
@@ -49,6 +60,8 @@ function Product() {
         })
 
     };
+
+
 
     const handleAddToCart2 = (product) => {
         dispatch(addToCart(product, 1));
@@ -335,6 +348,12 @@ function Product() {
                                             ₹{product?.cancel_price}
                                         </del>
                                     </h3>
+
+                                    <ul className="product-links">
+                                        <li>Category:</li>
+                                        <li>{product?.category?.name}</li>
+                                        <li>{product?.brand?.name}</li>
+                                    </ul>
                                 </div>
                                 <p
                                     style={{
@@ -385,36 +404,64 @@ function Product() {
                                         <i className="fa fa-shopping-cart"></i> add to cart
                                     </button>
                                     <Link to={`/product-checkout/${product.id}/${product.name}`} target="_blank">
-                                    <button
-                                        style={{
-                                            marginLeft: '20px',
-                                            backgroundColor: "yellowgreen",
-                                            padding: '7px',
-                                            width: '100px',
-                                            border: '0px',
-                                            borderRadius: '5px',
-                                            textTransform: 'capitalize',
-                                            fontWeight: 'bold'
-                                        }}
-                                    >
-                                        <i className="fa fa-shopping-cart"></i> buy now
-                                    </button>
+                                        <button
+                                            style={{
+                                                marginLeft: '20px',
+                                                backgroundColor: "yellowgreen",
+                                                padding: '7px',
+                                                width: '100px',
+                                                border: '0px',
+                                                borderRadius: '5px',
+                                                textTransform: 'capitalize',
+                                                fontWeight: 'bold'
+                                            }}
+                                        >
+                                            <i className="fa fa-shopping-cart"></i> buy now
+                                        </button>
                                     </Link>
                                 </div>
+{/* 
+                                <ul className="product-btns">
+                                    <a
+                                        href={`https://api.whatsapp.com/send?phone=+${phoneNumber}&text=Hi, I am interested in your product ${product?.name}`}
+                                        style={{
+                                            cursor: 'pointer',
+                                            marginTop: '10px',
+                                            fontWeight: 'bold',
+                                            fontSize: '15px',
+                                            textDecoration: 'none',
+                                        }}
+                                    >
+                                        <i className="fa fa-whatsapp"></i> Enquire on Whatsapp
+                                    </a>
+                                </ul> */}
 
                                 <ul className="product-btns">
+                                    <li>
+                                        <a
+                                            href={`https://api.whatsapp.com/send?phone=+${phoneNumber}&text=Hi, I am interested in your product ${product?.name}`}
+                                            style={{
+                                                cursor: 'pointer',
+                                                marginTop: '10px',
+                                                fontWeight: 'bold',
+                                                fontSize: '15px',
+                                                textDecoration: 'none',
+                                            }}
+                                        >
+                                            <i className="fa fa-whatsapp"></i> Enquire on Whatsapp
+                                        </a>
+
+                                    </li>
                                     <li onClick={() => handleAddToWishlist(product)} style={{
                                         cursor: 'pointer',
+                                        marginTop: '10px',
+                                        fontWeight: 'bold',
+                                        fontSize: '15px',
                                     }}>
                                         <i className="fa fa-heart-o" ></i> add to wishlist
                                     </li>
                                 </ul>
 
-                                <ul className="product-links">
-                                    <li>Category:</li>
-                                    <li>{product?.category?.name}</li>
-                                    <li>{product?.brand?.name}</li>
-                                </ul>
                             </div>
                         </div>
 
@@ -499,9 +546,9 @@ function Product() {
 
                                 <div className="product">
                                     <Link to={`/product/${product.id}/${product.name}`} target="_blank"
-                                     style={{
-                                        textDecoration: 'none',
-                                    }}>
+                                        style={{
+                                            textDecoration: 'none',
+                                        }}>
                                         <div className="product-img">
                                             <img src={product.image} alt=""
                                                 style={{
@@ -515,7 +562,7 @@ function Product() {
                                     </Link>
                                     <div className="product-body">
                                         <p className="product-category"
-                                       
+
                                         >
                                             {product?.category?.name}
                                         </p>
@@ -524,14 +571,14 @@ function Product() {
                                                 to={`/product/${product?.id}/${product?.name}`}
                                                 target="_blank"
                                                 style={{
-                                                
-                                            textDecoration: "none",
-                                            whiteSpace: "nowrap",
-                                            overflow: "hidden",
-                                            textOverflow: "ellipsis",
-                                            width: "100%", // Adjust the width to your desired size
-                                            display: "inline-block",
-                                       
+
+                                                    textDecoration: "none",
+                                                    whiteSpace: "nowrap",
+                                                    overflow: "hidden",
+                                                    textOverflow: "ellipsis",
+                                                    width: "100%", // Adjust the width to your desired size
+                                                    display: "inline-block",
+
                                                 }}
                                             >
                                                 {product?.name}

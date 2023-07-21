@@ -9,7 +9,7 @@ function Header() {
     return (
         <div>
             <header>
-                <TopHeader />
+                {/* <TopHeader /> */}
                 <div id="header">
                     <div className="container">
                         <div className="row">
