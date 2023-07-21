@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react'
+import React, { useEffect, useState } from 'react'
 import { Card, Text, Badge, ActionIcon, Group, Container, Image, Button } from '@mantine/core';
 import axios from 'axios';
 import { API_URL } from '../constants';
@@ -9,7 +9,7 @@ function Order() {
   const navigate = useNavigate();
   const [orderData, setOrderData] = useState([]);
 
-  
+
 
   useEffect(() => {
     fetchOrderData();
@@ -142,7 +142,7 @@ function Order() {
                   No Orders
                 </Text>
               </Group>
-    
+
               <Button variant="outline" color="teal" size="lg" radius="xl" m={80} style={{ marginRight: '1rem' }}
                 onClick={() => navigate('/')}
               >
