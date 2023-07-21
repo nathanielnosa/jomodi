@@ -197,7 +197,11 @@ function Product() {
             )
             .then((res) => {
                 console.log(res.data);
-                setRelatedProducts(res.data.results);
+                const shuffledProducts = res.data.results.sort(() => 0.5 - Math.random());
+
+                // Select the first 3 products from the shuffled array for each group
+                const selectedProducts = shuffledProducts.slice(0, 6);
+                setRelatedProducts(selectedProducts);
             })
             .catch((err) => {
                 console.log(err);
@@ -491,7 +495,7 @@ function Product() {
                         </div>
 
                         {relatedProducts.map((product, index) => (
-                            <div className="col-md-3 col-xs-12">
+                            <div className="col-md-2 col-xs-12">
 
                                 <div className="product">
                                     <Link to={`/product/${product.id}/${product.name}`} target="_blank"
@@ -510,7 +514,9 @@ function Product() {
                                         </div>
                                     </Link>
                                     <div className="product-body">
-                                        <p className="product-category">
+                                        <p className="product-category"
+                                       
+                                        >
                                             {product?.category?.name}
                                         </p>
                                         <h3 className="product-name">
@@ -518,7 +524,14 @@ function Product() {
                                                 to={`/product/${product?.id}/${product?.name}`}
                                                 target="_blank"
                                                 style={{
-                                                    textDecoration: "none",
+                                                
+                                            textDecoration: "none",
+                                            whiteSpace: "nowrap",
+                                            overflow: "hidden",
+                                            textOverflow: "ellipsis",
+                                            width: "100%", // Adjust the width to your desired size
+                                            display: "inline-block",
+                                       
                                                 }}
                                             >
                                                 {product?.name}
