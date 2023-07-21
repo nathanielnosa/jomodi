@@ -25,6 +25,10 @@ function Product() {
     const [showWishlistNotification, setShowWishlistNotification] = React.useState(false);
     const [zoomImage, setZoomImage] = useState("");
     const [wishlistItems, setWishlistItems] = useState([]);
+    const [sizes, setSizes] = useState([]);
+    const [colors, setColors] = useState([]);
+    const [selectedSize, setSelectedSize] = useState("");
+    const [selectedColor, setSelectedColor] = useState("");
 
 
     const phoneNumber = 918456969102
@@ -190,6 +194,31 @@ function Product() {
                 console.log(err);
             });
     }, [id]);
+
+    useEffect(() => {
+        axios
+            .get(`${API_URL}product/size/`)
+            .then((res) => {
+                console.log(res.data);
+                setSizes(res.data.results);
+            })
+            .catch((err) => {
+                console.log(err);
+            });
+    }, []);
+
+    useEffect(() => {
+        axios
+            .get(`${API_URL}product/color/`)
+            .then((res) => {
+                console.log(res.data);
+                setColors(res.data.results);
+            })
+            .catch((err) => {
+                console.log(err);
+            });
+    }, []);
+
 
     useEffect(() => {
         axios
@@ -365,18 +394,42 @@ function Product() {
                                 </p>
 
                                 <div className="product-options">
-                                    <label>
-                                        Size
-                                        <select className="input-select">
-                                            <option value="0">X</option>
-                                        </select>
-                                    </label>
-                                    <label>
-                                        Color
-                                        <select className="input-select">
-                                            <option value="0">Red</option>
-                                        </select>
-                                    </label>
+                                    {
+                                        product?.size && (
+                                            <label>
+                                                Size
+                                                <select className="input-select"
+                                                value={selectedSize}
+                                                onChange={(e) => setSelectedSize(e.target.value)}
+                                                >
+                                               {
+                                                    sizes.map((size, index) => (
+                                                        <option key={index} value={size.size}>{size.size}</option>
+                                                    ))
+                                               }
+                                                </select>
+                                            </label>
+                                        )
+                                    }
+                                    {
+                                        product?.color && (
+                                            <label>
+                                                Color
+                                                <select className="input-select"
+                                                value={selectedColor}
+                                                onChange={(e) => setSelectedColor(e.target.value)}
+                                                >
+                                                    {
+                                                        colors.map((color, index) => (
+                                                            <option key={index} value={color.color}>{color.color}</option>
+                                                        ))
+                                                    }
+                                                </select>
+                                               
+                                            </label>
+                                        )
+                                    }
+
                                 </div>
 
                                 <div className="add-to-cart">
@@ -420,7 +473,7 @@ function Product() {
                                         </button>
                                     </Link>
                                 </div>
-{/* 
+                                {/* 
                                 <ul className="product-btns">
                                     <a
                                         href={`https://api.whatsapp.com/send?phone=+${phoneNumber}&text=Hi, I am interested in your product ${product?.name}`}
@@ -556,7 +609,12 @@ function Product() {
                                                 }}
                                             />
                                             <div className="product-label">
-                                                <span className="sale">-30%</span>
+                                                {product?.discount ? (
+                                                    <span className="sale">-{product?.discount}%</span>
+                                                ) : (
+                                                    ""
+                                                )}
+                                                {product?.new == true ? <span className="new">NEW</span> : ""}
                                             </div>
                                         </div>
                                     </Link>
