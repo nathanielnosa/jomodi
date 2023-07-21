@@ -4,10 +4,12 @@ import { Link, useLocation } from 'react-router-dom';
 import { addToCart, removeFromCart } from '../actions/cartActions';
 import { addToWishlist, removeFromWishlist } from '../actions/wishActions';
 import { Menu, Button, Text } from '@mantine/core';
+import { useAuth } from '../context/auth-context';
 
 function WishCart() {
     const cartItems = useSelector((state) => state.cart.cartItems);
     const wishlist = useSelector((state) => state.wishlist.wishlistItems);
+    const { checkAuth, user, isAuthenticated, logout } = useAuth();
     const dispatch = useDispatch();
 
     useEffect(() => {
@@ -61,11 +63,14 @@ function WishCart() {
         setCartOpen(false);
     }, [location]);
 
+    console.log("user", user);
+    // alert(isAuthenticated)
+
     return (
         <div className="col-md-12 clearfix">
             <div className="header-ctn" style={{ display: 'flex' }}>
                 {/* Wishlist Dropdown */}
-                <Menu shadow="md" width={200}>
+                <Menu shadow="md" width={300}>
                     <Menu.Target style={{
                         cursor: 'pointer',
                         textDecoration: 'none',
@@ -85,6 +90,44 @@ function WishCart() {
                 
 
                     <Menu.Dropdown>
+                        {
+                            !isAuthenticated && (
+                                <Menu.Item >
+                                    <Link to="/login"
+                                        style={{
+                                            cursor: 'pointer',
+                                            textDecoration: 'none',
+                                            margin: '10px',
+                                            padding: '10px',
+                                            fontSize: '1.5rem',
+                                            
+                                        }}
+                                    >Login/SignUp</Link>
+                                </Menu.Item>
+                            )
+                        }
+
+                        {
+                            user && (
+                                <Menu.Item >
+                                    <Text
+                                        style={{
+                                            cursor: 'pointer',
+                                            textDecoration: 'none',
+                                            margin: '10px',
+                                            padding: '10px',
+                                            fontSize: '1.5rem',
+
+                                        }}
+                                    >
+
+                                        {user.first_name} {user.last_name}
+                                    </Text>
+                                </Menu.Item>
+                            )
+                        }
+
+        
                         <Menu.Item >
                             <Link to="/wishlist" 
                             style={{
@@ -119,17 +162,23 @@ function WishCart() {
                             >Profile</Link>
                         </Menu.Item>
                         <Menu.Divider />
-                        <Menu.Item color="red"
-                            style={{
-                                cursor: 'pointer',
-                                textDecoration: 'none', 
-                                margin: '10px',
-                                padding: '10px',
-                                fontSize: '1.5rem',
-                            }}
-                        >
-                            Logout
-                        </Menu.Item>
+                        {
+                            isAuthenticated && (
+                                <Menu.Item color="red"
+                                    style={{
+                                        cursor: 'pointer',
+                                        textDecoration: 'none',
+                                        margin: '5px',
+                                        padding: '5px',
+                                        fontSize: '1.5rem',
+                                    }}
+                                    onClick={() => logout()}
+                                >
+                                    Logout
+                                </Menu.Item>
+                            )
+                        }
+                      
                     </Menu.Dropdown>
                 </Menu>
 

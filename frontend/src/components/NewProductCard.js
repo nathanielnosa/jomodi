@@ -19,11 +19,12 @@ function NewProductCard({ product }) {
             message: 'Successfully Added Cart! 🤥',
             styles: (theme) => ({
                 root: {
-                    backgroundColor: theme.colors.green[6],
-                    borderColor: theme.colors.green[6],
+                    backgroundColor: theme.colors.teal,
+                    borderColor: theme.colors.teal,
                     height: '100px',
                     width: 'auto',
-                    '&::before': { backgroundColor: theme.white },
+
+                    '&::before': { backgroundColor: theme.teal },
                 },
 
                 title: { color: theme.white, fontSize: '20px' },
@@ -40,17 +41,18 @@ function NewProductCard({ product }) {
         dispatch(addToWishlist(product));
         notifications.show({
             title: 'Successfully Added your Wish List',
-            message: 'Successfully Added your Wish List! 🤥',
+    
             styles: (theme) => ({
                 root: {
-                    backgroundColor: theme.colors.green[6],
-                    borderColor: theme.colors.green[6],
+                    backgroundColor: theme.colors.teal,
+                    borderColor: theme.colors.teal,
                     height: '100px',
                     width: 'auto',
-                    '&::before': { backgroundColor: theme.white },
+
+                    '&::before': { backgroundColor: theme.teal },
                 },
 
-                title: { color: theme.white },
+                title: { color: theme.white, fontSize: '20px' },
                 description: { color: theme.white },
                 closeButton: {
                     color: theme.white,

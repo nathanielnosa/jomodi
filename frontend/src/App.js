@@ -13,11 +13,12 @@ import Footer from './components/Footer';
 import NavCat from './components/NavCat';
 import store from './actions/store';
 import { Notifications } from '@mantine/notifications';
-
+import { AuthProvider} from '../src/context/auth-context';
 
 
 function App() {
   return (
+    <AuthProvider>
     <Provider store={store}>
       <Notifications position="top-center" zIndex={2077} />
         <Router>
@@ -26,6 +27,7 @@ function App() {
           </Routes>
         </Router>
     </Provider>
+    </AuthProvider>
 
   );
 }

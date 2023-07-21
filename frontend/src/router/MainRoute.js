@@ -19,8 +19,13 @@ import OrderReturn from '../pages/OrderReturn';
 import PrivacyPolicy from '../pages/PrivacyPolicy';
 import TAC from '../pages/TAC';
 import About from '../pages/About';
+import Login from '../pages/Login';
+import Register from '../pages/Register';
+import PrivateRoute from './PrivateRoute';
+import { useAuth } from '../context/auth-context';
 
 function MainRoute() {
+    const { isAuthenticated } = useAuth();
     return (
         <Routes>
             <Route path="/" element={<AppLayout />}>
@@ -37,14 +42,13 @@ function MainRoute() {
                 <Route path="/brand/:id/:slug" element={<Brand />} />
                 <Route path="/order" element={<Order />} />
                 <Route path="/order-success" element={<OrderSuccess />} />
-
                 <Route path="/help" element={<HelpPage />} />
                 <Route path="/order-return" element={<OrderReturn />} />
                 <Route path="/privacy-policy" element={<PrivacyPolicy />} />
                 <Route path="/terms-and-conditions" element={<TAC />} />
                 <Route path="/about-us" element={<About />} />
-
-
+                <Route path="/login" element={<Login />} />
+                <Route path="/register" element={<Register />} />
                 <Route path="*" element={<h1>Not Found</h1>} />
             </Route>
         </Routes>
