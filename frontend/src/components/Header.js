@@ -14,10 +14,16 @@ function Header() {
                     <div className="container">
                         <div className="row">
                             <div className="col-md-3 col-8"> {/* Adjust the column width for small screens */}
-                                <Link to="/">
+                                <Link to="/" >
                                     <div className="header-logo">
                                         <div className="logo">
-                                            <img src="/img/logo.png" alt="" />
+                                            <img src="/img/logo.png" alt=""
+                                                style={{
+                                                    textDecoration: 'none',
+                                                    marginTop: '20px',
+                                                    marginLeft: '50px',
+                                                }}
+                                            />
                                         </div>
                                     </div>
                                 </Link>

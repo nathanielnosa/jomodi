@@ -70,7 +70,7 @@ function WishCart() {
                         cursor: 'pointer',
                         textDecoration: 'none',
                         color: 'white',
-                        fontSize: '1.5rem',
+                        fontSize: '3.5rem',
                     }}>
                         <a
                             className="dropdown-toggle"
@@ -80,7 +80,6 @@ function WishCart() {
                             }}
                         >
                             <i className="fa fa-user"></i>
-                            <span>Profile</span>
                         </a>
                     </Menu.Target>
                 
@@ -144,11 +143,14 @@ function WishCart() {
                             cursor: 'pointer',
                             textDecoration: 'none',
                             marginLeft: '15px', 
+                            fontSize: '3.5rem',
 
                         }}
                     >
-                        <i className="fa fa-shopping-cart"></i>
-                        <span>Your Cart</span>
+                        <i className="fa fa-shopping-cart" style={{
+                            fontSize: '3.5rem',
+                            marginTop: '10px',
+                        }}></i>
                         <div className="qty">{cartQuantity}</div>
                     </a>
                     <div className={`cart-dropdown ${cartOpen ? 'show' : ''}`}>

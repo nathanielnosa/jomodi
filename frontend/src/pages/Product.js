@@ -395,7 +395,7 @@ function Product() {
 
                                 <div className="product-options">
                                     {
-                                        product?.size && (
+                                        product?.show_size && (
                                             <label>
                                                 Size
                                                 <select className="input-select"
@@ -412,7 +412,7 @@ function Product() {
                                         )
                                     }
                                     {
-                                        product?.color && (
+                                        product?.show_color && (
                                             <label>
                                                 Color
                                                 <select className="input-select"
