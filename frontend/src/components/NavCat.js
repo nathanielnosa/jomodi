@@ -48,7 +48,11 @@ function NavCat() {
             <div className="container px-4">
                 <div id="responsive-nav">
                     <ul className="main-nav nav navbar-nav flex items-center justify-between">
-                        <li className="active">
+                        <li  style={{
+                            color: 'black',
+                            padding: '0 1rem',
+                            borderBottom: '0px solid black',
+                        }}>
                             <Link to="/">Home</Link>
                         </li>
                         {categories?.map((category) => (
@@ -62,10 +66,9 @@ function NavCat() {
                             >
                                 <p
                                     style={{
-                                        color: 'red',
+                                        color: 'black',
                                         padding: '0 1rem',
                                         fontWeight: '500',
-                                        borderBottom: '1px solid red',
                                         margin: 0,
                                     }}
                                 >
@@ -101,8 +104,11 @@ function NavCat() {
                                                             fontWeight: '500',
                                                             fontSize: '1.4rem',
                                                             margin: 0,
-                                                            padding: '0.5rem 0',
+                                                            padding: '1rem 0',
+                                                            textAlign: 'center',
+
                                                         }}
+                                                        className='brand-item'
                                                     >
                                                         <Link to={`/brand/${brandItem.id}/${brandItem.name}`}
                                                         style={{

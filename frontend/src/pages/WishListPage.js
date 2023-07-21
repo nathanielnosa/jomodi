@@ -30,7 +30,7 @@ function WishListPage() {
           backgroundColor: 'white',
           boxShadow: '0 0 10px rgba(0,0,0,0.2)',
           margin: '15px',
-      
+
         }}>
           <div className="card mb-3">
             {wishlist.map((item, index) => (
@@ -55,13 +55,13 @@ function WishListPage() {
                     }}>
                       <Link to={`/product/${item.id}/${item.name}}`}
                         target='_blank'
-                      style={
-                        {
-                          textDecoration: 'none',
-                          color: 'black',
+                        style={
+                          {
+                            textDecoration: 'none',
+                            color: 'black',
 
-                        }
-                      }>{item.name.toUpperCase()}</Link>
+                          }
+                        }>{item.name.toUpperCase()}</Link>
                     </h5>
                     <Group position="left" >
                       <del className="product-old-price" style={{
@@ -73,8 +73,12 @@ function WishListPage() {
                           item.price.toFixed(2)
                         }</p>
                     </Group>
-                    {/* <p className="card-title">Quantity: {item.quantity}</p> */}
-
+                    <button className="btn btn-danger btn-lg"
+                      onClick={() => handleRemoveFromWishlist(index)}
+                    >
+                      <i className="fa fa-trash"></i>
+                      Remove
+                    </button>
                   </div>
                 </div>
                 <div className="col-md-12">
@@ -99,7 +103,7 @@ function WishListPage() {
               <Link to="/wishlistcheckout" style={{
                 textDecoration: 'none',
               }}>
-                <button className="btn btn-warning btn-block btn-lg">
+                <button className="btn btn-danger btn-block btn-lg">
                   Buy Now <i className="fa fa-arrow-circle-right"></i>
                 </button> </Link>
             </Group>

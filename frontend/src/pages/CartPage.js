@@ -234,7 +234,7 @@ function CartPage() {
                     fontWeight: 'bold',
                     fontSize: '15px',
 
-                  }}> ₹{cartTotal.toFixed(0)}</h4>
+                  }}> ₹{cartDiscount.toFixed(0)}</h4>
                 </Group>
                 <Group position="apart" style={{
                   marginTop: '20px'

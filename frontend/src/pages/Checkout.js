@@ -7,6 +7,7 @@ import { useNavigate } from 'react-router-dom';
 function Checkout() {
     const navigate = useNavigate();
     const [cartItems, setCartItems] = useState([]);
+    
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -34,8 +35,8 @@ function Checkout() {
 
 
     
-    const handleSubmit = () => {
-        // e.preventDefault();
+    const handleSubmit = (e) => {
+        e.preventDefault();
 
 
 
@@ -55,16 +56,16 @@ function Checkout() {
             discount: cartDiscount,
             order_id: "ORD" + Math.floor(Math.random() * 1000000000),
             order_data: cartItems,
-            status: "pending",
+            status: "Shipping in Progress",
             products: cartItems,
             user: 1
 
         }
+        console.log(details);
 
-
-        axios.post(`${API_URL}order/order/`, {
+        axios.post(`${API_URL}order/order/`, 
             details
-        })
+        )
             .then(res => {
                 console.log(res.data);
                 navigate('/order-success');
@@ -97,7 +98,7 @@ function Checkout() {
             <div className="section">
 
                 <div className="container">
-
+                    <form onSubmit={handleSubmit}>
                     <div className="row">
 
                         <div className="col-md-7">
@@ -110,48 +111,56 @@ function Checkout() {
                                     <input className="input" type="text" name="first-name" placeholder="First Name"
                                         value={firstName}
                                         onChange={(e) => setFirstName(e.target.value)}
+                                            required
                                     />
                                 </div>
                                 <div className="form-group">
                                     <input className="input" type="text" name="last-name" placeholder="Last Name"
                                         value={lastName}
                                         onChange={(e) => setLastname(e.target.value)}
+                                            required
                                     />
                                 </div>
                                 <div className="form-group">
                                     <input className="input" type="email" name="email" placeholder="Email"
                                         value={email}
                                         onChange={(e) => setEmail(e.target.value)}
+                                            required
                                     />
                                 </div>
                                 <div className="form-group">
                                     <input className="input" type="text" name="address" placeholder="Address"
                                         value={address}
                                         onChange={(e) => setAddress(e.target.value)}
+                                            required
                                     />
                                 </div>
                                 <div className="form-group">
                                     <input className="input" type="text" name="city" placeholder="City"
                                         value={city}
                                         onChange={(e) => setCity(e.target.value)}
+                                            required
                                     />
                                 </div>
                                 <div className="form-group">
                                     <input className="input" type="text" name="country" placeholder="Country"
                                         value={country}
                                         onChange={(e) => setCountry(e.target.value)}
+                                            required
                                     />
                                 </div>
                                 <div className="form-group">
                                     <input className="input" type="text" name="zip-code" placeholder="ZIP Code"
                                         value={zipCode}
                                         onChange={(e) => setZipCode(e.target.value)}
+                                            required
                                     />
                                 </div>
                                 <div className="form-group">
                                     <input className="input" type="tel" name="tel" placeholder="Telephone"
                                         value={telephone}
                                         onChange={(e) => setTelephone(e.target.value)}
+                                        required
                                     />
                                 </div>
                             </div>
@@ -196,6 +205,7 @@ function Checkout() {
                                         value="Pay Online"
                                         onChange={(e) => setPaymentMethod(e.target.value)}
                                         checked={paymentMethod === "Pay Online"}
+                                        required
                                         />
                                         <label htmlFor="payment-2">
                                             <span></span>
@@ -208,6 +218,7 @@ function Checkout() {
                                         value={"Cash on Delivery"}
                                         onChange={(e) => setPaymentMethod(e.target.value)}
                                         checked={paymentMethod === "Cash on Delivery"}
+                                        required
                                         />
                                         <label htmlFor="payment-3">
                                             <span></span>
@@ -218,17 +229,21 @@ function Checkout() {
                                 </Group>
                             </div>
                             <div className="input-checkbox">
-                                <input type="checkbox" id="terms" />
+                                <input type="checkbox" id="terms" required />
                                 <label htmlFor="terms">
                                     <span></span>
                                     I've read and accept the <a href="#">terms & conditions</a>
                                 </label>
                             </div>
-                            <button className="primary-btn order-submit"
-                                onClick={handleSubmit}
+                            <button className="primary-btn order-submit" style={{ width: '100%',
+                            color: 'white',    
+                            backgroundColor: 'red',
+                        }}
+                                type='submit'
                             >Place order</button>
                         </div>
                     </div>
+                    </form>
 
                 </div>
 
