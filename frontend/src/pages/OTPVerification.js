@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { PinInput, Card, Text, Group} from '@mantine/core';
+import { PinInput, Card, Text, Group, Loader} from '@mantine/core';
 import { useLocation } from 'react-router-dom';
 import { Link, useNavigate } from 'react-router-dom';
 import { API_URL } from '../constants';
@@ -16,6 +16,8 @@ function VerifyOTP() {
     const [pin, setPin] = useState('');
     const phone = useLocation().state?.phone;
     const [userPhone, setUserPhone] = useState()
+    const [submit, setSubmit] = useState(false)
+    const [error, setError] = useState(false)
 
     const handleChange = (value) => {
         setPin(value);
@@ -39,9 +41,9 @@ function VerifyOTP() {
     
     const handleVerify = async (e) => {
         e.preventDefault();
+        setSubmit(true);
 
         if (pin == code) {
-            alert('Verified');
 
             const phoneNumberExists = checkPhoneNumberExists(phone);
 
@@ -50,6 +52,7 @@ function VerifyOTP() {
                     username: phone,
                     password: phone
                 });
+                setSubmit(false);
                 navigate('/');
             } else {
                 const decoded = await registerUser(
@@ -57,7 +60,7 @@ function VerifyOTP() {
                         username: phone,
                         password: phone,
                         admin: false,
-                        email: "test@gmail.com",
+                        email: `${phone}@jodomi.com`,
         
                     }
                 );
@@ -67,10 +70,12 @@ function VerifyOTP() {
                 };
                 const decodedLogin = await login(loginData);
                 navigate('/')
+                setSubmit(false);
            
             }
         } else {
-
+            setSubmit(false);
+            setError(true)
             console.log("error")
         }
     };
@@ -89,6 +94,11 @@ function VerifyOTP() {
                     fontSize: '1.5rem', fontFamily: 'Greycliff CF, sans-serif',
                     marginTop: '10px'
                 }}>Verify with OTP</h2>
+                {
+                    submit && <Loader size="xl" variant="dots" 
+                    style={{ marginLeft: 'auto', marginRight: 'auto', marginTop: '10px' }}
+                    />
+                }
 
                 <Text
                     mt="xl"
@@ -120,8 +130,13 @@ function VerifyOTP() {
                             onChange={handleChange}
 
                         />
-
+                       
                     </Group>
+                    {
+                        error && <Text color="red" size="lg" align="center" mt="xl">
+                            Incorrect OTP
+                        </Text>
+                    }
                     <button
                         className='btn btn-primary btn-block'
                         style={{
@@ -131,6 +146,7 @@ function VerifyOTP() {
                             marginRight: 'auto',
                         }}
                         onClick={handleVerify}
+                        disabled={submit}
                     >
                         submit
                     </button>
