@@ -22,6 +22,7 @@ import About from '../pages/About';
 import Login from '../pages/Login';
 import Register from '../pages/Register';
 import PrivateRoute from './PrivateRoute';
+import OTPVerification from '../pages/OTPVerification';
 import { useAuth } from '../context/auth-context';
 
 function MainRoute() {
@@ -48,7 +49,9 @@ function MainRoute() {
                 <Route path="/terms-and-conditions" element={<TAC />} />
                 <Route path="/about-us" element={<About />} />
                 <Route path="/login" element={<Login />} />
+                <Route path='/otp-verification' element={<OTPVerification />} />
                 <Route path="/register" element={<Register />} />
+
                 <Route path="*" element={<h1>Not Found</h1>} />
             </Route>
         </Routes>
