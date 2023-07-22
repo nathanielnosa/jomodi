@@ -21,6 +21,7 @@ export const loginUser = async (userData) => {
 export const registerUser = async (userData) => {
     try {
         const res = await axios.post(`${API_URL}auth/register`, userData);
+        
     } catch (err) {
         console.log(err);
         throw new Error(err.response ? err.response.data.email : err.message); // throw an error with the message received from the server

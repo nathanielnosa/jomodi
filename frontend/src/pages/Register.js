@@ -1,31 +1,18 @@
 import React, { useState } from 'react'
-import {
-    Paper,
-    createStyles,
-    TextInput,
-    PasswordInput,
-    Checkbox,
-    Button,
-    Title,
-    Text,
-    Anchor,
-    rem,
-    Group,
-    PaperProps,
-    Divider,
-    Stack,
-    Container,
-    Box, Grid, Image, BackgroundImage, Center,
-} from '@mantine/core';
+import { Card, TextInput, Text, Button, Group, Checkbox, PasswordInput } from '@mantine/core';
 import { useForm, isNotEmpty, isEmail, isInRange, hasLength, matches } from '@mantine/form';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import { API_URL } from '../constants';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { registerUser } from '../actions/auth'
+import { useAuth } from '../context/auth-context';
+
 export default function Register() {
     const [submit, setSubmit] = useState(false)
     const [submitError, setSubmitError] = useState("")
+    const { login } = useAuth();
+    const [passwordError, setPasswordError] = useState(false)
     const navigate = useNavigate();
     const tutor = useLocation().state?.tutor
     const form = useForm({
@@ -42,16 +29,18 @@ export default function Register() {
         validate: {
             email: isEmail('Invalid email'),
             password: (val) => (val.length < 8 ? 'Password should include at least 8 characters' : null),
-            confirm_password: (val) => (val != form.values.password ? 'Password do not match' : null),
+            confirm_password: (val) => (val !== form.values.password ? 'Password do not match' : null),
             phone_number: hasLength({ min: 9, max: 14 }, 'Please enter a valid phone number'),
             first_name: hasLength({ min: 2, max: 20 }, 'Please enter a valid first name'),
             last_name: hasLength({ min: 2, max: 20 }, 'Please enter a valid last name'),
         },
     });
 
+    const passwordValid = form.values.password === form.values.confirm_password;
     const handleSubmit = async (e) => {
         e.preventDefault();
-        setSubmit(true);
+        setSubmit(true);        
+
         try {
             const userData = {
                 email: form.values.email,
@@ -66,7 +55,12 @@ export default function Register() {
                 last_name: form.values.last_name,
             };
             const decoded = await registerUser(userData);
-            navigate('/login')
+            const loginData = {
+                email: form.values.email,
+                password: form.values.password
+            };
+            const decodedLogin = await login(loginData);
+            navigate('/')
             setSubmit(false);
             setSubmitError(null);
         } catch (err) {
@@ -77,125 +71,100 @@ export default function Register() {
     }
 
     return (
-        <Grid mx={10}>
-            <Grid.Col md={6} sm={12}>
-                <Link to="/" style={{ textDecoration: "none" }}>
-                    <Image src="/assets/images/logo.png" width={70} height={100} maw={240} mx="auto" radius="md" />
-                </Link>
-
-                <Title
-                    align="center"
-                    sx={(theme) => ({ fontFamily: `Greycliff CF, ${theme.fontFamily}`, fontWeight: 600 })}
-                >
-                    Join{tutor && 'As a Tutor'}
-                </Title>
-                <Text color="dimmed" size="sm" align="center" mt={5}>
-                    Do you have an account?{' '}
-                    <Anchor size="sm" component="button">
-                        <Link to="/login" style={{ textDecoration: "none" }}>
-                            Login
-                        </Link>
-                    </Anchor>
-                </Text>
-
-                <Paper withBorder shadow="md" p={30} m={10} radius="md" >
-                    <Box component="form" onSubmit={handleSubmit}>
-                        <TextInput
-                            label="Phone Number"
-                            placeholder="Your Phone Number"
-                            value={form.values.phone_number}
-                            onChange={(event) => form.setFieldValue('phone_number', event.currentTarget.value)}
-                            radius="md"
-                            size="md"
-                            error={form.errors.phone_number && 'Enter A valid Phone Number'}
-                            withAsterisk
-                        />
-                        <TextInput
-                            label="Email"
-                            placeholder="hello@tantorial.com"
-                            value={form.values.email}
-                            onChange={(event) => form.setFieldValue('email', event.currentTarget.value)}
-                            error={(form.errors.email && 'Invalid email') || (submitError && submitError)}
-                            radius="md"
-                            size="md"
-                            withAsterisk
-                        />
-
-                        <TextInput
-                            label="First Name"
-                            placeholder="First Name"
-                            value={form.values.first_name}
-                            onChange={(event) => form.setFieldValue('first_name', event.currentTarget.value)}
-                            radius="md"
-                            size="md"
-                            error={form.errors.first_name && 'Enter A valid First Name'}
-                            withAsterisk
-                        />
-                        <TextInput
-                            label="Last Name"
-                            placeholder="Last Name"
-                            value={form.values.last_name}
-                            onChange={(event) => form.setFieldValue('last_name', event.currentTarget.value)}
-                            radius="md"
-                            size="md"
-                            error={form.errors.last_name && 'Enter A valid Last Name'}
-                            withAsterisk
-                        />
-                       
-
-                        <PasswordInput
-                            label="Password"
-                            placeholder="Your password"
-                            value={form.values.password}
-                            onChange={(event) => form.setFieldValue('password', event.currentTarget.value)}
-                            error={form.errors.password && 'Password should include at least 6 characters'}
-                            radius="md"
-                            size="md"
-                            withAsterisk
-                        />
-
-                        <PasswordInput
-
-                            label="Confirm Password"
-                            placeholder="Confirm password"
-                            value={form.values.confirm_password}
-                            onChange={(event) => form.setFieldValue('confirm_password', event.currentTarget.value)}
-                            error={form.errors.confirm_password && 'Password do not match'}
-                            radius="md"
-                            size="md"
-                            withAsterisk
-                        />
-                        <Group position="apart" mt="lg">
-                            <Checkbox
-                                size="md"
-                                label="I accept terms and conditions"
-                                checked={form.values.terms}
-                                onChange={(event) => form.setFieldValue('terms', event.currentTarget.checked)}
-                            />
-                        </Group>
-                        <Button fullWidth mt="xl" type="submit" size="md" loading={submit}>
-                            Sign Up
-                        </Button>
-                    </Box>
-                </Paper>
-            </Grid.Col>
-            <Grid.Col md={6}>
-                <Box mx="auto" >
-                    <BackgroundImage
-                        src="https://images.unsplash.com/photo-1419242902214-272b3f66ee7a?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=720&q=80"
-                        radius="sm"
-                        style={{ height: "100vh" }}
-                    >
-                        <Center p="md">
-                            <Text color="#fff">
-                                BackgroundImage component can be used to add any content on image. It is useful for hero headers and
-                                other similar sections
+        <div style={{
+            alignItems: 'center', justifyContent: 'center', minHeight: '100px',
+            width: '300px', marginLeft: 'auto', marginRight: 'auto', marginTop: '10px'
+        }}>
+            <Card shadow="sm" padding="xl" style={{ Width: 2000 }}>
+                <h2 style={{ textAlign: 'center', fontWeight: 'bolder', 
+            fontSize: '1.5rem', fontFamily: 'Greycliff CF, sans-serif'
+            }}>
+                    Register
+                </h2>
+                <form onSubmit={handleSubmit}>
+                    <TextInput 
+                        label="First Name"
+                        size='lg'
+                        value={form.values.first_name}
+                        onChange={(event) => form.setFieldValue('first_name', event.currentTarget.value)}
+                        required
+                    />
+                    <TextInput
+                        label="Last Name"
+                        size='lg'
+                        value={form.values.last_name}
+                        onChange={(event) => form.setFieldValue('last_name', event.currentTarget.value)}
+                        required
+                    />
+                    <TextInput
+                        label="Phone Number"
+                        size='lg'
+                        value={form.values.phone_number}
+                        error={form.errors.phone_number && 'Enter A valid Phone Number'}
+                        onChange={(event) => form.setFieldValue('phone_number', event.currentTarget.value)}
+                        required
+                    />
+                    <TextInput
+                        label="Email"
+                        size='lg'
+                        value={form.values.email}
+                        onChange={(event) => form.setFieldValue('email', event.currentTarget.value)}
+                        placeholder="Enter your email"
+                        error={(form.errors.email && 'Invalid email') || (submitError && submitError)}
+                        required
+                    />
+                    <TextInput
+                        label="Password"
+                        type="password"
+                        size="lg"
+                        value={form.values.password}
+                        onChange={(event) => form.setFieldValue('password', event.currentTarget.value)}
+                        placeholder="Enter your password"
+                        required
+                        style={{ marginTop: 10 }}
+                        error={form.errors.password}
+                    />
+                    <TextInput
+                        label="Confirm Password"
+                        type="password"
+                        size="lg"
+                        value={form.values.confirm_password}
+                        onChange={(event) => form.setFieldValue('confirm_password', event.currentTarget.value)}
+                        placeholder="Confirm your password"
+                        required
+                        style={{ marginTop: 10 }}
+                        error={form.errors.confirm_password}
+                    />
+                    {
+                        passwordValid ? null : (
+                            <Text color="red" size="md" mt="sm">
+                                Passwords do not match
                             </Text>
-                        </Center>
-                    </BackgroundImage>
-                </Box>
-            </Grid.Col>
-        </Grid>
+                        )
+                    }
 
+                    <Button
+                        className='btn btn-primary btn-block'
+                        style={{
+                            marginTop: 20,
+                            backgroundColor: '#1a202c',
+                            marginLeft: 'auto',
+                            marginRight: 'auto',
+                            display: 'block',
+                        }}
+                        type="submit"
+                        disabled={!passwordValid}
+                    >
+                        Create Account
+                    </Button>
+                </form>
+                <Text color="dimmed" size="sm" align="center" mt="xl">
+                    Already have an account? {' '}
+                    <Link to="/login" style={{ textDecoration: "none" }}>
+                      Login
+                    </Link>
+                </Text>
+            </Card>
+        </div>
     );
 }
