@@ -1301,7 +1301,7 @@ textarea.input {
   position: sticky;
   top: 0; /* This ensures it becomes sticky at the top of the page */
   background-color: #fff;
-  z-index: 999;
+  z-index: 1;
   overflow-y: auto;
 }
 

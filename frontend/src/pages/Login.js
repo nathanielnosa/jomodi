@@ -101,7 +101,7 @@ export default function Login({ handleLogin }) {
 
                     <Text size="lg" align="left" mt="xl">
                         By Continuing, you agree to the
-                        <Link to="/terms-of-service" style={{ textDecoration: "none", color: '#ff3e6c' }}>
+                        <Link to="/terms-and-conditions" style={{ textDecoration: "none", color: '#ff3e6c' }}>
                             {" "} Terms of Service
                         </Link>
                         {" "} &
