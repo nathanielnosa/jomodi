@@ -10,40 +10,52 @@ import { API_URL } from '../constants';
 export default function Login({ handleLogin }) {
     const [submit, setSubmit] = useState(false)
     const [error, setError] = useState('');
+    const [phone, setPhone] = useState('');
     const { login } = useAuth();
     const navigate = useNavigate();
-    const form = useForm({
-        initialValues: {
-            email: '',
-            password: '',
-            terms: true,
-        },
+    // const form = useForm({
+    //     initialValues: {
+    //         email: '',
+    //         password: '',
+    //         terms: true,
+    //     },
 
-        validate: {
-            email: isEmail('Invalid email'),
-            password: isNotEmpty('Enter your password'),
-        },
-    });
+    //     validate: {
+    //         email: isEmail('Invalid email'),
+    //         password: isNotEmpty('Enter your password'),
+    //     },
+    // });
+
 
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        setSubmit(true);
+
+        const apiUrl = 'https://www.fast2sms.com/dev/bulkV2';
+        const apiKey = 'rA1utghpRkIlz7thMPOJkYvYRd3pIDMhoMebNtEn2ggOnnKbMMlQaWGXWnj2';
+
         try {
-            const userData = {
-                email: form.values.email,
-                password: form.values.password
-            };
-            const decoded = await login(userData);
-            navigate('/')
-            setSubmit(false);
-            setError(null);
-        } catch (err) {
-            console.log("aad", err);
-            setError(err.message);  // set the error message in the state
-            setSubmit(false)
+            const response = await axios.post(
+                apiUrl,
+                {
+                    variables_values: '5599',
+                    route: 'otp',
+                    numbers: '9999999999,8888888888,7777777777',
+                },
+                {
+                    headers: {
+                        authorization: apiKey,
+                        'Content-Type': 'application/json',
+                    },
+                }
+            );
+
+            console.log(response.data);
+        } catch (error) {
+            console.error(error);
         }
-    }
+    };
+
 
     return (
         <div style={{
@@ -54,18 +66,17 @@ export default function Login({ handleLogin }) {
                 <h2 style={{
                     textAlign: 'center', fontWeight: 'bolder',
                     fontSize: '1.5rem', fontFamily: 'Greycliff CF, sans-serif'
-                }}>Login</h2>
+                }}>Login or Sign UP</h2>
                 <form onSubmit={handleSubmit}>
                     <TextInput
-                        label="Email"
+                        label="Phone Number"
                         size='lg'
-                        value={form.values.email}
-                        onChange={(event) => form.setFieldValue('email', event.currentTarget.value)}
-                        error={(form.errors.email && 'Invalid email') || (error && error)}
-                        placeholder="Enter your email"
+                        value={phone}
+                        onChange={(event) => setPhone(event.currentTarget.value)}
+                        placeholder="Enter your phone number"
                         required
                     />
-                    <TextInput
+                    {/* <TextInput
                         label="Password"
                         type="password"
                         size='lg'
@@ -75,7 +86,7 @@ export default function Login({ handleLogin }) {
                         placeholder="Enter your password"
                         required
                         style={{ marginTop: 10 }}
-                    />
+                    /> */}
                     <button
                         className='btn btn-primary btn-block'
                         style={{
@@ -90,14 +101,14 @@ export default function Login({ handleLogin }) {
                         Login
                     </button>
                 </form>
-                <Text color="dimmed" size="sm" align="center" mt="xl">
+                {/* <Text color="dimmed" size="sm" align="center" mt="xl">
                     Do not have an account yet?{' '}
           
                         <Link to="/register" style={{ textDecoration: "none" }}>
                             Create account
                         </Link>
        
-                </Text>
+                </Text> */}
             </Card>
         </div>
 

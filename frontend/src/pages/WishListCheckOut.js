@@ -65,6 +65,7 @@ function WishListCheckOut() {
         )
             .then(res => {
                 console.log(res.data);
+                localStorage.removeItem('cartItems');
                 navigate('/order-success');
             }
             )
