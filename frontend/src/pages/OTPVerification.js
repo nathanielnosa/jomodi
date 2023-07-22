@@ -104,8 +104,7 @@ function VerifyOTP() {
                             Edit Number
                         </Link>
                     </Text>
-                    <br />
-                    {code}
+
                 </Text>
 
                 <form>
