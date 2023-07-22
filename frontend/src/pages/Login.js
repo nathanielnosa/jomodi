@@ -11,64 +11,49 @@ export default function Login({ handleLogin }) {
     const [submit, setSubmit] = useState(false)
     const [error, setError] = useState('');
     const [phone, setPhone] = useState('');
+    const [code, setCode] = useState('');
     const { login } = useAuth();
     const navigate = useNavigate();
-    // const form = useForm({
-    //     initialValues: {
-    //         email: '',
-    //         password: '',
-    //         terms: true,
-    //     },
-
-    //     validate: {
-    //         email: isEmail('Invalid email'),
-    //         password: isNotEmpty('Enter your password'),
-    //     },
-    // });
 
 
-
-    const handleSubmit = async (e) => {
+    const handleSubmit = (e) => {
         e.preventDefault();
-
-        const apiUrl = 'https://www.fast2sms.com/dev/bulkV2';
-        const apiKey = 'rA1utghpRkIlz7thMPOJkYvYRd3pIDMhoMebNtEn2ggOnnKbMMlQaWGXWnj2';
-
-        try {
-            const response = await axios.post(
-                apiUrl,
-                {
-                    variables_values: '5599',
-                    route: 'otp',
-                    numbers: '9999999999,8888888888,7777777777',
-                },
-                {
-                    headers: {
-                        authorization: apiKey,
-                        'Content-Type': 'application/json',
-                    },
+        // Send the form data to Django backend
+        axios.post(`${API_URL}auth/send-sms/` , { numbers: phone })
+            .then((response) => {
+                console.log(response.data);
+                
+                if (response.data.return === true) {
+                    navigate('/otp-verification', { state: { phone: phone, code: response.data.code } });
                 }
-            );
-
-            console.log(response.data);
-        } catch (error) {
-            console.error(error);
-        }
+                else {
+                    alert("Invalid Phone Number");
+                }
+            })
+            .catch((error) => {
+                console.error(error);
+                alert("OTP not sent");
+            });
     };
+
 
 
     return (
         <div style={{
             alignItems: 'center', justifyContent: 'center', minHeight: '100px',
             width: '300px', marginLeft: 'auto', marginRight: 'auto', marginTop: '10px'
+
         }}>
             <Card shadow="sm" padding="xl" style={{ Width: 2000 }}>
                 <h2 style={{
                     textAlign: 'center', fontWeight: 'bolder',
-                    fontSize: '1.5rem', fontFamily: 'Greycliff CF, sans-serif'
+                    fontSize: '1.5rem', fontFamily: 'Greycliff CF, sans-serif',
+                    marginTop: '10px'
                 }}>Login or Sign UP</h2>
                 <form onSubmit={handleSubmit}>
                     <TextInput
+                        mt="xl"
+                        mb="xl"
                         label="Phone Number"
                         size='lg'
                         value={phone}
@@ -76,17 +61,7 @@ export default function Login({ handleLogin }) {
                         placeholder="Enter your phone number"
                         required
                     />
-                    {/* <TextInput
-                        label="Password"
-                        type="password"
-                        size='lg'
-                        value={form.values.password}
-                        onChange={(event) => form.setFieldValue('password', event.currentTarget.value)}
-                        error={error && error}
-                        placeholder="Enter your password"
-                        required
-                        style={{ marginTop: 10 }}
-                    /> */}
+                
                     <button
                         className='btn btn-primary btn-block'
                         style={{
@@ -98,17 +73,10 @@ export default function Login({ handleLogin }) {
                         type="submit"
 
                     >
-                        Login
+                        Get Code
                     </button>
                 </form>
-                {/* <Text color="dimmed" size="sm" align="center" mt="xl">
-                    Do not have an account yet?{' '}
-          
-                        <Link to="/register" style={{ textDecoration: "none" }}>
-                            Create account
-                        </Link>
-       
-                </Text> */}
+
             </Card>
         </div>
 
