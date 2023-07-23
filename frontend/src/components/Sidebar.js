@@ -210,24 +210,7 @@ function Sidebar({ max, min, selectedCategories, selectedBrands, onCategoryChang
 						</Accordion.Panel>
 					</Accordion.Item>
 				</Accordion>
-				{/* <h3 className="aside-title">Brand</h3>
-				<div className="checkbox-filter">
-					{brands?.map((brand, index) => (
-						<div className="input-checkbox" key={brand.id}>
-							<input
-								type="checkbox"
-								id={`brand-${brand.id}`}
-								checked={selectedBrands.includes(brand.id)}
-								onChange={() => handleBrandChange(brand.id)}
-							/>
-							<label htmlFor={`brand-${brand.id}`}>
-								<span></span>
-								{brand.name}
-								<small>(578)</small>
-							</label>
-						</div>
-					))}
-				</div> */}
+		
 			</div>
 		</div>
 	);

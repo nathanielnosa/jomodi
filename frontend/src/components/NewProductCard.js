@@ -13,7 +13,7 @@ function NewProductCard({ product }) {
     const [showWishlistNotification, setShowWishlistNotification] = React.useState(false);
 
     const handleAddToCart = (product) => {
-        dispatch(addToCart(product));
+        dispatch(addToCart(product, 1));
         notifications.show({
             title: 'Successfully Added to Cart',
             message: 'Successfully Added Cart! 🤥',
