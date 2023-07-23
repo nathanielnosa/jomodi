@@ -16,9 +16,11 @@ function NewProduct({ product }) {
     const [category, setCategory] = useState()
 
     useEffect(() => {
-        axios.get(`${API_URL}product/new_product/`)
+        axios.get(`${API_URL}product/product/`)
             .then(res => {
-                setProducts(res.data.results)
+                const filterproducts = res.data.results
+                    .filter(product => product.new_product == true)
+                setProducts(filterproducts)
             })
             .catch(err => {
                 console.log(err)
