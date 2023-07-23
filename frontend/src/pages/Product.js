@@ -200,19 +200,21 @@ function Product() {
             .get(`${API_URL}product/size/`)
             .then((res) => {
                 console.log(res.data);
-                setSizes(res.data.results);
+                const filteredSizes = res.data.results.filter((size) => size.product == id);
+                setSizes(filteredSizes);
             })
             .catch((err) => {
                 console.log(err);
             });
-    }, []);
+    }, [id]);
 
     useEffect(() => {
         axios
             .get(`${API_URL}product/color/`)
             .then((res) => {
                 console.log(res.data);
-                setColors(res.data.results);
+                const filteredColors = res.data.results.filter((color) => color.product == id);
+                setColors(filteredColors);
             })
             .catch((err) => {
                 console.log(err);
