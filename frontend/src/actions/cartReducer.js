@@ -23,7 +23,7 @@ const cartReducer = (state = initialState, action) => {
                 // If the product doesn't exist, add it to the cart
                 const newCartItem = { ...action.payload.product, 
                     quantity: action.payload.quantity,
-                    buy: false };
+                    buy: true };
                 return {
                     ...state,
                     cartItems: [...state.cartItems, newCartItem],

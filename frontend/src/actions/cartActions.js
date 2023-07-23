@@ -1,11 +1,12 @@
 // cartActions.js
 
-export const addToCart = (product, quantity) => {
+export const addToCart = (product, quantity, buy) => {
     return {
         type: 'ADD_TO_CART',
         payload: {
             product: product,
             quantity: quantity,
+            
         },
     };
 };
