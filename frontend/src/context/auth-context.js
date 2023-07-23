@@ -17,10 +17,23 @@ export const AuthProvider = ({ children }) => {
     useEffect(() => {
         if (user) {
             setIsAuthenticated(true);
+            localStorage.setItem('authenticated', 'true');
         } else {
             setIsAuthenticated(false);
         }
     }, [user]);
+
+    // useEffect(() => {
+    //     const userData = JSON.parse(localStorage.getItem('userData'));
+    //     if (userData) {
+    //         setUser(userData);
+    //     }
+    // }, []);
+
+    // const setUserData = (userData) => {
+    //     setUser(userData);
+    //     localStorage.setItem('userData', JSON.stringify(userData));
+    // };
 
 
     const login = async (userData) => {
@@ -35,6 +48,7 @@ export const AuthProvider = ({ children }) => {
     const logout = () => {
         logoutUser();
         setUser(null);
+        localStorage.removeItem('authenticated');
         setIsAuthenticated(false);
     };
 

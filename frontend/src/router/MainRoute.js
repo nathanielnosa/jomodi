@@ -28,6 +28,8 @@ import { useAuth } from '../context/auth-context';
 
 function MainRoute() {
     const { isAuthenticated } = useAuth();
+    const authenticate = localStorage.getItem('authenticated');
+
     return (
         <Routes>
             <Route path="/" element={<AppLayout />}>
