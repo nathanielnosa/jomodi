@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import { addToCart, removeFromCart } from '../actions/cartActions';
 import { addToWishlist, removeFromWishlist } from '../actions/wishActions';
 import { Button, Group, UnstyledButton, Divider } from '@mantine/core';
+import { IconTrash } from '@tabler/icons-react';
 
 function WishListPage() {
   const cartItems = useSelector((state) => state.cart.cartItems);
@@ -64,7 +65,14 @@ function WishListPage() {
                         }>{item.name.toUpperCase()}</Link>
                     </h5>
                     <Group position="right" >
-                      <i className="fa fa-trash"></i>
+                      <IconTrash size={24} 
+                      color='red'
+                      onClick={() => handleRemoveFromWishlist(index)}
+                      style={{
+                        pointer: 'cursor',
+                      }}
+                      />
+                      {/* <i onClick={() => handleRemoveFromWishlist(index)} className="fa fa-trash"></i> */}
                     </Group>
                     <Group position="left" >
                     

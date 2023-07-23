@@ -1,8 +1,7 @@
-import axios from 'axios'
+import axios from 'axios';
 import jwt_decode from 'jwt-decode';
 import { API_URL } from '../constants';
 import { useNavigate } from 'react-router-dom';
-
 
 export const loginUser = async (userData) => {
     try {
@@ -11,26 +10,26 @@ export const loginUser = async (userData) => {
         localStorage.setItem('jwtToken', token);
         const decoded = jwt_decode(token);
         return decoded;
-
     } catch (err) {
         console.log(err);
-        throw new Error(err.response ? err.response.data.detail : err.message); // throw an error with the message received from the server
+        const errorDetail = err.response ? err.response.data.detail : 'An error occurred during login.';
+        throw new Error(errorDetail); // throw an error with the message received from the server or a default message
     }
-}
+};
 
 export const registerUser = async (userData) => {
     try {
         const res = await axios.post(`${API_URL}auth/register`, userData);
-        
     } catch (err) {
         console.log(err);
-        throw new Error(err.response ? err.response.data.email : err.message); // throw an error with the message received from the server
+        const errorMessage = err.response ? err.response.data.email : 'An error occurred during registration.';
+        throw new Error(errorMessage); // throw an error with the message received from the server or a default message
     }
-}
+};
 
 export const logoutUser = () => {
     localStorage.removeItem('jwtToken');
-}
+};
 
 export const getCurrentUser = () => {
     const token = localStorage.getItem('jwtToken');
@@ -39,4 +38,4 @@ export const getCurrentUser = () => {
         return decoded;
     }
     return null;
-}
+};
