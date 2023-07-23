@@ -1,14 +1,17 @@
 import { Group } from '@mantine/core';
 import axios from 'axios';
 import React, { useEffect, useState } from 'react'
+import { useDispatch } from 'react-redux';
 import { API_URL } from '../constants';
 import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
+import { useAuth } from '../context/auth-context';
+import { removeCartItems } from '../actions/cartActions';
 
 function Checkout() {
     const navigate = useNavigate();
     const [cartItems, setCartItems] = useState([]);
-    
+    const { user } = useAuth();
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -21,6 +24,12 @@ function Checkout() {
     const [telephone, setTelephone] = useState('');
     const [paymentMethod, setPaymentMethod] = useState('');
 
+    const dispatch = useDispatch();
+
+    const handleRemoveItems = () => {
+        // Call this function when you want to remove the items from the store
+        dispatch(removeCartItems());
+    };
 
     useEffect(() => {
         // Get cart items from local storage
@@ -59,7 +68,7 @@ function Checkout() {
             order_data: cartItems,
             status: "Shipping in Progress",
             products: cartItems,
-            user: 1
+            user: user?.user_id,
 
         }
         console.log(details);
@@ -69,7 +78,7 @@ function Checkout() {
         )
             .then(res => {
                 console.log(res.data);
-                localStorage.removeItem('cartItems');
+                handleRemoveItems();
                 navigate('/order-success');
             }
             )

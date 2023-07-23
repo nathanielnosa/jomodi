@@ -3,10 +3,12 @@ import axios from 'axios';
 import React, { useEffect, useState } from 'react'
 import { API_URL } from '../constants';
 import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../context/auth-context';
 
 function WishListCheckOut() {
     const [wishItems, setWishItems] = useState([]);
     const navigate = useNavigate();
+    const { user } = useAuth();
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -55,7 +57,7 @@ function WishListCheckOut() {
             order_data: wishItems,
             status: "Shipping in Progress",
             products: wishItems,
-            user: 1
+            user: user?.user_id,
 
         }
 
@@ -65,7 +67,6 @@ function WishListCheckOut() {
         )
             .then(res => {
                 console.log(res.data);
-                localStorage.removeItem('cartItems');
                 navigate('/order-success');
             }
             )

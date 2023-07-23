@@ -48,7 +48,7 @@ function NavCat() {
             <div className="container px-4">
                 <div id="responsive-nav">
                     <ul className="main-nav nav navbar-nav flex items-center justify-between">
-                        <li  style={{
+                        <li style={{
                             color: 'black',
                             padding: '0 1rem',
                             borderBottom: '0px solid black',
@@ -87,11 +87,12 @@ function NavCat() {
                                             position: 'absolute',
                                             top: '100%',
                                             left: 0,
-                                            zIndex: 1, // Ensure the dropdown is above other content
+                                            zIndex: 99, // Ensure the dropdown is above other content
                                             background: 'white',
                                             padding: '0 1rem',
                                             boxShadow: '0px 3px 6px rgba(0, 0, 0, 0.16)',
                                             minWidth: '200px',
+                                         
                                         }}
                                     >
                                         <ul style={{ listStyle: 'none', margin: 0, padding: 0 }}>
@@ -111,13 +112,13 @@ function NavCat() {
                                                         className='brand-item'
                                                     >
                                                         <Link to={`/brand/${brandItem.id}/${brandItem.name}`}
-                                                        style={{
-                                                            textDecoration: 'none',
-                                                            pointer : 'cursor',
-                                                            
-                                                        }}
+                                                            style={{
+                                                                textDecoration: 'none',
+                                                                pointer: 'cursor',
+
+                                                            }}
                                                         >
-                                                        {brandItem.name}
+                                                            {brandItem.name}
                                                         </Link>
                                                     </li>
                                                 ))}

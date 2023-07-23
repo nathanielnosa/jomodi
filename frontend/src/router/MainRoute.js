@@ -23,6 +23,7 @@ import Login from '../pages/Login';
 import Register from '../pages/Register';
 import PrivateRoute from './PrivateRoute';
 import OTPVerification from '../pages/OTPVerification';
+import ProfilePage from '../pages/ProfilePage';
 import { useAuth } from '../context/auth-context';
 
 function MainRoute() {
@@ -50,8 +51,8 @@ function MainRoute() {
                 <Route path="/about-us" element={<About />} />
                 <Route path="/login" element={<Login />} />
                 <Route path='/otp-verification' element={<OTPVerification />} />
+                <Route path="/profile" element={<ProfilePage />} />
                 <Route path="/register" element={<Register />} />
-
                 <Route path="*" element={<h1>Not Found</h1>} />
             </Route>
         </Routes>

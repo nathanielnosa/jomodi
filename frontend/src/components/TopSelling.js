@@ -12,9 +12,11 @@ function TopSelling() {
 
     useEffect(() => {
         axios
-            .get(`${API_URL}product/top_product/`)
+            .get(`${API_URL}product/product/`)
             .then((res) => {
-                setProducts(res.data.results);
+                const filterproducts = res.data.results
+                .filter((product) => product.top_product == true);
+                setProducts(filterproducts);
             })
             .catch((err) => {
                 console.log(err);

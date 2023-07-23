@@ -63,7 +63,11 @@ function WishListPage() {
                           }
                         }>{item.name.toUpperCase()}</Link>
                     </h5>
+                    <Group position="right" >
+                      <i className="fa fa-trash"></i>
+                    </Group>
                     <Group position="left" >
+                    
                       <del className="product-old-price" style={{
                         marginBottom: '10px',
                       }}>₹{item?.cancel_price}</del>
@@ -72,13 +76,14 @@ function WishListPage() {
                       }}> ₹{
                           item.price.toFixed(2)
                         }</p>
+                  
                     </Group>
-                    <button className="btn btn-danger btn-lg"
+                    {/* <button className="btn btn-danger btn-lg"
                       onClick={() => handleRemoveFromWishlist(index)}
                     >
                       <i className="fa fa-trash"></i>
                       Remove
-                    </button>
+                    </button> */}
                   </div>
                 </div>
                 <div className="col-md-12">
@@ -96,7 +101,7 @@ function WishListPage() {
               bottom: 0,
               background: "white",
               boxShadow: "0 0 10px rgba(0,0,0,0.2)",
-              padding: "20px",
+              padding: "10px",
               marginTop: "20px",
             }}>
 
