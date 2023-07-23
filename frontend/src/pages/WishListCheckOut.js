@@ -2,7 +2,7 @@ import { Group } from '@mantine/core';
 import axios from 'axios';
 import React, { useEffect, useState } from 'react'
 import { API_URL } from '../constants';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../context/auth-context';
 
 function WishListCheckOut() {
@@ -233,10 +233,11 @@ function WishListCheckOut() {
                             </div>
                             <div className="input-checkbox">
                                 <input type="checkbox" id="terms" />
-                                <label htmlFor="terms">
-                                    <span></span>
-                                    I've read and accept the <a href="#">terms & conditions</a>
-                                </label>
+                                    <label htmlFor="terms">
+                                        <span></span>
+                                        I've read and accept the <Link to="/terms-and-conditions" target='_blank'> terms & conditions
+                                        </Link>
+                                    </label>
                             </div>
                                 <button className="primary-btn order-submit" style={{
                                     width: '100%',

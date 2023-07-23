@@ -97,7 +97,7 @@ function NavCat() {
                                     >
                                         <ul style={{ listStyle: 'none', margin: 0, padding: 0 }}>
                                             {brand
-                                                .filter((brandItem) => brandItem.category === category.id)
+                                                .filter((brandItem) => brandItem.category.id === category.id)
                                                 .map((brandItem) => (
                                                     <li
                                                         key={brandItem.id}

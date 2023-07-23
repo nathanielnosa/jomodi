@@ -18,10 +18,10 @@ export const removeFromCart = (index) => {
 };
 
 
-export const updateCartItemQuantity = (index, quantity) => {
+export const updateCartItemQuantity = (index, quantity, buy) => {
     return {
         type: 'UPDATE_CART_ITEM_QUANTITY',
-        payload: { index, quantity },
+        payload: { index, quantity , buy },
     };
 };
 

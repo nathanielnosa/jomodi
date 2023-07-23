@@ -61,7 +61,7 @@ function AppFooter() {
                                     <li><Link to="/privacy-policy">Privacy Policy</Link></li>
                                     <li><Link to="/order-return">Orders and Returns</Link></li>
                                     <li><Link to="/terms-and-conditions">Terms & Conditions</Link></li>
-                                    <li><Link to="/help">Help Page</Link></li>
+                                  
                                     
                                     {/* <li><a href="#">About Us</a></li>
                                     <li><a href="#">Contact Us</a></li>
@@ -76,11 +76,11 @@ function AppFooter() {
                             <div className="footer">
                                 <h3 className="footer-title">Service</h3>
                                 <ul className="footer-links">
-                                    <li><a href="#">My Account</a></li>
-                                    <li><a href="#">View Cart</a></li>
-                                    <li><a href="#">Wishlist</a></li>
-                                    <li><a href="#">Track My Order</a></li>
-                                    <li><a href="#">Help</a></li>
+                                    <li><Link to="/profile">My Account</Link></li>
+                                    <li><Link to="/cart">View Cart</Link></li>
+                                    <li><Link to="/wishlist">Wishlist</Link></li>
+                                    <li><Link to="/order">Track My Order</Link></li>
+                                    <li><Link to="/help">Help Page</Link></li>
                                 </ul>
                             </div>
                         </div>

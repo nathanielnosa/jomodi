@@ -33,17 +33,70 @@ function MainRoute() {
             <Route path="/" element={<AppLayout />}>
                 <Route index element={<Home />} />
                 <Route path="/store" element={<Store />} />
-                <Route path="/checkout" element={<Checkout />} />
-                <Route path="/wishlist" element={<WishListPage />} />
+                {/* <Route path="/checkout" element={<Checkout />} /> */}
+                {/* <Route path="/wishlist" element={<WishListPage />} /> */}
+                <Route
+                    path="/wishlist"
+                    element={
+                        <PrivateRoute user={isAuthenticated}>
+                                <WishListPage />
+                        </PrivateRoute>
+                    }
+                />
+                <Route
+                    path="/checkout"
+                    element={
+                        <PrivateRoute user={isAuthenticated}>
+                            <Checkout />
+                        </PrivateRoute>
+                    }
+                />
+                <Route
+                    path="/profile"
+                    element={
+                        <PrivateRoute user={isAuthenticated}>
+                            <ProfilePage />
+                        </PrivateRoute>
+                    }
+                />
+                <Route 
+                    path="/order"
+                    element={
+                        <PrivateRoute user={isAuthenticated}>
+                            <Order />
+                        </PrivateRoute>
+                    }
+                />
+                <Route 
+                    path="/order-success"
+                    element={
+                        <PrivateRoute user={isAuthenticated}>
+                            <OrderSuccess />
+                        </PrivateRoute>
+                    }
+                />
+                <Route 
+                    path='/wishlistcheckout'
+                    element={
+                        <PrivateRoute user={isAuthenticated}>
+                            <WishListCheckOut />
+                        </PrivateRoute>
+                    }
+                />
+                <Route
+                    path="/product-checkout/:id/:slug"
+                    element={
+                        <PrivateRoute user={isAuthenticated}>
+                            <ProductCheckout />
+                        </PrivateRoute>
+                    }
+                />
+            
                 <Route path="/cart" element={<CartPage />} />
                 <Route path="/product/:id/:slug" element={<Product />} />
                 <Route path="/category/:id/:slug" element={<Category />} />
                 <Route path="search/:keyword/:categoryid" element={<SearchPage />} />
-                <Route path="/wishlistcheckout" element={<WishListCheckOut />} />
-                <Route path="/product-checkout/:id/:slug" element={<ProductCheckout />} />
                 <Route path="/brand/:id/:slug" element={<Brand />} />
-                <Route path="/order" element={<Order />} />
-                <Route path="/order-success" element={<OrderSuccess />} />
                 <Route path="/help" element={<HelpPage />} />
                 <Route path="/order-return" element={<OrderReturn />} />
                 <Route path="/privacy-policy" element={<PrivacyPolicy />} />
@@ -51,7 +104,6 @@ function MainRoute() {
                 <Route path="/about-us" element={<About />} />
                 <Route path="/login" element={<Login />} />
                 <Route path='/otp-verification' element={<OTPVerification />} />
-                <Route path="/profile" element={<ProfilePage />} />
                 <Route path="/register" element={<Register />} />
                 <Route path="*" element={<h1>Not Found</h1>} />
             </Route>

@@ -5,12 +5,17 @@ import { addToCart, removeFromCart } from '../actions/cartActions';
 import { addToWishlist, removeFromWishlist } from '../actions/wishActions';
 import { Menu, Button, Text } from '@mantine/core';
 import { useAuth } from '../context/auth-context';
+import axios from 'axios';
+import { API_URL } from '../constants';
 
 function WishCart() {
     const cartItems = useSelector((state) => state.cart.cartItems);
     const wishlist = useSelector((state) => state.wishlist.wishlistItems);
     const { checkAuth, user, isAuthenticated, logout } = useAuth();
     const dispatch = useDispatch();
+    const [userProfile, setUserProfile] = useState();
+
+
 
     useEffect(() => {
         // Update cart items in local storage
@@ -62,6 +67,21 @@ function WishCart() {
         setWishlistOpen(false);
         setCartOpen(false);
     }, [location]);
+
+    useEffect(() => {
+        if (user?.user_id) {
+            axios.get(`${API_URL}order/profile-fetch/?user_id=${user.user_id}`)
+                .then(res => {
+                    if (res.data && res.data.results) {
+                        setUserProfile(res.data.results[0]);
+                        console.log("ww", res.data);
+                    }
+                })
+                .catch(err => {
+                    console.log(err);
+                });
+        }
+    }, [user]);
 
     console.log("user", user);
     // alert(isAuthenticated)
@@ -121,7 +141,9 @@ function WishCart() {
                                         }}
                                     >
 
-                                        {user.first_name} {user.last_name}
+                                        {
+                                            userProfile?.first_name
+                                        }
                                     </Text>
                                 </Menu.Item>
                             )
@@ -231,7 +253,7 @@ function WishCart() {
                         </div>
                         <div className="cart-btns">
                             <Link to="/cart">View Cart</Link>
-                            <Link to="/checkout">
+                            <Link to="/cart">
                                 Checkout <i className="fa fa-arrow-circle-right"></i>
                             </Link>
                         </div>

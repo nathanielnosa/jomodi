@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { useParams } from "react-router-dom";
 import axios from "axios";
 import { API_URL } from "../constants";
-import { useLocation } from 'react-router-dom';
+import { useLocation, Link } from 'react-router-dom';
 import { Group } from '@mantine/core';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/auth-context';
@@ -235,7 +235,8 @@ function ProductCheckOut() {
                   <input type="checkbox" id="terms" />
                   <label htmlFor="terms">
                     <span></span>
-                    I've read and accept the <a href="#">terms & conditions</a>
+                    I've read and accept the <Link to="/terms-and-conditions" target='_blank'> terms & conditions
+                    </Link>
                   </label>
                 </div>
                 <button className="primary-btn order-submit" style={{

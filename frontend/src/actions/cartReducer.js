@@ -14,13 +14,16 @@ const cartReducer = (state = initialState, action) => {
                 // If the product already exists, increase its quantity
                 const updatedCartItems = [...state.cartItems];
                 updatedCartItems[productIndex].quantity += action.payload.quantity;
+                updatedCartItems[productIndex].buy = false;
                 return {
                     ...state,
                     cartItems: updatedCartItems,
                 };
             } else {
                 // If the product doesn't exist, add it to the cart
-                const newCartItem = { ...action.payload.product, quantity: action.payload.quantity };
+                const newCartItem = { ...action.payload.product, 
+                    quantity: action.payload.quantity,
+                    buy: false };
                 return {
                     ...state,
                     cartItems: [...state.cartItems, newCartItem],
@@ -36,10 +39,11 @@ const cartReducer = (state = initialState, action) => {
             };
 
         case 'UPDATE_CART_ITEM_QUANTITY':
-            const { index, quantity } = action.payload;
+            const { index, quantity, buy } = action.payload;
             if (quantity > 0) {
                 const updatedCartItems = [...state.cartItems];
                 updatedCartItems[index].quantity = quantity;
+                updatedCartItems[index].buy = buy;
                 return {
                     ...state,
                     cartItems: updatedCartItems,
