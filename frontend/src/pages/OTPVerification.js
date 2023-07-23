@@ -133,9 +133,7 @@ function VerifyOTP() {
                         textAlign: 'center', fontSize: '1.2rem',
                         fontFamily: 'Greycliff CF, sans-serif'
                     }}>
-                    {
-                        code1
-                    }
+                  
                     Enter the OTP sent to {phone} 
                     <br />
                     <Text color="dimmed" size="sm" align="center" mt="xl">
