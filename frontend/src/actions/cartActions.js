@@ -24,3 +24,9 @@ export const updateCartItemQuantity = (index, quantity) => {
         payload: { index, quantity },
     };
 };
+
+export const removeCartItems = () => { 
+    return {
+        type: 'REMOVE_CART_ITEMS',
+    };
+}

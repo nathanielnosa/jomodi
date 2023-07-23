@@ -4,10 +4,12 @@ import axios from 'axios';
 import { API_URL } from '../constants';
 import dayjs from 'dayjs';
 import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../context/auth-context';
 
 function Order() {
   const navigate = useNavigate();
   const [orderData, setOrderData] = useState([]);
+  const { user } = useAuth();
 
 
 
@@ -18,7 +20,7 @@ function Order() {
 
   const fetchOrderData = () => {
     axios
-      .get(`${API_URL}order/order/`)
+      .get(`${API_URL}order/order-fetch/?user_id=${user?.user_id}`)
       .then((res) => {
         const sortedData = res.data.results.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
         setOrderData(sortedData);

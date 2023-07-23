@@ -5,11 +5,13 @@ import { API_URL } from "../constants";
 import { useLocation } from 'react-router-dom';
 import { Group } from '@mantine/core';
 import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../context/auth-context';
 
 function ProductCheckOut() {
   const { id } = useParams();
   const navigate = useNavigate();
   const [productData, setProductData] = useState();
+  const {user} = useAuth();
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -53,7 +55,7 @@ function ProductCheckOut() {
       order_id: "ORD" + Math.floor(Math.random() * 1000000000),
       order_data: [productData],
       products: [productData],
-      user: 1,
+      user: user?.user_id,
       status: "Shipping in Progress",
     }
 
