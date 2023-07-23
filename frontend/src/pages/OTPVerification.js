@@ -147,6 +147,9 @@ function VerifyOTP() {
                     <Link onClick={resendSubmit} style={{ textDecoration: "none" }}>
                         Resend OTP
                     </Link>
+                    {
+                        code1
+                    }
                 </Text>
 
                 <form>
