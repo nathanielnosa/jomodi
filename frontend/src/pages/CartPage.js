@@ -20,25 +20,43 @@ function CartPage() {
     localStorage.setItem('cartItems', JSON.stringify(cartItems));
   }, [cartItems]);
 
-  const handleAddToCart = (product) => {
-    dispatch(addToCart(product));
-  };
 
   const handleRemoveFromCart = (index) => {
     dispatch(removeFromCart(index));
   };
 
-  const cartQuantity = cartItems.length;
-  const cartTotal = cartItems.reduce((total, item) => total + item.quantity * item.price, 0);
-  const cartDiscount = cartItems.reduce((total, item) => total + item.quantity * item.cancel_price, 0);
+  const cartQuantity = cartItems.filter((item) => item.buy).length;
+  // const cartTotal = cartItems.reduce((total, item) => total + item.quantity * item.price, 0);
+  // const cartDiscount = cartItems.reduce((total, item) => total + item.quantity * item.cancel_price, 0);
+
+  const cartTotal = cartItems.reduce((total, item) => {
+    if (item.buy) {
+      return total + item.quantity * item.price;
+    }
+    return total;
+  }, 0);
+
+  const cartDiscount = cartItems.reduce((total, item) => {
+    if (item.buy) {
+      return total + item.quantity * item.cancel_price;
+    }
+    return total;
+  }, 0);
 
   const handleQuantityChange = (index, newQuantity) => {
     if (newQuantity > 0) {
       const updatedItems = [...cartItems];
       updatedItems[index] = { ...updatedItems[index], quantity: newQuantity };
-      dispatch(updateCartItemQuantity(index, newQuantity));
+      dispatch(updateCartItemQuantity(index, newQuantity, updatedItems[index].buy)); // Also pass the "buy" option to the updateCartItemQuantity action
     }
   };
+
+  const handleBuyOptionChange = (index, buy) => {
+    const updatedItems = [...cartItems];
+    updatedItems[index] = { ...updatedItems[index], buy };
+    dispatch(updateCartItemQuantity(index, updatedItems[index].quantity, buy)); // Also pass the updated "buy" option to the updateCartItemQuantity action
+  };
+  
 
   const getDeliveryDate = () => {
     const today = dayjs();
@@ -88,7 +106,14 @@ function CartPage() {
                 marginTop: '10px',
               }}>
                 <div className="col-md-2">
-
+                  <label>
+                    <input
+                      type="checkbox"
+                      checked={item.buy}
+                      onChange={(e) => handleBuyOptionChange(index, e.target.checked)}
+                    />
+                   
+                  </label>
                   <img src={item.image} className="card-img" alt="Product Image"
                     style={{
                       width: "70px",

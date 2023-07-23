@@ -115,6 +115,9 @@ function VerifyOTP() {
                         <Link to="/login" style={{ textDecoration: "none" }}>
                             Edit Number
                         </Link>
+                        {
+                            code
+                        }
                     </Text>
 
                 </Text>

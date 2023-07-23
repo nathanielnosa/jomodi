@@ -29,35 +29,31 @@ function Order() {
         console.log(err);
       });
   };
-
-  const handleCancel = (id) => {
+  const handleCancel = (orderId, productId) => {
     axios
-      .patch(`${API_URL}order/order/${id}/`, {
-        status: 'Cancel Requested',
-        cancel: true,
+      .patch(`${API_URL}order/order/${orderId}/`, {
+        products: orderData.map((order) =>
+          order.id === orderId
+            ? order.products.map((product) =>
+              product.id === productId ? { ...product, cancel: true } : product
+            )
+            : order.products
+        ),
       })
       .then((res) => {
         console.log(res.data);
-        // After successful cancellation, fetch the updated order data
-        fetchOrderData();
+        // After successful cancellation, update the orderData state with the new cancel value
+        const updatedOrderData = orderData.map((order) =>
+          order.id === orderId
+            ? { ...order, products: order.products.map((product) => (product.id === productId ? { ...product, cancel: true } : product)) }
+            : order
+        );
+        setOrderData(updatedOrderData);
       })
       .catch((err) => {
         console.log(err);
       });
   };
-
-  // const deleteOrder = (id) => {
-  //   axios
-  //     .delete(`${API_URL}order/order/${id}/`)
-  //     .then((res) => {
-  //       console.log(res.data);
-  //       // After successful cancellation, fetch the updated order data
-  //       fetchOrderData();
-  //     })
-  //     .catch((err) => {
-  //       console.log(err);
-  //     });
-  // };
 
 
   return (
@@ -98,9 +94,7 @@ function Order() {
                         <Text size="lg" style={{ color: 'gray' }}>
                           ₹{item?.total?.toFixed(2)}
                         </Text>
-
                       </div>
-
                     </Group>
                   </Group>
                 </Card.Section>
@@ -113,22 +107,22 @@ function Order() {
                       Quantity: {product?.quantity}
                     </Text>
                   </div>
-                  <Button variant="outline" color="red" size="lg" radius="xl" mb="md" style={{ marginRight: '1rem' }}
-                    onClick={() => handleCancel(item?.id)}
-                    disabled={item?.cancel}
+                  <Button
+                    variant="outline"
+                    color="red"
+                    size="lg"
+                    radius="xl"
+                    mb="md"
+                    style={{ marginRight: '1rem' }}
+                    onClick={() => handleCancel(item?.id, product?.id)}
+                    disabled={product?.cancel}
                   >
                     cancel
                   </Button>
 
-                  {/* <Button variant="outline" color="red" size="lg" radius="xl" mb="md" style={{ marginRight: '1rem' }}
-                    onClick={() => deleteOrder(item?.id)}
-
-                  >
-                    Delete
-                  </Button> */}
                 </Group>
                 <Badge fz="xl" p="xl" color={item.status === 'Shipping in Progress' ? 'teal' : 'red'}>
-                  {item.status}
+                  {product.cancel ? 'Cancel Requested' : product.status}
                 </Badge>
               </Card>
             ))

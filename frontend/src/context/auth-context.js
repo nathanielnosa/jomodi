@@ -13,6 +13,7 @@ export const AuthProvider = ({ children }) => {
     const [user, setUser] = useState(getCurrentUser());
     const [isAuthenticated, setIsAuthenticated] = useState(false);
 
+
     useEffect(() => {
         if (user) {
             setIsAuthenticated(true);

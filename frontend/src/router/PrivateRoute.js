@@ -1,12 +1,18 @@
 import React from 'react';
-import { Route, Navigate } from 'react-router-dom';
+import { Route, Navigate, useLocation } from 'react-router-dom';
 
-const PrivateRoute = ({ component: Component, isAuthenticated, ...rest }) => (
-    <Route {...rest} render={(props) => (
-        isAuthenticated === true
-            ? <Component {...props} />
-            : <Navigate to='/login' />
-    )} />
-);
+const PrivateRoute = ({ user, children }) => {
+    const isAuthenticated = !!user; // Change this condition based on your authentication logic
+    const location = useLocation();
+
+    return isAuthenticated ? (
+        children
+    ) : (
+        <Navigate
+            to="/login"
+            state={{ from: location.pathname }}
+        />
+    );
+};
 
 export default PrivateRoute;

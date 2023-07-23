@@ -11,7 +11,6 @@ const wishReducer = (state = initialState, action) => {
 
         case 'ADD_TO_WISHLIST':
             const productExistsInWishlist = state.wishlistItems.some((item) => item.id === action.payload.id);
-
             if (productExistsInWishlist) {
                 // If the product already exists in the wishlist, don't add it again
                 return state;

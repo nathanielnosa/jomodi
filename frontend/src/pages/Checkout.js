@@ -34,9 +34,15 @@ function Checkout() {
     useEffect(() => {
         // Get cart items from local storage
         const existingCartItems = JSON.parse(localStorage.getItem('cartItems')) || [];
-        setCartItems(existingCartItems);
+        const buyCartItem = existingCartItems.filter((item) => item.buy === true);
+        setCartItems(
+            buyCartItem.map((item) => ({
+                ...item,
+                status: 'Active', // Set initial status to 'Active'
+                cancel: false, // Set initial cancel value to false
+            }))
+        );
     }, []);
-
 
 
     const cartTotal = cartItems.reduce((total, item) => total + item.quantity * item.price, 0);
@@ -243,7 +249,7 @@ function Checkout() {
                                 <input type="checkbox" id="terms" required />
                                 <label htmlFor="terms">
                                     <span></span>
-                                        I've read and accept the <Link to="/terms-and-conditions"> terms & conditions
+                                        I've read and accept the <Link to="/terms-and-conditions" target='_blank'> terms & conditions
                                         </Link> 
                                 </label>
                             </div>
