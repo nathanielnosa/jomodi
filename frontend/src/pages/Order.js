@@ -29,24 +29,42 @@ function Order() {
         console.log(err);
       });
   };
+
   const handleCancel = (orderId, productId) => {
+    // Find the target order from orderData
+    const targetOrder = orderData.find((order) => order.id === orderId);
+
+    if (!targetOrder) {
+      // Order not found in orderData, handle the error appropriately
+      console.log("Order not found!");
+      return;
+    }
+
+    // Find the target product within the order
+    const targetProduct = targetOrder.products.find(
+      (product) => product.id === productId
+    );
+
+    if (!targetProduct) {
+      // Product not found in the order, handle the error appropriately
+      console.log("Product not found in the order!");
+      return;
+    }
+
+    // Update the 'cancel' property of the target product
+    targetProduct.cancel = true;
+
+    // Send the updated order data to the server using axios.patch
     axios
       .patch(`${API_URL}order/order/${orderId}/`, {
-        products: orderData.map((order) =>
-          order.id === orderId
-            ? order.products.map((product) =>
-              product.id === productId ? { ...product, cancel: true } : product
-            )
-            : order.products
-        ),
+        products: targetOrder.products,
       })
       .then((res) => {
         console.log(res.data);
-        // After successful cancellation, update the orderData state with the new cancel value
+
+        // Update the orderData state to reflect the changes
         const updatedOrderData = orderData.map((order) =>
-          order.id === orderId
-            ? { ...order, products: order.products.map((product) => (product.id === productId ? { ...product, cancel: true } : product)) }
-            : order
+          order.id === orderId ? { ...order, products: targetOrder.products } : order
         );
         setOrderData(updatedOrderData);
       })
