@@ -13,14 +13,39 @@ function VerifyOTP() {
     const { loginUser } = useAuth();
     const { login } = useAuth();
     const code = useLocation().state?.code;
+    const [code1, setCode1] = useState(code)
     const [pin, setPin] = useState('');
     const phone = useLocation().state?.phone;
     const [userPhone, setUserPhone] = useState()
     const [submit, setSubmit] = useState(false)
     const [error, setError] = useState(false)
+    const [resend, setResend] = useState(false)
 
     const handleChange = (value) => {
         setPin(value);
+    };
+
+    const resendSubmit = (e) => {
+        e.preventDefault();
+        // Send the form data to Django backend
+        axios.post(`${API_URL}auth/send-sms/`, { numbers: phone })
+            .then((response) => {
+                console.log(response.data);
+
+                if (response.data.return === true) {
+                    setCode1(response.data.code)
+                    setResend(true)
+                    setTimeout(() => {
+                        setResend(false)
+                    }, 10000)
+                }
+                else {
+                    console.log("error")
+                }
+            })
+            .catch((error) => {
+                console.error(error);
+            });
     };
 
     useEffect(() => {
@@ -43,7 +68,7 @@ function VerifyOTP() {
         e.preventDefault();
         setSubmit(true);
 
-        if (pin == code) {
+        if (pin == code1) {
 
             const phoneNumberExists = checkPhoneNumberExists(phone);
 
@@ -93,9 +118,7 @@ function VerifyOTP() {
                     textAlign: 'center', fontWeight: 'bolder',
                     fontSize: '1.5rem', fontFamily: 'Greycliff CF, sans-serif',
                     marginTop: '10px'
-                }}>Verify with OTP</h2> {
-                    code
-                }
+                }}>Verify with OTP</h2>
                 {
                     submit && <Loader size="xl" variant="dots" 
                     style={{ marginLeft: 'auto', marginRight: 'auto', marginTop: '10px' }}
@@ -115,11 +138,13 @@ function VerifyOTP() {
                         <Link to="/login" style={{ textDecoration: "none" }}>
                             Edit Number
                         </Link>
-                        {
-                            code
-                        }
                     </Text>
 
+                </Text>
+                <Text size="lg" align="center" mt="xl">
+                    <Link onClick={resendSubmit} style={{ textDecoration: "none" }}>
+                        Resend OTP
+                    </Link>
                 </Text>
 
                 <form>
