@@ -17,7 +17,8 @@ export const AuthProvider = ({ children }) => {
     useEffect(() => {
         if (user) {
             setIsAuthenticated(true);
-            localStorage.setItem('authenticated', 'true');
+            user.active == true ? localStorage.setItem('authenticated', 'true') : localStorage.setItem('authenticated', 'false');
+
         } else {
             setIsAuthenticated(false);
         }
