@@ -58,8 +58,8 @@ function CatSidebar({ max, min, selectedBrands, onBrandChange, updateMaxPrice, u
     useEffect(() => {
         axios.get(API_URL + 'category/brand/')
             .then(res => {
-                console.log(res.data.results[0].id);
-                const brands = res.data.results.filter(brand => brand.category.id === parseInt(id));
+                console.log(res.data.results);
+                const brands = res.data.results.filter(brand => brand?.category?.id == parseInt(id));
                 setBrands(brands);
             })
             .catch(err => {
@@ -140,19 +140,19 @@ function CatSidebar({ max, min, selectedBrands, onBrandChange, updateMaxPrice, u
                         <Accordion.Panel>
                             <div className="checkbox-filter">
                                 {brands?.map((brand, index) => (
-                                    <div className="input-checkbox" key={brand.id}>
+                                    <div className="input-checkbox" key={brand?.id}>
                                         <input
                                             type="checkbox"
-                                            id={`brand-${brand.id}`}
-                                            checked={selectedBrands.includes(brand.id)}
-                                            onChange={() => handleBrandChange(brand.id)}
+                                            id={`brand-${brand?.id}`}
+                                            checked={selectedBrands.includes(brand?.id)}
+                                            onChange={() => handleBrandChange(brand?.id)}
                                         />
-                                        <label htmlFor={`brand-${brand.id}`}>
+                                        <label htmlFor={`brand-${brand?.id}`}>
                                             <span></span>
                                             {brand.name}
                                             <small>
                                                 ({
-                                                    products?.filter((product) => product.brand.id == brand.id).length
+                                                    products?.filter((product) => product?.brand?.id == brand?.id).length
                                                 })
                                                 </small>
                                         </label>

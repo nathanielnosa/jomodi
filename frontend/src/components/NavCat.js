@@ -13,7 +13,7 @@ function NavCat() {
         axios
             .get(API_URL + 'category/category/')
             .then((res) => {
-                console.log(res.data.results[0].id);
+                console.log(res.data.results[0]?.id);
                 setCategories(res.data.results);
             })
             .catch((err) => {
@@ -25,7 +25,7 @@ function NavCat() {
         axios
             .get(API_URL + 'category/brand/')
             .then((res) => {
-                console.log(res.data.results[0].id);
+                console.log(res.data.results[0]?.id);
                 setBrand(res.data.results);
             })
             .catch((err) => {
@@ -57,8 +57,8 @@ function NavCat() {
                         </li>
                         {categories?.map((category) => (
                             <li
-                                key={category.id}
-                                onMouseEnter={() => handleCategoryHover(category.id)}
+                                key={category?.id}
+                                onMouseEnter={() => handleCategoryHover(category?.id)}
                                 onMouseLeave={handleMenuLeave}
                                 style={{
                                     position: 'relative', // Add position relative to each category item
@@ -73,7 +73,7 @@ function NavCat() {
                                     }}
                                 >
                                     <Link
-                                        to={`/category/${category.id}/${category.name}`}
+                                        to={`/category/${category?.id}/${category?.name}`}
                                         style={{
                                             textDecoration: 'none',
                                         }}
@@ -81,7 +81,7 @@ function NavCat() {
                                         {category.name}
                                     </Link>
                                 </p>
-                                {openDropdown === category.id && (
+                                {openDropdown == category?.id && (
                                     <div
                                         style={{
                                             position: 'absolute',
@@ -97,10 +97,10 @@ function NavCat() {
                                     >
                                         <ul style={{ listStyle: 'none', margin: 0, padding: 0 }}>
                                             {brand
-                                                .filter((brandItem) => brandItem.category.id === category.id)
+                                                .filter((brandItem) => brandItem?.category?.id == category?.id)
                                                 .map((brandItem) => (
                                                     <li
-                                                        key={brandItem.id}
+                                                        key={brandItem?.id}
                                                         style={{
                                                             fontWeight: '500',
                                                             fontSize: '1.4rem',
@@ -111,14 +111,14 @@ function NavCat() {
                                                         }}
                                                         className='brand-item'
                                                     >
-                                                        <Link to={`/brand/${brandItem.id}/${brandItem.name}`}
+                                                        <Link to={`/brand/${brandItem?.id}/${brandItem?.name}`}
                                                             style={{
                                                                 textDecoration: 'none',
                                                                 pointer: 'cursor',
 
                                                             }}
                                                         >
-                                                            {brandItem.name}
+                                                            {brandItem?.name}
                                                         </Link>
                                                     </li>
                                                 ))}

@@ -25,7 +25,7 @@ function HotDeal() {
 
     useEffect(() => {
         // Set the target date and time for the countdown
-        const targetDate = new Date('2023-07-24T23:59:59').getTime();
+        const targetDate = new Date('2023-07-29T23:59:59').getTime();
 
         // Update the countdown every second
         const interval = setInterval(() => {

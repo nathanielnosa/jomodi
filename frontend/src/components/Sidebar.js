@@ -81,7 +81,7 @@ function Sidebar({ max, min, selectedCategories, selectedBrands, onCategoryChang
 		axios
 			.get(API_URL + 'category/brand/')
 			.then((res) => {
-				console.log(res.data.results[0].id);
+				console.log(res.data.results[0]?.id);
 				setBrands(res.data.results);
 			})
 			.catch((err) => {
@@ -102,18 +102,18 @@ function Sidebar({ max, min, selectedCategories, selectedBrands, onCategoryChang
 						</Accordion.Control>
 						<Accordion.Panel>
 							{categories?.map((category, index) => (
-								<div className="input-checkbox" key={category.id}>
+								<div className="input-checkbox" key={category?.id}>
 									<input
 										type="checkbox"
-										id={`category-${category.id}`}
-										checked={selectedCategories.includes(category.id)}
-										onChange={() => handleCategoryChange(category.id)}
+										id={`category-${category?.id}`}
+										checked={selectedCategories.includes(category?.id)}
+										onChange={() => handleCategoryChange(category?.id)}
 									/>
-									<label htmlFor={`category-${category.id}`}>
+									<label htmlFor={`category-${category?.id}`}>
 										<span></span>
-										{category.name}
+										{category?.name}
 									   <small>({
-										   products?.filter((product) => product.category.id == category.id).length
+										   products?.filter((product) => product?.category?.id == category?.id).length
 										})</small>
 									</label>
 								</div>
@@ -190,18 +190,18 @@ function Sidebar({ max, min, selectedCategories, selectedBrands, onCategoryChang
 						<Accordion.Panel>
 							<div className="checkbox-filter">
 								{brands?.map((brand, index) => (
-									<div className="input-checkbox" key={brand.id}>
+									<div className="input-checkbox" key={brand?.id}>
 										<input
 											type="checkbox"
-											id={`brand-${brand.id}`}
-											checked={selectedBrands.includes(brand.id)}
-											onChange={() => handleBrandChange(brand.id)}
+											id={`brand-${brand?.id}`}
+											checked={selectedBrands.includes(brand?.id)}
+											onChange={() => handleBrandChange(brand?.id)}
 										/>
-										<label htmlFor={`brand-${brand.id}`}>
+										<label htmlFor={`brand-${brand?.id}`}>
 											<span></span>
-											{brand.name}
+											{brand?.name}
 											<small>({
-												products?.filter((product) => product.brand.id == brand.id).length
+												products?.filter((product) => product?.brand?.id == brand?.id).length
 												})</small>
 										</label>
 									</div>

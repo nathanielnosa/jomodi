@@ -25,9 +25,8 @@ function Store() {
         axios
             .get(`${API_URL}product/product_detail/`)
             .then((res) => {
-
-                const products = res.data.results.filter((product) => product.brand.id == id);
-                setProducts(res.data.results);
+                const products = res.data.results.filter((product) => product?.brand?.id == id);
+                setProducts(products);
                 // Calculate the maximum and minimum prices
                 const prices = res.data.results.map((product) => product.price);
                 const maxPrice = Math.max(...prices);
