@@ -23,7 +23,7 @@ function NavCat() {
 
     useEffect(() => {
         axios
-            .get(API_URL + 'category/brand/')
+            .get(API_URL + 'category/brand-detail/')
             .then((res) => {
                 console.log(res.data.results[0]?.id);
                 setBrand(res.data.results);
