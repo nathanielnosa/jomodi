@@ -56,7 +56,7 @@ function CatSidebar({ max, min, selectedBrands, onBrandChange, updateMaxPrice, u
     };
 
     useEffect(() => {
-        axios.get(API_URL + 'category/brand/')
+        axios.get(API_URL + 'category/brand-detail/')
             .then(res => {
                 console.log(res.data.results);
                 const brands = res.data.results.filter(brand => brand?.category?.id == parseInt(id));
