@@ -253,7 +253,7 @@ function WishCart() {
                         </div>
                         <div className="cart-btns">
                             <Link to="/cart">View Cart</Link>
-                            <Link to="/cart">
+                            <Link to="/checkout">
                                 Checkout <i className="fa fa-arrow-circle-right"></i>
                             </Link>
                         </div>
