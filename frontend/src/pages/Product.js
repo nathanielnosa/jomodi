@@ -29,6 +29,7 @@ function Product() {
     const [colors, setColors] = useState([]);
     const [selectedSize, setSelectedSize] = useState("");
     const [selectedColor, setSelectedColor] = useState("");
+    const [selectedGender, setSelectedGender] = useState("")
 
 
     const phoneNumber = 918456969102
@@ -195,31 +196,31 @@ function Product() {
             });
     }, [id]);
 
-    useEffect(() => {
-        axios
-            .get(`${API_URL}product/size/`)
-            .then((res) => {
-                console.log(res.data);
-                const filteredSizes = res.data.results.filter((size) => size.product == id);
-                setSizes(filteredSizes);
-            })
-            .catch((err) => {
-                console.log(err);
-            });
-    }, [id]);
+    // useEffect(() => {
+    //     axios
+    //         .get(`${API_URL}product/size/`)
+    //         .then((res) => {
+    //             console.log(res.data);
+    //             const filteredSizes = res.data.results.filter((size) => size.product == id);
+    //             setSizes(filteredSizes);
+    //         })
+    //         .catch((err) => {
+    //             console.log(err);
+    //         });
+    // }, [id]);
 
-    useEffect(() => {
-        axios
-            .get(`${API_URL}product/color/`)
-            .then((res) => {
-                console.log(res.data);
-                const filteredColors = res.data.results.filter((color) => color.product == id);
-                setColors(filteredColors);
-            })
-            .catch((err) => {
-                console.log(err);
-            });
-    }, []);
+    // useEffect(() => {
+    //     axios
+    //         .get(`${API_URL}product/color/`)
+    //         .then((res) => {
+    //             console.log(res.data);
+    //             const filteredColors = res.data.results.filter((color) => color.product == id);
+    //             setColors(filteredColors);
+    //         })
+    //         .catch((err) => {
+    //             console.log(err);
+    //         });
+    // }, []);
 
 
     useEffect(() => {
@@ -311,7 +312,7 @@ function Product() {
             <div className="section">
                 <div className="container px-4 py-4 md:py-8 md:px-8">
                     <div className="flex flex-wrap -mx-4">
-                        <div className="col-md-5  mb-4 md:mb-0 md:col-md-5 md:col-md-push-24">
+                        <div className="col-md-6  mb-4 md:mb-0 md:col-md-5 md:col-md-push-24">
                             <div id="product-main-img">
                                 <div className="product-preview">
                                     <img src={zoomImage || product.image} alt="" />
@@ -349,7 +350,7 @@ function Product() {
                                 </Carousel>
                             </div>
                             {/* Render individual images directly on medium and large screens */}
-                            <div id="product-imgs" className="hidden md:block">
+                            <div id="product-imgs">
                                 {images.map((image, index) => (
                                     <div key={index} className="product-preview">
                                         <img
@@ -401,14 +402,17 @@ function Product() {
                                             <label>
                                                 Size
                                                 <select className="input-select"
-                                                value={selectedSize}
-                                                onChange={(e) => setSelectedSize(e.target.value)}
+                                                    value={selectedSize}
+                                                    onChange={(e) => setSelectedSize(e.target.value)}
+                                                    style={{
+                                                        margin: '10px'
+                                                    }}
                                                 >
-                                               {
-                                                    sizes.map((size, index) => (
-                                                        <option key={index} value={size.size}>{size.size}</option>
-                                                    ))
-                                               }
+                                                    {
+                                                        (product?.size.split(',')).map((color, index) => (
+                                                            <option key={index} value={color}>{color}</option>
+                                                        ))
+                                                    }
                                                 </select>
                                             </label>
                                         )
@@ -418,16 +422,41 @@ function Product() {
                                             <label>
                                                 Color
                                                 <select className="input-select"
-                                                value={selectedColor}
-                                                onChange={(e) => setSelectedColor(e.target.value)}
+                                                    value={selectedColor}
+                                                    onChange={(e) => setSelectedColor(e.target.value)}
+                                                    style={{
+                                                        margin: '10px'
+                                                    }}
                                                 >
                                                     {
-                                                        colors.map((color, index) => (
-                                                            <option key={index} value={color.color}>{color.color}</option>
+                                                        product?.color.map((color, index) => (
+                                                            <option key={index} value={color}>{color}</option>
                                                         ))
                                                     }
                                                 </select>
-                                               
+
+                                            </label>
+                                        )
+                                    }
+
+                                    {
+                                        product?.show_gender && (
+                                            <label>
+                                                Color
+                                                <select className="input-select"
+                                                    value={selectedGender}
+                                                    onChange={(e) => setSelectedGender(e.target.value)}
+                                                    style={{
+                                                        margin: '10px'
+                                                    }}
+                                                >
+                                                    {
+                                                        product?.gender.map((color, index) => (
+                                                            <option key={index} value={color}>{color}</option>
+                                                        ))
+                                                    }
+                                                </select>
+
                                             </label>
                                         )
                                     }
