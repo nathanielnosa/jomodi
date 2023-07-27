@@ -14,9 +14,11 @@ function HotDeal() {
 
     useEffect(() => {
         axios
-            .get(API_URL + 'product/home_banner_image/1/')
+            .get(API_URL + 'product/home_banner_image/')
             .then((res) => {
-                setBanner(res.data);
+             const lastItem = res.data.results[res.data.results.length - 1];
+            // Set the 'banner' state to the last item
+            setBanner(lastItem);
             })
             .catch((err) => {
                 console.log(err);
