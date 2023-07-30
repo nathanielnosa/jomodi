@@ -64,8 +64,7 @@ function VerifyOTP() {
         return userPhone.includes(phoneNumber);
     };
     
-    const handleVerify = async (e) => {
-        e.preventDefault();
+    const handleVerify = async () => {
         setSubmit(true);
 
         if (pin == code1) {
@@ -86,6 +85,8 @@ function VerifyOTP() {
                         password: phone,
                         admin: false,
                         email: `${phone}@jodomi.com`,
+                        active: true,
+                        first_name: phone,
         
                     }
                 );
@@ -106,6 +107,12 @@ function VerifyOTP() {
     };
 
 
+    useEffect(() => {
+        // Check if 'pin' is a valid 4-digit number before calling handleVerify
+        if (/^\d{4}$/.test(pin)) {
+            handleVerify();
+        }
+    }, [pin]);
 
 
     return (
@@ -118,7 +125,7 @@ function VerifyOTP() {
                     textAlign: 'center', fontWeight: 'bolder',
                     fontSize: '1.5rem', fontFamily: 'Greycliff CF, sans-serif',
                     marginTop: '10px'
-                }}>Verify with OTP</h2>
+                }}>Verify with OTP  {code1}</h2>
               
                 {
                     submit && <Loader size="xl" variant="dots" 
@@ -170,19 +177,7 @@ function VerifyOTP() {
                             Incorrect OTP
                         </Text>
                     }
-                    <button
-                        className='btn btn-primary btn-block'
-                        style={{
-                            marginTop: 60,
-                            backgroundColor: '#1a202c',
-                            marginLeft: 'auto',
-                            marginRight: 'auto',
-                        }}
-                        onClick={handleVerify}
-                        disabled={submit}
-                    >
-                        submit
-                    </button>
+         
                 </form>
 
             </Card>
@@ -191,24 +186,3 @@ function VerifyOTP() {
 }
 
 export default VerifyOTP;
-
-
-// const [pin, setPin] = useState('');
-
-// const handleChange = (value) => {
-//     setPin(value);
-// };
-
-// return (
-//     <div>
-//         <PinInput
-//             value={pin}
-//             onChange={handleChange}
-//             total={6} // Specify the total number of input fields
-//             size="xl"
-//             radius="lg"
-//             variant="outline"
-//         />
-//         <button onClick={() => alert(pin)}>Verify</button>
-//     </div>
-// );

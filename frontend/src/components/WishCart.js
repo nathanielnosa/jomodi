@@ -15,8 +15,6 @@ function WishCart() {
     const dispatch = useDispatch();
     const [userProfile, setUserProfile] = useState();
 
-
-
     useEffect(() => {
         // Update cart items in local storage
         localStorage.setItem('cartItems', JSON.stringify(cartItems));

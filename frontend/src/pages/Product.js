@@ -409,7 +409,7 @@ function Product() {
                                                     }}
                                                 >
                                                     {
-                                                        (product?.size.split(',')).map((color, index) => (
+                                                        (product?.size?.split(','))?.map((color, index) => (
                                                             <option key={index} value={color}>{color}</option>
                                                         ))
                                                     }

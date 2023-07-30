@@ -1,0 +1,299 @@
+import React, { useState, useEffect } from 'react'
+import { useAuth } from '../../context/auth-context';
+import { Card, Group, SimpleGrid, Text, Button, Image, UnstyledButton, TextInput, NumberInput, Loader, Pagination } from "@mantine/core";
+import axios from "axios";
+import { API_URL } from "../../constants";
+import { Link } from "react-router-dom";
+import { registerUser } from "../../actions/auth";
+import { useNavigate } from "react-router-dom";
+import { notifications } from '@mantine/notifications';
+
+function UserCard() {
+    const [otpsent, setOtpSent] = useState(false);
+    const [otp, setOtp] = useState("");
+    const { user, logout, login } = useAuth();
+    const [otpVerified, setOtpVerified] = useState(false);
+    const [otpError, setOtpError] = useState(false);
+    const [otpLoading, setOtpLoading] = useState(false);
+    const [showError, setShowError] = useState(false);
+    const [submitting, setSubmitting] = useState(false);
+    const [pin, setPin] = useState('');
+    const [telephone, setTelephone] = useState("");
+    const [userPhone, setUserPhone] = useState()
+    const [submit, setSubmit] = useState(false)
+    const [error, setError] = useState(false)
+    const [resend, setResend] = useState(false)
+
+    const handleOtp = (e) => {
+        e.preventDefault();
+        setSubmitting(true);
+        axios.post(`${API_URL}auth/send-sms/`, { numbers: telephone })
+            .then((response) => {
+                console.log(response.data);
+                if (response.data.return === true) {
+                    setOtpSent(true);
+                    setOtp(response.data.code);
+                    setSubmitting(false);
+                }
+                else {
+                    setShowError(true);
+                    setSubmitting(false);
+                }
+            })
+            .catch((error) => {
+                console.error(error);
+                setShowError(true);
+                setSubmitting(false);
+            });
+    }
+
+    useEffect(() => {
+        axios.get(`${API_URL}auth/user`)
+            .then(res => {
+                console.log(res.data.results)
+                setUserPhone(res.data.results.map((item) => item.username))
+            })
+            .catch(err => {
+                console.log(err)
+            })
+    }, [])
+
+    const checkPhoneNumberExists = (phoneNumber) => {
+        return userPhone.includes(phoneNumber);
+    };
+
+    const handleOtpVerify = async (e) => {
+        e.preventDefault();
+        setSubmitting(true);
+
+        try {
+            if (pin == otp) {
+                const phoneNumberExists = checkPhoneNumberExists(telephone);
+
+                if (phoneNumberExists) {
+                    login({
+                        username: telephone,
+                        password: telephone
+                    });
+                    setSubmit(false);
+
+                } else {
+                    const decoded = await registerUser(
+                        {
+                            username: telephone,
+                            password: telephone,
+                            admin: false,
+                            email: `${telephone}@jodomi.com`,
+                            active: true,
+                            first_name: telephone,
+
+                        }
+                    );
+                    const loginData = {
+                        username: telephone,
+                        password: telephone
+                    };
+                    const decodedLogin = await login(loginData);
+                    // navigate('/')
+                    setSubmit(false);
+
+                }
+
+                setSubmit(false);
+            } else {
+                setError(true);
+                setOtpError(true);
+            }
+        } catch (error) {
+            console.error(error);
+        }
+
+        setSubmitting(false);
+    };
+
+    const resendSubmit = () => {
+        // Send the form data to Django backend
+        axios.post(`${API_URL}auth/send-sms/`, { numbers: telephone })
+            .then((response) => {
+                console.log(response.data);
+
+                if (response.data.return === true) {
+                    setOtp(response.data.code)
+                    setResend(true)
+                    setTimeout(() => {
+                        setResend(false)
+                    }, 10000)
+                    notifications.show(
+                        {
+                            title: 'OTP Sent',
+                            message: 'OTP has been sent to your phone number',
+                            color: 'teal',
+                            autoClose: 5000,
+                        },
+
+                    )
+                }
+                else {
+                    console.log("error")
+                }
+            })
+            .catch((error) => {
+                console.error(error);
+            });
+    };
+
+    return (
+        <Card shadow="sm" padding="xl">
+            <Card.Section m="xl" p="xl">
+                {
+                    user ? (
+                        <Group position="apart">
+                            <UnstyledButton color="gray">
+                                <Text size="xl" fz={40} color="dimmed" fw={700}>
+                                    Login
+                                </Text>
+                                <Text size="xl" fw={500}>
+                                    {
+                                        "+91" + user?.username
+                                    }
+                                </Text>
+                            </UnstyledButton>
+                            <UnstyledButton color="gray">
+                                <button className="primary-btn"
+                                    style={{
+                                        color: "black",
+                                        backgroundColor: "white",
+                                        fontSize: "12px",
+                                        border: "0.4px solid blue",
+                                    }}
+                                    onClick={(e) => logout()}
+                                >
+                                    Change
+                                </button>
+                            </UnstyledButton>
+                        </Group>
+                    ) : (
+
+                        <Group position="apart">
+                            <form>
+                                <Text>
+                                    {
+                                        otp
+                                    }
+                                </Text>
+                                {
+                                    submitting && (
+                                        <Loader size="xl" variant="bars" />
+                                    )
+                                }
+                          
+                                    <div>
+                                      <TextInput placeholder="Phone Number"
+                                        size="lg"
+                                        value={telephone}
+                                        type="number"
+                                        onChange={(e) => setTelephone(e.target.value)}
+                                        required
+                                        disabled={otpsent}
+                                        icon={<Text size="xl" color='black' > +91 | </Text>}
+                                    />   
+
+                                        {
+                                            otpsent && (
+                                                <UnstyledButton color="gray"
+                                                onClick={
+                                                    () => setOtpSent(false)
+                                                }
+                                                >
+                                                    <Text color='blue'>
+                                                        Change Number
+                                                    </Text>
+                                                </UnstyledButton>
+                                            )
+                                        }
+                                    </div>
+                                {
+                                    showError && (
+                                        <Text color="red" size="xl">
+                                            Phone Number is not correct
+                                        </Text>
+                                    )
+                                }
+                                <Text size="lg" align="left" m="xl">
+                                    By Continuing, you agree to the
+                                    <Link to="/terms-and-conditions" style={{ textDecoration: "none", color: '#ff3e6c' }}>
+                                        {" "} Terms of Service
+                                    </Link>
+                                    {" "} &
+                                    <Link to="/privacy-policy" style={{ textDecoration: "none", color: '#ff3e6c' }}>
+                                        {" "} Privacy Policy
+                                    </Link>
+                                </Text>
+                                {
+                                    otpsent ? (
+                                        <>
+                                            <TextInput placeholder="Enter OTP"
+                                                type="number"
+                                                size="lg"
+                                                value={pin}
+                                                onChange={(e) => setPin(e.target.value)}
+
+                                            />
+                                            <UnstyledButton color="gray"
+                                            onClick={() => resendSubmit()}
+                                            >
+                                                <Text color='blue'>
+                                                    Resend OTP
+                                                </Text>
+                                            </UnstyledButton>
+                                            {
+                                                otpError && (
+                                                    <Text color="red" size="xl">
+                                                        OTP is not correct
+                                                    </Text>
+
+                                                )
+                                            }
+                                            <button type="submit" className="btn btn-warning"
+                                                onClick={handleOtpVerify}
+                                                style={{
+                                                    marginTop: "10px",
+                                                    color: "black",
+                                                    width: "100%",
+                                                    fontWeight: "bold",
+                                                    backgroundColor: "orange",
+                                                }}
+                                            >
+                                                SIGNUP
+                                            </button>
+                                        </>
+                                    ) : (
+                                        <button type="submit" className="btn btn-warning"
+                                            onClick={handleOtp}
+                                            style={{
+                                                marginTop: "10px",
+                                                color: "black",
+                                                fontWeight: "bold",
+                                                backgroundColor: "orange",
+                                            }}
+                                        >
+                                            Continue
+                                        </button>
+                                    )
+                                }
+
+
+                            </form>
+
+                        </Group>
+                    )
+                }
+
+
+            </Card.Section>
+
+        </Card>
+    )
+}
+
+export default UserCard

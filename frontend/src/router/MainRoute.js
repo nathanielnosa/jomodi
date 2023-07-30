@@ -45,14 +45,14 @@ function MainRoute() {
                         </PrivateRoute>
                     }
                 />
-                <Route
+                {/* <Route
                     path="/checkout"
                     element={
                         <PrivateRoute user={isAuthenticated}>
                             <Checkout />
                         </PrivateRoute>
                     }
-                />
+                /> */}
                 <Route
                     path="/profile"
                     element={
@@ -77,7 +77,7 @@ function MainRoute() {
                         </PrivateRoute>
                     }
                 />
-                <Route 
+                {/* <Route 
                     path='/wishlistcheckout'
                     element={
                         <PrivateRoute user={isAuthenticated}>
@@ -92,8 +92,10 @@ function MainRoute() {
                             <ProductCheckout />
                         </PrivateRoute>
                     }
-                />
-            
+                /> */}
+                <Route path='/checkout' element={<Checkout />} />
+                <Route path='/wishlistcheckout' element={<WishListCheckOut />} />
+                <Route path='/product-checkout/:id/:slug' element={<ProductCheckout />} />
                 <Route path="/cart" element={<CartPage />} />
                 <Route path="/product/:id/:slug" element={<Product />} />
                 <Route path="/category/:id/:slug" element={<Category />} />
