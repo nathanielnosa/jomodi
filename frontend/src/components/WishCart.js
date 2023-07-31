@@ -251,9 +251,14 @@ function WishCart() {
                         </div>
                         <div className="cart-btns">
                             <Link to="/cart">View Cart</Link>
-                            <Link to="/checkout">
-                                Checkout <i className="fa fa-arrow-circle-right"></i>
-                            </Link>
+                            {
+                                cartItems?.length > 0 && (
+                                    <Link to="/checkout">
+                                        Checkout <i className="fa fa-arrow-circle-right"></i>
+                                    </Link>
+                                )
+                            }
+                           
                         </div>
                     </div>
                 </div>
