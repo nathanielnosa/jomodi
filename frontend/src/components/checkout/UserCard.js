@@ -171,6 +171,11 @@ function UserCard() {
             });
     };
 
+    const handleLogout = () => {
+        logout();
+        window.location.reload();
+    };
+
     return (
         <Card shadow="sm" padding="xl">
             <Card.Section m="xl" p="xl">
@@ -182,7 +187,7 @@ function UserCard() {
                                     <Text size="md" fz={20} color="black" fw={500}>
                                         Phone: +91{user?.username}
                                     </Text>
-                                    <UnstyledButton onClick={() => logout()}>
+                                    <UnstyledButton onClick={handleLogout}>
                                         <Text size="xl" fw={500} color='blue' mt="xl">
                                             Logout & Sign in to another account
                                         </Text>

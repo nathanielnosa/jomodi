@@ -3,7 +3,7 @@ import { Group, Card, Text, Radio } from '@mantine/core'
 import { IconCheckbox } from '@tabler/icons-react'
 
 function PaymentMethod() {
-    const [paymentMethod, setPaymentMethod] = useState("")
+    const [paymentMethod, setPaymentMethod] = useState("Cash on Delivery")
     const [showPaymentMethod, setShowPaymentMethod] = useState(false)
     return (
         <Card shadow="sm" padding="md" radius="md" className="payment-method">
@@ -17,7 +17,6 @@ function PaymentMethod() {
                                 <IconCheckbox size={30} onClick={() => setShowPaymentMethod(true)} />
                         )
                     }
-            
                     </Group>
                 </Card.Section>
                {

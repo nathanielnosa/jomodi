@@ -83,7 +83,6 @@ function Checkout() {
                     },
                 }),
             })
-
         }
         if (deliveryAddress !== null) {
             const details = {
