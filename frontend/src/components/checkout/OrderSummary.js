@@ -17,7 +17,7 @@ function OrderSummary({ deliveyAddress, showOrder, showPayment }) {
     const wishlist = useSelector((state) => state.wishlist.wishlistItems);
     const dispatch = useDispatch();
     const [quantity, setQuantity] = useState(1);
-    const [showSummary, setShowSummary] = useState(false);
+    const [showSummary, setShowSummary] = useState(true);
 
     useEffect(() => {
         // Update cart items in local storage
@@ -128,7 +128,7 @@ function OrderSummary({ deliveyAddress, showOrder, showPayment }) {
                                             marginTop: '10px',
                                         }}>
                                             <div className="col-md-2">
-                                                <img src={item.images} className="card-img" alt="Product Image"
+                                                <img src={item.image} className="card-img" alt="Product Image"
                                                     style={{
                                                         width: "70px",
                                                         height: "70px",
