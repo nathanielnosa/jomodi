@@ -370,7 +370,7 @@ function AddressCard({
           }
         </Group>
         {
-          (hideAdresses && user) && (
+          (!hideAdresses && user) && (
             <Card.Section mx="xl" my="sm">
               {
                 (addresses.length) ? (
@@ -386,7 +386,7 @@ function AddressCard({
                         {selectedAddress?.phone_number || addresses[0]?.phone_number}
                       </Text>
                       <Button onClick={() => {
-                        setHideAddresses(false);
+                        setHideAddresses(true);
                         setShowOrder(false)
                       }}
                         size="xl"
@@ -434,7 +434,7 @@ function AddressCard({
           )
         }
         {
-          !hideAdresses && (<Card.Section mx="xl" p="xl">
+          hideAdresses && (<Card.Section mx="xl" p="xl">
             <Radio.Group
               value={deliveryAddress}
               onChange={setDeliveryAddress}
@@ -490,7 +490,7 @@ function AddressCard({
                       deliveryAddress === `${address.id}` && (
                         <Button size="xl" onClick={() => {
                           setSelectedAddress(address);
-                          setHideAddresses(true);
+                          setHideAddresses(false);
                           setShowOrder(true)
                         }}
                           style={{

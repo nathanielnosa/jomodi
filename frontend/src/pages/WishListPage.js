@@ -3,8 +3,11 @@ import { useSelector, useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { addToCart, removeFromCart } from '../actions/cartActions';
 import { addToWishlist, removeFromWishlist } from '../actions/wishActions';
-import { Button, Group, UnstyledButton, Divider } from '@mantine/core';
+import { Button, Group, UnstyledButton, Divider, Text } from '@mantine/core';
 import { IconTrash } from '@tabler/icons-react';
+import ProductCard from '../components/ProductCard';
+import WishListCard from '../components/WishListCard';
+
 
 function WishListPage() {
   const cartItems = useSelector((state) => state.cart.cartItems);
@@ -20,110 +23,29 @@ function WishListPage() {
     dispatch(removeFromWishlist(index));
   };
   const wishlistQuantity = wishlist?.length;
-
   return (
-    <div className="mt-5">
-      <div className="row" style={{
-        display: 'flex',
-        justifyContent: 'center',
-      }}>
-        <div className="col-md-8" style={{
-          backgroundColor: 'white',
-          boxShadow: '0 0 10px rgba(0,0,0,0.2)',
-          margin: '15px',
-
-        }}>
-          <div className="card mb-3">
-            {wishlist.map((item, index) => (
-              <div key={index} className="row no-gutters" style={{
-                margin: '5px',
-                padding: '3px',
-                marginTop: '10px',
-              }}>
-                <div className="col-md-2">
-
-                  <img src={item.image} className="card-img" alt="Product Image"
-                    style={{
-                      width: "70px",
-                      height: "70px",
-                    }}
-                  />
-                </div>
-                <div className="col-md-8">
-                  <div className="card-body">
-                    <h5 className="card-title" style={{
-                      marginBottom: '10px',
-                    }}>
-                      <Link to={`/product/${item.id}/${item.name}}`}
-                        target='_blank'
-                        style={
-                          {
-                            textDecoration: 'none',
-                            color: 'black',
-
-                          }
-                        }>{item?.name?.toUpperCase()}</Link>
-                    </h5>
-                    <Group position="right" >
-                      <IconTrash size={24} 
-                      color='red'
-                      onClick={() => handleRemoveFromWishlist(index)}
-                      style={{
-                        pointer: 'cursor',
-                      }}
-                      />
-                      {/* <i onClick={() => handleRemoveFromWishlist(index)} className="fa fa-trash"></i> */}
-                    </Group>
-                    <Group position="left" >
-                    
-                      <del className="product-old-price" style={{
-                        marginBottom: '10px',
-                      }}>₹{item?.cancel_price}</del>
-                      <p className="card-title" style={{
-                        marginBottom: '10px',
-                      }}> ₹{
-                          item?.price?.toFixed(2)
-                        }</p>
-                  
-                    </Group>
-                    {/* <button className="btn btn-danger btn-lg"
-                      onClick={() => handleRemoveFromWishlist(index)}
-                    >
-                      <i className="fa fa-trash"></i>
-                      Remove
-                    </button> */}
-                  </div>
-                </div>
-                <div className="col-md-12">
-
-                  <Divider style={{
-                    marginTop: '10px'
-                  }} />
-                </div>
-
-              </div>
-
-            ))}
-            <Group position="right" style={{
-              position: "sticky",
-              bottom: 0,
-              background: "white",
-              boxShadow: "0 0 10px rgba(0,0,0,0.2)",
-              padding: "10px",
-              marginTop: "20px",
-            }}>
-
-              <Link to="/wishlistcheckout" style={{
-                textDecoration: 'none',
-              }}>
-                <button className="btn btn-danger btn-block btn-lg">
-                  Buy Now <i className="fa fa-arrow-circle-right"></i>
-                </button> </Link>
-            </Group>
+    <div className="section">
+      <div>
+        <div className="row">
+         
+          <div id="store" className="col-md-12">
+            <Text size={30} fz={30} m={30} weight={700}>Wishlist {wishlist?.length} Items</Text>
+            <div className="row">
+              {
+                wishlist?.map((filteredProducts, index) => (
+                  <>
+                    <WishListCard product={filteredProducts} handleFunction={
+                      () => handleRemoveFromWishlist(index)
+                    } key={index} />
+                  </>
+                )
+                )
+              }
+            </div>
           </div>
         </div>
       </div>
-    </div >
+    </div>
   );
 }
 

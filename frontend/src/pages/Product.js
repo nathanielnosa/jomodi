@@ -140,7 +140,7 @@ function Product() {
     }, [showCartNotification]);
 
     const addQuantity = () => {
-        if (quantity < 10){
+        if (quantity < 10) {
             setQuantity(quantity + 1);
         }
         // setQuantity(quantity + 1);
@@ -465,9 +465,9 @@ function Product() {
                                         className="add-to-cart-btn"
                                         onClick={() => handleAddToCart(product)}
                                     >
-                                        <i className="fa fa-shopping-cart"></i> add to cart
+                                        <i className="fa fa-shopping-cart"></i> add to bag
                                     </button>
-                                    <Link to={`/product-checkout/${product.id}/${product.name}`} target="_blank">
+                                    {/* <Link to={`/product-checkout/${product.id}/${product.name}`} target="_blank">
                                         <button
                                             style={{
                                                 marginLeft: '20px',
@@ -482,7 +482,7 @@ function Product() {
                                         >
                                             <i className="fa fa-shopping-cart"></i> buy now
                                         </button>
-                                    </Link>
+                                    </Link> */}
                                 </div>
                                 {/* 
                                 <ul className="product-btns">

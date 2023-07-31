@@ -4,8 +4,9 @@ import { useSelector, useDispatch } from "react-redux";
 import { addToCart } from "../actions/cartActions";
 import { addToWishlist } from "../actions/wishActions";
 import { notifications } from '@mantine/notifications';
+import { IconCross, IconX } from "@tabler/icons-react";
 
-function ProductCard({ product }) {
+function WishListCard({ product, handleFunction }) {
     const dispatch = useDispatch();
 
     const [showCartNotification, setShowCartNotification] = React.useState(false);
@@ -89,30 +90,29 @@ function ProductCard({ product }) {
 
             <div className="col-md-3 col-xs-12">
                 <div className="product">
-                    <Link
-                        to={`/product/${product.id}/${product.name}`}
-                        target="_blank"
-                        style={{
-                            textDecoration: "none",
-                        }}
-                    >
-                        <div className="product-img">
+
+                    <div className="product-img">
+                        <Link
+                            to={`/product/${product.id}/${product.name}`}
+                            target="_blank"
+                            style={{
+                                textDecoration: "none",
+                            }}
+                        >
                             <img src={product.image} alt=""
                                 style={{
                                     width: '100%',
                                     height: '200px',
                                 }}
                             />
-                            <div className="product-label">
-                                {product?.discount ? (
-                                    <span className="sale">-{product?.discount}%</span>
-                                ) : (
-                                    ""
-                                )}
-                                {product?.new == true ? <span className="new">NEW</span> : ""}
-                            </div>
+                        </Link>
+                        <div className="product-label">
+                            <IconX size={30}
+                                onClick={handleFunction}
+                            />
                         </div>
-                    </Link>
+                    </div>
+
                     <div className="product-body">
                         <p
                             className="product-category"
@@ -179,4 +179,4 @@ function ProductCard({ product }) {
     );
 }
 
-export default ProductCard;
+export default WishListCard;

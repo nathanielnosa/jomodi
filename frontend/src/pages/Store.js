@@ -16,7 +16,7 @@ function Store() {
   const [selectedBrands, setSelectedBrands] = useState([]);
   const [sortingOption, setSortingOption] = useState('1');
   const [page, setPage] = useState(1);
-  
+
   const itemsPerPage = 16;
 
 
@@ -67,7 +67,7 @@ function Store() {
       } else {
         // Apply filters based on selected categories, brands, and price range
         console.log("here 2")
-        return (categoryMatch && priceMatch) && (brandMatch && priceMatch); ;
+        return (categoryMatch && priceMatch) && (brandMatch && priceMatch);;
       }
     } else {
       // If invalid price range, apply filters based on selected categories and brands only
@@ -157,12 +157,12 @@ function Store() {
             <StoreTop onSortChange={handleSortChange} />
             <div className="row">
               {
-              
-                  paginatedItems.map((filteredProducts, index) => (
-                    <ProductCard product={filteredProducts} key={index} />
-                  )
-                  )
-                
+
+                paginatedItems.map((filteredProducts, index) => (
+                  <ProductCard product={filteredProducts} key={index} />
+                )
+                )
+
               }
 
               {/* {
