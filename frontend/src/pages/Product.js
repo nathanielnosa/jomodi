@@ -429,7 +429,7 @@ function Product() {
                                                     }}
                                                 >
                                                     {
-                                                        product?.color.map((color, index) => (
+                                                        product?.color?.map((color, index) => (
                                                             <option key={index} value={color}>{color}</option>
                                                         ))
                                                     }
@@ -451,7 +451,7 @@ function Product() {
                                                     }}
                                                 >
                                                     {
-                                                        product?.gender.map((color, index) => (
+                                                        product?.gender?.map((color, index) => (
                                                             <option key={index} value={color}>{color}</option>
                                                         ))
                                                     }
