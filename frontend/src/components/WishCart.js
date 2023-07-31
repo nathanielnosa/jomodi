@@ -227,7 +227,7 @@ function WishCart() {
                             {cartItems.map((item, index) => (
                                 <div className="product-widget" key={index}>
                                     <div className="product-img">
-                                        <img src={item.image} alt="" />
+                                        <img src={item?.image} alt="" />
                                     </div>
                                     <div className="product-body">
                                         <h3 className="product-name">

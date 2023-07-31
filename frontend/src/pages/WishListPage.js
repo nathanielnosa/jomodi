@@ -62,7 +62,7 @@ function WishListPage() {
                             color: 'black',
 
                           }
-                        }>{item.name.toUpperCase()}</Link>
+                        }>{item?.name?.toUpperCase()}</Link>
                     </h5>
                     <Group position="right" >
                       <IconTrash size={24} 
@@ -82,7 +82,7 @@ function WishListPage() {
                       <p className="card-title" style={{
                         marginBottom: '10px',
                       }}> ₹{
-                          item.price.toFixed(2)
+                          item?.price?.toFixed(2)
                         }</p>
                   
                     </Group>

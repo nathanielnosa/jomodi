@@ -133,7 +133,7 @@ function OrderSummary({ deliveyAddress }) {
                                                 />
 
                                             </label> */}
-                                                <img src={item.image} className="card-img" alt="Product Image"
+                                                <img src={item.images} className="card-img" alt="Product Image"
                                                     style={{
                                                         width: "70px",
                                                         height: "70px",

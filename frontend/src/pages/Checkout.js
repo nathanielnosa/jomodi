@@ -175,7 +175,7 @@ function Checkout() {
                                 </div>
                                 {
                                     user && (
-                                        <button
+                                        cartItems.length > 0 && (<button
                                             className="primary-btn order-submit"
                                             style={{
                                                 width: "100%",
@@ -186,6 +186,18 @@ function Checkout() {
                                         >
                                             Place order
                                         </button>
+                                    )
+                                    )
+                                }
+                                {
+                                    cartItems.length === 0 && (
+                                        <Link to="/store" className="primary-btn order-submit"
+                                        style={{
+                                            textDecoration: "none",
+                                        }}
+                                        >
+                                            Shop Now For Products
+                                        </Link>
                                     )
                                 }
 
