@@ -13,6 +13,7 @@ import AddressCard from "../components/checkout/AddressCard";
 import OrderSummary from "../components/checkout/OrderSummary";
 import PaymentMethod from "../components/checkout/PaymentMethod";
 import OrderDetail from "../components/checkout/OrderDetail";
+import { notifications } from "@mantine/notifications";
 
 function Checkout() {
     const navigate = useNavigate();
@@ -21,7 +22,7 @@ function Checkout() {
     const [address, setAddress] = useState({});
     const [paymentMethod, setPaymentMethod] = useState("");
     const [addresses, setAddresses] = useState([]);
-    const [deliveryAddress, setDeliveryAddress] = useState({});
+    const [deliveryAddress, setDeliveryAddress] = useState(null);
 
     const dispatch = useDispatch();
 
@@ -59,32 +60,57 @@ function Checkout() {
     const productIds = cartItems?.map((item) => item.id);
 
     const handleSubmit = (e) => {
+
         e.preventDefault();
+        if (deliveryAddress == null) {
+            notifications.show({
+                title: 'Please Select Delivery Address',
+                message: 'Please Select a delivery address! 🤥',
+                styles: (theme) => ({
+                    root: {
+                        backgroundColor: theme.colors.red[6],
+                        borderColor: theme.colors.red[6],
+                        height: '100px',
+                        width: 'auto',
+                        '&::before': { backgroundColor: theme.white },
+                    },
 
-        const details = {
-            user_address: deliveryAddress,
-            paid: false,
-            total: cartTotal,
-            cancel: false,
-            payment_method: 'Payment on delivery',
-            discount: cartDiscount,
-            order_id: "ORD" + Math.floor(Math.random() * 1000000000),
-            order_data: cartItems,
-            status: "Shipping in Progress",
-            products: cartItems,
-            user: user?.user_id,
-            // address: deliveryAddress,
-        };
-        console.log(details);
-
-        axios
-            .post(`${API_URL}order/order/`, details)
-            .then((res) => {
-                console.log(res.data);
-                handleRemoveItems();
-                navigate("/order-success");
+                    title: { color: theme.white, fontSize: '20px' },
+                    description: { color: theme.white },
+                    closeButton: {
+                        color: theme.white,
+                        '&:hover': { backgroundColor: theme.colors.green[7] },
+                    },
+                }),
             })
-            .catch((err) => console.log(err));
+
+        }
+        if (deliveryAddress !== null) {
+            const details = {
+                user_address: deliveryAddress,
+                paid: false,
+                total: cartTotal,
+                cancel: false,
+                payment_method: 'Payment on delivery',
+                discount: cartDiscount,
+                order_id: "ORD" + Math.floor(Math.random() * 1000000000),
+                order_data: cartItems,
+                status: "Shipping in Progress",
+                products: cartItems,
+                user: user?.user_id,
+                // address: deliveryAddress,
+            };
+            console.log(details);
+
+            axios
+                .post(`${API_URL}order/order/`, details)
+                .then((res) => {
+                    console.log(res.data);
+                    handleRemoveItems();
+                    navigate("/order-success");
+                })
+                .catch((err) => console.log(err));
+        }
     };
 
 
@@ -99,7 +125,8 @@ function Checkout() {
                                 <li>
                                     <a href="#">Home</a>
                                 </li>
-                                <li className="active">Checkout </li>
+                                <li className="active">Checkout
+                                </li>
                             </ul>
                         </div>
                     </div>
@@ -113,26 +140,31 @@ function Checkout() {
                             <div className="col-md-7">
                                 <SimpleGrid cols={1} spacing="md">
                                     <UserCard />
-                                    <AddressCard 
-                                    deliveryAddress={deliveryAddress}
-                                    setDeliveryAddress={setDeliveryAddress}
+                                    <AddressCard
+                                        deliveryAddress={deliveryAddress}
+                                        setDeliveryAddress={setDeliveryAddress}
                                     />
-                                    <OrderSummary 
-                                        deliveyAddress = {deliveryAddress}
+                                    <OrderSummary
+                                        deliveyAddress={deliveryAddress}
                                     />
                                     <PaymentMethod />
 
                                 </SimpleGrid>
                             </div>
 
-                            <div className="col-md-5 order-details">
+                            <div className="col-md-5 order-details"
+                                style={{
+                                    position: "sticky",
+                                    top: 100,
+                                }}
+                            >
                                 <div className="section-title text-center">
                                     <h3 className="title">Your Order</h3>
                                 </div>
                                 <OrderDetail />
 
                                 <div className="input-checkbox">
-                                    <input type="checkbox" id="terms" required />
+                                    <input type="checkbox" id="terms" checked={true} required />
                                     <label htmlFor="terms">
                                         <span></span>
                                         I've read and accept the{" "}
@@ -157,7 +189,7 @@ function Checkout() {
                                         </button>
                                     )
                                 }
-                               
+
                             </div>
                         </div>
                     </form>

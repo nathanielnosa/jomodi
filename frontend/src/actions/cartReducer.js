@@ -52,9 +52,10 @@ const cartReducer = (state = initialState, action) => {
                 return state;
             }
         case "REMOVE_CART_ITEMS":
+            const filteredCartItems = state.cartItems.filter((item) => !item.buy);
             return {
                 ...state,
-                cartItems: [],
+                cartItems: filteredCartItems,
             };
 
         default:

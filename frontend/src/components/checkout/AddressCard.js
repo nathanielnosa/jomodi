@@ -41,7 +41,7 @@ function AddressCard({
   const [addressType, setAddressType] = useState("Home");
   const [selectedAddress, setSelectedAddress] = useState({});
   const [openEdit, setOpenEdit] = useState(false);
-  const [hideAdresses, setHideAddresses] = useState(true);
+  const [hideAdresses, setHideAddresses] = useState(false);
 
   const handleOpenEdit = (address) => {
     setSelectedAddress(address);
@@ -154,7 +154,13 @@ function AddressCard({
             Add New Address
           </Text>
         </Center>
-        <SimpleGrid cols={2} spacing="xl">
+        <SimpleGrid cols={2} spacing="xl"
+          breakpoints={[
+            { maxWidth: '62rem', cols: 3, spacing: 'md' },
+            { maxWidth: '48rem', cols: 2, spacing: 'sm' },
+            { maxWidth: '36rem', cols: 1, spacing: 'sm' },
+          ]}
+        >
           <TextInput size="xl" label="Full Name" placeholder="Full Name" onChange={(e) => setFullNames(e.target.value)} />
           <TextInput size="xl" label="Phone Number" placeholder="Phone Number" onChange={(e) => setPhoneNumbers(e.target.value)} />
           <TextInput size="xl" label="Locality" placeholder="Locality" onChange={(e) => setLocality(e.target.value)} />
@@ -213,7 +219,13 @@ function AddressCard({
             Edit Address
           </Text>
         </Center>
-        <SimpleGrid cols={2} spacing="xl">
+        <SimpleGrid cols={2} spacing="xl"
+          breakpoints={[
+            { maxWidth: '62rem', cols: 3, spacing: 'md' },
+            { maxWidth: '48rem', cols: 2, spacing: 'sm' },
+            { maxWidth: '36rem', cols: 1, spacing: 'sm' },
+          ]}
+        >
           <TextInput size="xl" label="Full Name" placeholder="Full Name"
             value={selectedAddress?.full_name}
             onChange={(e) => {
@@ -349,7 +361,7 @@ function AddressCard({
       <Card shadow="sm">
         <Group mt="xs">
           <Text fz={30} weight={700} mx="xl">
-            Delivery Address
+          2.  Delivery Address
           </Text>
           {
             hideAdresses && (

@@ -7,6 +7,8 @@ import { Link } from "react-router-dom";
 import { registerUser } from "../../actions/auth";
 import { useNavigate } from "react-router-dom";
 import { notifications } from '@mantine/notifications';
+import { IconBell, IconCar, IconStar } from '@tabler/icons-react';
+import { Icon } from '@mui/material';
 
 function UserCard() {
     const [otpsent, setOtpSent] = useState(false);
@@ -23,6 +25,27 @@ function UserCard() {
     const [submit, setSubmit] = useState(false)
     const [error, setError] = useState(false)
     const [resend, setResend] = useState(false)
+    const [showResend, setShowResend] = useState(false)
+    const [countdown, setCountdown] = useState(30);
+    const [startCountdown, setStartCountdown] = useState(null);
+    const [showLogouOption, setShowLogoutOption] = useState(false)
+
+
+    useEffect(() => {
+        const interval = setInterval(() => {
+            setCountdown((prevCountdown) => prevCountdown - 1);
+        }, 1000);
+
+        return () => clearInterval(interval); // Clear the interval when the component unmounts
+    }, [startCountdown]);
+
+    useEffect(() => {
+        if (countdown === 0) {
+            // Perform any action you want when the countdown reaches zero
+            setShowResend(true);
+        }
+    }, [countdown]);
+
 
     const handleOtp = (e) => {
         e.preventDefault();
@@ -34,6 +57,10 @@ function UserCard() {
                     setOtpSent(true);
                     setOtp(response.data.code);
                     setSubmitting(false);
+                    setCountdown(30);
+                    setTimeout(() => {
+                        setShowResend(true)
+                    }, 30000)
                 }
                 else {
                     setShowError(true);
@@ -112,6 +139,8 @@ function UserCard() {
     };
 
     const resendSubmit = () => {
+        setCountdown(30);
+        setShowResend(false);
         // Send the form data to Django backend
         axios.post(`${API_URL}auth/send-sms/`, { numbers: telephone })
             .then((response) => {
@@ -147,31 +176,92 @@ function UserCard() {
             <Card.Section m="xl" p="xl">
                 {
                     user ? (
-                        <Group position="apart">
-                            <UnstyledButton color="gray">
-                                <Text size="xl" fz={40} color="dimmed" fw={700}>
-                                    Login
-                                </Text>
-                                <Text size="xl" fw={500}>
-                                    {
-                                        "+91" + user?.username
-                                    }
-                                </Text>
-                            </UnstyledButton>
-                            <UnstyledButton color="gray">
-                                <button className="primary-btn"
-                                    style={{
-                                        color: "black",
-                                        backgroundColor: "white",
-                                        fontSize: "12px",
-                                        border: "0.4px solid blue",
-                                    }}
-                                    onClick={(e) => logout()}
-                                >
-                                    Change
-                                </button>
-                            </UnstyledButton>
-                        </Group>
+                        showLogouOption ? (
+                            <Group position='apart'>
+                                <div>
+                                    <Text size="md" fz={20} color="black" fw={500}>
+                                        Phone: +91{user?.username}
+                                    </Text>
+                                    <UnstyledButton onClick={() => logout()}>
+                                        <Text size="xl" fw={500} color='blue' mt="xl">
+                                            Logout & Sign in to another account
+                                        </Text>
+                                        <br />
+                                    </UnstyledButton>
+                                    <Group>
+                                        <button className="primary-btn"
+                                            style={{
+                                                color: "black",
+                                                backgroundColor: "white",
+                                                fontSize: "12px",
+                                                backgroundColor: "orange",
+                                                borderRadius: "0px",
+                                            }}
+                                            onClick={(e) => setShowLogoutOption(false)}
+                                        >
+                                            CONTINUE CHECKOUT
+                                        </button>
+
+                                    </Group>
+                                </div>
+                                <div>
+                                    <Text size="md" fz={20} color="dimmed" fw={500}>
+                                        Advantages of our secure login
+                                    </Text>
+
+
+                                    <div style={{ display: 'flex', alignItems: 'center', marginTop: '10px' }}>
+                                        <UnstyledButton style={{ display: 'flex', alignItems: 'center' }}>
+                                            <IconCar size="20px" color="blue" />
+                                            <Text size="md" fz={20} color="black" fw={500} style={{ marginLeft: '5px' }}>
+                                                Easily track orders, Hassle free returns
+                                            </Text>
+                                        </UnstyledButton>
+                                    </div>
+
+                                    <div style={{ display: 'flex', alignItems: 'center', marginTop: '10px' }}>
+                                        <IconBell size="20px" color="blue" />
+                                        <Text size="md" fz={20} color="black" fw={500} style={{ marginLeft: '5px' }}>
+                                            Get relevant recommendations
+                                        </Text>
+                                    </div>
+
+                                    <div style={{ display: 'flex', alignItems: 'center', marginTop: '10px' }}>
+                                        <IconStar size="20px" color="blue" />
+                                        <Text size="md" fz={20} color="black" fw={500} style={{ marginLeft: '5px' }}>
+                                            Save items to your Wishlist
+                                        </Text>
+                                    </div>
+                                </div>
+
+                            </Group>
+                        ) : (
+                            <Group position="apart">
+                                <UnstyledButton color="gray">
+                                    <Text size="xl" fz={30} color="dimmed" fw={500}>
+                                        1. Login
+                                    </Text>
+                                    <Text size="xl" fw={500}>
+                                        {
+                                            "+91" + user?.username
+                                        }
+                                    </Text>
+                                </UnstyledButton>
+                                <UnstyledButton color="gray">
+                                    <button className="primary-btn"
+                                        style={{
+                                            color: "black",
+                                            backgroundColor: "white",
+                                            fontSize: "12px",
+                                            border: "0.4px solid blue",
+                                        }}
+                                        onClick={(e) => setShowLogoutOption(true)}
+                                    >
+                                        Change
+                                    </button>
+                                </UnstyledButton>
+                            </Group>
+                        )
                     ) : (
 
                         <Group position="apart">
@@ -186,9 +276,9 @@ function UserCard() {
                                         <Loader size="xl" variant="bars" />
                                     )
                                 }
-                          
-                                    <div>
-                                      <TextInput placeholder="Phone Number"
+
+                                <div>
+                                    <TextInput placeholder="Phone Number"
                                         size="lg"
                                         value={telephone}
                                         type="number"
@@ -196,22 +286,22 @@ function UserCard() {
                                         required
                                         disabled={otpsent}
                                         icon={<Text size="xl" color='black' > +91 | </Text>}
-                                    />   
+                                    />
 
-                                        {
-                                            otpsent && (
-                                                <UnstyledButton color="gray"
+                                    {
+                                        otpsent && (
+                                            <UnstyledButton color="gray"
                                                 onClick={
                                                     () => setOtpSent(false)
                                                 }
-                                                >
-                                                    <Text color='blue'>
-                                                        Change Number
-                                                    </Text>
-                                                </UnstyledButton>
-                                            )
-                                        }
-                                    </div>
+                                            >
+                                                <Text color='blue'>
+                                                    Change Number
+                                                </Text>
+                                            </UnstyledButton>
+                                        )
+                                    }
+                                </div>
                                 {
                                     showError && (
                                         <Text color="red" size="xl">
@@ -219,16 +309,7 @@ function UserCard() {
                                         </Text>
                                     )
                                 }
-                                <Text size="lg" align="left" m="xl">
-                                    By Continuing, you agree to the
-                                    <Link to="/terms-and-conditions" style={{ textDecoration: "none", color: '#ff3e6c' }}>
-                                        {" "} Terms of Service
-                                    </Link>
-                                    {" "} &
-                                    <Link to="/privacy-policy" style={{ textDecoration: "none", color: '#ff3e6c' }}>
-                                        {" "} Privacy Policy
-                                    </Link>
-                                </Text>
+
                                 {
                                     otpsent ? (
                                         <>
@@ -239,13 +320,24 @@ function UserCard() {
                                                 onChange={(e) => setPin(e.target.value)}
 
                                             />
-                                            <UnstyledButton color="gray"
-                                            onClick={() => resendSubmit()}
-                                            >
-                                                <Text color='blue'>
-                                                    Resend OTP
-                                                </Text>
-                                            </UnstyledButton>
+                                            {
+                                                !showResend && (
+                                                    <Text color="red" size="xl">
+                                                        Resend OTP in {countdown} seconds
+                                                    </Text>
+                                                )
+                                            }
+                                            {
+                                                showResend && (
+                                                    <UnstyledButton color="gray"
+                                                        onClick={() => resendSubmit()}
+                                                    >
+                                                        <Text color='blue'>
+                                                            Resend OTP
+                                                        </Text>
+                                                    </UnstyledButton>
+                                                )
+                                            }
                                             {
                                                 otpError && (
                                                     <Text color="red" size="xl">
@@ -264,23 +356,50 @@ function UserCard() {
                                                     backgroundColor: "orange",
                                                 }}
                                             >
-                                                SIGNUP
+                                                LOGIN
                                             </button>
+                                            <Text size="lg" align="left" m="xl">
+                                                By Continuing, you agree to the
+                                                <Link to="/terms-and-conditions" style={{ textDecoration: "none", color: '#ff3e6c' }}>
+                                                    {" "} Terms of Service
+                                                </Link>
+                                                {" "} &
+                                                <Link to="/privacy-policy" style={{ textDecoration: "none", color: '#ff3e6c' }}>
+                                                    {" "} Privacy Policy
+                                                </Link>
+                                            </Text>
                                         </>
                                     ) : (
-                                        <button type="submit" className="btn btn-warning"
-                                            onClick={handleOtp}
-                                            style={{
-                                                marginTop: "10px",
-                                                color: "black",
-                                                fontWeight: "bold",
-                                                backgroundColor: "orange",
-                                            }}
-                                        >
-                                            Continue
-                                        </button>
+                                        <>
+                                            <Text size="lg" align="left" m="xl">
+                                                By Continuing, you agree to the
+                                                <Link to="/terms-and-conditions" style={{ textDecoration: "none", color: '#ff3e6c' }}
+                                                target='_blank'
+                                                >
+                                                    {" "} Terms of Service
+                                                </Link>
+                                                {" "} &
+                                                <Link to="/privacy-policy" style={{ textDecoration: "none", color: '#ff3e6c' }}>
+                                                    {" "} Privacy Policy
+                                                </Link>
+                                            </Text>
+                                            <button type="submit" className="btn btn-warning"
+                                                onClick={handleOtp}
+                                                style={{
+                                                    marginTop: "10px",
+                                                    color: "black",
+                                                    fontWeight: "bold",
+                                                    backgroundColor: "orange",
+                                                }}
+                                            >
+                                                Continue
+                                            </button>
+                                        </>
+
                                     )
                                 }
+
+
 
 
                             </form>

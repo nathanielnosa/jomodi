@@ -11,7 +11,7 @@ function PaymentMethod() {
 
                 <Card.Section>
                     <Group>
-                    <Text m="xl" size={30} weight={700}>Payment Method</Text>
+                    <Text m="xl" size={30} weight={700}>4. Payment Method</Text>
                     {
                         !showPaymentMethod && (
                                 <IconCheckbox size={30} onClick={() => setShowPaymentMethod(true)} />

@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { addToCart, removeFromCart } from '../../actions/cartActions';
 import { addToWishlist, removeFromWishlist } from '../../actions/wishActions';
-import { Button, Divider, Group, Input } from '@mantine/core';
+import { Button, Divider, Group, Input, Card } from '@mantine/core';
 import { UnstyledButton, Text } from '@mantine/core';
 import { notifications } from '@mantine/notifications';
 import { updateCartItemQuantity } from '../../actions/cartActions';
@@ -97,6 +97,7 @@ function OrderSummary({deliveyAddress}) {
     };
 
     return (
+        <Card shadow="sm">
         <div className="mt-5">
             <div className="row">
                 <div className="col-md-12" style={{
@@ -106,7 +107,7 @@ function OrderSummary({deliveyAddress}) {
                         !showSummary && (
                             <Group mt="xs">
                                 <Text fz={30} weight={700} mx="xl">
-                                    Order Summary
+                                   3. Order Summary
                                 </Text>
                                 
                                         <IconCheckbox size={30} onClick={() => setShowSummary(true)} />
@@ -117,7 +118,7 @@ function OrderSummary({deliveyAddress}) {
                     {
                         showSummary && (
                             <div className="card mb-3">
-                                {cartItems.map((item, index) => (
+                                {(cartItems.filter(item => item.buy)).map((item, index) => (
                                     <div key={index} className="row no-gutters" style={{
                                         margin: '3px',
                                         padding: '3px',
@@ -243,6 +244,7 @@ function OrderSummary({deliveyAddress}) {
                 </div>
             </div>
         </div>
+        </Card>
     );
 }
 
