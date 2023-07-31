@@ -23,6 +23,8 @@ function Checkout() {
     const [paymentMethod, setPaymentMethod] = useState("");
     const [addresses, setAddresses] = useState([]);
     const [deliveryAddress, setDeliveryAddress] = useState(null);
+    const [showOrder, setShowOrder] = useState(false);
+    const [showPayment, setShowPayment] = useState(false);
 
     const dispatch = useDispatch();
 
@@ -44,11 +46,6 @@ function Checkout() {
             }))
         );
     }, []);
-
-
-
-
-
     const cartTotal = cartItems.reduce(
         (total, item) => total + item.quantity * item.price,
         0
@@ -142,11 +139,16 @@ function Checkout() {
                                     <AddressCard
                                         deliveryAddress={deliveryAddress}
                                         setDeliveryAddress={setDeliveryAddress}
+                                        setShowOrder={setShowOrder}
                                     />
                                     <OrderSummary
                                         deliveyAddress={deliveryAddress}
+                                        showOrder={showOrder}
+                                        showPayment={setShowPayment}
                                     />
-                                    <PaymentMethod />
+                                    <PaymentMethod 
+                                    showPayment={showPayment}
+                                    />
 
                                 </SimpleGrid>
                             </div>
@@ -194,6 +196,7 @@ function Checkout() {
                                         <Link to="/store" className="primary-btn order-submit"
                                         style={{
                                             textDecoration: "none",
+                                            backgroundColor: "orange",
                                         }}
                                         >
                                             Shop Now For Products

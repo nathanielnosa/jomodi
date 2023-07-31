@@ -12,7 +12,7 @@ import { IconCheckbox, IconPlane, IconPlus } from "@tabler/icons-react";
 
 import dayjs from 'dayjs';
 
-function OrderSummary({ deliveyAddress }) {
+function OrderSummary({ deliveyAddress, showOrder, showPayment }) {
     const cartItems = useSelector((state) => state.cart.cartItems);
     const wishlist = useSelector((state) => state.wishlist.wishlistItems);
     const dispatch = useDispatch();
@@ -104,18 +104,21 @@ function OrderSummary({ deliveyAddress }) {
                         backgroundColor: 'white',
                     }}>    <Group mt="xs">
                         <Text fz={30} weight={700} mx="xl">
-                            3. Order Summary
+                            3. Order Summary {showOrder && `(${cartQuantity} items)`}
                         </Text>
                         {
                             !showSummary && (
                             
-                                    <IconCheckbox size={30} onClick={() => setShowSummary(true)} />
+                                    <IconCheckbox size={30} onClick={() => {setShowSummary(true);
+                                    showPayment(false);
+                                    }} />
 
                               
                             )
                         }
                         </Group>
                         {
+                            showOrder && (
                             showSummary && (
                                 <div className="card mb-3">
                                     {(cartItems.filter(item => item.buy)).map((item, index) => (
@@ -125,14 +128,6 @@ function OrderSummary({ deliveyAddress }) {
                                             marginTop: '10px',
                                         }}>
                                             <div className="col-md-2">
-                                                {/* <label>
-                                                <input
-                                                    type="checkbox"
-                                                    checked={item.buy}
-                                                    onChange={(e) => handleBuyOptionChange(index, e.target.checked)}
-                                                />
-
-                                            </label> */}
                                                 <img src={item.images} className="card-img" alt="Product Image"
                                                     style={{
                                                         width: "70px",
@@ -168,19 +163,16 @@ function OrderSummary({ deliveyAddress }) {
                                                                 item.price.toFixed(2)
                                                             }</p>
                                                     </Group>
-
                                                 </div>
                                             </div>
                                             <div className="col-md-12">
                                                 <Group position="left">
-
                                                     <div className="qty-label">
                                                         <UnstyledButton>
                                                             <Group position='left'>
                                                                 <Button radius="xl" size="md"
                                                                     onClick={() => handleQuantityChange(index, item.quantity - 1)}
                                                                     variant="outline" color="red"
-
                                                                 >
                                                                     - </Button>
                                                                 <input
@@ -216,15 +208,12 @@ function OrderSummary({ deliveyAddress }) {
                                                             </Text>
                                                         </UnstyledButton>
                                                     </Group>
-
                                                 </Group>
                                                 <Divider style={{
                                                     marginTop: '10px'
                                                 }} />
                                             </div>
-
                                         </div>
-
                                     ))}
                                     <Group position="right" style={{
                                         background: "white",
@@ -232,18 +221,19 @@ function OrderSummary({ deliveyAddress }) {
                                         padding: "10px",
                                         marginTop: "10px",
                                     }}>
-
                                         <Link to="/checkout" style={{
                                             textDecoration: 'none',
                                         }}>
                                             <button className="btn btn-warning btn-block btn-lg"
-                                                onClick={() => setShowSummary(false)}
+                                                onClick={() => {setShowSummary(false);
+                                                showPayment(true)
+                                                }}
                                             >
                                                 Continue <i className="fa fa-arrow-circle-right"></i>
-
                                             </button> </Link>
                                     </Group>
                                 </div>
+                            )
                             )
                         }
                     </div>

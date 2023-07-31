@@ -2,7 +2,9 @@ import React, { useState, useEffect } from 'react'
 import { Group, Card, Text, Radio } from '@mantine/core'
 import { IconCheckbox } from '@tabler/icons-react'
 
-function PaymentMethod() {
+function PaymentMethod({
+    showPayment
+}) {
     const [paymentMethod, setPaymentMethod] = useState("Cash on Delivery")
     const [showPaymentMethod, setShowPaymentMethod] = useState(false)
     return (
@@ -20,7 +22,7 @@ function PaymentMethod() {
                     </Group>
                 </Card.Section>
                {
-                showPaymentMethod && (
+               (showPayment || showPaymentMethod) && (
                         <Radio.Group
                             value={paymentMethod}
                             onChange={setPaymentMethod}

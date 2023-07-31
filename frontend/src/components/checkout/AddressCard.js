@@ -23,7 +23,7 @@ import { API_URL } from "../../constants";
 import { IconCheckbox, IconPlane, IconPlus } from "@tabler/icons-react";
 
 function AddressCard({
-  deliveryAddress, setDeliveryAddress
+  deliveryAddress, setDeliveryAddress, setShowOrder
 }) {
   const { user } = useAuth();
   const [addresses, setAddresses] = React.useState([]);
@@ -361,7 +361,7 @@ function AddressCard({
       <Card shadow="sm">
         <Group mt="xs">
           <Text fz={30} weight={700} mx="xl">
-          2.  Delivery Address
+          2. Delivery Address
           </Text>
           {
             hideAdresses && (
@@ -387,6 +387,7 @@ function AddressCard({
                       </Text>
                       <Button onClick={() => {
                         setHideAddresses(false);
+                        setShowOrder(false)
                       }}
                         size="xl"
                         color="blue"
@@ -490,6 +491,7 @@ function AddressCard({
                         <Button size="xl" onClick={() => {
                           setSelectedAddress(address);
                           setHideAddresses(true);
+                          setShowOrder(true)
                         }}
                           style={{
                             margin: "10px",

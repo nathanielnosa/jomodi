@@ -140,7 +140,10 @@ function Product() {
     }, [showCartNotification]);
 
     const addQuantity = () => {
-        setQuantity(quantity + 1);
+        if (quantity < 10){
+            setQuantity(quantity + 1);
+        }
+        // setQuantity(quantity + 1);
     };
 
     const subtractQuantity = () => {
@@ -195,33 +198,6 @@ function Product() {
                 console.log(err);
             });
     }, [id]);
-
-    // useEffect(() => {
-    //     axios
-    //         .get(`${API_URL}product/size/`)
-    //         .then((res) => {
-    //             console.log(res.data);
-    //             const filteredSizes = res.data.results.filter((size) => size.product == id);
-    //             setSizes(filteredSizes);
-    //         })
-    //         .catch((err) => {
-    //             console.log(err);
-    //         });
-    // }, [id]);
-
-    // useEffect(() => {
-    //     axios
-    //         .get(`${API_URL}product/color/`)
-    //         .then((res) => {
-    //             console.log(res.data);
-    //             const filteredColors = res.data.results.filter((color) => color.product == id);
-    //             setColors(filteredColors);
-    //         })
-    //         .catch((err) => {
-    //             console.log(err);
-    //         });
-    // }, []);
-
 
     useEffect(() => {
         axios
@@ -472,6 +448,10 @@ function Product() {
                                                 type="number"
                                                 value={quantity}
                                                 onChange={(e) => setQuantity(e.target.value)}
+                                                max={10}
+                                                min={1}
+                                                step={1}
+                                                defaultValue={1}
                                             />
                                             <span className="qty-up" onClick={addQuantity}>
                                                 +
