@@ -8,6 +8,8 @@ import TopSellingChip from '../components/TopSellingChip'
 import { API_URL } from '../constants'
 import axios from 'axios'
 import NewsLetter from '../components/NewsLetter'
+import Store from './Store'
+import HomeProduct from '../components/HomeProduct'
 
 function Home() {
     return (
@@ -17,7 +19,7 @@ function Home() {
             <HotDeal />
             <NewProduct />
             <TopSellingChip />
-            <NewsLetter />
+            <HomeProduct />
         </div>
     )
 }

@@ -1,15 +1,13 @@
-import React, { useState, useEffect } from 'react'
-import Sidebar from '../components/Sidebar'
-import StoreTop from '../components/StoreTop'
-import ProductCard from '../components/ProductCard'
-import axios from 'axios'
-import { API_URL } from '../constants'
-import { useParams } from 'react-router-dom'
+import React, { useState, useEffect } from 'react';
+import Sidebar from '../components/Sidebar';
+import StoreTop from '../components/StoreTop';
+import ProductCard from '../components/ProductCard';
+import axios from 'axios';
+import { API_URL } from '../constants';
 import { Pagination, Group } from '@mantine/core';
 
-function SearchPage() {
-    const { keyword, categoryid } = useParams();
-    const [products, setProducts] = useState([])
+function HomeProduct() {
+    const [products, setProducts] = useState([]);
     const [maxPrice, setMaxPrice] = useState(0);
     const [minPrice, setMinPrice] = useState(0);
     const [maxPriceSlider, setMaxPriceSlider] = useState(maxPrice);
@@ -18,24 +16,20 @@ function SearchPage() {
     const [selectedBrands, setSelectedBrands] = useState([]);
     const [sortingOption, setSortingOption] = useState('1');
     const [page, setPage] = useState(1);
+
     const itemsPerPage = 16;
+
+
 
     useEffect(() => {
         axios
-            .get(`${API_URL}product/search/?keyword=${keyword}`)
+            .get(`${API_URL}product/home_product/`)
             .then((res) => {
-                // Filter products based on keyword
-                console.log(res.data.results);
-                // const filteredProducts = categoryid == 0 ?
-                //     res.data.results.filter((product) => product.name.toLowerCase().includes(keyword.toLowerCase()))
-                //     : res.data.results.filter((product) => product.name.toLowerCase().includes(keyword.toLowerCase())
-                //         && product.category.id == categoryid);
-
                 // Set the products state
                 setProducts(res.data.results);
 
                 // Calculate the maximum and minimum prices
-                const prices = filteredProducts.map((product) => product.price);
+                const prices = res.data.results.map((product) => product.price);
                 const maxPrice = Math.max(...prices);
                 const minPrice = Math.min(...prices);
 
@@ -46,32 +40,51 @@ function SearchPage() {
             .catch((err) => {
                 console.log(err);
             });
-    }, [keyword, categoryid]);
+    }, []);
+
+    // Update filtered products based on selected categories, brands, maxPrice, and minPrice
 
     const filteredProducts = products.filter((product) => {
+        console.log("minPriceSlider:", minPriceSlider);
+        console.log("maxPriceSlider:", maxPriceSlider);
+        console.log("Product price:", product.price);
+
         const categoryMatch = selectedCategories.length === 0 || selectedCategories.some((id) => id === product?.category?.id);
         const brandMatch = selectedBrands.length === 0 || selectedBrands.some((id) => id === product?.brand?.id);
 
-        // Check if minPriceSlider and maxPriceSlider are valid numbers
-        const validPriceRange = !isNaN(minPriceSlider) && !isNaN(maxPriceSlider) && minPriceSlider <= maxPriceSlider;
+        // Check if minPriceSlider and maxPriceSlider are valid numbers and minPriceSlider is less than or equal to maxPriceSlider
+        const validPriceRange = !isNaN(minPriceSlider) && !isNaN(maxPriceSlider) && (minPriceSlider <= maxPriceSlider) && maxPriceSlider !== 0 && minPriceSlider !== 0;
 
         // Check if the product price is within the selected price range
-        const priceMatch = validPriceRange && product.price >= minPriceSlider && product.price <= maxPriceSlider;
+        const priceMatch = product.price >= minPriceSlider && product.price <= maxPriceSlider;
 
         if (validPriceRange) {
             // If valid price range is applied
-            if (selectedCategories.length === 0 && selectedBrands.length === 0) {
+            if (selectedCategories.length === 0 && selectedBrands.length === 0 && minPriceSlider != minPrice && maxPriceSlider != maxPrice) {
                 // If no categories and brands are selected, apply only the price filter
+                console.log("here 1")
                 return priceMatch;
             } else {
                 // Apply filters based on selected categories, brands, and price range
-                return (categoryMatch && brandMatch && priceMatch);
+                console.log("here 2")
+                return (categoryMatch && priceMatch) && (brandMatch && priceMatch);;
             }
         } else {
             // If invalid price range, apply filters based on selected categories and brands only
-            return (categoryMatch && brandMatch);
+            if (selectedCategories.length === 0 && selectedBrands.length === 0) {
+                // If no categories and brands are selected and price range is invalid, do not apply any filter
+                console.log("here 3")
+                return true;
+            } else {
+                // Apply filters based on selected categories and brands only
+                console.log("here 4")
+                return categoryMatch && brandMatch;
+            }
         }
     });
+
+
+
 
     const totalPages = filteredProducts.length == 0 ? Math.ceil(products?.length / itemsPerPage)
         : Math.ceil(filteredProducts?.length / itemsPerPage);
@@ -87,6 +100,7 @@ function SearchPage() {
             (page - 1) * itemsPerPage,
             page * itemsPerPage)
     );
+
 
     const handleSortChange = (selectedValue) => {
         // Update the sorting option state
@@ -140,20 +154,15 @@ function SearchPage() {
                     )}
 
                     <div id="store" className="col-md-9">
-                        <StoreTop onSortChange={handleSortChange} />
-
+                        {/* <StoreTop onSortChange={handleSortChange} /> */}
                         <div className="row">
                             {
-                                filteredProducts.length == 0 ? (
-                                    paginatedItems.map((products, index) => (
 
-                                        <ProductCard product={products} key={index} />
+                                paginatedItems.map((filteredProducts, index) => (
+                                    <ProductCard product={filteredProducts} key={index} />
+                                )
+                                )
 
-                                    ))) : (
-                                    paginatedItems.map((filteredProducts, index) => (
-                                        <ProductCard product={filteredProducts} key={index} />
-                                    )
-                                    ))
                             }
                         </div>
                         <div className="store-filter clearfix">
@@ -174,7 +183,7 @@ function SearchPage() {
                 </div>
             </div>
         </div>
-    )
+    );
 }
 
-export default SearchPage
+export default HomeProduct;

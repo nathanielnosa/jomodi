@@ -14,13 +14,15 @@ import {
   SimpleGrid,
   Badge,
   Center,
+  Menu,
+  rem
 } from "@mantine/core";
 import { useLocation } from "react-router-dom";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useAuth } from "../../context/auth-context";
 import { API_URL } from "../../constants";
-import { IconCheckbox, IconPlane, IconPlus } from "@tabler/icons-react";
+import { IconCheckbox, IconPlane, IconPlus, IconSearch, IconTrash } from "@tabler/icons-react";
 
 function AddressCard({
   deliveryAddress, setDeliveryAddress, setShowOrder
@@ -42,6 +44,7 @@ function AddressCard({
   const [selectedAddress, setSelectedAddress] = useState({});
   const [openEdit, setOpenEdit] = useState(false);
   const [hideAdresses, setHideAddresses] = useState(false);
+  const [opened, setOpened] = useState(false);
 
   const handleOpenEdit = (address) => {
     setSelectedAddress(address);
@@ -53,13 +56,15 @@ function AddressCard({
     setOpenEdit(false);
     setSelectedAddress(null);
   };
-
   const handleDeleteAddress = (id) => {
     axios
       .delete(`${API_URL}order/address/${id}/`)
       .then((res) => {
         console.log(res.data);
-        setAddresses(addresses.filter((item) => item.id !== address.id));
+        // Use the spread operator to create a new array without the deleted address
+        setAddresses((prevAddresses) =>
+          prevAddresses.filter((item) => item.id !== id)
+        );
       })
       .catch((err) => {
         console.log(err);
@@ -361,7 +366,7 @@ function AddressCard({
       <Card shadow="sm">
         <Group mt="xs">
           <Text fz={30} weight={700} mx="xl">
-          2. Delivery Address
+            2. Delivery Address
           </Text>
           {
             hideAdresses && (
@@ -370,7 +375,7 @@ function AddressCard({
           }
         </Group>
         {
-          (!hideAdresses && user) && (
+          (hideAdresses && user) && (
             <Card.Section mx="xl" my="sm">
               {
                 (addresses.length) ? (
@@ -386,7 +391,7 @@ function AddressCard({
                         {selectedAddress?.phone_number || addresses[0]?.phone_number}
                       </Text>
                       <Button onClick={() => {
-                        setHideAddresses(true);
+                        setHideAddresses(false);
                         setShowOrder(false)
                       }}
                         size="xl"
@@ -428,20 +433,21 @@ function AddressCard({
                     <Text fw={700} size={30}>
                       No Address Found
                     </Text>
-                  </div>                )
+                  </div>)
               }
             </Card.Section>
           )
         }
         {
-          hideAdresses && (<Card.Section mx="xl" p="xl">
+          !hideAdresses && (<Card.Section mx="xl" p="xl">
             <Radio.Group
               value={deliveryAddress}
               onChange={setDeliveryAddress}
               name="Delivery Address"
               size="xl"
             >
-              {
+
+              { addresses.length ? (
                 addresses.map((address, index) => (
                   <div key={index} style={{
                     marginTop: "10px",
@@ -465,6 +471,7 @@ function AddressCard({
                           Edit
                         </Text>
                       </UnstyledButton>
+                      <IconTrash size={rem(30)} color="red" onClick={() => handleDeleteAddress(address.id)} />
                     </Group>
                     <Group mt="xs">
                       <Text size="xl">
@@ -490,7 +497,7 @@ function AddressCard({
                       deliveryAddress === `${address.id}` && (
                         <Button size="xl" onClick={() => {
                           setSelectedAddress(address);
-                          setHideAddresses(false);
+                          setHideAddresses(true);
                           setShowOrder(true)
                         }}
                           style={{
@@ -506,6 +513,57 @@ function AddressCard({
                     <Divider />
                   </div>
                 ))
+              ) : (
+                <>
+                    <SimpleGrid cols={2} spacing="xl"
+                      breakpoints={[
+                        { maxWidth: '62rem', cols: 3, spacing: 'md' },
+                        { maxWidth: '48rem', cols: 2, spacing: 'sm' },
+                        { maxWidth: '36rem', cols: 1, spacing: 'sm' },
+                      ]}
+                    >
+                      <TextInput size="xl" label="Full Name" placeholder="Full Name" onChange={(e) => setFullNames(e.target.value)} />
+                      <TextInput size="xl" label="Phone Number" placeholder="Phone Number" onChange={(e) => setPhoneNumbers(e.target.value)} />
+                      <TextInput size="xl" label="Locality" placeholder="Locality" onChange={(e) => setLocality(e.target.value)} />
+                      <TextInput size="xl" label="Address" placeholder="Address" onChange={(e) => setAddress(e.target.value)} />
+                      <TextInput size="xl" label="City" placeholder="City" onChange={(e) => setCity(e.target.value)} />
+                      <TextInput size="xl" label="State" placeholder="State" onChange={(e) => setState(e.target.value)} />
+                      <TextInput size="xl" label="Pincode" placeholder="Pincode" onChange={(e) => setPincode(e.target.value)} />
+                      <TextInput size="xl" label="Landmark" placeholder="Landmark" onChange={(e) => setLandmark(e.target.value)} />
+                      <TextInput size="xl" label="Alternate Phone Number" placeholder="Alternate Phone Number" onChange={(e) => setAlternatePhone(e.target.value)} />
+                      <Radio.Group
+                        value={addressType}
+                        onChange={setAddressType}
+                        name="Address Type"
+                        label="Address Type"
+                        size="xl"
+                      >
+                        <Group mt="xs">
+                          <Radio value="Home" label="Home Address" />
+                          <Radio value="Work" label="Work Address" />
+                        </Group>
+                      </Radio.Group>
+                      <Group mt="xs">
+                        <Button size="xl" onClick={handleAddAddress}
+                          style={{
+                            gridColumn: "1 / span 2",
+                            backgroundColor: "orange",
+                          }}
+                        >
+                          Save Address
+                        </Button>
+                        <Button size="xl" onClick={() => setOpenModal(false)}
+                          style={{
+                            gridColumn: "1 / span 2",
+                            backgroundColor: "red",
+                          }}
+                        >
+                          Cancel
+                        </Button>
+                      </Group>
+                    </SimpleGrid>
+                </>
+              )
               }
             </Radio.Group>
           </Card.Section>
@@ -513,7 +571,7 @@ function AddressCard({
         }
       </Card>
       {
-        user && (
+        (user && address.length > 0) && (
           <Card shadow="sm" padding="xl">
             <Card.Section m="xl" p="xl">
               <UnstyledButton onClick={() => setOpenModal(true)}>

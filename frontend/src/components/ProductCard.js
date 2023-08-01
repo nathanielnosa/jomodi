@@ -83,7 +83,10 @@ function ProductCard({ product }) {
             }),
         })
     };
-
+    const getDiscount = (product) => {
+        const discount = ((product?.cancel_price - product?.price) / product?.cancel_price) * 100;
+        return discount.toFixed(0);
+    };
     return (
         <>
 
@@ -105,7 +108,7 @@ function ProductCard({ product }) {
                             />
                             <div className="product-label">
                                 {product?.discount ? (
-                                    <span className="sale">-{product?.discount}%</span>
+                                    <span className="sale">-{getDiscount(product)}%</span>
                                 ) : (
                                     ""
                                 )}

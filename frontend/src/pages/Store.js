@@ -164,15 +164,6 @@ function Store() {
                 )
 
               }
-
-              {/* {
-                !filteredProducts && (
-                  paginatedItems.map((products, index) => (
-                    <ProductCard product={products} key={index} />
-                  )
-                  )
-                )
-              } */}
             </div>
             <div className="store-filter clearfix">
               <span className="store-qty">Showing {filteredProducts.length || products.length} products</span>

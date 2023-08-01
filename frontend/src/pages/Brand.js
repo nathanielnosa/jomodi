@@ -130,10 +130,10 @@ function Store() {
     };
 
     return (
-        <div className="section">
+        <div className="container">
             <div>
                 <div className="row">
-                    {maxPrice !== 0 && minPrice !== 0 && ( // Render Sidebar only when maxPrice and minPrice are non-zero
+                    {/* {maxPrice !== 0 && minPrice !== 0 && ( // Render Sidebar only when maxPrice and minPrice are non-zero
                         <CatSidebar
                             max={maxPrice}
                             min={minPrice}
@@ -142,9 +142,9 @@ function Store() {
                             updateMaxPrice={setMaxPriceSlider} // Pass the setMaxPriceSlider function to update maxPriceSlider
                             updateMinPrice={setMinPriceSlider} // Pass the setMinPriceSlider function to update minPriceSlider
                         />
-                    )}
+                    )} */}
 
-                    <div id="store" className="col-md-9">
+                    <div id="store" className="col-md-12">
                         <StoreTop onSortChange={handleSortChange} />
 
                         <div className="row">

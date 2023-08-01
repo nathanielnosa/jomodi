@@ -14,6 +14,7 @@ import 'react-medium-image-zoom/dist/styles.css';
 import '../styles/imageZoom.css'
 import { notifications } from '@mantine/notifications';
 import 'tailwindcss/tailwind.css';
+import { IconHeart } from "@tabler/icons-react";
 
 function Product() {
     const { id } = useParams();
@@ -43,6 +44,8 @@ function Product() {
     }, [wishlist]);
 
     const cartItems = useSelector((state) => state.cart.cartItems);
+
+    console.log(wishlist)
 
     const handleAddToCart = (product) => {
         dispatch(addToCart(product, quantity, false, selectedSize, selectedGender, selectedColor));
@@ -438,11 +441,11 @@ function Product() {
                                                 {
                                                     product?.gender?.map((gen, index) => (
                                                         <Badge key={index} color="indigo" size="xl"
-                                                        onClick={() => setSelectedGender(gen)}
-                                                        style={{
-                                                            pointer : 'cursor',
-                                                            cursor: 'pointer',
-                                                        }}
+                                                            onClick={() => setSelectedGender(gen)}
+                                                            style={{
+                                                                pointer: 'cursor',
+                                                                cursor: 'pointer',
+                                                            }}
                                                             variant={
                                                                 selectedGender == gen ? 'dot' : 'light'
                                                             }
@@ -487,7 +490,7 @@ function Product() {
                                     >
                                         {cartItems.find((item) => item.id === product.id) ? (
                                             <span>
-                                                <i className="fa fa-check-circle"></i> Added to Bag
+                                                <i className="fa fa-check-circle"></i> Added to Cart
                                             </span>
                                         ) : (
                                             <span>
@@ -495,32 +498,33 @@ function Product() {
                                             </span>
                                         )}
                                     </button>
-
-                                </div>
-                                <ul className="product-btns">
-                                    <li>
-                                        <a
-                                            href={`https://api.whatsapp.com/send?phone=+${phoneNumber}&text=Hi, I am interested in your product ${product?.name}`}
-                                            style={{
-                                                cursor: 'pointer',
+                                    <button
+                                        className="add-to-cart-btn"
+                                        onClick={() => handleAddToWishlist(product)}
+                                        disabled={wishlist.find((item) => item.id == product.id)}
+                                        style={
+                                            {
+                                                marginLeft: '10px',
                                                 marginTop: '10px',
-                                                fontWeight: 'bold',
-                                                fontSize: '15px',
-                                                textDecoration: 'none',
-                                            }}
-                                        >
-                                            <i className="fa fa-whatsapp"></i> Enquire on Whatsapp
-                                        </a>
-                                    </li>
-                                    <li onClick={() => handleAddToWishlist(product)} style={{
-                                        cursor: 'pointer',
-                                        marginTop: '10px',
-                                        fontWeight: 'bold',
-                                        fontSize: '15px',
-                                    }}>
-                                        <i className="fa fa-heart-o" ></i> add to wishlist
-                                    </li>
-                                </ul>
+                                            }
+                                        }
+                                    >
+                                        {wishlist.find((item) => item.id == product.id) ? (
+                                            <span>
+                                                <i className="fa fa-check-circle"></i> Added to Wishlist
+                                            </span>
+
+                                        ) : (
+                                            <span>
+                                                <i className="fa fa-check-circle"></i> Add to Wishlist
+                                            </span>
+                                        )}
+                                    </button>
+                                </div>
+
+
+
+
 
                             </div>
                         </div>

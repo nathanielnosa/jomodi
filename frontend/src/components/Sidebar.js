@@ -89,9 +89,47 @@ function Sidebar({ max, min, selectedCategories, selectedBrands, onCategoryChang
 			});
 	}, []);
 
+
+	// Function to get the first 8 categories
+	const getFirstEightCategories = () => {
+		return categories.slice(0, 8);
+	};
+
+	// Function to get the remaining categories (excluding the first 8)
+	const getRemainingCategories = () => {
+		return categories.slice(8);
+	};
+
+	// State to keep track of whether to show all categories or just the first 8
+	const [showAllCategories, setShowAllCategories] = useState(true);
+
+	// Function to toggle showing all categories or just the first 8
+	const handleToggleCategories = () => {
+		setShowAllCategories(!showAllCategories);
+	};
+
+	// brand filter
+	// Function to get the first 8 categories
+	const getFirstEightBrands = () => {
+		return brands.slice(0, 8);
+	};
+
+	// Function to get the remaining categories (excluding the first 8)
+	const getRemainingBrands = () => {
+		return brands.slice(8);
+	};
+
+	// State to keep track of whether to show all categories or just the first 8
+	const [showAllBrands, setShowAllBrands] = useState(true);
+
+	// Function to toggle showing all categories or just the first 8
+	const handleToggleBrands = () => {
+		setShowAllBrands(!showAllBrands);
+	};
+
 	return (
 		<div id="aside" className="col-md-3">
-			
+
 			<div className="aside">
 				<Accordion radius="xl" defaultValue="customization">
 					<Accordion.Item value="customization">
@@ -101,82 +139,59 @@ function Sidebar({ max, min, selectedCategories, selectedBrands, onCategoryChang
 							Categories
 						</Accordion.Control>
 						<Accordion.Panel>
-							{categories?.map((category, index) => (
-								<div className="input-checkbox" key={category?.id}>
-									<input
-										type="checkbox"
-										id={`category-${category?.id}`}
-										checked={selectedCategories.includes(category?.id)}
-										onChange={() => handleCategoryChange(category?.id)}
-									/>
-									<label htmlFor={`category-${category?.id}`}>
-										<span></span>
-										{category?.name}
-									   <small>({
-										   products?.filter((product) => product?.category?.id == category?.id).length
-										})</small>
-									</label>
-								</div>
-							))}
-						</Accordion.Panel>
-					</Accordion.Item>
-				</Accordion>
-				<Accordion radius="xl" defaultValue="customization">
-					<Accordion.Item value="customization">
-						<Accordion.Control style={{
-							fontSize: "15px"
-						}}>
-							Price
-						</Accordion.Control>
-						<Accordion.Panel>
-							<div className="price-filter">
-								<div id="price-slider">
-									<Slider
-										value={[minPrice, maxPrice]}
-										onChange={(event, value) => {
-											setMinPrice(value[0]);
-											setMaxPrice(value[1]);
-											updateMinPrice(value[0]);
-											updateMaxPrice(value[1]);
-										}}
-										min={min}
-										max={max}
-										step={1}
-										valueLabelDisplay="auto"
-										valueLabelFormat={(value) => `$${value}`} // Optional: To display the value as currency
-										orientation="horizontal"
-									/>
-								</div>
-								<div className="input-number price-min">
-									<input
-										id="price-min"
-										type="number"
-										value={minPrice}
-										onChange={(e) => { setMinPrice(e.target.value); updateMinPrice(e.target.value) }}
-									/>
-									<span className="qty-up" onClick={addMinPrice}>
-										+
-									</span>
-									<span className="qty-down" onClick={subtractMinPrice}>
-										-
-									</span>
-								</div>
-								<span>-</span>
-								<div className="input-number price-max">
-									<input
-										id="price-max"
-										type="number"
-										value={maxPrice}
-										onChange={(e) => { setMaxPrice(e.target.value); updateMaxPrice(e.target.value) }}
-									/>
-									<span className="qty-up" onClick={addMaxPrice}>
-										+
-									</span>
-									<span className="qty-down" onClick={subtractMaxPrice}>
-										-
-									</span>
-								</div>
-							</div>
+							{
+								!showAllCategories ? (
+									<>
+										{categories?.map((category, index) => (
+											<div className="input-checkbox" key={category?.id}>
+												<input
+													type="checkbox"
+													id={`category-${category?.id}`}
+													checked={selectedCategories.includes(category?.id)}
+													onChange={() => handleCategoryChange(category?.id)}
+												/>
+												<label htmlFor={`category-${category?.id}`}>
+													<span></span>
+													{category?.name}
+													<small>({
+														products?.filter((product) => product?.category?.id == category?.id).length
+													})</small>
+												</label>
+											</div>
+										))
+										}
+										<button onClick={handleToggleCategories}>Show Less</button>
+									</>
+
+								) : (
+									<>
+										{getFirstEightCategories()?.map((category, index) => (
+											<div className="input-checkbox" key={category?.id}>
+												<input
+													type="checkbox"
+													id={`category-${category?.id}`}
+													checked={selectedCategories.includes(category?.id)}
+													onChange={() => handleCategoryChange(category?.id)}
+												/>
+												<label htmlFor={`category-${category?.id}`}>
+													<span></span>
+													{category?.name}
+													<small>({
+														products?.filter((product) => product?.category?.id == category?.id).length
+													})</small>
+												</label>
+											</div>
+										))
+										}
+										{categories.length > 8 && (
+											<button onClick={handleToggleCategories}>
+												{`Show ${getRemainingCategories().length} more`}
+											</button>
+										)}
+
+									</>
+								)
+							}
 						</Accordion.Panel>
 					</Accordion.Item>
 				</Accordion>
@@ -188,29 +203,61 @@ function Sidebar({ max, min, selectedCategories, selectedBrands, onCategoryChang
 							Brand
 						</Accordion.Control>
 						<Accordion.Panel>
-							<div className="checkbox-filter">
-								{brands?.map((brand, index) => (
-									<div className="input-checkbox" key={brand?.id}>
-										<input
-											type="checkbox"
-											id={`brand-${brand?.id}`}
-											checked={selectedBrands.includes(brand?.id)}
-											onChange={() => handleBrandChange(brand?.id)}
-										/>
-										<label htmlFor={`brand-${brand?.id}`}>
-											<span></span>
-											{brand?.name}
-											<small>({
-												products?.filter((product) => product?.brand?.id == brand?.id).length
-												})</small>
-										</label>
-									</div>
-								))}
-							</div>
+							{
+								!showAllBrands ? (
+									<>
+										{brands?.map((brand, index) => (
+											<div className="input-checkbox" key={brand?.id}>
+												<input
+													type="checkbox"
+													id={`brand-${brand?.id}`}
+													checked={selectedBrands.includes(brand?.id)}
+													onChange={() => handleBrandChange(brand?.id)}
+												/>
+												<label htmlFor={`brand-${brand?.id}`}>
+													<span></span>
+													{brand?.name}
+													<small>({
+														products?.filter((product) => product?.brand?.id == brand?.id).length
+													})</small>
+												</label>
+											</div>
+										))}
+										<button onClick={handleToggleBrands}>Show Less</button>
+									</>
+								) : (
+									<>
+										{getFirstEightBrands()?.map((brand, index) => (
+
+											<div className="input-checkbox" key={brand?.id}>
+												<input
+													type="checkbox"
+													id={`brand-${brand?.id}`}
+													checked={selectedBrands.includes(brand?.id)}
+													onChange={() => handleBrandChange(brand?.id)}
+												/>
+												<label htmlFor={`brand-${brand?.id}`}>
+													<span></span>
+													{brand?.name}
+													<small>({
+														products?.filter((product) => product?.brand?.id == brand?.id).length
+													})</small>
+												</label>
+											</div>
+										)
+										)}
+										{brands.length > 8 && (
+											<button onClick={handleToggleBrands}>
+												{`Show ${getRemainingBrands().length} more`}
+											</button>
+										)}
+									</>
+								)
+							}
 						</Accordion.Panel>
 					</Accordion.Item>
 				</Accordion>
-		
+
 			</div>
 		</div>
 	);

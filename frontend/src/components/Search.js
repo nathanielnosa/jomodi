@@ -4,7 +4,7 @@ import { API_URL } from '../constants';
 import { Link, useNavigate } from 'react-router-dom';
 import DatalistInput from 'react-datalist-input';
 import 'react-datalist-input/dist/styles.css';
-import { Group, Select, Text, TextInput } from '@mantine/core';
+import { Group, Select, Text, TextInput,Badge, Divider } from '@mantine/core';
 import { IconSearch } from '@tabler/icons-react';
 
 function Search() {
@@ -13,8 +13,11 @@ function Search() {
     const [keyword, setKeyword] = useState('');
     const [category, setCategory] = useState(0);
     const [productSuggestions, setProductSuggestions] = useState([]);
+    const [suggestedKeywords, setSuggestedKeywords] = useState([]);
     const [isFocused, setIsFocused] = useState(false);
     const [selectedProduct, setSelectedProduct] = useState(null);
+
+
     useEffect(() => {
         axios.get(API_URL + 'category/category/')
             .then(res => {
@@ -32,25 +35,59 @@ function Search() {
         setIsFocused(false);
     };
 
+    useEffect(() => {
+        // Fetch suggested keywords based on the user's input
+        axios
+            .get(`${API_URL}product/product/`)
+            .then((response) => {
+                console.log(response.data.results);
+                setSuggestedKeywords(response.data.results);
+            })
+            .catch((error) => {
+                console.error(error);
+            });
+    }, []);
+
+    const getRandomKeywords = () => {
+        const numRandomKeywords = 8;
+        const shuffledKeywords = suggestedKeywords?.sort(() => 0.5 - Math.random());
+        return shuffledKeywords?.slice(0, numRandomKeywords);
+    };
+
+    const randomKeywords = getRandomKeywords();
+
+
     const handleProductClick = (product) => {
         navigate(`/product/${product.id}/${product.name}`);
         setIsFocused(false);
     };
 
+    const handlePopular = (kw) => {
+        setKeyword(kw);
+        navigate(`/search/${kw}/${category}`);
+        setIsFocused(false);
+    };
+
+
+
     useEffect(() => {
         // Fetch product suggestions based on the user's input
-        axios
-            .get(`${API_URL}product/product_detail/`)
-            .then((response) => {
-                console.log(response.data.results);
-                const filteredSuggestions = response.data.results.filter(
-                    (product) => product.name.toLowerCase().includes(keyword.toLowerCase()));
-                setProductSuggestions(filteredSuggestions);
-            })
-            .catch((error) => {
-                console.error(error);
-            });
+        if (keyword.length > 0) {
+            axios
+                .get(`${API_URL}product/search/?keyword=${keyword}`)
+                .then((response) => {
+                    console.log(response.data.results);
+                    setProductSuggestions(response.data.results);
+                })
+                .catch((error) => {
+                    console.error(error);
+                });
+        } else {
+            // If keyword is empty, reset product suggestions to an empty array
+            setProductSuggestions([]);
+        }
     }, [keyword]);
+
     const handleInputFocus = () => {
         setIsFocused(true);
     };
@@ -134,16 +171,28 @@ function Search() {
                                                 zIndex: 99,
                                             }}
                                         >
-                                            <img
-                                                src={product.image}
-                                                alt={product.name}
-                                                style={{ width: '24px', height: '24px', marginRight: '8px' }}
-                                            />
+                                            <IconSearch size="1.5rem" /> {"  "}
                                             <span>{product.name}</span>
                                         </li>
                                     </Link>
                                 ))}
-
+                                <Divider />
+                                <Text size="xl" mx="lg" style={{ fontWeight: 'bold' }}>Popular keywords</Text>
+                                {
+                                    randomKeywords?.map((product, index) => (
+                                        <Badge size="xl" variant="dot" m="xl"
+                                        p = "xl"
+                                        onClick={() => handlePopular(product.name)}
+                                        style={{ cursor: 'pointer', 
+                                       
+                                    }}
+                                        >
+                                            {product.name}
+                                        </Badge>
+                                    ))
+                                }
+                             
+    
                             </div>
                         )}
                     </div>
