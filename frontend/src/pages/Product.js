@@ -8,7 +8,7 @@ import { Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { addToCart } from "../actions/cartActions";
 import { addToWishlist } from "../actions/wishActions";
-import { Notification, Alert } from "@mantine/core";
+import { Notification, Alert, Avatar, Group, Text, Badge } from "@mantine/core";
 import Zoom from 'react-medium-image-zoom';
 import 'react-medium-image-zoom/dist/styles.css';
 import '../styles/imageZoom.css'
@@ -42,8 +42,10 @@ function Product() {
         localStorage.setItem('wishlist', JSON.stringify(wishlist));
     }, [wishlist]);
 
+    const cartItems = useSelector((state) => state.cart.cartItems);
+
     const handleAddToCart = (product) => {
-        dispatch(addToCart(product, quantity));
+        dispatch(addToCart(product, quantity, false, selectedSize, selectedGender, selectedColor));
         notifications.show({
             title: 'Successfully Added to Cart',
             styles: (theme) => ({
@@ -65,8 +67,6 @@ function Product() {
         })
 
     };
-
-
 
     const handleAddToCart2 = (product) => {
         dispatch(addToCart(product, 1));
@@ -365,7 +365,7 @@ function Product() {
                                 </div>
                                 <p
                                     style={{
-                                        whiteSpace: "wrap",
+                                        whiteSpace: "pre-wrap",
                                         wordWrap: "break-word",
                                     }}
                                 >
@@ -375,65 +375,84 @@ function Product() {
                                 <div className="product-options">
                                     {
                                         product?.show_size && (
-                                            <label>
-                                                Size
-                                                <select className="input-select"
-                                                    value={selectedSize}
-                                                    onChange={(e) => setSelectedSize(e.target.value)}
-                                                    style={{
-                                                        margin: '10px'
-                                                    }}
-                                                >
-                                                    {
-                                                        (product?.size?.split(','))?.map((color, index) => (
-                                                            <option key={index} value={color}>{color}</option>
-                                                        ))
-                                                    }
-                                                </select>
-                                            </label>
+
+                                            <Group variant="filled" mb="sm" mt="xs" style={{ display: 'flex', flexWrap: 'wrap' }}>
+                                                <Text variant="label" style={{ marginRight: '10px' }}>Size
+                                                </Text>
+                                                {
+                                                    (product?.size?.split(','))?.map((siz, index) => (
+                                                        <Badge
+                                                            key={index}
+                                                            variant={
+                                                                selectedSize == siz ? 'dot' : 'light'
+                                                            }
+                                                            radius="xl"
+                                                            size="xl"
+
+                                                            onClick={() => setSelectedSize(siz)}
+                                                            style={{
+                                                                fontWeight: selectedSize == siz ? 'bold' : 'normal',
+                                                                fontSize: selectedSize == siz ? '15px' : '12px',
+                                                            }}
+                                                        >
+                                                            {siz}
+                                                        </Badge>
+                                                    ))
+                                                }
+                                            </Group>
                                         )
                                     }
                                     {
                                         product?.show_color && (
-                                            <label>
-                                                Color
-                                                <select className="input-select"
-                                                    value={selectedColor}
-                                                    onChange={(e) => setSelectedColor(e.target.value)}
-                                                    style={{
-                                                        margin: '10px'
-                                                    }}
-                                                >
-                                                    {
-                                                        product?.color?.map((color, index) => (
-                                                            <option key={index} value={color}>{color}</option>
-                                                        ))
-                                                    }
-                                                </select>
-
-                                            </label>
+                                            <Group variant="filled" mb="sm" mt="xs" style={{ display: 'flex', flexWrap: 'wrap' }}>
+                                                <Text variant="label" style={{ marginRight: '10px' }}>
+                                                    Color
+                                                </Text>
+                                                {
+                                                    product?.color?.map((color, index) => (
+                                                        <div
+                                                            key={index}
+                                                            style={{
+                                                                width: '25px',
+                                                                height: '25px',
+                                                                borderRadius: '50%',
+                                                                backgroundColor: color,
+                                                                margin: '5px',
+                                                                cursor: 'pointer',
+                                                            }}
+                                                            onClick={() => setSelectedColor(color)}
+                                                        ></div>
+                                                    ))
+                                                }
+                                            </Group>
                                         )
                                     }
 
                                     {
                                         product?.show_gender && (
-                                            <label>
-                                                Color
-                                                <select className="input-select"
-                                                    value={selectedGender}
-                                                    onChange={(e) => setSelectedGender(e.target.value)}
-                                                    style={{
-                                                        margin: '10px'
-                                                    }}
-                                                >
-                                                    {
-                                                        product?.gender?.map((color, index) => (
-                                                            <option key={index} value={color}>{color}</option>
-                                                        ))
-                                                    }
-                                                </select>
+                                            <Group variant="filled" mb="sm" mt="xs" style={{ display: 'flex', flexWrap: 'wrap' }}>
+                                                <Text variant="label" style={{ marginRight: '10px' }}>
+                                                    Color
+                                                </Text>
 
-                                            </label>
+                                                {
+                                                    product?.gender?.map((gen, index) => (
+                                                        <Badge key={index} color="indigo" size="xl"
+                                                        onClick={() => setSelectedGender(gen)}
+                                                        style={{
+                                                            pointer : 'cursor',
+                                                            cursor: 'pointer',
+                                                        }}
+                                                            variant={
+                                                                selectedGender == gen ? 'dot' : 'light'
+                                                            }
+                                                        >
+                                                            {gen}
+                                                        </Badge>
+                                                    ))
+                                                }
+
+                                            </Group>
                                         )
                                     }
 
@@ -464,42 +483,20 @@ function Product() {
                                     <button
                                         className="add-to-cart-btn"
                                         onClick={() => handleAddToCart(product)}
+                                        disabled={cartItems.find((item) => item.id === product.id)}
                                     >
-                                        <i className="fa fa-shopping-cart"></i> add to bag
+                                        {cartItems.find((item) => item.id === product.id) ? (
+                                            <span>
+                                                <i className="fa fa-check-circle"></i> Added to Bag
+                                            </span>
+                                        ) : (
+                                            <span>
+                                                <i className="fa fa-shopping-cart"></i> Add to Bag
+                                            </span>
+                                        )}
                                     </button>
-                                    {/* <Link to={`/product-checkout/${product.id}/${product.name}`} target="_blank">
-                                        <button
-                                            style={{
-                                                marginLeft: '20px',
-                                                backgroundColor: "yellowgreen",
-                                                padding: '7px',
-                                                width: '100px',
-                                                border: '0px',
-                                                borderRadius: '5px',
-                                                textTransform: 'capitalize',
-                                                fontWeight: 'bold'
-                                            }}
-                                        >
-                                            <i className="fa fa-shopping-cart"></i> buy now
-                                        </button>
-                                    </Link> */}
-                                </div>
-                                {/* 
-                                <ul className="product-btns">
-                                    <a
-                                        href={`https://api.whatsapp.com/send?phone=+${phoneNumber}&text=Hi, I am interested in your product ${product?.name}`}
-                                        style={{
-                                            cursor: 'pointer',
-                                            marginTop: '10px',
-                                            fontWeight: 'bold',
-                                            fontSize: '15px',
-                                            textDecoration: 'none',
-                                        }}
-                                    >
-                                        <i className="fa fa-whatsapp"></i> Enquire on Whatsapp
-                                    </a>
-                                </ul> */}
 
+                                </div>
                                 <ul className="product-btns">
                                     <li>
                                         <a
@@ -514,7 +511,6 @@ function Product() {
                                         >
                                             <i className="fa fa-whatsapp"></i> Enquire on Whatsapp
                                         </a>
-
                                     </li>
                                     <li onClick={() => handleAddToWishlist(product)} style={{
                                         cursor: 'pointer',
@@ -681,8 +677,17 @@ function Product() {
                                         <button
                                             className="add-to-cart-btn"
                                             onClick={() => handleAddToCart2(product)}
+                                            disabled={cartItems.find((item) => item.id === product.id)}
                                         >
-                                            <i className="fa fa-shopping-cart"></i> add to cart
+                                            {cartItems.find((item) => item.id === product.id) ? (
+                                                <span>
+                                                    <i className="fa fa-check-circle"></i> In Bag
+                                                </span>
+                                            ) : (
+                                                <span>
+                                                    <i className="fa fa-shopping-cart"></i> Add to Bag
+                                                </span>
+                                            )}
                                         </button>
                                     </div>
                                 </div>

@@ -1,11 +1,14 @@
 // cartActions.js
 
-export const addToCart = (product, quantity, buy) => {
+export const addToCart = (product, quantity, buy, size, gender, color) => {
     return {
         type: 'ADD_TO_CART',
         payload: {
             product: product,
             quantity: quantity,
+            size: size,
+            gender: gender,
+            color: color,
             
         },
     };
@@ -19,10 +22,10 @@ export const removeFromCart = (index) => {
 };
 
 
-export const updateCartItemQuantity = (index, quantity, buy) => {
+export const updateCartItemQuantity = (index, quantity, buy, size, gender, color) => {
     return {
         type: 'UPDATE_CART_ITEM_QUANTITY',
-        payload: { index, quantity , buy },
+        payload: { index, quantity , buy, gender, size, color},
     };
 };
 

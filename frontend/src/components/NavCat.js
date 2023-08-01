@@ -44,8 +44,12 @@ function NavCat() {
     };
 
     return (
-        <nav id="navigation" className="bg-gray-800 py-2">
-            <div className="container px-4">
+        <nav id="navigation" className="bg-gray-800 py-2"
+            onMouseLeave={handleMenuLeave}
+        >
+            <div className="container px-4"
+          
+            >
                 <div id="responsive-nav">
                     <ul className="main-nav nav navbar-nav flex items-center justify-between">
                         <li style={{
@@ -59,19 +63,13 @@ function NavCat() {
                             <li
                                 key={category?.id}
                                 onMouseEnter={() => handleCategoryHover(category?.id)}
-                                onMouseLeave={handleMenuLeave}
+                                // onMouseLeave={handleMenuLeave}
                                 style={{
                                     position: 'relative', // Add position relative to each category item
                                 }}
+                                
                             >
-                                <p
-                                    style={{
-                                        color: 'black',
-                                        padding: '0 1rem',
-                                        fontWeight: '500',
-                                        margin: 0,
-                                    }}
-                                >
+                               
                                     <Link
                                         to={`/category/${category?.id}/${category?.name}`}
                                         style={{
@@ -80,12 +78,13 @@ function NavCat() {
                                     >
                                         {category.name}
                                     </Link>
-                                </p>
+                               
                                 {openDropdown == category?.id && (
                                     <div
                                         style={{
                                             position: 'absolute',
-                                            top: '100%',
+                                            top: '110%',
+                                            width: '400px',
                                             left: 0,
                                             zIndex: 99, // Ensure the dropdown is above other content
                                             background: 'white',

@@ -28,7 +28,8 @@ function Header() {
                                     </div>
                                 </Link>
                             </div>
-                            <div className="col-md-6 col-4"> {/* Adjust the column width for small screens */}
+                            <div className="col-md-6 col-4">
+                                 {/* Adjust the column width for small screens */}
                                 <Search />
                             </div>
                             <div className="col-md-3 col-12"> {/* Adjust the column width for small screens */}

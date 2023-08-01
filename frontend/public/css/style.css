@@ -526,10 +526,12 @@ textarea.input {
 
 .header-search {
   padding: 15px 0px;
+  z-index: 99;
 }
 
 .header-search form {
   position: relative;
+  z-index: 99;
 }
 
 .header-search form .input-select {
