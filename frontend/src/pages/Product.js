@@ -34,10 +34,10 @@ function Product() {
     const [selectedGender, setSelectedGender] = useState("")
     const [showSizeError, setShowSizeError] = useState(false);
     const [showColorError, setShowColorError] = useState(false);
+    const [colorImage, setColorImage] = useState([]);
 
 
     const phoneNumber = 918456969102
-
     const dispatch = useDispatch();
 
     const wishlist = useSelector((state) => state.wishlist.wishlistItems);
@@ -122,8 +122,6 @@ function Product() {
             }),
         })
     };
-
-
 
     useEffect(() => {
         if (showWishlistNotification) {
@@ -221,6 +219,19 @@ function Product() {
 
     useEffect(() => {
         axios
+            .get(`${API_URL}product/colorimage_fetch/?product_id=${id}`)
+            .then((res) => {
+                console.log("image", res.data.results);
+                setColorImage(res.data.results);
+            })
+            .catch((err) => {
+                console.log(err);
+            });
+    }, [id]);
+
+
+    useEffect(() => {
+        axios
             .get(
                 `${API_URL}product/category_product_fetch/?category_id=${product?.category?.id}`
             )
@@ -236,11 +247,15 @@ function Product() {
                 console.log(err);
             });
     }, [product]);
+
+
     const getDiscount = (product) => {
         const discount = ((product?.cancel_price - product?.price) / product?.cancel_price) * 100;
         return discount.toFixed(0);
     };
 
+
+    console.log(colorImage)
 
     return (
         <div>
@@ -450,25 +465,29 @@ function Product() {
                                                     Color
                                                 </Text>
                                                 {
-                                                    product?.color?.map((color, index) => (
+                                                    colorImage?.map((color, index) => (
                                                         <Badge
                                                             radius="xl" size="xl"
                                                             style={{
                                                                 width: '45px',
                                                                 height: '45px',
                                                                 borderRadius: '50%',
-                                                                backgroundColor: color,
+                                                                backgroundColor: color.color,
                                                                 cursor: 'pointer',
 
                                                             }}
-                                                            onClick={() => setSelectedColor(color)}
+                                                            onClick={() => {setSelectedColor(color.color);
+                                                    
+                                                            }}
+                                                            onMouseEnter={() => setZoomImage(color.image)}
+                                                            onMouseLeave={() => setZoomImage("")}
                                                         >
                                                             <div
                                                                 key={index}
                                                                 style={{
                                                                     
                                                                     borderRadius: '50%',
-                                                                    backgroundColor: color,
+                                                                    backgroundColor: color.color,
                                                                     margin: '5px',
                                                                     cursor: 'pointer',
                                                                 }}
