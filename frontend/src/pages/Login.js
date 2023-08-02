@@ -3,7 +3,7 @@ import { Button, Card, TextInput, Text, Group, Container, Loader } from '@mantin
 import { useForm, isNotEmpty, isEmail, isInRange, hasLength, matches } from '@mantine/form';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../context/auth-context';
 import { API_URL } from '../constants';
 
@@ -16,6 +16,7 @@ export default function Login({ handleLogin }) {
     const [submitting, setSubmitting] = useState(false);
     const { login } = useAuth();
     const navigate = useNavigate();
+    const  location  = useLocation();
 
 
     const handleSubmit = (e) => {
@@ -27,7 +28,7 @@ export default function Login({ handleLogin }) {
                 console.log(response.data);
 
                 if (response.data.return === true) {
-                    navigate('/otp-verification', { state: { phone: phone, code: response.data.code } });
+                    navigate('/otp-verification', { state: { phone: phone, code: response.data.code, redirectPath: redirectPath } });
                 }
                 else {
                     setShowError(true);
@@ -42,7 +43,8 @@ export default function Login({ handleLogin }) {
     };
 
 
-
+    const queryParams = new URLSearchParams(location.search);
+    const redirectPath = queryParams.get('redirect') || '/';
     return (
         <Container size="30rem" px={0}>
             <Group position='apart'>

@@ -271,11 +271,7 @@ function UserCard() {
 
                         <Group position="apart">
                             <form>
-                                <Text>
-                                    {
-                                        otp
-                                    }
-                                </Text>
+                              
                                 {
                                     submitting && (
                                         <Loader size="xl" variant="bars" />

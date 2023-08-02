@@ -15,7 +15,8 @@ import {
   Badge,
   Center,
   Menu,
-  rem
+  rem,
+  Select,
 } from "@mantine/core";
 import { useLocation } from "react-router-dom";
 import { Link, useNavigate } from "react-router-dom";
@@ -23,6 +24,8 @@ import axios from "axios";
 import { useAuth } from "../../context/auth-context";
 import { API_URL } from "../../constants";
 import { IconCheckbox, IconPlane, IconPlus, IconSearch, IconTrash } from "@tabler/icons-react";
+import statesList from "../../constants";
+
 
 function AddressCard({
   deliveryAddress, setDeliveryAddress, setShowOrder
@@ -171,7 +174,14 @@ function AddressCard({
           <TextInput size="xl" label="Locality" placeholder="Locality" onChange={(e) => setLocality(e.target.value)} />
           <TextInput size="xl" label="Address" placeholder="Address" onChange={(e) => setAddress(e.target.value)} />
           <TextInput size="xl" label="City" placeholder="City" onChange={(e) => setCity(e.target.value)} />
-          <TextInput size="xl" label="State" placeholder="State" onChange={(e) => setState(e.target.value)} />
+          {/* <TextInput size="xl" label="State" placeholder="State" onChange={(e) => setState(e.target.value)} /> */}
+          <Select
+            size="xl"
+            label="State"
+            placeholder="State"
+            data={statesList}
+            onChange={(e) => setState(e)}
+          />
           <TextInput size="xl" label="Pincode" placeholder="Pincode" onChange={(e) => setPincode(e.target.value)} />
           <TextInput size="xl" label="Landmark" placeholder="Landmark" onChange={(e) => setLandmark(e.target.value)} />
           <TextInput size="xl" label="Alternate Phone Number" placeholder="Alternate Phone Number" onChange={(e) => setAlternatePhone(e.target.value)} />
@@ -283,7 +293,20 @@ function AddressCard({
                 }));
               }
             } />
-          <TextInput size="xl" label="State" placeholder="State"
+          <Select
+            size="xl"
+            label="State"
+            placeholder="State"
+            value={selectedAddress?.state}
+            data={statesList}
+            onChange={(e) => {
+              setSelectedAddress((prevAddress) => ({
+                ...prevAddress,
+                state: e,
+              }));
+            }}
+          />
+          {/* <TextInput size="xl" label="State" placeholder="State"
             value={selectedAddress?.state}
             onChange={
               (e) => {
@@ -292,7 +315,7 @@ function AddressCard({
                   state: e.target.value,
                 }));
               }
-            } />
+            } /> */}
           <TextInput size="xl" label="Pincode" placeholder="Pincode"
             value={selectedAddress?.pincode}
             onChange={
@@ -527,7 +550,13 @@ function AddressCard({
                       <TextInput size="xl" label="Locality" placeholder="Locality" onChange={(e) => setLocality(e.target.value)} />
                       <TextInput size="xl" label="Address" placeholder="Address" onChange={(e) => setAddress(e.target.value)} />
                       <TextInput size="xl" label="City" placeholder="City" onChange={(e) => setCity(e.target.value)} />
-                      <TextInput size="xl" label="State" placeholder="State" onChange={(e) => setState(e.target.value)} />
+                      <Select
+                        size="xl"
+                        label="State"
+                        placeholder="State"
+                        data={statesList}
+                        onChange={(e) => setState(e)}
+                      />
                       <TextInput size="xl" label="Pincode" placeholder="Pincode" onChange={(e) => setPincode(e.target.value)} />
                       <TextInput size="xl" label="Landmark" placeholder="Landmark" onChange={(e) => setLandmark(e.target.value)} />
                       <TextInput size="xl" label="Alternate Phone Number" placeholder="Alternate Phone Number" onChange={(e) => setAlternatePhone(e.target.value)} />

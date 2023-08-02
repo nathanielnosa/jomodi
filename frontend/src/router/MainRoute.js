@@ -35,28 +35,19 @@ function MainRoute() {
             <Route path="/" element={<AppLayout />}>
                 <Route index element={<Home />} />
                 <Route path="/store" element={<Store />} />
-                {/* <Route path="/checkout" element={<Checkout />} /> */}
-                {/* <Route path="/wishlist" element={<WishListPage />} /> */}
+
                 <Route
                     path="/wishlist"
                     element={
-                        <PrivateRoute user={isAuthenticated}>
-                                <WishListPage />
+                        <PrivateRoute user={isAuthenticated} redirect="/wishlist">
+                            <WishListPage />
                         </PrivateRoute>
                     }
                 />
-                {/* <Route
-                    path="/checkout"
-                    element={
-                        <PrivateRoute user={isAuthenticated}>
-                            <Checkout />
-                        </PrivateRoute>
-                    }
-                /> */}
                 <Route
                     path="/profile"
                     element={
-                        <PrivateRoute user={isAuthenticated}>
+                        <PrivateRoute user={isAuthenticated} redirect="/profile">
                             <ProfilePage />
                         </PrivateRoute>
                     }
@@ -64,7 +55,7 @@ function MainRoute() {
                 <Route 
                     path="/order"
                     element={
-                        <PrivateRoute user={isAuthenticated}>
+                        <PrivateRoute user={isAuthenticated} redirect="/order">
                             <Order />
                         </PrivateRoute>
                     }
@@ -77,22 +68,6 @@ function MainRoute() {
                         </PrivateRoute>
                     }
                 />
-                {/* <Route 
-                    path='/wishlistcheckout'
-                    element={
-                        <PrivateRoute user={isAuthenticated}>
-                            <WishListCheckOut />
-                        </PrivateRoute>
-                    }
-                />
-                <Route
-                    path="/product-checkout/:id/:slug"
-                    element={
-                        <PrivateRoute user={isAuthenticated}>
-                            <ProductCheckout />
-                        </PrivateRoute>
-                    }
-                /> */}
                 <Route path='/checkout' element={<Checkout />} />
                 <Route path='/wishlistcheckout' element={<WishListCheckOut />} />
                 <Route path='/product-checkout/:id/:slug' element={<ProductCheckout />} />

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { PinInput, Card, Text, Group, Loader} from '@mantine/core';
+import { PinInput, Card, Text, Group, Loader } from '@mantine/core';
 import { useLocation } from 'react-router-dom';
 import { Link, useNavigate } from 'react-router-dom';
 import { API_URL } from '../constants';
@@ -10,9 +10,10 @@ import axios from 'axios'
 
 function VerifyOTP() {
     const navigate = useNavigate()
-    const { loginUser } = useAuth();
+    const { loginUser, user } = useAuth();
     const { login } = useAuth();
     const code = useLocation().state?.code;
+    const redirectPath = useLocation().state?.redirectPath;
     const [code1, setCode1] = useState(code)
     const [pin, setPin] = useState('');
     const phone = useLocation().state?.phone;
@@ -20,6 +21,8 @@ function VerifyOTP() {
     const [submit, setSubmit] = useState(false)
     const [error, setError] = useState(false)
     const [resend, setResend] = useState(false)
+
+    const isAuthenticated = localStorage.getItem('authenticated');
 
     const handleChange = (value) => {
         setPin(value);
@@ -31,7 +34,6 @@ function VerifyOTP() {
         axios.post(`${API_URL}auth/send-sms/`, { numbers: phone })
             .then((response) => {
                 console.log(response.data);
-
                 if (response.data.return === true) {
                     setCode1(response.data.code)
                     setResend(true)
@@ -49,7 +51,7 @@ function VerifyOTP() {
     };
 
     useEffect(() => {
-         axios.get(`${API_URL}auth/user`)
+        axios.get(`${API_URL}auth/user`)
             .then(res => {
                 console.log(res.data.results)
                 setUserPhone(res.data.results.map((item) => item.username))
@@ -63,7 +65,7 @@ function VerifyOTP() {
     const checkPhoneNumberExists = (phoneNumber) => {
         return userPhone.includes(phoneNumber);
     };
-    
+
     const handleVerify = async () => {
         setSubmit(true);
 
@@ -72,12 +74,15 @@ function VerifyOTP() {
             const phoneNumberExists = checkPhoneNumberExists(phone);
 
             if (phoneNumberExists) {
-                login({
+                await login({
                     username: phone,
                     password: phone
                 });
                 setSubmit(false);
-                navigate('/');
+                setInterval(() => {
+                    navigate(redirectPath);
+                }, 1000);
+                // user &&
             } else {
                 const decoded = await registerUser(
                     {
@@ -87,7 +92,6 @@ function VerifyOTP() {
                         email: `${phone}@jodomi.com`,
                         active: true,
                         first_name: phone,
-        
                     }
                 );
                 const loginData = {
@@ -95,9 +99,12 @@ function VerifyOTP() {
                     password: phone
                 };
                 const decodedLogin = await login(loginData);
-                navigate('/')
+                setInterval(() => {
+                    navigate(redirectPath);
+                }, 1000);
+                // user && navigate(redirectPath);
                 setSubmit(false);
-           
+
             }
         } else {
             setSubmit(false);
@@ -125,14 +132,12 @@ function VerifyOTP() {
                     textAlign: 'center', fontWeight: 'bolder',
                     fontSize: '1.5rem', fontFamily: 'Greycliff CF, sans-serif',
                     marginTop: '10px'
-                }}>Verify with OTP  {code1}</h2>
-              
+                }}>Verify with OTP </h2>
                 {
-                    submit && <Loader size="xl" variant="dots" 
-                    style={{ marginLeft: 'auto', marginRight: 'auto', marginTop: '10px' }}
+                    submit && <Loader size="xl" variant="dots"
+                        style={{ marginLeft: 'auto', marginRight: 'auto', marginTop: '10px' }}
                     />
                 }
-
                 <Text
                     mt="xl"
                     mb="xl"
@@ -140,25 +145,20 @@ function VerifyOTP() {
                         textAlign: 'center', fontSize: '1.2rem',
                         fontFamily: 'Greycliff CF, sans-serif'
                     }}>
-                  
-                    Enter the OTP sent to {phone} 
+                    Enter the OTP sent to {phone}
                     <br />
                     <Text color="dimmed" size="sm" align="center" mt="xl">
                         <Link to="/login" style={{ textDecoration: "none" }}>
                             Edit Number
                         </Link>
                     </Text>
-
                 </Text>
                 <Text size="lg" align="center" mt="xl">
                     <Link onClick={resendSubmit} style={{ textDecoration: "none" }}>
                         Resend OTP
                     </Link>
-                    
                 </Text>
-
                 <form>
-
                     <Group position="center" mt="xl">
                         <PinInput
                             size="xl"
@@ -168,18 +168,14 @@ function VerifyOTP() {
                             inputMode="numeric"
                             value={pin}
                             onChange={handleChange}
-
                         />
-                       
                     </Group>
                     {
                         error && <Text color="red" size="lg" align="center" mt="xl">
                             Incorrect OTP
                         </Text>
                     }
-         
                 </form>
-
             </Card>
         </div>
     );
