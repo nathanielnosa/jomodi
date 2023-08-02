@@ -600,7 +600,7 @@ function AddressCard({
         }
       </Card>
       {
-        (user && address.length > 0) && (
+        (user && addresses.length > 0) && (
           <Card shadow="sm" padding="xl">
             <Card.Section m="xl" p="xl">
               <UnstyledButton onClick={() => setOpenModal(true)}>
