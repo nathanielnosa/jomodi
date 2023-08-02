@@ -32,6 +32,8 @@ function Product() {
     const [selectedSize, setSelectedSize] = useState("");
     const [selectedColor, setSelectedColor] = useState("");
     const [selectedGender, setSelectedGender] = useState("")
+    const [showSizeError, setShowSizeError] = useState(false);
+    const [showColorError, setShowColorError] = useState(false);
 
 
     const phoneNumber = 918456969102
@@ -47,6 +49,9 @@ function Product() {
     const cartItems = useSelector((state) => state.cart.cartItems);
 
     console.log(wishlist)
+
+    const errorSize = selectedSize == "";
+    const errorColor = selectedColor == "";
 
     const handleAddToCart = (product) => {
         dispatch(addToCart(product, quantity, false, selectedSize, selectedGender, selectedColor));
@@ -69,7 +74,6 @@ function Product() {
                 },
             }),
         })
-
     };
 
     const handleAddToCart2 = (product) => {
@@ -237,6 +241,7 @@ function Product() {
         return discount.toFixed(0);
     };
 
+
     return (
         <div>
 
@@ -365,12 +370,12 @@ function Product() {
                                         </del>
                                     </h3>
                                     <h4 className="product-price"
-                                    style={{
-                                        color: 'green',
-                                        fontWeight: 'bold',
-                                        fontSize: '15px',
-                                        marginLeft: '10px',
-                                    }}
+                                        style={{
+                                            color: 'green',
+                                            fontWeight: 'bold',
+                                            fontSize: '15px',
+                                            marginLeft: '10px',
+                                        }}
                                     >
                                         {getDiscount(product) > 0 ? (
                                             <span className="product-discount">
@@ -412,18 +417,30 @@ function Product() {
                                                             }
                                                             radius="xl"
                                                             size="xl"
-
+                                                          
                                                             onClick={() => setSelectedSize(siz)}
                                                             style={{
                                                                 fontWeight: selectedSize == siz ? 'bold' : 'normal',
-                                                                fontSize: selectedSize == siz ? '19px' : '17px',
+                                                                fontSize: selectedSize == siz ? '10px' : '15px',
+                                                                borderRadius: '50%',
+                                                                height: '50px',
+                                                                width: '50px',
+                                                                cursor: 'pointer',
                                                             }}
                                                         >
+                                                            
                                                             {siz}
                                                         </Badge>
                                                     ))
                                                 }
                                             </Group>
+                                        )
+                                    }
+                                    {
+                                        (product?.show_size && errorSize) && (
+                                            <Text variant="label" color="red" size="sm" style={{ fontWeight: 'bold' }}>
+                                                Please select a size
+                                            </Text>
                                         )
                                     }
                                     {
@@ -435,21 +452,27 @@ function Product() {
                                                 {
                                                     product?.color?.map((color, index) => (
                                                         <Badge
-                                                            variant={
-                                                                selectedColor == color ? 'dot' : 'light'
-                                                            }
-                                                            radius="xl" size="xl">
+                                                            radius="xl" size="xl"
+                                                            style={{
+                                                                width: '45px',
+                                                                height: '45px',
+                                                                borderRadius: '50%',
+                                                                backgroundColor: color,
+                                                                cursor: 'pointer',
+
+                                                            }}
+                                                            onClick={() => setSelectedColor(color)}
+                                                        >
                                                             <div
                                                                 key={index}
                                                                 style={{
-                                                                    width: '25px',
-                                                                    height: '25px',
+                                                                    
                                                                     borderRadius: '50%',
                                                                     backgroundColor: color,
                                                                     margin: '5px',
                                                                     cursor: 'pointer',
                                                                 }}
-                                                                onClick={() => setSelectedColor(color)}
+                                                           
                                                             ></div>
                                                         </Badge>
                                                     ))
@@ -457,8 +480,22 @@ function Product() {
                                             </Group>
                                         )
                                     }
-
                                     {
+                                        selectedColor && (
+                                            <Text variant="label" size="lg" style={{ fontWeight: 'bold' }}>
+                                                Selected Color: {selectedColor.toLocaleUpperCase()}
+                                            </Text>
+                                        )
+                                    }
+                                    {
+                                       (product?.show_color && errorColor) && (
+                                            <Text variant="label" color="red" size="sm" style={{ fontWeight: 'bold' }}>
+                                                Please select a color
+                                            </Text>
+                                        )
+                                    }
+
+                                    {/* {
                                         product?.show_gender && (
                                             <Group variant="filled" mb="sm" mt="xs" style={{ display: 'flex', flexWrap: 'wrap' }}>
                                                 <Text variant="label" style={{ marginRight: '10px' }}>
@@ -483,7 +520,7 @@ function Product() {
                                                 }
                                             </Group>
                                         )
-                                    }
+                                    } */}
 
                                 </div>
 
@@ -738,7 +775,7 @@ function Product() {
 
                                                 }
 
-                                             
+
                                             </button>
 
                                             <button className="quick-view">

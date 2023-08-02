@@ -506,6 +506,21 @@ textarea.input {
 	Logo
 \*----------------------------*/
 
+.product-badge {
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  background-color: color; /* Set the background color you want */
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.product-badge:hover {
+  background-color: #d10024;
+  color: "purple";
+  opacity: 0.9;
+}
+
 #header {
   padding-top: 15px;
   padding-bottom: 15px;
