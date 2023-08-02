@@ -17,6 +17,7 @@ function Store() {
   const [maxPriceSlider, setMaxPriceSlider] = useState(0);
   const [minPriceSlider, setMinPriceSlider] = useState(0);
   const [selectedBrands, setSelectedBrands] = useState([]);
+  const [selectedGenders, setSelectedGenders] = useState([])
   const [sortingOption, setSortingOption] = useState('1');
   const [page, setPage] = useState(1);
   const itemsPerPage = 16;
@@ -47,7 +48,13 @@ function Store() {
     console.log("Product price:", product.price);
 
     const brandMatch = selectedBrands.length === 0 || selectedBrands.some((id) => id === product?.brand?.id);
-
+    const genderMatch =
+      selectedGenders.length === 0 ||
+      product?.gender?.some(productGender =>
+        selectedGenders.some(selectedGender =>
+          productGender.toLowerCase() === selectedGender.toLowerCase()
+        )
+      );
     // Check if minPriceSlider and maxPriceSlider are valid numbers and minPriceSlider is less than or equal to maxPriceSlider
     const validPriceRange = !isNaN(minPriceSlider) && !isNaN(maxPriceSlider) && (minPriceSlider <= maxPriceSlider) && maxPriceSlider !== 0 && minPriceSlider !== 0;
 
@@ -56,25 +63,25 @@ function Store() {
 
     if (validPriceRange) {
       // If valid price range is applied
-      if ( selectedBrands.length === 0 && minPriceSlider != minPrice && maxPriceSlider != maxPrice) {
+      if ( selectedBrands.length === 0 && selectedGenders.length == 0 && minPriceSlider != minPrice && maxPriceSlider != maxPrice) {
         // If no categories and brands are selected, apply only the price filter
         console.log("here 1")
         return priceMatch;
       } else {
         // Apply filters based on selected categories, brands, and price range
         console.log("here 2")
-        return ( priceMatch) && (brandMatch && priceMatch);;
+        return ( priceMatch) && (brandMatch && priceMatch) && (genderMatch && priceMatch);
       }
     } else {
       // If invalid price range, apply filters based on selected categories and brands only
-      if (selectedBrands.length === 0) {
+      if (selectedBrands.length === 0 && selectedGenders.length == 0) {
         // If no categories and brands are selected and price range is invalid, do not apply any filter
         console.log("here 3")
         return true;
       } else {
         // Apply filters based on selected categories and brands only
         console.log("here 4")
-        return  brandMatch;
+        return  brandMatch && genderMatch;
       }
     }
   });
@@ -138,6 +145,8 @@ function Store() {
               min={minPrice}
               selectedBrands={selectedBrands}
               products={products}
+              setSelectedGenders={setSelectedGenders}
+              selectedGenders={selectedGenders}
               onBrandChange={setSelectedBrands}
               updateMaxPrice={setMaxPriceSlider} // Pass the setMaxPriceSlider function to update maxPriceSlider
               updateMinPrice={setMinPriceSlider} // Pass the setMinPriceSlider function to update minPriceSlider

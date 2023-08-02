@@ -14,12 +14,11 @@ function Store() {
   const [minPriceSlider, setMinPriceSlider] = useState(minPrice);
   const [selectedCategories, setSelectedCategories] = useState([]);
   const [selectedBrands, setSelectedBrands] = useState([]);
+  const [selectedGenders, setSelectedGenders] = useState([])
   const [sortingOption, setSortingOption] = useState('1');
   const [page, setPage] = useState(1);
 
   const itemsPerPage = 16;
-
-
 
   useEffect(() => {
     axios
@@ -53,6 +52,14 @@ function Store() {
     const categoryMatch = selectedCategories.length === 0 || selectedCategories.some((id) => id === product?.category?.id);
     const brandMatch = selectedBrands.length === 0 || selectedBrands.some((id) => id === product?.brand?.id);
 
+    const genderMatch =
+      selectedGenders.length === 0 ||
+      product?.gender?.some(productGender =>
+        selectedGenders.some(selectedGender =>
+          productGender.toLowerCase() === selectedGender.toLowerCase()
+        )
+      );
+
     // Check if minPriceSlider and maxPriceSlider are valid numbers and minPriceSlider is less than or equal to maxPriceSlider
     const validPriceRange = !isNaN(minPriceSlider) && !isNaN(maxPriceSlider) && (minPriceSlider <= maxPriceSlider) && maxPriceSlider !== 0 && minPriceSlider !== 0;
 
@@ -61,31 +68,28 @@ function Store() {
 
     if (validPriceRange) {
       // If valid price range is applied
-      if (selectedCategories.length === 0 && selectedBrands.length === 0 && minPriceSlider != minPrice && maxPriceSlider != maxPrice) {
+      if (selectedCategories.length === 0 && selectedBrands.length === 0 && selectedGenders.length === 0 && minPriceSlider != minPrice && maxPriceSlider != maxPrice) {
         // If no categories and brands are selected, apply only the price filter
         console.log("here 1")
         return priceMatch;
       } else {
         // Apply filters based on selected categories, brands, and price range
         console.log("here 2")
-        return (categoryMatch && priceMatch) && (brandMatch && priceMatch);;
+        return (categoryMatch && priceMatch) && (brandMatch && priceMatch) && (genderMatch && priceMatch);
       }
     } else {
       // If invalid price range, apply filters based on selected categories and brands only
-      if (selectedCategories.length === 0 && selectedBrands.length === 0) {
+      if (selectedCategories.length === 0 && selectedBrands.length === 0 && selectedGenders.length === 0) {
         // If no categories and brands are selected and price range is invalid, do not apply any filter
         console.log("here 3")
         return true;
       } else {
         // Apply filters based on selected categories and brands only
         console.log("here 4")
-        return categoryMatch && brandMatch;
+        return categoryMatch && brandMatch && genderMatch;
       }
     }
   });
-
-
-
 
   const totalPages = filteredProducts.length == 0 ? Math.ceil(products?.length / itemsPerPage)
     : Math.ceil(filteredProducts?.length / itemsPerPage);
@@ -101,7 +105,6 @@ function Store() {
       (page - 1) * itemsPerPage,
       page * itemsPerPage)
   );
-
 
   const handleSortChange = (selectedValue) => {
     // Update the sorting option state
@@ -149,6 +152,8 @@ function Store() {
               selectedBrands={selectedBrands}
               onCategoryChange={setSelectedCategories}
               products={products}
+              setSelectedGenders={setSelectedGenders}
+              selectedGenders={selectedGenders}
               onBrandChange={setSelectedBrands}
               updateMaxPrice={setMaxPriceSlider} // Pass the setMaxPriceSlider function to update maxPriceSlider
               updateMinPrice={setMinPriceSlider} // Pass the setMinPriceSlider function to update minPriceSlider

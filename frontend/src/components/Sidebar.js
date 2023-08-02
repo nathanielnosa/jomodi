@@ -4,8 +4,11 @@ import { API_URL } from '../constants';
 import { Link } from 'react-router-dom';
 import Slider from '@mui/material/Slider';
 import { Accordion, Text } from '@mantine/core';
+import { Gender_list } from '../constants';
 
-function Sidebar({ max, min, selectedCategories, selectedBrands, onCategoryChange, onBrandChange, updateMaxPrice, updateMinPrice, products }) {
+function Sidebar({ max, min, selectedCategories, selectedBrands, onCategoryChange, onBrandChange, updateMaxPrice, updateMinPrice, products,
+	selectedGenders, setSelectedGenders
+}) {
 	const [categories, setCategories] = useState([]);
 	const [brands, setBrands] = useState([]);
 	// const [products, setProducts] = useState([]);
@@ -32,17 +35,6 @@ function Sidebar({ max, min, selectedCategories, selectedBrands, onCategoryChang
 		}
 	};
 
-	// useEffect(() => {
-	// 	axios
-	// 		.get(`${API_URL}product/product_detail/`)
-	// 		.then((res) => {
-	// 			console.log(res.data);
-	// 			setProducts(res.data.results);
-	// 		})
-	// 		.catch((err) => {
-	// 			console.log(err);
-	// 		});
-	// }, []);
 
 	const addMaxPrice = () => {
 		setMaxPrice(maxPrice + 1000);
@@ -125,6 +117,14 @@ function Sidebar({ max, min, selectedCategories, selectedBrands, onCategoryChang
 	// Function to toggle showing all categories or just the first 8
 	const handleToggleBrands = () => {
 		setShowAllBrands(!showAllBrands);
+	};
+
+	const handleGenderChange = (selectedGender) => {
+		if (selectedGenders.includes(selectedGender)) {
+			setSelectedGenders(selectedGenders.filter(gender => gender !== selectedGender));
+		} else {
+			setSelectedGenders([...selectedGenders, selectedGender]);
+		}
 	};
 
 	return (
@@ -251,6 +251,32 @@ function Sidebar({ max, min, selectedCategories, selectedBrands, onCategoryChang
 									</span>
 								</div>
 							</div>
+						</Accordion.Panel>
+					</Accordion.Item>
+				</Accordion>
+				<Accordion radius="xl" defaultValue="customization">
+					<Accordion.Item value="customization">
+						<Accordion.Control style={{
+							fontSize: "15px"
+						}}>
+							Gender
+						</Accordion.Control>
+						<Accordion.Panel>
+										{Gender_list?.map((gender, index) => (
+											<div className="input-checkbox" key={index}>
+												<input
+													type="checkbox"
+													id={`brand-${index}`}
+													checked={selectedGenders?.includes(gender)}
+													onChange={() => handleGenderChange(gender)}
+												/>
+												<label htmlFor={`brand-${index}`}>
+													<span></span>
+													{gender}
+												</label>
+											</div>
+										)
+										)}	
 						</Accordion.Panel>
 					</Accordion.Item>
 				</Accordion>

@@ -2,6 +2,9 @@ export const API_URL = 'https://jomodi.pythonanywhere.com/'
 
 // export const API_URL = 'http://localhost:8000/'
 
+export const Gender_list = [
+    'Man', 'Woman', 'Boy', 'Girl', 'Kids']
+
 const statesList = [
     { value: 'Andhra Pradesh', label: 'Andhra Pradesh' },
     { value: 'Arunachal Pradesh', label: 'Arunachal Pradesh' },
