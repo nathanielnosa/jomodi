@@ -26,10 +26,11 @@ function Store() {
       .get(`${API_URL}product/product_detail/`)
       .then((res) => {
         // Set the products state
-        setProducts(res.data.results);
+        const filter_discount = res.data.results.filter(item => item.discount)
+        setProducts(filter_discount);
 
         // Calculate the maximum and minimum prices
-        const prices = res.data.results.map((product) => product.price);
+        const prices = filter_discount?.map((product) => product.price);
         const maxPrice = Math.max(...prices);
         const minPrice = Math.min(...prices);
 
@@ -147,6 +148,7 @@ function Store() {
               selectedCategories={selectedCategories}
               selectedBrands={selectedBrands}
               onCategoryChange={setSelectedCategories}
+              products={products}
               onBrandChange={setSelectedBrands}
               updateMaxPrice={setMaxPriceSlider} // Pass the setMaxPriceSlider function to update maxPriceSlider
               updateMinPrice={setMinPriceSlider} // Pass the setMinPriceSlider function to update minPriceSlider

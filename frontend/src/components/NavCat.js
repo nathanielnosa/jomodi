@@ -48,7 +48,7 @@ function NavCat() {
             onMouseLeave={handleMenuLeave}
         >
             <div className="container px-4"
-          
+
             >
                 <div id="responsive-nav">
                     <ul className="main-nav nav navbar-nav flex items-center justify-between">
@@ -67,31 +67,31 @@ function NavCat() {
                                 style={{
                                     position: 'relative', // Add position relative to each category item
                                 }}
-                                
+
                             >
-                               
-                                    <Link
-                                        to={`/category/${category?.id}/${category?.name}`}
-                                        style={{
-                                            textDecoration: 'none',
-                                        }}
-                                    >
-                                        {category.name}
-                                    </Link>
-                               
+
+                                <Link
+                                    to={`/category/${category?.id}/${category?.name}`}
+                                    style={{
+                                        textDecoration: 'none',
+                                    }}
+                                >
+                                    {category.name}
+                                </Link>
+
                                 {openDropdown == category?.id && (
                                     <div
                                         style={{
                                             position: 'absolute',
                                             top: '110%',
-                                            width: '400px',
-                                            left: 0,
+                                            width: '300px',
+                                            left: "-150%",
                                             zIndex: 99, // Ensure the dropdown is above other content
                                             background: 'white',
                                             padding: '0 1rem',
                                             boxShadow: '0px 3px 6px rgba(0, 0, 0, 0.16)',
                                             minWidth: '200px',
-                                         
+
                                         }}
                                     >
                                         <ul style={{ listStyle: 'none', margin: 0, padding: 0 }}>

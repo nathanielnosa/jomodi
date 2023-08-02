@@ -6,10 +6,10 @@ import Slider from '@mui/material/Slider';
 import { useParams } from 'react-router-dom';
 import { Accordion } from '@mantine/core';
 
-function CatSidebar({ max, min, selectedBrands, onBrandChange, updateMaxPrice, updateMinPrice }) {
+function CatSidebar({ max, min, selectedBrands, onBrandChange, updateMaxPrice, updateMinPrice,products }) {
     const { id } = useParams();
     const [brands, setBrands] = useState([]);
-    const [products, setProducts] = useState([]);
+    // const [products, setProducts] = useState([]);
     const [maxPrice, setMaxPrice] = useState(max);
     const [minPrice, setMinPrice] = useState(min);
 
@@ -24,16 +24,16 @@ function CatSidebar({ max, min, selectedBrands, onBrandChange, updateMaxPrice, u
         }
     };
 
-    useEffect(() => {
-        axios.get(`${API_URL}product/product_detail/`)
-            .then(res => {
-                console.log(res.data);
-                setProducts(res.data.results);
-            })
-            .catch(err => {
-                console.log(err);
-            });
-    }, []);
+    // useEffect(() => {
+    //     axios.get(`${API_URL}product/product_detail/`)
+    //         .then(res => {
+    //             console.log(res.data);
+    //             setProducts(res.data.results);
+    //         })
+    //         .catch(err => {
+    //             console.log(err);
+    //         });
+    // }, []);
 
     const addMaxPrice = () => {
         setMaxPrice(maxPrice + 1000);
@@ -89,7 +89,7 @@ function CatSidebar({ max, min, selectedBrands, onBrandChange, updateMaxPrice, u
 
 
             <div className="aside">
-                {/* <Accordion radius="xl" defaultValue="customization">
+                <Accordion radius="xl" defaultValue="customization">
                     <Accordion.Item value="customization">
                         <Accordion.Control style={{
                             fontSize: "15px"
@@ -147,7 +147,8 @@ function CatSidebar({ max, min, selectedBrands, onBrandChange, updateMaxPrice, u
                             </div>
                         </Accordion.Panel>
                     </Accordion.Item>
-                </Accordion> */}
+                </Accordion>
+                
                 <Accordion radius="xl" defaultValue="customization">
                     <Accordion.Item value="customization">
                         <Accordion.Control style={{

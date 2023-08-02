@@ -12,6 +12,9 @@ function ProductCard({ product }) {
     const [showWishlistNotification, setShowWishlistNotification] =
         React.useState(false);
 
+    const wishlist = useSelector((state) => state.wishlist.wishlistItems);  
+    const cartItems = useSelector((state) => state.cart.cartItems);
+
     useEffect(() => {
         if (showWishlistNotification) {
             // Set a timeout of 2 seconds to close the alert
@@ -154,9 +157,27 @@ function ProductCard({ product }) {
                             <button
                                 className="add-to-wishlist"
                                 onClick={() => handleAddToWishlist(product)}
-                            >
-                                <i className="fa fa-heart-o"></i>
-                                <span className="tooltipp">add to wishlist</span>
+                                disabled={wishlist.find((item) => item.id == product.id)}
+                            >{
+                                    wishlist.find((item) => item.id == product.id) ? (
+                                        <span>
+                                            <i className="fa fa-heart"
+                                                style={{
+                                                    color: 'red',
+                                                }}
+                                            ></i>
+                                            <span className="tooltipp">In wishlist</span>
+                                        </span>
+                                    ) : (
+                                        <span>
+                                            <i className="fa fa-heart-o"></i>
+                                            <span className="tooltipp">add to wishlist</span>
+                                        </span>
+                                    )
+
+                                }
+
+
                             </button>
 
                             <button className="quick-view">
@@ -171,8 +192,17 @@ function ProductCard({ product }) {
                         <button
                             className="add-to-cart-btn"
                             onClick={() => handleAddToCart(product)}
+                            disabled={cartItems.find((item) => item.id === product.id)}
                         >
-                            <i className="fa fa-shopping-cart"></i> add to bag
+                            {cartItems.find((item) => item.id === product.id) ? (
+                                <span>
+                                    <i className="fa fa-check-circle"></i> In Cart
+                                </span>
+                            ) : (
+                                <span>
+                                    <i className="fa fa-shopping-cart"></i> Add to Cart
+                                </span>
+                            )}
                         </button>
                     </div>
                 </div>

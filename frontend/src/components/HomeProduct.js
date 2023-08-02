@@ -147,6 +147,7 @@ function HomeProduct() {
                             selectedCategories={selectedCategories}
                             selectedBrands={selectedBrands}
                             onCategoryChange={setSelectedCategories}
+                            products={products}
                             onBrandChange={setSelectedBrands}
                             updateMaxPrice={setMaxPriceSlider} // Pass the setMaxPriceSlider function to update maxPriceSlider
                             updateMinPrice={setMinPriceSlider} // Pass the setMinPriceSlider function to update minPriceSlider

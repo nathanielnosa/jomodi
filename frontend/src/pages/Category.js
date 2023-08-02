@@ -137,6 +137,7 @@ function Store() {
               max={maxPrice}
               min={minPrice}
               selectedBrands={selectedBrands}
+              products={products}
               onBrandChange={setSelectedBrands}
               updateMaxPrice={setMaxPriceSlider} // Pass the setMaxPriceSlider function to update maxPriceSlider
               updateMinPrice={setMinPriceSlider} // Pass the setMinPriceSlider function to update minPriceSlider

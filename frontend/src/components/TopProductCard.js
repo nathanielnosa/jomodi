@@ -11,6 +11,11 @@ function TopProductCard({ product }) {
     const [showCartNotification, setShowCartNotification] = React.useState(false);
     const [showWishlistNotification, setShowWishlistNotification] = React.useState(false);
 
+
+    const wishlist = useSelector((state) => state.wishlist.wishlistItems);
+
+    const cartItems = useSelector((state) => state.cart.cartItems);
+
     const handleAddToCart = (product) => {
         dispatch(addToCart(product, 1));
         
@@ -123,7 +128,31 @@ function TopProductCard({ product }) {
                             <i className="fa fa-star"></i>
                         </div> */}
                         <div className="product-btns">
-                            <button className="add-to-wishlist" onClick={() => handleAddToWishlist(product)}><i className="fa fa-heart-o"></i><span className="tooltipp">add to wishlist</span></button>
+                            <button
+                                className="add-to-wishlist"
+                                onClick={() => handleAddToWishlist(product)}
+                                disabled={wishlist.find((item) => item.id == product.id)}
+                            >{
+                                    wishlist.find((item) => item.id == product.id) ? (
+                                        <span>
+                                            <i className="fa fa-heart"
+                                                style={{
+                                                    color: 'red',
+                                                }}
+                                            ></i>
+                                            <span className="tooltipp">In wishlist</span>
+                                        </span>
+                                    ) : (
+                                        <span>
+                                            <i className="fa fa-heart-o"></i>
+                                            <span className="tooltipp">add to wishlist</span>
+                                        </span>
+                                    )
+
+                                }
+
+
+                            </button>
 
 
                             <button className="quick-view">
@@ -134,9 +163,20 @@ function TopProductCard({ product }) {
                         </div>
                     </div>
                     <div className="add-to-cart">
-                        <button className="add-to-cart-btn" onClick={() => handleAddToCart(product)}>
-                            <i className="fa fa-shopping-cart"></i>
-                            add to cart
+                        <button
+                            className="add-to-cart-btn"
+                            onClick={() => handleAddToCart(product)}
+                            disabled={cartItems.find((item) => item.id === product.id)}
+                        >
+                            {cartItems.find((item) => item.id === product.id) ? (
+                                <span>
+                                    <i className="fa fa-check-circle"></i> In Cart
+                                </span>
+                            ) : (
+                                <span>
+                                    <i className="fa fa-shopping-cart"></i> Add to Cart
+                                </span>
+                            )}
                         </button>
                     </div>
                 </div>

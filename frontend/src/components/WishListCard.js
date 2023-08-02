@@ -6,12 +6,15 @@ import { addToWishlist } from "../actions/wishActions";
 import { notifications } from '@mantine/notifications';
 import { IconCross, IconX } from "@tabler/icons-react";
 
+
 function WishListCard({ product, handleFunction }) {
     const dispatch = useDispatch();
 
     const [showCartNotification, setShowCartNotification] = React.useState(false);
     const [showWishlistNotification, setShowWishlistNotification] =
         React.useState(false);
+
+    const cartItems = useSelector((state) => state.cart.cartItems);
 
     useEffect(() => {
         if (showWishlistNotification) {
@@ -148,14 +151,6 @@ function WishListCard({ product, handleFunction }) {
                             <del className="product-old-price">₹{product?.cancel_price}</del>
                         </h4>
                         <div className="product-btns">
-                            <button
-                                className="add-to-wishlist"
-                                onClick={() => handleAddToWishlist(product)}
-                            >
-                                <i className="fa fa-heart-o"></i>
-                                <span className="tooltipp">add to wishlist</span>
-                            </button>
-
                             <button className="quick-view">
                                 <Link to={`/product/${product.id}/${product.name}`} target="_blank">
                                     <i className="fa fa-eye"></i>
@@ -168,8 +163,17 @@ function WishListCard({ product, handleFunction }) {
                         <button
                             className="add-to-cart-btn"
                             onClick={() => handleAddToCart(product)}
+                            disabled={cartItems.find((item) => item.id === product.id)}
                         >
-                            <i className="fa fa-shopping-cart"></i> add to bag
+                            {cartItems.find((item) => item.id === product.id) ? (
+                                <span>
+                                    <i className="fa fa-check-circle"></i> In Cart
+                                </span>
+                            ) : (
+                                <span>
+                                    <i className="fa fa-shopping-cart"></i> Add to Cart
+                                </span>
+                            )}
                         </button>
                     </div>
                 </div>

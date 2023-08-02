@@ -439,7 +439,7 @@ function AddressCard({
           )
         }
         {
-          !hideAdresses && (<Card.Section mx="xl" p="xl">
+          (!hideAdresses && user) && (<Card.Section mx="xl" p="xl">
             <Radio.Group
               value={deliveryAddress}
               onChange={setDeliveryAddress}
@@ -552,14 +552,14 @@ function AddressCard({
                         >
                           Save Address
                         </Button>
-                        <Button size="xl" onClick={() => setOpenModal(false)}
+                        {/* <Button size="xl" onClick={() => setOpenModal(false)}
                           style={{
                             gridColumn: "1 / span 2",
                             backgroundColor: "red",
                           }}
                         >
                           Cancel
-                        </Button>
+                        </Button> */}
                       </Group>
                     </SimpleGrid>
                 </>

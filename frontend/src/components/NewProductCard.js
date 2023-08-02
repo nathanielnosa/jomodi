@@ -12,6 +12,11 @@ function NewProductCard({ product }) {
     const [showCartNotification, setShowCartNotification] = React.useState(false);
     const [showWishlistNotification, setShowWishlistNotification] = React.useState(false);
 
+
+    const wishlist = useSelector((state) => state.wishlist.wishlistItems);
+
+    const cartItems = useSelector((state) => state.cart.cartItems);
+
     const handleAddToCart = (product) => {
         dispatch(addToCart(product, 1));
         notifications.show({
@@ -41,7 +46,7 @@ function NewProductCard({ product }) {
         dispatch(addToWishlist(product));
         notifications.show({
             title: 'Successfully Added your Wish List',
-    
+
             styles: (theme) => ({
                 root: {
                     backgroundColor: theme.colors.teal,
@@ -74,7 +79,7 @@ function NewProductCard({ product }) {
                 marginBottom: '90px',
                 // marginTop: '200px',
             }}>
-              
+
                 <div className="product">
                     <Link to={`/product/${product.id}/${product.name}`} target="_blank" style={{
                         textDecoration: 'none',
@@ -90,8 +95,8 @@ function NewProductCard({ product }) {
                             />
                             <div className="product-label">
                                 {
-                                    (product?.discount > 0 || product?.discount < 0) 
-                                    ? <span className="sale">-{getDiscount(product)}%</span> : ''
+                                    (product?.discount > 0 || product?.discount < 0)
+                                        ? <span className="sale">-{getDiscount(product)}%</span> : ''
                                 }
                                 {
                                     product?.new == true ? <span className="new">NEW</span> : ''
@@ -116,9 +121,33 @@ function NewProductCard({ product }) {
                         <h4 className="product-price">
                             ₹{product?.price} <del className="product-old-price">₹{product?.cancel_price}</del>
                         </h4>
-                
+
                         <div className="product-btns">
-                            <button className="add-to-wishlist" onClick={() => handleAddToWishlist(product)}><i className="fa fa-heart-o"></i><span className="tooltipp">add to wishlist</span></button>
+                            <button
+                                className="add-to-wishlist"
+                                onClick={() => handleAddToWishlist(product)}
+                                disabled={wishlist.find((item) => item.id == product.id)}
+                            >{
+                                    wishlist.find((item) => item.id == product.id) ? (
+                                        <span>
+                                            <i className="fa fa-heart"
+                                                style={{
+                                                    color: 'red',
+                                                }}
+                                            ></i>
+                                            <span className="tooltipp">In wishlist</span>
+                                        </span>
+                                    ) : (
+                                        <span>
+                                            <i className="fa fa-heart-o"></i>
+                                            <span className="tooltipp">add to wishlist</span>
+                                        </span>
+                                    )
+
+                                }
+
+
+                            </button>
 
 
                             <button className="quick-view">
@@ -129,9 +158,20 @@ function NewProductCard({ product }) {
                         </div>
                     </div>
                     <div className="add-to-cart">
-                        <button className="add-to-cart-btn" onClick={() => handleAddToCart(product)}>
-                            <i className="fa fa-shopping-cart"></i>
-                            add to cart
+                        <button
+                            className="add-to-cart-btn"
+                            onClick={() => handleAddToCart(product)}
+                            disabled={cartItems.find((item) => item.id === product.id)}
+                        >
+                            {cartItems.find((item) => item.id === product.id) ? (
+                                <span>
+                                    <i className="fa fa-check-circle"></i> In Cart
+                                </span>
+                            ) : (
+                                <span>
+                                    <i className="fa fa-shopping-cart"></i> Add to Cart
+                                </span>
+                            )}
                         </button>
                     </div>
                 </div>
