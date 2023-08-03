@@ -6,7 +6,7 @@ const PrivateRoute = ({ user, children, redirect }) => {
     const location = useLocation();
     const authenticate = localStorage.getItem('authenticated');
 
-    return isAuthenticated || authenticate ? (
+    return authenticate ? (
         children
     ) : (
         <Navigate

@@ -49,20 +49,21 @@ function App() {
       })
   };
 
+  
   return (
     <AuthProvider>
       <Provider store={store}>
         <Notifications position="top-center" zIndex={2077} />
         <Router>
-  
           <Routes>
             <Route path="/*" element={<MainRoute />} />
           </Routes>
-
           {/* Floating button */}
-          <div style={{ position: 'fixed', bottom: '20px', right: '20px', zIndex: 999 }}>
-            <IconBell size={40} color='blue' onClick={() => setShowNewsletterForm(true)} />
-
+          <div style={{ position: 'fixed', bottom: '20px', right: '20px', zIndex: 999, 
+          backgroundColor:'blue',
+          borderRadius:'50%',
+          }}>
+            <IconBell size={40} color='white' onClick={() => setShowNewsletterForm(true)} />
           </div>
 
           {/* Newsletter form */}

@@ -132,7 +132,7 @@ function VerifyOTP() {
                     textAlign: 'center', fontWeight: 'bolder',
                     fontSize: '1.5rem', fontFamily: 'Greycliff CF, sans-serif',
                     marginTop: '10px'
-                }}>Verify with OTP </h2>
+                }}>Verify with OTP {code1} </h2>
                 {
                     submit && <Loader size="xl" variant="dots"
                         style={{ marginLeft: 'auto', marginRight: 'auto', marginTop: '10px' }}

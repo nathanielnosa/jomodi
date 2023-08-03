@@ -161,11 +161,11 @@ function Store() {
                 filteredProducts.length == 0 ? (
                   paginatedItems.map((products, index) => (
 
-                    <ProductCard product={products} key={index} />
+                    <ProductCard product={products} key={index} index={index} />
 
                   ))) : (
                   paginatedItems.map((filteredProducts, index) => (
-                    <ProductCard product={filteredProducts} key={index} />
+                    <ProductCard product={filteredProducts} key={index} index={index} />
                   )
                   ))
               }

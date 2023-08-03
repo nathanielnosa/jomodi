@@ -1,19 +1,22 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { addToCart } from "../actions/cartActions";
-import { addToWishlist } from "../actions/wishActions";
+import { addToCart, removeFromCart } from "../actions/cartActions";
+import { addToWishlist, removeFromWishlist } from "../actions/wishActions";
 import { notifications } from '@mantine/notifications';
 
-function ProductCard({ product }) {
-    const dispatch = useDispatch();
 
+function ProductCard({ product, index }) {
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
     const [showCartNotification, setShowCartNotification] = React.useState(false);
     const [showWishlistNotification, setShowWishlistNotification] =
         React.useState(false);
 
-    const wishlist = useSelector((state) => state.wishlist.wishlistItems);  
+    const wishlist = useSelector((state) => state.wishlist.wishlistItems);
     const cartItems = useSelector((state) => state.cart.cartItems);
+
+    const isAuth = localStorage.getItem('authenticated');
 
     useEffect(() => {
         if (showWishlistNotification) {
@@ -86,6 +89,56 @@ function ProductCard({ product }) {
             }),
         })
     };
+    const handleRemoveFromWishlist = (index) => {
+        dispatch(removeFromWishlist(index));
+        notifications.show({
+            title: "Successfully Removed from Wish List",
+
+            styles: (theme) => ({
+                root: {
+                    backgroundColor: theme.colors.red,
+                    borderColor: theme.colors.red,
+                    height: "70px",
+                    width: "auto",
+
+                    "&::before": { backgroundColor: theme.red },
+                },
+
+                title: { color: theme.white, fontSize: "20px" },
+                description: { color: theme.white },
+                closeButton: {
+                    color: theme.white,
+                    "&:hover": { backgroundColor: theme.colors.green[7] },
+                },
+            }),
+        });
+    };
+
+
+    const handleRemoveFromCart = (index) => {
+        dispatch(removeFromCart(index));
+        notifications.show({
+            title: "Successfully Removed from Cart",
+
+            styles: (theme) => ({
+                root: {
+                    backgroundColor: theme.colors.red,
+                    borderColor: theme.colors.red,
+                    height: "70px",
+                    width: "auto",
+
+                    "&::before": { backgroundColor: theme.red },
+                },
+
+                title: { color: theme.white, fontSize: "20px" },
+                description: { color: theme.white },
+                closeButton: {
+                    color: theme.white,
+                    "&:hover": { backgroundColor: theme.colors.green[7] },
+                },
+            }),
+        });
+    };
     const getDiscount = (product) => {
         const discount = ((product?.cancel_price - product?.price) / product?.cancel_price) * 100;
         return discount.toFixed(0);
@@ -154,31 +207,44 @@ function ProductCard({ product }) {
                             <del className="product-old-price">₹{product?.cancel_price}</del>
                         </h4>
                         <div className="product-btns">
-                            <button
-                                className="add-to-wishlist"
-                                onClick={() => handleAddToWishlist(product)}
-                                disabled={wishlist.find((item) => item.id == product.id)}
-                            >{
-                                    wishlist.find((item) => item.id == product.id) ? (
-                                        <span>
-                                            <i className="fa fa-heart"
-                                                style={{
-                                                    color: 'red',
-                                                }}
-                                            ></i>
-                                            <span className="tooltipp">In wishlist</span>
-                                        </span>
-                                    ) : (
-                                        <span>
-                                            <i className="fa fa-heart-o"></i>
-                                            <span className="tooltipp">add to wishlist</span>
-                                        </span>
+                            {
+                                isAuth ? (
+                                    <button
+                                        className="add-to-wishlist"
+                                    >
+                                        {wishlist.find((item) => item.id == product.id) ? (
+                                            <span onClick={() => handleRemoveFromWishlist(product.id)}>
+                                                <i
+                                                    className="fa fa-heart"
+                                                    style={{
+                                                        color: "red",
+                                                    }}
+                                                ></i>
+                                                <span className="tooltipp">In wishlist</span>
+                                            </span>
+                                        ) : (
+                                            <span onClick={() => handleAddToWishlist(product)}>
+                                                <i className="fa fa-heart-o"></i>
+                                                <span className="tooltipp">add to wishlist</span>
+                                            </span>
+                                        )}
+                                    </button>
+                                ) :
+
+                                    (
+                                        <button
+                                            className="add-to-wishlist"
+                                            onClick={() => navigate('/login')}
+                                            disabled={wishlist.find((item) => item.id == product.id)}
+                                        >
+                                            <span>
+                                                <i className="fa fa-heart-o"></i>
+                                                <span className="tooltipp">add to wishlist</span>
+                                            </span>
+
+                                        </button>
                                     )
-
-                                }
-
-
-                            </button>
+                            }
 
                             <button className="quick-view">
                                 <Link to={`/product/${product.id}/${product.name}`} target="_blank">
@@ -191,15 +257,15 @@ function ProductCard({ product }) {
                     <div className="add-to-cart">
                         <button
                             className="add-to-cart-btn"
-                            onClick={() => handleAddToCart(product)}
-                            disabled={cartItems.find((item) => item.id === product.id)}
                         >
                             {cartItems.find((item) => item.id === product.id) ? (
-                                <span>
+                                <span
+                                onClick={() => handleRemoveFromCart(product.id)}
+                                >
                                     <i className="fa fa-check-circle"></i> In Cart
                                 </span>
                             ) : (
-                                <span>
+                                    <span onClick={() => handleAddToCart(product)}>
                                     <i className="fa fa-shopping-cart"></i> Add to Cart
                                 </span>
                             )}

@@ -120,13 +120,6 @@ function TopProductCard({ product }) {
                         <h4 className="product-price">
                             ₹{product?.price} <del className="product-old-price">₹{product?.cancel_price}</del>
                         </h4>
-                        {/* <div className="product-rating">
-                            <i className="fa fa-star"></i>
-                            <i className="fa fa-star"></i>
-                            <i className="fa fa-star"></i>
-                            <i className="fa fa-star"></i>
-                            <i className="fa fa-star"></i>
-                        </div> */}
                         <div className="product-btns">
                             <button
                                 className="add-to-wishlist"

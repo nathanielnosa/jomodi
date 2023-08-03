@@ -3,7 +3,7 @@ import axios from 'axios';
 import { API_URL } from '../constants';
 import Slider from 'react-slick';
 import TopSellingTab from './TopSellingTab';
-import TopProductCard from './TopProductCard';
+import NewProductCard from './NewProductCard';
 
 function TopSelling() {
     const sliderRef = useRef();
@@ -65,8 +65,8 @@ function TopSelling() {
                                         {category
                                             ? products
                                                 .filter((product) => product.category === category)
-                                                .map((product, index) => <TopProductCard key={index} product={product} />)
-                                            : products.map((product, index) => <TopProductCard key={index} product={product} />)}
+                                                .map((product, index) => <NewProductCard key={index} product={product} index={index} />)
+                                            : products.map((product, index) => <NewProductCard key={index} product={product} index={index} />)}
                                     </Slider>
                                 </div>
                             </div>

@@ -23,20 +23,20 @@ const wishReducer = (state = initialState, action) => {
                 };
             }
 
-        case 'REMOVE_FROM_WISHLIST':
-            const updatedWishlistItems = [...state.wishlistItems];
-            updatedWishlistItems.splice(action.payload, 1);
-            return {
-                ...state,
-                wishlistItems: updatedWishlistItems,
-            };
-
         // case 'REMOVE_FROM_WISHLIST':
-        //     const updatedWishlistItems = state.wishlistItems.filter((item) => item.id !== action.payload.id);
+        //     const updatedWishlistItems = [...state.wishlistItems];
+        //     updatedWishlistItems.splice(action.payload, 1);
         //     return {
         //         ...state,
         //         wishlistItems: updatedWishlistItems,
         //     };
+
+        case 'REMOVE_FROM_WISHLIST':
+            const updatedWishlistItems = state.wishlistItems.filter((item) => item.id !== action.payload);
+            return {
+                ...state,
+                wishlistItems: updatedWishlistItems,
+            };
 
         default:
             return state;

@@ -238,7 +238,7 @@ function WishCart() {
                                             ₹{item.price.toFixed(2)}
                                         </h4>
                                     </div>
-                                    <button className="delete" onClick={() => handleRemoveFromCart(index)}>
+                                    <button className="delete" onClick={() => handleRemoveFromCart(item.id)}>
                                         <i className="fa fa-close"></i>
                                     </button>
                                 </div>

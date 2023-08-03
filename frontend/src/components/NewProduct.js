@@ -67,11 +67,11 @@ function NewProduct({ product }) {
                                     <Slider {...settings} ref={sliderRef} className='slick-container'>
                                         {
                                             category ? products?.filter(product => product.category === category).map((product, index) => (
-                                                <NewProductCard product={product} key={index} />
+                                                <NewProductCard product={product} key={index} index={index} />
                                             ))
                                                 :
                                                 products?.map((product, index) => (
-                                                    <NewProductCard product={product} key={index} />
+                                                    <NewProductCard product={product} key={index} index={index} />
                                                 ))
                                         }
                                     </Slider>

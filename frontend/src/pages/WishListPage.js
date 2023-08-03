@@ -35,7 +35,7 @@ function WishListPage() {
                 wishlist?.map((filteredProducts, index) => (
                   <>
                     <WishListCard product={filteredProducts} handleFunction={
-                      () => handleRemoveFromWishlist(index)
+                      () => handleRemoveFromWishlist(filteredProducts.id)
                     } key={index} />
                   </>
                 )

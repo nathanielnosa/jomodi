@@ -2,12 +2,12 @@ import React, { useEffect, useState } from "react";
 import { Carousel } from "@mantine/carousel";
 import Slider from "react-slick";
 import axios from "axios";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { API_URL } from "../constants";
 import { Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { addToCart } from "../actions/cartActions";
-import { addToWishlist } from "../actions/wishActions";
+import { addToCart, removeFromCart } from "../actions/cartActions";
+import { addToWishlist, removeFromWishlist } from "../actions/wishActions";
 import { Notification, Alert, Avatar, Group, Text, Badge } from "@mantine/core";
 import Zoom from 'react-medium-image-zoom';
 import 'react-medium-image-zoom/dist/styles.css';
@@ -19,6 +19,7 @@ import { get } from "jquery";
 
 function Product() {
     const { id } = useParams();
+    const navigate = useNavigate();
     const [quantity, setQuantity] = useState(1);
     const [product, setProduct] = useState([]);
     const [images, setImages] = useState([]);
@@ -36,6 +37,8 @@ function Product() {
     const [showColorError, setShowColorError] = useState(false);
     const [colorImage, setColorImage] = useState([]);
 
+
+    const isAuth = localStorage.getItem('authenticated')
 
     const phoneNumber = 918456969102
     const dispatch = useDispatch();
@@ -146,7 +149,7 @@ function Product() {
     }, [showCartNotification]);
 
     const addQuantity = () => {
-        if (quantity < 10) {
+        if (quantity < product?.available_quantity) {
             setQuantity(quantity + 1);
         }
         // setQuantity(quantity + 1);
@@ -254,8 +257,64 @@ function Product() {
         return discount.toFixed(0);
     };
 
+    const handleRemoveFromWishlist = (index) => {
+        dispatch(removeFromWishlist(index));
+        notifications.show({
+            title: "Successfully Removed from Wish List",
 
-    console.log(colorImage)
+            styles: (theme) => ({
+                root: {
+                    backgroundColor: theme.colors.red,
+                    borderColor: theme.colors.red,
+                    height: "70px",
+                    width: "auto",
+
+                    "&::before": { backgroundColor: theme.red },
+                },
+
+                title: { color: theme.white, fontSize: "20px" },
+                description: { color: theme.white },
+                closeButton: {
+                    color: theme.white,
+                    "&:hover": { backgroundColor: theme.colors.green[7] },
+                },
+            }),
+        });
+    };
+
+    const handleRemoveFromCart = (index) => {
+        dispatch(removeFromCart(index));
+        notifications.show({
+            title: "Successfully Removed from Cart",
+            styles: (theme) => ({
+                root: {
+                    backgroundColor: theme.colors.red,
+                    borderColor: theme.colors.red,
+                    height: "70px",
+                    width: "auto",
+
+                    "&::before": { backgroundColor: theme.red },
+                },
+
+                title: { color: theme.white, fontSize: "20px" },
+                description: { color: theme.white },
+                closeButton: {
+                    color: theme.white,
+                    "&:hover": { backgroundColor: theme.colors.green[7] },
+                },
+            }),
+        });
+    };
+
+    const [showFullDescription, setShowFullDescription] = useState(false);
+
+    const words = product?.description?.split(" ");
+    const truncatedDescription = words?.slice(0, 100).join(" ");
+    const remainingDescription = words?.slice(100).join(" ");
+
+    const toggleDescription = () => {
+        setShowFullDescription(!showFullDescription);
+    };
 
     return (
         <div>
@@ -320,7 +379,6 @@ function Product() {
                                 <div className="product-preview">
                                     <img src={zoomImage || product.image} alt="" />
                                 </div>
-
                             </div>
                         </div>
 
@@ -400,12 +458,33 @@ function Product() {
                                             ""
                                         )}
                                     </h4>
+                                    <div>
+                                        <h4 className="product-price"
+                                            style={{
+                                                color: 'green',
+                                                fontWeight: 'bold',
+                                                fontSize: '15px',
+                                                marginLeft: '10px',
+                                            }}
+                                        >
+                                            {product?.available_quantity > 0 ? (
+                                                <span className="product-discount">
+                                                    Available Qty: {product?.available_quantity}
+                                                </span>
+                                            ) : (
+                                                <span>
+                                                    Out of Stock
+                                                </span>
+                                            )}
+                                        </h4>
+                                    </div>
                                     <ul className="product-links">
                                         <li>Category:</li>
                                         <li>{product?.category?.name}, </li>
                                         <li>{product?.brand?.name}</li>
                                     </ul>
                                 </div>
+
                                 <Text variant="label" size="xl" style={{ fontWeight: 'bold' }}>Description</Text>
                                 <p
                                     style={{
@@ -413,8 +492,16 @@ function Product() {
                                         wordWrap: "break-word",
                                     }}
                                 >
-                                    {product?.description}
+                                    {showFullDescription ? product?.description : truncatedDescription}
                                 </p>
+                                {words?.length > 100 && (
+                                    <span
+                                        style={{ cursor: "pointer", color: "blue" }}
+                                        onClick={toggleDescription}
+                                    >
+                                        {showFullDescription ? "See Less" : "See More"}
+                                    </span>
+                                )}
 
                                 <div className="product-options">
                                     {
@@ -432,7 +519,7 @@ function Product() {
                                                             }
                                                             radius="xl"
                                                             size="xl"
-                                                          
+
                                                             onClick={() => setSelectedSize(siz)}
                                                             style={{
                                                                 fontWeight: selectedSize == siz ? 'bold' : 'normal',
@@ -443,7 +530,7 @@ function Product() {
                                                                 cursor: 'pointer',
                                                             }}
                                                         >
-                                                            
+
                                                             {siz}
                                                         </Badge>
                                                     ))
@@ -459,41 +546,35 @@ function Product() {
                                         )
                                     }
                                     {
+                                        selectedSize && (
+                                            <Text variant="label" size="lg" style={{ fontWeight: 'bold' }}>
+                                                Selected Size: {selectedSize}
+                                            </Text>
+                                        )
+                                    }
+                                    {
                                         product?.show_color && (
                                             <Group variant="filled" mb="sm" mt="xs" style={{ display: 'flex', flexWrap: 'wrap' }}>
                                                 <Text variant="label" style={{ marginRight: '10px' }}>
                                                     Color
                                                 </Text>
                                                 {
-                                                    colorImage?.map((color, index) => (
+                                                    [...new Set(colorImage.map(color => color.color))].map((uniqueColor, index) => (
                                                         <Badge
-                                                            radius="xl" size="xl"
+                                                            key={index}
+                                                            radius="xl"
+                                                            size="xl"
                                                             style={{
                                                                 width: '45px',
                                                                 height: '45px',
                                                                 borderRadius: '50%',
-                                                                backgroundColor: color.color,
+                                                                backgroundColor: uniqueColor,
                                                                 cursor: 'pointer',
-
                                                             }}
-                                                            onClick={() => {setSelectedColor(color.color);
-                                                    
-                                                            }}
-                                                            onMouseEnter={() => setZoomImage(color.image)}
+                                                            onClick={() => setSelectedColor(uniqueColor)}
+                                                            onMouseEnter={() => setZoomImage(colorImage.find(color => color.color === uniqueColor).image)}
                                                             onMouseLeave={() => setZoomImage("")}
-                                                        >
-                                                            <div
-                                                                key={index}
-                                                                style={{
-                                                                    
-                                                                    borderRadius: '50%',
-                                                                    backgroundColor: color.color,
-                                                                    margin: '5px',
-                                                                    cursor: 'pointer',
-                                                                }}
-                                                           
-                                                            ></div>
-                                                        </Badge>
+                                                        ></Badge>
                                                     ))
                                                 }
                                             </Group>
@@ -507,81 +588,58 @@ function Product() {
                                         )
                                     }
                                     {
-                                       (product?.show_color && errorColor) && (
+                                        (product?.show_color && errorColor) && (
                                             <Text variant="label" color="red" size="sm" style={{ fontWeight: 'bold' }}>
                                                 Please select a color
                                             </Text>
                                         )
                                     }
-
-                                    {/* {
-                                        product?.show_gender && (
-                                            <Group variant="filled" mb="sm" mt="xs" style={{ display: 'flex', flexWrap: 'wrap' }}>
-                                                <Text variant="label" style={{ marginRight: '10px' }}>
-                                                    Gender
-                                                </Text>
-                                                {
-                                                    product?.gender?.map((gen, index) => (
-                                                        <Badge key={index} color="indigo" size="xl"
-                                                            onClick={() => setSelectedGender(gen)}
-                                                            style={{
-                                                                pointer: 'cursor',
-                                                                cursor: 'pointer',
-                                                                fontSize: selectedGender == gen ? '17px' : '15px',
-                                                            }}
-                                                            variant={
-                                                                selectedGender == gen ? 'dot' : 'light'
-                                                            }
-                                                        >
-                                                            {gen}
-                                                        </Badge>
-                                                    ))
-                                                }
-                                            </Group>
-                                        )
-                                    } */}
-
                                 </div>
 
-                                <div className="add-to-cart">
-                                    <div className="qty-label">
-                                        Qty
-                                        <div className="input-number">
-                                            <input
-                                                className="input-select"
-                                                type="number"
-                                                value={quantity}
-                                                onChange={(e) => setQuantity(e.target.value)}
-                                                max={10}
-                                                min={1}
-                                                step={1}
-                                                defaultValue={1}
-                                            />
-                                            <span className="qty-up" onClick={addQuantity}>
-                                                +
-                                            </span>
-                                            <span className="qty-down" onClick={subtractQuantity}>
-                                                -
-                                            </span>
+                                {
+                                    product?.available_quantity > 0 && (
+                                        <div className="add-to-cart">
+                                            <div className="qty-label">
+                                                Qty
+                                                <div className="input-number">
+                                                    <input
+                                                        className="input-select"
+                                                        type="number"
+                                                        value={quantity}
+                                                        onChange={(e) => setQuantity(e.target.value)}
+                                                        max={10}
+                                                        min={1}
+                                                        step={1}
+                                                        defaultValue={1}
+                                                    />
+                                                    <span className="qty-up" onClick={addQuantity}>
+                                                        +
+                                                    </span>
+                                                    <span className="qty-down" onClick={subtractQuantity}>
+                                                        -
+                                                    </span>
+                                                </div>
+                                            </div>
+                                            <button
+                                                className="add-to-cart-btn"
+                                            >
+                                                {cartItems.find((item) => item.id === product.id) ? (
+                                                    <span
+                                                        onClick={() => handleRemoveFromCart(product.id)}
+                                                    >
+                                                        <i className="fa fa-check-circle"></i> Added to Cart
+                                                    </span>
+                                                ) : (
+                                                    <span
+                                                        onClick={() => handleAddToCart(product)}
+                                                    >
+                                                        <i className="fa fa-shopping-cart"></i> Add to Cart
+                                                    </span>
+                                                )}
+                                            </button>
                                         </div>
-                                    </div>
-                                    <button
-                                        className="add-to-cart-btn"
-                                        onClick={() => handleAddToCart(product)}
-                                        disabled={cartItems.find((item) => item.id === product.id)}
-                                    >
-                                        {cartItems.find((item) => item.id === product.id) ? (
-                                            <span>
-                                                <i className="fa fa-check-circle"></i> Added to Cart
-                                            </span>
-                                        ) : (
-                                            <span>
-                                                <i className="fa fa-shopping-cart"></i> Add to Cart
-                                            </span>
-                                        )}
-                                    </button>
-
-                                </div>
+                                    )
+                                }
 
                                 <ul className="product-btns">
                                     <li>
@@ -606,8 +664,6 @@ function Product() {
                                     }}>
                                         <button
                                             className="add-to-cart-btn"
-                                            onClick={() => handleAddToWishlist(product)}
-                                            disabled={wishlist.find((item) => item.id == product.id)}
                                             style={
                                                 {
                                                     marginLeft: '10px',
@@ -616,7 +672,9 @@ function Product() {
                                             }
                                         >
                                             {wishlist.find((item) => item.id == product.id) ? (
-                                                <span>
+                                                <span
+                                                    onClick={() => handleRemoveFromWishlist(product.id)}
+                                                >
                                                     <i className="fa fa-heart"
                                                         style={{
                                                             color: 'red',
@@ -625,7 +683,7 @@ function Product() {
                                                 </span>
 
                                             ) : (
-                                                <span>
+                                                <span onClick={() => handleAddToWishlist(product)}>
                                                     <i className="fa fa-heart-o"></i> Add to Wishlist
                                                 </span>
                                             )}
@@ -633,15 +691,10 @@ function Product() {
                                         {/* <i className="fa fa-heart-o" ></i> add to wishlist */}
                                     </li>
                                 </ul>
-
-
-
                             </div>
                         </div>
-
                         <div className="col-md-12">
                             <div id="product-tab">
-
                                 <ul className="tab-nav">
                                     <li className="active">
                                         <a
@@ -667,14 +720,13 @@ function Product() {
                                     </li>
 
                                 </ul>
-
                                 <div className="tab-content">
                                     <div id="tab1" className="tab-pane fade in active">
                                         <div className="row">
                                             <div className="col-md-12">
                                                 <p
                                                     style={{
-                                                        whiteSpace: "wrap",
+                                                        whiteSpace: "pre-wrap",
                                                         wordWrap: "break-word",
                                                     }}
                                                 >
@@ -683,13 +735,12 @@ function Product() {
                                             </div>
                                         </div>
                                     </div>
-
                                     <div id="tab2" className="tab-pane fade in">
                                         <div className="row">
                                             <div className="col-md-12">
                                                 <p
                                                     style={{
-                                                        whiteSpace: "wrap",
+                                                        whiteSpace: "pre-wrap",
                                                         wordWrap: "break-word",
                                                     }}
                                                 >
@@ -704,7 +755,6 @@ function Product() {
                     </div>
                 </div>
             </div>
-
             <div className="section">
                 <div className="container px-4 py-4 md:py-8 md:px-8">
 
@@ -771,34 +821,47 @@ function Product() {
                                         </h4>
                                         <div className="product-rating"></div>
                                         <div className="product-btns">
-                                            <button
-                                                className="add-to-wishlist"
-                                                onClick={() => handleAddToWishlist(product)}
-                                                disabled={wishlist.find((item) => item.id == product.id)}
-                                            >{
-                                                    wishlist.find((item) => item.id == product.id) ? (
-                                                        <span>
-                                                            <i className="fa fa-heart"
-                                                                style={{
-                                                                    color: 'red',
-                                                                }}
-                                                            ></i>
-                                                            <span className="tooltipp">In wishlist</span>
-                                                        </span>
-                                                    ) : (
-                                                        <span>
-                                                            <i className="fa fa-heart-o"></i>
-                                                            <span className="tooltipp">add to wishlist</span>
-                                                        </span>
+                                            {
+                                                isAuth ? (
+                                                    <button
+                                                        className="add-to-wishlist"
+                                                    >
+                                                        {wishlist.find((item) => item.id == product.id) ? (
+                                                            <span onClick={() => handleRemoveFromWishlist(product.id)}>
+                                                                <i
+                                                                    className="fa fa-heart"
+                                                                    style={{
+                                                                        color: "red",
+                                                                    }}
+                                                                ></i>
+                                                                <span className="tooltipp">In wishlist</span>
+                                                            </span>
+                                                        ) : (
+                                                            <span onClick={() => handleAddToWishlist(product)}>
+                                                                <i className="fa fa-heart-o"></i>
+                                                                <span className="tooltipp">add to wishlist</span>
+                                                            </span>
+                                                        )}
+                                                    </button>
+                                                ) :
+
+                                                    (
+                                                        <button
+                                                            className="add-to-wishlist"
+                                                            onClick={() => navigate('/login')}
+                                                            disabled={wishlist.find((item) => item.id == product.id)}
+                                                        >
+                                                            <span>
+                                                                <i className="fa fa-heart-o"></i>
+                                                                <span className="tooltipp">add to wishlist</span>
+                                                            </span>
+
+                                                        </button>
                                                     )
-
-                                                }
-
-
-                                            </button>
+                                            }
 
                                             <button className="quick-view">
-                                                <Link to={`/product/${product.id}/${product.name}`} target="_blank">
+                                                <Link to={`/product/${product.id}/${product.name}`}>
                                                     <i className="fa fa-eye"></i>
                                                     <span className="tooltipp">quick view</span>
                                                 </Link>
@@ -808,15 +871,15 @@ function Product() {
                                     <div className="add-to-cart">
                                         <button
                                             className="add-to-cart-btn"
-                                            onClick={() => handleAddToCart2(product)}
-                                            disabled={cartItems.find((item) => item.id === product.id)}
                                         >
                                             {cartItems.find((item) => item.id === product.id) ? (
-                                                <span>
+                                                <span
+                                                    onClick={() => handleRemoveFromCart(product.id)}
+                                                >
                                                     <i className="fa fa-check-circle"></i> In Cart
                                                 </span>
                                             ) : (
-                                                <span>
+                                                <span onClick={() => handleAddToCart(product)}>
                                                     <i className="fa fa-shopping-cart"></i> Add to Cart
                                                 </span>
                                             )}

@@ -166,7 +166,7 @@ function Store() {
               {
 
                 paginatedItems.map((filteredProducts, index) => (
-                  <ProductCard product={filteredProducts} key={index} />
+                  <ProductCard product={filteredProducts} key={index} index={index} />
                 )
                 )
 
