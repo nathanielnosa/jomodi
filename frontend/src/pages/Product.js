@@ -16,6 +16,7 @@ import { notifications } from '@mantine/notifications';
 import 'tailwindcss/tailwind.css';
 import { IconHeart } from "@tabler/icons-react";
 import { get } from "jquery";
+import { height } from "@mui/system";
 
 function Product() {
     const { id } = useParams();
@@ -371,18 +372,12 @@ function Product() {
                 </div>
             </div>
 
-            <div className="section">
-                <div className="container px-4 py-4 md:py-8 md:px-8">
+            <div>
+                <div className="container">
                     <div className="flex flex-wrap -mx-4">
-                        <div className="col-md-6  mb-4 md:mb-0 md:col-md-5 md:col-md-push-24">
-                            <div id="product-main-img">
-                                <div className="product-preview">
-                                    <img src={zoomImage || product.image} alt="" />
-                                </div>
-                            </div>
-                        </div>
+                       
 
-                        <div className="col-md-1 col-md-pull-6 h-20 md:col-md-1 md:col-md-pull-6 md:h-auto">
+                        <div className="col-md-1 h-20 md:col-md-1  md:h-auto">
                             {/* Change the Carousel orientation to horizontal on small screens */}
                             <div id="product-imgs" className="md:hidden">
                                 <Carousel
@@ -402,7 +397,9 @@ function Product() {
                                                     alt=""
                                                     onMouseEnter={() => setZoomImage(image.image)}
                                                     style={{
-                                                        border: '1px solid black'
+                                                        border: '1px solid black',
+                                                        height: '200px',
+                                                        width: '200px'
                                                     }}
                                                 />
                                             </div>
@@ -420,11 +417,25 @@ function Product() {
                                             onMouseEnter={() => setZoomImage(image.image)}
                                             onMouseLeave={() => setZoomImage("")}
                                             style={{
-                                                border: '1px solid black'
+                                                border: '1px solid black',
+
                                             }}
                                         />
                                     </div>
                                 ))}
+                            </div>
+                        </div>
+
+                        <div className="col-md-5  mb-4 md:mb-0 md:col-md-5">
+                            <div id="product-main-img">
+                                <div className="product-preview">
+                                    <img src={zoomImage || product.image} alt=""
+                                        style={{
+                                            height: '400px',
+                                            width: '400px'
+                                        }}
+                                    />
+                                </div>
                             </div>
                         </div>
 
