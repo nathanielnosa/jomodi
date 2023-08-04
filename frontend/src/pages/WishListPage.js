@@ -42,7 +42,7 @@ function WishListPage() {
       <div>
         <div className="row">
           <RemoveFromCartModal
-            handleRemove={() => handleRemoveFromWishlist(selectedProduct)}
+            handleRemove={() => handleRemoveFromWishlist(selectedProduct.id)}
             handleClose={() => handleClose()}
             showModal={showModal}
             selectedProduct={selectedProduct}
@@ -58,7 +58,7 @@ function WishListPage() {
                       wishlist?.map((filteredProducts, index) => (
                         <>
                           <WishListCard product={filteredProducts} handleFunction={
-                            () => handleOpen(filteredProducts.id)
+                            () => handleOpen(filteredProducts)
                           } key={index} />
                         </>
                       )

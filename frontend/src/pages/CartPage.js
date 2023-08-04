@@ -109,7 +109,7 @@ function CartPage() {
     <div className="mt-5">
       <div className="row">
         <RemoveFromCartModal
-          handleRemove={() => handleRemoveFromCart(selectedProduct)}
+          handleRemove={() => handleRemoveFromCart(selectedProduct.id)}
           handleClose={() => handleClose()}
           showModal={showModal}
           selectedProduct={selectedProduct}
@@ -210,7 +210,7 @@ function CartPage() {
                             <button className="btn btn-lg" onClick={() => handleAddToWishlist(item)}>
                               SAVE FOR LATER</button>
                             <button className="btn btn-lg" 
-                            onClick={() => handleOpen(item.id)}
+                            onClick={() => handleOpen(item)}
                               style={{
                                 marginLeft: '20px'
                               }}

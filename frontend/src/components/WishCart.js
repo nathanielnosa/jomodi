@@ -105,7 +105,7 @@ function WishCart() {
                             <i className="fa fa-user"></i>
                         </a>
                     </Menu.Target>
-                
+
 
                     <Menu.Dropdown>
                         {
@@ -118,7 +118,7 @@ function WishCart() {
                                             margin: '10px',
                                             padding: '10px',
                                             fontSize: '1.5rem',
-                                            
+
                                         }}
                                     >Login/SignUp</Link>
                                 </Menu.Item>
@@ -147,16 +147,16 @@ function WishCart() {
                             )
                         }
 
-        
+
                         <Menu.Item >
-                            <Link to="/wishlist" 
-                            style={{
-                                cursor: 'pointer',
-                                textDecoration: 'none', 
-                                margin: '10px',
-                                padding: '10px',
-                                fontSize: '1.5rem',
-                            }}
+                            <Link to="/wishlist"
+                                style={{
+                                    cursor: 'pointer',
+                                    textDecoration: 'none',
+                                    margin: '10px',
+                                    padding: '10px',
+                                    fontSize: '1.5rem',
+                                }}
                             >Wishlist</Link>
                         </Menu.Item>
                         <Menu.Item >
@@ -174,10 +174,10 @@ function WishCart() {
                             <Link to='/profile'
                                 style={{
                                     cursor: 'pointer',
-                                    textDecoration: 'none', 
-                                    margin : '10px',
-                                    padding : '10px',
-                                    fontSize : '1.5rem',
+                                    textDecoration: 'none',
+                                    margin: '10px',
+                                    padding: '10px',
+                                    fontSize: '1.5rem',
                                 }}
                             >Profile</Link>
                         </Menu.Item>
@@ -198,70 +198,100 @@ function WishCart() {
                                 </Menu.Item>
                             )
                         }
-                      
+
                     </Menu.Dropdown>
                 </Menu>
 
                 {/* Cart Dropdown */}
-                <div className={`dropdown ${cartOpen ? 'open' : ''}`}>
-                    <a
-                        className="dropdown-toggle"
-                        onClick={handleCartToggle} // Add the click event to toggle the menu
-                        aria-expanded={cartOpen}
-                        style={{
-                            cursor: 'pointer',
-                            textDecoration: 'none',
-                            marginLeft: '15px', 
-                            fontSize: '3.5rem',
+                {
+                    cartItems.length == 0 && (
+                        <div className={`dropdown ${cartOpen ? 'open' : ''}`}>
+                            <Link to="/cart"
+                                className="dropdown-toggle"
+                                onClick={handleCartToggle} // Add the click event to toggle the menu
+                                aria-expanded={cartOpen}
+                                style={{
+                                    cursor: 'pointer',
+                                    textDecoration: 'none',
+                                    marginLeft: '15px',
+                                    fontSize: '3.5rem',
 
-                        }}
-                    >
-                        <i className="fa fa-shopping-cart" style={{
-                            fontSize: '3.5rem',
-                            marginTop: '10px',
-                        }}></i>
-                        <div className="qty">{cartQuantity}</div>
-                    </a>
-                    <div className={`cart-dropdown ${cartOpen ? 'show' : ''}`}>
-                        <div className="cart-list">
-                            {cartItems.map((item, index) => (
-                                <div className="product-widget" key={index}>
-                                    <div className="product-img">
-                                        <img src={item?.image} alt="" />
-                                    </div>
-                                    <div className="product-body">
-                                        <h3 className="product-name">
-                                            <Link to={`/product/${item.id}`}>{item.name}</Link>
-                                        </h3>
-                                        <h4 className="product-price">
-                                            <span className="qty">{item.quantity}x</span>
-                                            ₹{item.price.toFixed(2)}
-                                        </h4>
-                                    </div>
-                                    <button className="delete" onClick={() => handleRemoveFromCart(item.id)}>
-                                        <i className="fa fa-close"></i>
-                                    </button>
+                                }}
+                            >
+                                <i className="fa fa-shopping-cart" style={{
+                                    fontSize: '3.5rem',
+                                    marginTop: '10px',
+                                }}></i>
+                                <div className="qty">{cartQuantity}</div>
+                            </Link>
+                        </div>
+                    )
+                }
+
+                {
+                    cartItems.length > 0 && (
+                        <div className={`dropdown ${cartOpen ? 'open' : ''}`}>
+                            <a
+                                className="dropdown-toggle"
+                                onClick={handleCartToggle} // Add the click event to toggle the menu
+                                aria-expanded={cartOpen}
+                                style={{
+                                    cursor: 'pointer',
+                                    textDecoration: 'none',
+                                    marginLeft: '15px',
+                                    fontSize: '3.5rem',
+
+                                }}
+                            >
+                                <i className="fa fa-shopping-cart" style={{
+                                    fontSize: '3.5rem',
+                                    marginTop: '10px',
+                                }}></i>
+                                <div className="qty">{cartQuantity}</div>
+                            </a>
+                            <div className={`cart-dropdown ${cartOpen ? 'show' : ''}`}>
+                                <div className="cart-list">
+                                    {cartItems.map((item, index) => (
+                                        <div className="product-widget" key={index}>
+                                            <div className="product-img">
+                                                <img src={item?.image} alt="" />
+                                            </div>
+                                            <div className="product-body">
+                                                <h3 className="product-name">
+                                                    <Link to={`/product/${item.id}`}>{item.name}</Link>
+                                                </h3>
+                                                <h4 className="product-price">
+                                                    <span className="qty">{item.quantity}x</span>
+                                                    ₹{item.price.toFixed(2)}
+                                                </h4>
+                                            </div>
+                                            <button className="delete" onClick={() => handleRemoveFromCart(item.id)}>
+                                                <i className="fa fa-close"></i>
+                                            </button>
+                                        </div>
+                                    ))}
                                 </div>
-                            ))}
+                                <div className="cart-summary">
+                                    <small>{cartQuantity} Item(s) selected</small>
+                                    <h5>SUBTOTAL:
+                                        ₹{cartTotal.toFixed(2)}</h5>
+                                </div>
+                                <div className="cart-btns">
+                                    <Link to="/cart">View Cart</Link>
+                                    {
+                                        cartItems?.length > 0 && (
+                                            <Link to="/checkout">
+                                                Checkout <i className="fa fa-arrow-circle-right"></i>
+                                            </Link>
+                                        )
+                                    }
+
+                                </div>
+                            </div>
                         </div>
-                        <div className="cart-summary">
-                            <small>{cartQuantity} Item(s) selected</small>
-                            <h5>SUBTOTAL:
-                                ₹{cartTotal.toFixed(2)}</h5>
-                        </div>
-                        <div className="cart-btns">
-                            <Link to="/cart">View Cart</Link>
-                            {
-                                cartItems?.length > 0 && (
-                                    <Link to="/checkout">
-                                        Checkout <i className="fa fa-arrow-circle-right"></i>
-                                    </Link>
-                                )
-                            }
-                           
-                        </div>
-                    </div>
-                </div>
+                    )
+                }
+
             </div>
         </div>
     );
