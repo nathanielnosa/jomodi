@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { Link, useNavigate} from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { addToCart, removeFromCart } from '../actions/cartActions';
 import { addToWishlist, removeFromWishlist } from '../actions/wishActions';
-import { Button, Divider, Group, Input, Title, Paper, Container, Center, Image} from '@mantine/core';
+import { Button, Divider, Group, Input, Title, Paper, Container, Center, Image } from '@mantine/core';
 import { UnstyledButton, Text } from '@mantine/core';
 import { notifications } from '@mantine/notifications';
 import { updateCartItemQuantity } from '../actions/cartActions';
@@ -57,7 +57,7 @@ function CartPage() {
     updatedItems[index] = { ...updatedItems[index], buy };
     dispatch(updateCartItemQuantity(index, updatedItems[index].quantity, buy)); // Also pass the updated "buy" option to the updateCartItemQuantity action
   };
-  
+
 
   const getDeliveryDate = () => {
     const today = dayjs();
@@ -96,7 +96,7 @@ function CartPage() {
   return (
     <div className="mt-5">
       <div className="row">
-       {
+        {
           cartItems.length > 0 ? (
             <>
               <div className="col-md-7" style={{
@@ -336,34 +336,34 @@ function CartPage() {
               </div>
             </>
           ) : (
-              <Container size="sm" mt="xl">
-                <Paper padding="xl" shadow="sm" m="lg">
-                  <Title align="center" order={2}>
-                    Your Cart is Empty
-                  </Title>
-                  <Text align="center" size="xl" style={{ marginTop: '1rem' }}>
-                    Explore our wide selection and find something you like.
-                  </Text>
-                  <Center mt="xl">
-                    <Button variant="outline" color="teal" size="lg" radius="xl" mb="md" style={{ marginRight: '1rem' }}
-                      onClick={() => navigate('/wishlist')}
-                    >
+            <Container size="sm" mt="xl">
+              <Paper padding="xl" shadow="sm" m="lg">
+                <Title align="center" order={2}>
+                  Your Cart is Empty
+                </Title>
+                <Text align="center" size="xl" style={{ marginTop: '1rem' }}>
+                  Explore our wide selection and find something you like.
+                </Text>
+                <Center mt="xl">
+                  <Button variant="outline" color="teal" size="lg" radius="xl" mb="md" style={{ marginRight: '1rem' }}
+                    onClick={() => navigate('/wishlist')}
+                  >
                     Add Items from Wishlist
-                    </Button>
-                  </Center>
-                  <Center mt="xl">
-                    <Button variant="outline" color="teal" size="lg" radius="xl" mb="md" style={{ marginRight: '1rem' }}
-                      onClick={() => navigate('/')}
-                    >
-                      Continue Shopping
-                    </Button>
-                  </Center>
-                </Paper>
-                <Image src="https://img.freepik.com/free-vector/empty-cart-concept-illustration_114360-17701.jpg?w=740&t=st=1691146123~exp=1691146723~hmac=9b69db201b7b11e23e1993c365c563ea98d09d14060be29892457bbb68e1168f" alt="empty cart" />
-              </Container>
+                  </Button>
+                </Center>
+                <Center mt="xl">
+                  <Button variant="outline" color="teal" size="lg" radius="xl" mb="md" style={{ marginRight: '1rem' }}
+                    onClick={() => navigate('/')}
+                  >
+                    Continue Shopping
+                  </Button>
+                </Center>
+              </Paper>
+              <Image src="https://www.shopperswarehouse.com/assets/e_website/assets/site_image/empty_cart.png" alt="empty cart" />
+            </Container>
 
-            )
-       }
+          )
+        }
       </div>
     </div>
   );
