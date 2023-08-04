@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 import { addToCart, removeFromCart } from '../actions/cartActions';
@@ -7,12 +7,14 @@ import { Button, Group, UnstyledButton, Divider, Text, Box,Paper, Container, Tit
 import { IconTrash } from '@tabler/icons-react';
 import ProductCard from '../components/ProductCard';
 import WishListCard from '../components/WishListCard';
-
+import RemoveFromCartModal from '../components/RemoveFromCartModal';
 
 function WishListPage() {
   const navigate = useNavigate();
   const cartItems = useSelector((state) => state.cart.cartItems);
   const wishlist = useSelector((state) => state.wishlist.wishlistItems);
+  const [selectedProduct, setSelectedProduct] = useState(null);
+  const [showModal, setShowModal] = useState(false);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -20,15 +22,32 @@ function WishListPage() {
     localStorage.setItem('wishlist', JSON.stringify(wishlist));
   }, [wishlist]);
 
+  const handleOpen = (productId) => {
+    setSelectedProduct(productId);
+    setShowModal(true);
+  };
+
+  const handleClose = () => {
+    setSelectedProduct(null);
+    setShowModal(false);
+  };
+
   const handleRemoveFromWishlist = (index) => {
     dispatch(removeFromWishlist(index));
+    handleClose();
   };
   const wishlistQuantity = wishlist?.length;
   return (
     <div className="section">
       <div>
         <div className="row">
-
+          <RemoveFromCartModal
+            handleRemove={() => handleRemoveFromWishlist(selectedProduct)}
+            handleClose={() => handleClose()}
+            showModal={showModal}
+            selectedProduct={selectedProduct}
+            text="Wishlist"
+          />
           <div id="store" className="col-md-12">
             {
               wishlistQuantity > 0 ? (
@@ -39,7 +58,7 @@ function WishListPage() {
                       wishlist?.map((filteredProducts, index) => (
                         <>
                           <WishListCard product={filteredProducts} handleFunction={
-                            () => handleRemoveFromWishlist(filteredProducts.id)
+                            () => handleOpen(filteredProducts.id)
                           } key={index} />
                         </>
                       )

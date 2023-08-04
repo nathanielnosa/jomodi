@@ -8,6 +8,7 @@ import { UnstyledButton, Text } from '@mantine/core';
 import { notifications } from '@mantine/notifications';
 import { updateCartItemQuantity } from '../../actions/cartActions';
 import { IconCheckbox, IconPlane, IconPlus } from "@tabler/icons-react";
+import RemoveFromCartModal from '../RemoveFromCartModal';
 
 
 import dayjs from 'dayjs';
@@ -18,15 +19,27 @@ function OrderSummary({ deliveyAddress, showOrder, showPayment }) {
     const dispatch = useDispatch();
     const [quantity, setQuantity] = useState(1);
     const [showSummary, setShowSummary] = useState(true);
-
+    const [selectedProduct, setSelectedProduct] = useState(null);
+    const [showModal, setShowModal] = useState(false);
     useEffect(() => {
         // Update cart items in local storage
         localStorage.setItem('cartItems', JSON.stringify(cartItems));
     }, [cartItems]);
 
 
+    const handleOpen = (productId) => {
+        setSelectedProduct(productId);
+        setShowModal(true);
+    };
+
+    const handleClose = () => {
+        setSelectedProduct(null);
+        setShowModal(false);
+    };
+
     const handleRemoveFromCart = (index) => {
         dispatch(removeFromCart(index));
+        handleClose();
     };
 
     const cartQuantity = cartItems.filter((item) => item.buy).length;
@@ -100,6 +113,13 @@ function OrderSummary({ deliveyAddress, showOrder, showPayment }) {
         <Card shadow="sm">
             <div className="mt-5">
                 <div className="row">
+                    <RemoveFromCartModal
+                        handleRemove={() => handleRemoveFromCart(selectedProduct)}
+                        handleClose={() => handleClose()}
+                        showModal={showModal}
+                        selectedProduct={selectedProduct}
+                        text="Cart"
+                    />
                     <div className="col-md-12" style={{
                         backgroundColor: 'white',
                     }}>    <Group mt="xs">
@@ -202,7 +222,7 @@ function OrderSummary({ deliveyAddress, showOrder, showPayment }) {
                                                                 SAVE FOR LATER
                                                             </Text>
                                                         </UnstyledButton>
-                                                        <UnstyledButton onClick={() => handleRemoveFromCart(index)}>
+                                                        <UnstyledButton onClick={() => handleOpen(item.id)}>
                                                             <Text weight={700} size="xl">
                                                                 REMOVE
                                                             </Text>
@@ -221,16 +241,34 @@ function OrderSummary({ deliveyAddress, showOrder, showPayment }) {
                                         padding: "10px",
                                         marginTop: "10px",
                                     }}>
-                                        <Link to="/checkout" style={{
-                                            textDecoration: 'none',
-                                        }}>
-                                            <button className="btn btn-warning btn-block btn-lg"
-                                                onClick={() => {setShowSummary(false);
-                                                showPayment(true)
-                                                }}
-                                            >
-                                                Continue <i className="fa fa-arrow-circle-right"></i>
-                                            </button> </Link>
+                                       {
+                                        cartItems.length > 0 ? (
+                                                    <Link to="/checkout" style={{
+                                                        textDecoration: 'none',
+                                                    }}>
+                                                        <button className="btn btn-warning btn-block btn-lg"
+                                                            onClick={() => {
+                                                                setShowSummary(false);
+                                                                showPayment(true)
+                                                            }}
+                                                        >
+                                                            Continue <i className="fa fa-arrow-circle-right"></i>
+                                                        </button> </Link>
+                                        ) :
+                                        (
+                                                        <Link to="/" style={{
+                                                            textDecoration: 'none',
+                                                        }}>
+                                                            <button className="btn btn-warning btn-block btn-lg"
+                                                                onClick={() => {
+                                                                    setShowSummary(false);
+                                                                    showPayment(true)
+                                                                }}
+                                                            >
+                                                            No Product, Continue Shopping <i className="fa fa-arrow-circle-right"></i>
+                                                            </button> </Link>
+                                        )
+                                       }
                                     </Group>
                                 </div>
                             )

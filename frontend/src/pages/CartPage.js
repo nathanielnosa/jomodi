@@ -8,6 +8,7 @@ import { UnstyledButton, Text } from '@mantine/core';
 import { notifications } from '@mantine/notifications';
 import { updateCartItemQuantity } from '../actions/cartActions';
 import dayjs from 'dayjs';
+import RemoveFromCartModal from '../components/RemoveFromCartModal';
 
 function CartPage() {
   const navigate = useNavigate();
@@ -15,15 +16,26 @@ function CartPage() {
   const wishlist = useSelector((state) => state.wishlist.wishlistItems);
   const dispatch = useDispatch();
   const [quantity, setQuantity] = useState(1);
-
+  const [selectedProduct, setSelectedProduct] = useState(null);
+  const [showModal, setShowModal] = useState(false);
   useEffect(() => {
     // Update cart items in local storage
     localStorage.setItem('cartItems', JSON.stringify(cartItems));
   }, [cartItems]);
 
+  const handleOpen = (productId) => {
+    setSelectedProduct(productId);
+    setShowModal(true);
+  };
+
+  const handleClose = () => {
+    setSelectedProduct(null);
+    setShowModal(false);
+  };
 
   const handleRemoveFromCart = (index) => {
     dispatch(removeFromCart(index));
+    handleClose();
   };
 
   const cartQuantity = cartItems.filter((item) => item.buy).length;
@@ -96,6 +108,14 @@ function CartPage() {
   return (
     <div className="mt-5">
       <div className="row">
+        <RemoveFromCartModal
+          handleRemove={() => handleRemoveFromCart(selectedProduct)}
+          handleClose={() => handleClose()}
+          showModal={showModal}
+          selectedProduct={selectedProduct}
+          text="Cart"
+        />
+
         {
           cartItems.length > 0 ? (
             <>
@@ -189,7 +209,8 @@ function CartPage() {
                           <div>
                             <button className="btn btn-lg" onClick={() => handleAddToWishlist(item)}>
                               SAVE FOR LATER</button>
-                            <button className="btn btn-lg" onClick={() => handleRemoveFromCart(item.id)}
+                            <button className="btn btn-lg" 
+                            onClick={() => handleOpen(item.id)}
                               style={{
                                 marginLeft: '20px'
                               }}

@@ -25,6 +25,7 @@ import { useAuth } from "../../context/auth-context";
 import { API_URL } from "../../constants";
 import { IconCheckbox, IconPlane, IconPlus, IconSearch, IconTrash } from "@tabler/icons-react";
 import statesList from "../../constants";
+import RemoveFromCartModal from "../RemoveFromCartModal";
 
 
 function AddressCard({
@@ -48,6 +49,7 @@ function AddressCard({
   const [openEdit, setOpenEdit] = useState(false);
   const [hideAdresses, setHideAddresses] = useState(false);
   const [opened, setOpened] = useState(false);
+  const [showModal, setShowModal] = useState(false);
 
   const handleOpenEdit = (address) => {
     setSelectedAddress(address);
@@ -59,6 +61,17 @@ function AddressCard({
     setOpenEdit(false);
     setSelectedAddress(null);
   };
+
+  const handleOpen = (address) => {
+    setSelectedAddress(address);
+    setShowModal(true);
+  };
+
+  const handleClose = () => {
+    setSelectedAddress(null);
+    setShowModal(false);
+  };
+
   const handleDeleteAddress = (id) => {
     axios
       .delete(`${API_URL}order/address/${id}/`)
@@ -68,6 +81,7 @@ function AddressCard({
         setAddresses((prevAddresses) =>
           prevAddresses.filter((item) => item.id !== id)
         );
+        handleClose();
       })
       .catch((err) => {
         console.log(err);
@@ -220,6 +234,14 @@ function AddressCard({
       </Modal>
 
       {/* edit modal */}
+
+      <RemoveFromCartModal
+        handleRemove={() => handleDeleteAddress(selectedAddress.id)}
+        handleClose={() => handleClose()}
+        showModal={showModal}
+        selectedProduct={selectedAddress}
+        text="Address"
+      />
 
       <Modal
         opened={openEdit}
@@ -494,7 +516,7 @@ function AddressCard({
                           Edit
                         </Text>
                       </UnstyledButton>
-                      <IconTrash size={rem(30)} color="red" onClick={() => handleDeleteAddress(address.id)} />
+                      <IconTrash size={rem(30)} color="red" onClick={() => handleOpen(address) } />
                     </Group>
                     <Group mt="xs">
                       <Text size="xl">

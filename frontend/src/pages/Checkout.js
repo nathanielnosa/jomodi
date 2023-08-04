@@ -14,6 +14,8 @@ import OrderSummary from "../components/checkout/OrderSummary";
 import PaymentMethod from "../components/checkout/PaymentMethod";
 import OrderDetail from "../components/checkout/OrderDetail";
 import { notifications } from "@mantine/notifications";
+import RemoveFromCartModal from '../components/RemoveFromCartModal';
+
 
 function Checkout() {
     const navigate = useNavigate();
@@ -25,13 +27,14 @@ function Checkout() {
     const [deliveryAddress, setDeliveryAddress] = useState(null);
     const [showOrder, setShowOrder] = useState(false);
     const [showPayment, setShowPayment] = useState(false);
-
+    const [showModal, setShowModal] = useState(false);
     const dispatch = useDispatch();
 
     const handleRemoveItems = () => {
         // Call this function when you want to remove the items from the store
         dispatch(removeCartItems());
     };
+
 
     useEffect(() => {
         // Get cart items from local storage
@@ -128,6 +131,8 @@ function Checkout() {
                     </div>
                 </div>
             </div>
+
+
 
             <div className="section">
                 <div className="container">

@@ -9,6 +9,9 @@ import {
   Image,
   Button,
   Pagination,
+  Modal,
+  Title,
+  Center
 } from "@mantine/core";
 import axios from "axios";
 import { API_URL } from "../constants";
@@ -19,6 +22,10 @@ import { useAuth } from "../context/auth-context";
 function Order() {
   const navigate = useNavigate();
   const [orderData, setOrderData] = useState([]);
+  const [popupOpen, setPopupOpen] = useState(false);
+  const [selectedOrder, setSelectedOrder] = useState(null); 
+  const [selectedProduct, setSelectedProduct] = useState(null);
+  const [showModal, setShowModal] = useState(false);
   const { user } = useAuth();
 
   useEffect(() => {
@@ -37,6 +44,19 @@ function Order() {
       .catch((err) => {
         console.log(err);
       });
+  };
+
+  const handleOpen = (orderId, productId) => {
+    setSelectedOrder(orderId);
+    setSelectedProduct(productId);
+    setShowModal(true);
+  };
+
+
+  const handleClose = () => {
+    setSelectedOrder(null);
+    setSelectedProduct(null);
+    setShowModal(false);
   };
 
   const handleCancel = (orderId, productId) => {
@@ -78,6 +98,7 @@ function Order() {
             : order
         );
         setOrderData(updatedOrderData);
+        handleClose();
       })
       .catch((err) => {
         console.log(err);
@@ -100,10 +121,43 @@ function Order() {
 
   return (
     <Container size="lg">
+      <Modal opened={showModal} onClose={handleClose} size="40%" 
+      title="Cancel Order">
+        <Center>
+        <Title order={2} m="lg">Are you sure you want to cancel this order?</Title>
+        </Center>
+        <div style={{ display: "flex", justifyContent: "center" }}>
+          <Button
+            variant="outline" 
+            color="red"
+            size="lg"
+            radius="xl"
+            mb="md"
+            style={{ marginRight: "1rem" }}
+            onClick={() => handleCancel(selectedOrder, selectedProduct)}
+          >
+            Yes
+          </Button>
+          <Button
+            variant="outline"
+            color="teal"
+            size="lg"
+            radius="xl"
+            mb="md"
+            style={{ marginRight: "1rem" }}
+            onClick={() => handleClose()}
+          >
+            No
+          </Button>
+        </div>
+      
+      </Modal>
+
       {orderData &&
         paginatedItems?.map((item, index) =>
           item?.products?.map((product, index) => (
             <Card key={index} shadow="sm" padding="lg" mt="xl">
+             
               <Card.Section withBorder inheritPadding py="xs">
                 <Group position="apart">
                   <Image src={product?.image} width={100} height={100} />
@@ -158,7 +212,7 @@ function Order() {
                     radius="xl"
                     mb="md"
                     style={{ marginRight: "1rem" }}
-                    onClick={() => handleCancel(item?.id, product?.id)}
+                    onClick={() => handleOpen(item.id, product.id)}
                     disabled={product?.cancel}
                   >
                     cancel
