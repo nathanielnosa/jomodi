@@ -425,7 +425,6 @@ function Product() {
                                 ))}
                             </div>
                         </div>
-
                         <div className="col-md-5  mb-4 md:mb-0 md:col-md-5">
                             <div id="product-main-img">
                                 <div className="product-preview">
@@ -438,14 +437,9 @@ function Product() {
                                 </div>
                             </div>
                         </div>
-
                         <div className="col-md-5 mt-4 md:mt-0 md:col-md-5">
                             <div className="product-details">
-
                                 <h2 className="product-name">{product?.name}</h2>
-                                <div>
-
-                                </div>
                                 <div>
                                     <h3 className="product-price">
                                         ₹{product?.price}{" "}
