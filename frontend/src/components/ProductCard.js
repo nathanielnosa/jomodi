@@ -4,6 +4,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { addToCart, removeFromCart } from "../actions/cartActions";
 import { addToWishlist, removeFromWishlist } from "../actions/wishActions";
 import { notifications } from '@mantine/notifications';
+import AddtoCartPopUp from "./AddtoCartPopUp";
 
 
 function ProductCard({ product, index }) {
@@ -12,6 +13,26 @@ function ProductCard({ product, index }) {
     const [showCartNotification, setShowCartNotification] = React.useState(false);
     const [showWishlistNotification, setShowWishlistNotification] =
         React.useState(false);
+
+    const [selectedProduct, setSelectedProduct] = useState([])
+    const [selectedSize, setSelectedSize] = useState("");
+    const [selectedColor, setSelectedColor] = useState("");
+    const [showSizeError, setShowSizeError] = useState(false);
+    const [showColorError, setShowColorError] = useState(false);
+    const [openModal, setOpenModal] = useState(false)
+
+    const handleOpen = (product) => {
+        setOpenModal(true)
+        setSelectedProduct(product)
+    }
+
+
+    const handleCloseModal = () => {
+        setSelectedProduct([])
+        setSelectedSize(null)
+        setSelectedColor(null)
+        setOpenModal(false)
+    }
 
     const wishlist = useSelector((state) => state.wishlist.wishlistItems);
     const cartItems = useSelector((state) => state.cart.cartItems);
@@ -43,7 +64,8 @@ function ProductCard({ product, index }) {
     }, [showCartNotification]);
 
     const handleAddToCart = (product) => {
-        dispatch(addToCart(product, 1));
+        dispatch(addToCart(product, 1, false, selectedSize, '', selectedColor));
+        handleCloseModal()
         notifications.show({
             title: 'Successfully Added to Cart',
             styles: (theme) => ({
@@ -145,7 +167,16 @@ function ProductCard({ product, index }) {
     };
     return (
         <>
-
+            <AddtoCartPopUp
+                product={selectedProduct}
+                selectedColor={selectedColor}
+                selectedSize={selectedSize}
+                setSelectedColor={setSelectedColor}
+                setSelectedSize={setSelectedSize}
+                openModal={openModal}
+                handleCloseModal={handleCloseModal}
+                addtoCart={() => handleAddToCart(selectedProduct)}
+            />
             <div className="col-md-3 col-xs-12">
                 <div className="product">
                     <Link
@@ -260,14 +291,21 @@ function ProductCard({ product, index }) {
                         >
                             {cartItems.find((item) => item.id === product.id) ? (
                                 <span
-                                onClick={() => handleRemoveFromCart(product.id)}
+                                    onClick={() => handleRemoveFromCart(product.id)}
                                 >
                                     <i className="fa fa-check-circle"></i> In Cart
                                 </span>
                             ) : (
+                                (product?.show_size || product?.show_color) ? (
+                                    <span onClick={() => handleOpen(product)}>
+                                        <i className="fa fa-shopping-cart"></i> Add to Cart
+                                    </span>
+                                ) : (
                                     <span onClick={() => handleAddToCart(product)}>
-                                    <i className="fa fa-shopping-cart"></i> Add to Cart
-                                </span>
+                                        <i className="fa fa-shopping-cart"></i> Add to Cart
+                                    </span>
+                                )
+
                             )}
                         </button>
                     </div>

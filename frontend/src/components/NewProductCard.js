@@ -7,6 +7,7 @@ import { addToWishlist, removeFromWishlist } from "../actions/wishActions";
 import { notifications } from "@mantine/notifications";
 import { Group, Button } from "@mantine/core";
 import NewProduct from "./NewProduct";
+import AddtoCartPopUp from "./AddtoCartPopUp";
 
 function NewProductCard({ product, index }) {
     const dispatch = useDispatch();
@@ -15,6 +16,26 @@ function NewProductCard({ product, index }) {
     const [showWishlistNotification, setShowWishlistNotification] =
         React.useState(false);
 
+    const [selectedProduct, setSelectedProduct] = useState([])
+    const [selectedSize, setSelectedSize] = useState("");
+    const [selectedColor, setSelectedColor] = useState("");
+    const [showSizeError, setShowSizeError] = useState(false);
+    const [showColorError, setShowColorError] = useState(false);
+    const [openModal, setOpenModal] = useState(false)
+
+    const handleOpen = (product) => {
+        setOpenModal(true)
+        setSelectedProduct(product)
+    }
+
+
+    const handleCloseModal = () => {
+        setSelectedProduct([])
+        setSelectedSize(null)
+        setSelectedColor(null)
+        setOpenModal(false)
+    }
+
     const isAuth = localStorage.getItem("authenticated");
 
     const wishlist = useSelector((state) => state.wishlist.wishlistItems);
@@ -22,7 +43,8 @@ function NewProductCard({ product, index }) {
     const cartItems = useSelector((state) => state.cart.cartItems);
 
     const handleAddToCart = (product) => {
-        dispatch(addToCart(product, 1));
+        dispatch(addToCart(product, 1, false, selectedSize, '', selectedColor));
+        handleCloseModal()
         notifications.show({
             title: "Successfully Added to Cart",
             message: "Successfully Added Cart! 🤥",
@@ -123,11 +145,22 @@ function NewProductCard({ product, index }) {
     const getDiscount = (product) => {
         const discount =
             ((product?.cancel_price - product?.price) / product?.cancel_price) * 100;
-        return discount.toFixed(0);
+        return discount?.toFixed(0);
     };
 
     return (
         <>
+            <AddtoCartPopUp
+                product={selectedProduct}
+                selectedColor={selectedColor}
+                selectedSize={selectedSize}
+                setSelectedColor={setSelectedColor}
+                setSelectedSize={setSelectedSize}
+                openModal={openModal}
+                handleCloseModal={handleCloseModal}
+                addtoCart={() => handleAddToCart(selectedProduct)}
+            />
+
             <div
                 className="col-md-12 col-xs-12"
                 style={{
@@ -244,9 +277,16 @@ function NewProductCard({ product, index }) {
                                     <i className="fa fa-check-circle"></i> In Cart
                                 </span>
                             ) : (
-                                <span onClick={() => handleAddToCart(product)}>
-                                    <i className="fa fa-shopping-cart"></i> Add to Cart
-                                </span>
+                                (product?.show_size || product?.show_color) ? (
+                                    <span onClick={() => handleOpen(product)}>
+                                        <i className="fa fa-shopping-cart"></i> Add to Cart
+                                    </span>
+                                ) : (
+                                    <span onClick={() => handleAddToCart(product)}>
+                                        <i className="fa fa-shopping-cart"></i> Add to Cart
+                                    </span>
+                                )
+
                             )}
                         </button>
                     </div>

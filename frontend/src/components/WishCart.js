@@ -258,11 +258,11 @@ function WishCart() {
                                             </div>
                                             <div className="product-body">
                                                 <h3 className="product-name">
-                                                    <Link to={`/product/${item.id}`}>{item.name}</Link>
+                                                    <Link to={`/product/${item.id}/${item.name}`}>{item.name}</Link>
                                                 </h3>
                                                 <h4 className="product-price">
                                                     <span className="qty">{item.quantity}x</span>
-                                                    ₹{item.price.toFixed(2)}
+                                                    ₹{item?.price?.toFixed(2)}
                                                 </h4>
                                             </div>
                                             <button className="delete" onClick={() => handleRemoveFromCart(item.id)}>
@@ -274,7 +274,7 @@ function WishCart() {
                                 <div className="cart-summary">
                                     <small>{cartQuantity} Item(s) selected</small>
                                     <h5>SUBTOTAL:
-                                        ₹{cartTotal.toFixed(2)}</h5>
+                                        ₹{cartTotal?.toFixed(2)}</h5>
                                 </div>
                                 <div className="cart-btns">
                                     <Link to="/cart">View Cart</Link>

@@ -107,17 +107,8 @@ function CardProduct({ product }) {
                         <h4 className="product-price">
                             ₹{product?.price} <del className="product-old-price">₹{product?.cancel_price}</del>
                         </h4>
-                        {/* <div className="product-rating">
-                            <i className="fa fa-star"></i>
-                            <i className="fa fa-star"></i>
-                            <i className="fa fa-star"></i>
-                            <i className="fa fa-star"></i>
-                            <i className="fa fa-star"></i>
-                        </div> */}
                         <div className="product-btns">
                             <button className="add-to-wishlist" onClick={() => handleAddToWishlist(product)}><i className="fa fa-heart-o"></i><span className="tooltipp">add to wishlist</span></button>
-
-
                             <button className="quick-view">
                                 <Link to={`/product/${product.id}/${product.name}`}>
                                     <i className="fa fa-eye"></i><span className="tooltipp">quick view</span>
