@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 import { addToCart, removeFromCart } from '../actions/cartActions';
 import { addToWishlist, removeFromWishlist } from '../actions/wishActions';
-import { Button, Divider, Group, Input, Title, Paper, Container, Center, Image } from '@mantine/core';
+import { Button, Divider, Group, Input, Title, Paper, Container, Center, Image, Select, Checkbox } from '@mantine/core';
 import { UnstyledButton, Text } from '@mantine/core';
 import { notifications } from '@mantine/notifications';
 import { updateCartItemQuantity } from '../actions/cartActions';
@@ -18,6 +18,7 @@ function CartPage() {
   const [quantity, setQuantity] = useState(1);
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [showModal, setShowModal] = useState(false);
+      const [colorImage, setColorImage] = useState([]);
   useEffect(() => {
     // Update cart items in local storage
     localStorage.setItem('cartItems', JSON.stringify(cartItems));
@@ -64,6 +65,12 @@ function CartPage() {
     }
   };
 
+  const getDiscount = (price, cancel_price) => {
+    const discount = ((cancel_price - price) / cancel_price) * 100;
+    return discount.toFixed(0);
+  };
+
+
   const handleBuyOptionChange = (index, buy) => {
     const updatedItems = [...cartItems];
     updatedItems[index] = { ...updatedItems[index], buy };
@@ -80,6 +87,8 @@ function CartPage() {
     return formattedDeliveryDate;
   };
 
+
+  console.log('cartItems', cartItems);
 
   const handleAddToWishlist = (product) => {
     dispatch(addToWishlist(product));
@@ -127,21 +136,23 @@ function CartPage() {
                     <div key={index} className="row no-gutters" style={{
                       margin: '3px',
                       padding: '3px',
-                      marginTop: '10px',
                     }}>
                       <div className="col-md-2">
                         <label>
-                          <input
-                            type="checkbox"
+                          <Checkbox
+                            // type="checkbox"
+                            size="lg"
+                            radius="xl"
                             checked={item.buy}
                             onChange={(e) => handleBuyOptionChange(index, e.target.checked)}
+                            color='red'
                           />
 
                         </label>
                         <img src={item.image} className="card-img" alt="Product Image"
                           style={{
-                            width: "70px",
-                            height: "70px",
+                            width: "100px",
+                            height: "100px",
                           }}
                         />
                       </div>
@@ -150,7 +161,7 @@ function CartPage() {
                           <p className="card-title"> Delivery by {getDeliveryDate()} | Free </p>
                         </Group>
                         <div className="card-body">
-                          <h5 className="card-title" style={{
+                          <h4 className="card-title" style={{
                             marginBottom: '10px',
                           }}>
                             <Link to={`/product/${item.id}/${item.name}`}
@@ -162,7 +173,10 @@ function CartPage() {
 
                                 }
                               }>{item.name.toUpperCase()}</Link>
-                          </h5>
+                          </h4>
+                          <p className="card-text" style={{
+                            marginBottom: '10px', 
+                          }}>-{item.category.name}</p>
                           <Group position="left" >
                             <del className="product-old-price" style={{
                               marginBottom: '10px',
@@ -172,20 +186,42 @@ function CartPage() {
                             }}> ₹{
                                 item.price.toFixed(2)
                               }</p>
+                            <p className="card-title" style={{
+                              marginBottom: '10px',
+                              color: 'red'
+                            }}>-{getDiscount(item.price, item.cancel_price)}%</p>
+                            <p className="card-title" style={{
+                              marginBottom: '10px',
+                              color: 'green'
+                            }}>You Save ₹{item.cancel_price - item.price}</p>
                           </Group>
-
+                          <Group position="left">
+                            {item.show_size && (
+                              <>
+                              <label style={{
+                                marginBottom: '10px',
+                              }}>Size:</label>
+                                <select className="form-control" style={{ width: '80px', marginHorizontal: '10px', height: "32px", }}>
+                                {item?.size?.split(',').map((size, index) => (
+                                  <option key={index} value={size.trim().toUpperCase()}>
+                                    {size.trim().toUpperCase()}
+                                  </option>
+                                ))}
+                              </select>
+                              </>
+                              
+                            )}
+                          </Group>
                         </div>
                       </div>
                       <div className="col-md-12">
                         <Group position="left">
-
                           <div className="qty-label">
                             <UnstyledButton>
                               <Group position='left'>
                                 <Button radius="xl" size="md"
                                   onClick={() => handleQuantityChange(index, item.quantity - 1)}
                                   variant="outline" color="red"
-
                                 >
                                   - </Button>
                                 <input
@@ -206,26 +242,28 @@ function CartPage() {
                               </Group>
                             </UnstyledButton>
                           </div>
-                          <div>
-                            <button className="btn btn-lg" onClick={() => handleAddToWishlist(item)}>
-                              SAVE FOR LATER</button>
-                            <button className="btn btn-lg" 
-                            onClick={() => handleOpen(item)}
-                              style={{
-                                marginLeft: '20px'
-                              }}
-                            >
-                              REMOVE</button>
-                          </div>
+                          <Group mx="xl">
+                            <UnstyledButton onClick={() => {
+                              handleAddToWishlist(item);
+
+                            }}>
+                              <Text weight={600} size="xl">
+                                SAVE FOR LATER
+                              </Text>
+                            </UnstyledButton>
+                            <UnstyledButton onClick={() => handleOpen(item)}>
+                              <Text weight={600} size="xl">
+                                REMOVE
+                              </Text>
+                            </UnstyledButton>
+                          </Group>
 
                         </Group>
                         <Divider style={{
                           marginTop: '10px'
                         }} />
                       </div>
-
                     </div>
-
                   ))}
                   <Group position="right" style={{
                     position: "sticky",
