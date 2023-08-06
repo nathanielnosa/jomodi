@@ -48,7 +48,7 @@ function RemoveFromCartModal({ handleRemove, handleClose, showModal, selectedPro
                     onClick={handleClose}
                 >
                     <Text color="red" size="lg" fw={700}>
-                        Move to {text}
+                        Cancel
                     </Text>
                 </UnstyledButton>
             </Group>
