@@ -4,8 +4,6 @@ import { Modal, Button, Text, Title, Center, Group, Image, UnstyledButton, Divid
 function RemoveFromCartModal({ handleRemove, handleClose, showModal, selectedProduct, text }) {
     return (
         <Modal opened={showModal} onClose={handleClose} size="30%">
-       
-              
                 <div
                 style={{
                     display: "flex",

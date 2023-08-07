@@ -14,7 +14,6 @@ const Coupon = () => {
     const [coupons, setCoupons] = useState([]);
     const clipboard = useClipboard({ timeout: 500 });
 
-
     useEffect(() => {
         axios.get(`${API_URL}order/coupon/`)
             .then(res => {
@@ -38,7 +37,7 @@ const Coupon = () => {
             {coupons?.map((coupon, index) => (
                 <Paper key={index} shadow="xs" style={{ padding: '1rem', marginBottom: '1rem' }}>
                     <Group position="left">
-                    <Text size="xl" weight={600}>
+                    <Text size={30} weight={600}>
                         {coupon.code} 
                     </Text>
                         <IconClipboard
@@ -46,7 +45,7 @@ const Coupon = () => {
                             style={{ marginLeft: '0.5rem', cursor: 'pointer' }}
                         />
                     </Group>
-                    <Text size="lg" color="gray">
+                    <Text size={25} color="gray">
                         {coupon.description}
                     </Text>
                     <Badge color="teal" style={{ marginTop: '0.5rem' }} size='xl'>
