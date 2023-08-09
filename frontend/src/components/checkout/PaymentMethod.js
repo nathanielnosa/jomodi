@@ -1,16 +1,17 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Group, Card, Text, Radio } from "@mantine/core";
 import { IconCheckbox } from "@tabler/icons-react";
 
 function PaymentMethod({ showPayment }) {
   const [paymentMethod, setPaymentMethod] = useState("Cash on Delivery");
   const [showPaymentMethod, setShowPaymentMethod] = useState(false);
+
   return (
     <Card shadow="sm" padding="md" radius="md" className="payment-method">
       <div className="payment-method">
-        <Card.Section>
+        <Card.Section style={{ backgroundColor: (showPayment || showPaymentMethod) ? "#d10024" : "white" }}>
           <Group>
-            <Text m="xl" size={30} weight={700}>
+            <Text m="xl" size={30} weight={700} color={(showPayment || showPaymentMethod) ? "white" : "black"}>
               4. Payment Method
             </Text>
             {!showPaymentMethod && (

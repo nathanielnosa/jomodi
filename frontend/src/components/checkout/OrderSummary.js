@@ -111,6 +111,21 @@ function OrderSummary({ deliveyAddress, showOrder, showPayment }) {
 
     return (
         <Card shadow="sm">
+            <Card.Section m="5" p="sm" style={{ backgroundColor: showSummary && showOrder ? "#d10024" : "white" }}>
+    <div style={{ display: "flex", alignItems: "center" }}>
+      <Text fz={30} weight={700} color={ showSummary && showOrder ? "white" : "black"} style={{ marginRight: "10px" }}>
+        3. ORDER SUMMARY {showOrder && `(${cartQuantity} ITEMS)`}
+      </Text>
+      {!showSummary && (
+         <div style={{ display: "flex", alignItems: "center", marginLeft: "10px" }}>
+         <Text style={{ marginRight: "5px" }}></Text>
+         <IconCheckbox size={30} onClick={() => { setShowSummary(true); showPayment(false); }} />
+       </div>
+      )}
+    </div>
+  </Card.Section>
+
+
             <div className="mt-5">
                 <div className="row">
                     <RemoveFromCartModal
@@ -122,21 +137,7 @@ function OrderSummary({ deliveyAddress, showOrder, showPayment }) {
                     />
                     <div className="col-md-12" style={{
                         backgroundColor: 'white',
-                    }}>    <Group mt="xs">
-                        <Text fz={30} weight={700} mx="xl">
-                            3. Order Summary {showOrder && `(${cartQuantity} items)`}
-                        </Text>
-                        {
-                            !showSummary && (
-                            
-                                    <IconCheckbox size={30} onClick={() => {setShowSummary(true);
-                                    showPayment(false);
-                                    }} />
-
-                              
-                            )
-                        }
-                        </Group>
+                    }}>   
                         {
                             showOrder && (
                             showSummary && (

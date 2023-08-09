@@ -184,6 +184,10 @@ function UserCard() {
                         showLogouOption ? (
                             <Group position='apart'>
                                 <div>
+                                    
+                                </div>
+                                <div>
+                                    
                                     <Text size="md" fz={20} color="black" fw={500}>
                                         Phone: +91{user?.username}
                                     </Text>
@@ -242,9 +246,9 @@ function UserCard() {
                             </Group>
                         ) : (
                             <Group position="apart">
-                                <UnstyledButton color="gray">
+                                <UnstyledButton color="gray" backgroundColor="red">
                                     <Text size="xl" fz={30} color="dimmed" fw={500}>
-                                        1. Login
+                                        1. LOGIN
                                     </Text>
                                     <Text size="xl" fw={500}>
                                         {
@@ -297,8 +301,7 @@ function UserCard() {
                                                 }
                                             >
                                                 <Text color='blue'>
-                                                    Change Number
-                                                </Text>
+                                                    Change Number                                             </Text>
                                             </UnstyledButton>
                                         )
                                     }

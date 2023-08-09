@@ -187,7 +187,7 @@ function Checkout() {
                                             style={{
                                                 width: "100%",
                                                 color: "white",
-                                                backgroundColor: "red",
+                                                backgroundColor: "#d10024",
                                             }}
                                             type="submit"
                                         >

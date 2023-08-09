@@ -173,6 +173,7 @@ function AddressCard({
       >
         <Center>
           <Text mt="xl" fz={30} weight={700}>
+            
             Add New Address
           </Text>
         </Center>
@@ -409,16 +410,18 @@ function AddressCard({
       </Modal>
 
       <Card shadow="sm">
-        <Group mt="xs">
-          <Text fz={30} weight={700} mx="xl">
-            2. Delivery Address
-          </Text>
-          {
-            hideAdresses && (
-              <IconCheckbox size={30} />
-            )
-          }
-        </Group>
+       
+            
+            <Card.Section m="5" p="sm"  style={{ backgroundColor: user && hideAdresses? "transparent" : "#d10024" }}>
+            <Group mt="xs">
+              <Text fz={30} weight={700} color={ hideAdresses ? "black" : "white"}>
+                2. DELIVERY ADDRESS
+              </Text>
+              {hideAdresses && <IconCheckbox size={30} />}
+            </Group>
+          </Card.Section>
+           
+        
         {
           (hideAdresses && user) && (
             <Card.Section mx="xl" my="sm">
@@ -490,7 +493,10 @@ function AddressCard({
               onChange={setDeliveryAddress}
               name="Delivery Address"
               size="xl"
+              
+              
             >
+              
 
               { addresses.length ? (
                 addresses.map((address, index) => (
@@ -516,7 +522,7 @@ function AddressCard({
                           Edit
                         </Text>
                       </UnstyledButton>
-                      <IconTrash size={rem(30)} color="red" onClick={() => handleOpen(address) } />
+                    
                     </Group>
                     <Group mt="xs">
                       <Text size="xl">
