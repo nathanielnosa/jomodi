@@ -83,7 +83,11 @@ function OrderSummary({ deliveyAddress, showOrder, showPayment }) {
         const formattedDeliveryDate = deliveryDate.format('DD-MMMM-YYYY');
         return formattedDeliveryDate;
     };
+    const [selectedSize, setSelectedSize] = useState(''); // State to track selected size
 
+  const handleSizeChange = (size) => {
+    setSelectedSize(size);
+  };
 
     const handleAddToWishlist = (product) => {
         dispatch(addToWishlist(product));
@@ -161,31 +165,59 @@ function OrderSummary({ deliveyAddress, showOrder, showPayment }) {
                                                     <p className="card-title"> Delivery by {getDeliveryDate()} | Free </p>
                                                 </Group>
                                                 <div className="card-body">
-                                                    <h5 className="card-title" style={{
-                                                        marginBottom: '10px',
-                                                    }}>
-                                                        <Link to={`/product/${item.id}/${item.name}`}
-                                                            target='_blank'
-                                                            style={
-                                                                {
-                                                                    textDecoration: 'none',
-                                                                    color: 'black',
-
-                                                                }
-                                                            }>{item.name.toUpperCase()}</Link>
+                                                    <h5 className="card-title" style={{ marginBottom: '10px' }}>
+                                                    <Link
+                                                        to={`/product/${item.id}/${item.name}`}
+                                                        target='_blank'
+                                                        style={{
+                                                        textDecoration: 'none',
+                                                        color: 'black',
+                                                        }}
+                                                    >
+                                                        {item.name.toUpperCase()}
+                                                    </Link>
                                                     </h5>
-                                                    <Group position="left" >
-                                                        <del className="product-old-price" style={{
-                                                            marginBottom: '10px',
-                                                        }}>₹{item?.cancel_price}</del>
-                                                        <p className="card-title" style={{
-                                                            marginBottom: '10px',
-                                                        }}> ₹{
-                                                                item.price.toFixed(2)
-                                                            }</p>
+                                                    <Group position="left">
+                                                    <del className="product-old-price" style={{ marginBottom: '10px' }}>
+                                                        ₹{item?.cancel_price}
+                                                    </del>
+                                                    <p className="card-title" style={{ marginBottom: '10px' }}>
+                                                        ₹{item.price.toFixed(2)}
+                                                    </p>
                                                     </Group>
                                                 </div>
+
+                                                <div className="row">
+                                            <div className="col-md-6">
+                                            <div className="card-body">
+                                                <h1 className='card-title' style={{ marginBottom: '5px' }}>Description</h1>
+                                                <p style={{ marginTop: '0', marginBottom: '0' }}>{item.description}</p>
                                             </div>
+                                            </div>
+                                            <div className="col-md-3">
+                                            <div className="card-body">
+                                                <h1 className='card-title' style={{ marginBottom: '5px' }}>Size</h1>
+                                                <select
+                                                className="form-select" // Apply styling classes here
+                                                value={selectedSize}
+                                                onChange={(e) => handleSizeChange(e.target.value)}
+                                                >
+                                                <option value="small">Small</option>
+                                                <option value="medium">Medium</option>
+                                                <option value="large">Large</option>
+                                                {/* Add more size options as needed */}
+                                                </select>
+                                            </div>
+                                            </div>
+                                            <div className="col-md-3">
+                                            <div className="card-body">
+                                               <h1 className='card-title' style={{ marginBottom: '5px' }}>Color</h1>
+                                                <p style={{ marginTop: '0', marginBottom: '0' }}>{'red'}</p>
+                                            </div>
+                                            </div>
+                                        </div>
+                                                </div>
+
                                             <div className="col-md-12">
                                                 <Group position="left">
                                                     <div className="qty-label">
@@ -220,12 +252,12 @@ function OrderSummary({ deliveyAddress, showOrder, showPayment }) {
                                                             handleRemoveFromCart(index)
                                                         }}>
                                                             <Text weight={700} size="xl">
-                                                                SAVE FOR LATER
+                                                                Save for later
                                                             </Text>
                                                         </UnstyledButton>
                                                         <UnstyledButton onClick={() => handleOpen(item.id)}>
                                                             <Text weight={700} size="xl">
-                                                                REMOVE
+                                                                Remove
                                                             </Text>
                                                         </UnstyledButton>
                                                     </Group>
