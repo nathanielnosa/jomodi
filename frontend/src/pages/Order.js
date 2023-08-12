@@ -236,7 +236,7 @@ function Order() {
           }
 
           {
-            filteredOrders && filteredOrders?.length === 0 && (
+            (filteredOrders && selectedOrderStatus != 'All' && filteredOrders?.length === 0) && (
               <Text size={40} fw="bold" style={{ color: "gray" }}>
                 No Orders for this Status
               </Text>

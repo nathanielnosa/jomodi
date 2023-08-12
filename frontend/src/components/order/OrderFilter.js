@@ -7,6 +7,7 @@ import { Accordion } from '@mantine/core';
 
 
 const ORDER_STATUS = [
+    'All',
     "Shipped",
     'Out for delivery',
     "Delivered",
@@ -49,7 +50,7 @@ function OrderFilter({ selectedOrderStatus, setSelectedOrderStatus, selectedOrde
 
 
             <div className="aside">
-               
+
                 <Accordion radius="xl" defaultValue="customization">
                     <Accordion.Item value="customization">
                         <Accordion.Control style={{
@@ -59,18 +60,23 @@ function OrderFilter({ selectedOrderStatus, setSelectedOrderStatus, selectedOrde
                         </Accordion.Control>
                         <Accordion.Panel>
                             {ORDER_STATUS?.map((status, index) => (
-                                <div className="input-radio" key={index} style={{ display: 'inline-block', marginRight: '10px' }}>
-                                    <input
-                                        type="radio"
-                                        id={`order-status-${index}`}
-                                        name="orderStatus"
-                                        onChange={() => setSelectedOrderStatus(status)}
-                                    />
-                                    <label htmlFor={`order-status-${index}`}>
-                                        <span></span>
-                                        {status}
-                                    </label>
-                                </div>
+                                <>
+                                    <div className="input-radio" key={index} style={{ display: 'inline-block', marginRight: '10px' }}>
+                                        <input
+                                            type="radio"
+                                            id={`order-status-${index}`}
+                                            name="orderStatus"
+                                            onChange={() => setSelectedOrderStatus(status)}
+                                        />
+                                        <label htmlFor={`order-status-${index}`}>
+                                            <span></span>
+                                            {status}
+                                        </label>
+
+                                    </div>
+                                    <br />
+                                </>
+
                             ))}
                         </Accordion.Panel>
                     </Accordion.Item>
@@ -88,7 +94,7 @@ function OrderFilter({ selectedOrderStatus, setSelectedOrderStatus, selectedOrde
                                     <div className="input-checkbox" key={index}>
                                         <input
                                             type="checkbox"
-                                            id={`time-${index}`}   
+                                            id={`time-${index}`}
                                             checked={selectedOrderTime?.includes(time)}
                                             onChange={() => handleTimeChange(time)}
                                         />
