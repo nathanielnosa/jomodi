@@ -230,7 +230,9 @@ function Order() {
               item?.products?.map((product, index) => (
                 <Card key={index} shadow="sm" padding="lg" mt="xl">
                   <Card.Section withBorder inheritPadding py="xs">
-                    <Group position="apart">
+                    <Group position="apart"
+                      onClick={() => navigate(`/order-product-summary`, { state: { order: item, product: product } })}>
+
                       <Image src={product?.image} width={100} height={100} />
                       <Group position="apart">
                         <div>
