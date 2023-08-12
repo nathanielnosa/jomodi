@@ -25,6 +25,7 @@ import PrivateRoute from './PrivateRoute';
 import OTPVerification from '../pages/OTPVerification';
 import ProfilePage from '../pages/ProfilePage';
 import OrderDetailPage from '../pages/OrderDetails';
+import OrderProductSummary from '../pages/OrderProductSummary';
 import { useAuth } from '../context/auth-context';
 
 function MainRoute() {
@@ -69,6 +70,7 @@ function MainRoute() {
                         </PrivateRoute>
                     }
                 />
+                <Route path='/order-product-summary' element={<OrderProductSummary />} />
                 <Route path='/checkout' element={<Checkout />} />
                 <Route path='/wishlistcheckout' element={<WishListCheckOut />} />
                 <Route path='/product-checkout/:id/:slug' element={<ProductCheckout />} />

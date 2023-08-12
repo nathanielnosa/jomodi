@@ -70,49 +70,43 @@ function VerifyOTP() {
         setSubmit(true);
 
         if (pin == code1) {
-
             const phoneNumberExists = checkPhoneNumberExists(phone);
+            const promises = [];
 
-            if (phoneNumberExists) {
-                await login({
-                    username: phone,
-                    password: phone
-                });
-                setSubmit(false);
-                setInterval(() => {
-                    navigate(redirectPath);
-                }, 1000);
-                // user &&
-            } else {
-                const decoded = await registerUser(
-                    {
+            if (!phoneNumberExists) {
+                promises.push(
+                    registerUser({
                         username: phone,
                         password: phone,
                         admin: false,
                         email: `${phone}@jodomi.com`,
                         active: true,
                         first_name: phone,
-                    }
+                    })
                 );
-                const loginData = {
+            }
+
+            promises.push(
+                login({
                     username: phone,
                     password: phone
-                };
-                const decodedLogin = await login(loginData);
-                setInterval(() => {
-                    navigate(redirectPath);
-                }, 1000);
-                // user && navigate(redirectPath);
-                setSubmit(false);
+                })
+            );
 
-            }
+            // Execute both registration and login in parallel
+            await Promise.all(promises);
+
+            // Wait for the login or registration to complete before redirecting
+            await navigate(redirectPath);
+
+            // Reset the state or do any necessary cleanup
+            setSubmit(false);
         } else {
             setSubmit(false);
-            setError(true)
-            console.log("error")
+            setError(true);
+            console.log("error");
         }
     };
-
 
     useEffect(() => {
         // Check if 'pin' is a valid 4-digit number before calling handleVerify
