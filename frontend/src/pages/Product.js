@@ -630,9 +630,9 @@ function Product() {
                                             >
                                                 {cartItems.find((item) => item.id === product.id) ? (
                                                     <span
-                                                        onClick={() => handleRemoveFromCart(product.id)}
+                                                        onClick={() => navigate('/cart')}
                                                     >
-                                                        <i className="fa fa-check-circle"></i> Added to Cart
+                                                        <i className="fa fa-check-circle"></i> Go to Cart
                                                     </span>
                                                 ) : (
                                                     <span
@@ -879,9 +879,9 @@ function Product() {
                                         >
                                             {cartItems.find((item) => item.id === product.id) ? (
                                                 <span
-                                                    onClick={() => handleRemoveFromCart(product.id)}
+                                                    onClick={() => navigate('/cart')}
                                                 >
-                                                    <i className="fa fa-check-circle"></i> In Cart
+                                                    <i className="fa fa-check-circle"></i> Go to Cart
                                                 </span>
                                             ) : (
                                                 <span onClick={() => handleAddToCart(product)}>

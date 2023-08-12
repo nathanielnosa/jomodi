@@ -25,7 +25,6 @@ function OrderDetailPage() {
 
   return (
     <Container size="" className="custom-container">
-      <
       
     </Container>
   );

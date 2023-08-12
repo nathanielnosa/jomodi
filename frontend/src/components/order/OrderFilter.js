@@ -59,20 +59,19 @@ function OrderFilter({ selectedOrderStatus, setSelectedOrderStatus, selectedOrde
                         </Accordion.Control>
                         <Accordion.Panel>
                             {ORDER_STATUS?.map((status, index) => (
-                                <div className="input-checkbox" key={index}>
+                                <div className="input-radio" key={index} style={{ display: 'inline-block', marginRight: '10px' }}>
                                     <input
-                                        type="checkbox"
-                                        id={`brand-${index}`}
-                                        checked={selectedOrderStatus?.includes(status)}
-                                        onChange={() => handleStatusChange(status)}
+                                        type="radio"
+                                        id={`order-status-${index}`}
+                                        name="orderStatus"
+                                        onChange={() => setSelectedOrderStatus(status)}
                                     />
-                                    <label htmlFor={`brand-${index}`}>
+                                    <label htmlFor={`order-status-${index}`}>
                                         <span></span>
                                         {status}
                                     </label>
                                 </div>
-                            )
-                            )}
+                            ))}
                         </Accordion.Panel>
                     </Accordion.Item>
                 </Accordion>

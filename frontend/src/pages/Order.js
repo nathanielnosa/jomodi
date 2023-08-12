@@ -117,11 +117,11 @@ function Order() {
   const filteredOrders = orderData?.filter((order) => {
     const statusMatch =
       selectedOrderStatus.length === 0 ||
-      (selectedOrderStatus.includes('Cancelled') && order?.cancel) ||
-      (selectedOrderStatus.includes('Delivered') && order?.delivered) ||
-      (selectedOrderStatus.includes('Out for delivery') && order?.out_for_delivery) ||
-      (selectedOrderStatus.includes('Shipped') && order?.shipped) ||
-      (selectedOrderStatus.includes('Returned') && order?.returned);
+      (selectedOrderStatus == 'Cancelled' && order?.cancel) ||
+      (selectedOrderStatus == ('Delivered') && order?.delivered) ||
+      (selectedOrderStatus == ('Out for delivery') && order?.out_for_delivery) ||
+      (selectedOrderStatus == ('Shipped') && order?.shipped) ||
+      (selectedOrderStatus == ('Returned') && order?.returned);
 
     const timeMatch =
       selectedOrderTime.length === 0 ||
@@ -184,7 +184,6 @@ function Order() {
     <Container size="xl">
       <Modal opened={showModal} onClose={handleClose} size="40%"
         title="Cancel Order">
-
         <Center>
           <Title order={2} m="lg">Are you sure you want to cancel this order?</Title>
         </Center>
@@ -214,17 +213,36 @@ function Order() {
         </div>
       </Modal>
       <div className="row">
-        <OrderFilter
-          selectedOrderStatus={selectedOrderStatus}
-          setSelectedOrderStatus={setSelectedOrderStatus}
-          selectedOrderTime={selectedOrderTime}
-          setSelectedOrderTime={setSelectedOrderTime}
-        />
+        {
+          paginatedItems?.length > 0 && (
+            <OrderFilter
+              selectedOrderStatus={selectedOrderStatus}
+              setSelectedOrderStatus={setSelectedOrderStatus}
+              selectedOrderTime={selectedOrderTime}
+              setSelectedOrderTime={setSelectedOrderTime}
+            />
+          )
+        }
+
         <div className="col-md-9">
-          <TextInput placeholder="Search" size="xl"
-            value={keyword}
-            onChange={(e) => setKeyword(e.target.value)}
-          />
+          {
+            paginatedItems?.length > 0 && (
+              <TextInput placeholder="Search" size="xl"
+                value={keyword}
+                onChange={(e) => setKeyword(e.target.value)}
+              />
+            )
+
+          }
+
+          {
+            filteredOrders && filteredOrders?.length === 0 && (
+              <Text size={40} fw="bold" style={{ color: "gray" }}>
+                No Orders for this Status
+              </Text>
+            )
+
+          }
 
           {paginatedItems?.length > 0 &&
             filteredPaginatedItems?.map((item, index) =>
@@ -326,8 +344,8 @@ function Order() {
             </Button>
           </Card.Section>
 
-        </Card>  
-      )} </div>
+        </Card>
+      )}
       <Group spacing={5} position="right">
         <Pagination
           my="lg"
@@ -341,8 +359,7 @@ function Order() {
           }}
         />
       </Group>
-      </div>
-    </Container>
+    </Container >
   );
 }
 
