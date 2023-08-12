@@ -188,33 +188,9 @@ function OrderSummary({ deliveyAddress, showOrder, showPayment }) {
                                                 </div>
 
                                                 <div className="row">
-                                            <div className="col-md-6">
-                                            <div className="card-body">
-                                                <h1 className='card-title' style={{ marginBottom: '5px' }}>Description</h1>
-                                                <p style={{ marginTop: '0', marginBottom: '0' }}>{item.description}</p>
-                                            </div>
-                                            </div>
-                                            <div className="col-md-3">
-                                            <div className="card-body">
-                                                <h1 className='card-title' style={{ marginBottom: '5px' }}>Size</h1>
-                                                <select
-                                                className="form-select" // Apply styling classes here
-                                                value={selectedSize}
-                                                onChange={(e) => handleSizeChange(e.target.value)}
-                                                >
-                                                <option value="small">Small</option>
-                                                <option value="medium">Medium</option>
-                                                <option value="large">Large</option>
-                                                {/* Add more size options as needed */}
-                                                </select>
-                                            </div>
-                                            </div>
-                                            <div className="col-md-3">
-                                            <div className="card-body">
-                                               <h1 className='card-title' style={{ marginBottom: '5px' }}>Color</h1>
-                                                <p style={{ marginTop: '0', marginBottom: '0' }}>{'red'}</p>
-                                            </div>
-                                            </div>
+                                            
+
+                                            
                                         </div>
                                                 </div>
 

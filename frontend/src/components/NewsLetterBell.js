@@ -38,17 +38,35 @@ function NewsLetterBell() {
         <div>
             <div style={{
                 position: 'fixed', bottom: '20px', right: '20px', zIndex: 999,
-                backgroundColor: 'blue',
+                backgroundColor: '#d10024',
                 borderRadius: '50%',
                 padding: '10px',
+                
             }}>
-                <IconBell size={30} color='white' onClick={() => setShowNewsletterForm(!showNewsletterForm)} />
+               {/* <IconBell size={30} color='white' onClick={() => setShowNewsletterForm(!showNewsletterForm)} />*/}
+               <div>
+                <h1></h1>
+                <span class="bell fa fa-bell" style={{color:'white'}}></span>
+                </div>
+
             </div>
 
             {/* Newsletter form */}
             {showNewsletterForm && (
-                <div class="wrapper">
-                    <div class="top">
+                <div class="wrapper" 
+                style={{
+                    position: 'fixed',
+                    top: '50%',
+                    right: '20px', // Adjust this value as needed
+                    transform: 'translateY(-50%)',
+                    backgroundColor: 'white',
+                    borderRadius: '8px',
+                    padding: '20px',
+                    boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.1)',
+                    zIndex: 999,
+                  }}
+                >
+                    <div class="top" style={{backgroundColor:'#d10024'}}>
                         <i class="fas fa-envelope-open-text"></i>
                         {
                             success && (
@@ -81,7 +99,7 @@ function NewsLetterBell() {
                                     required />
                             </div>
                             <div class="input-box">
-                                <input type="submit" value="Subscribe" />
+                                <input type="submit" value="Subscribe" style={{backgroundColor:'#d10024'}} />
                             </div>
                         </form>
                         <div class="footer">

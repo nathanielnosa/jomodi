@@ -120,7 +120,62 @@ function Order() {
   );
 
   return (
-    <Container size="lg">
+    <Container size="" className="custom-container">
+      <div style={{ display: 'flex' }}>
+
+      <Card style={{ flex: 1, marginRight: '1rem', padding: '1rem' }}>
+      {/* Filter options content here */}
+      <Title>Filters</Title>
+      <hr className="h-px my-8 bg-gray-200 border-0 dark:bg-gray-700"></hr>
+      <Text size="xlg" fz="lg" weight={500} style={{ color: "black", marginBottom: "0.5rem" }} className="mt-3">
+      ORDER STATUS
+      </Text>
+      
+
+      <div style={{ display: "flex", flexDirection: "column" }}>
+    <label style={{ display: "flex", alignItems: "center", marginBottom: "0.5rem" }}>
+      <input type="checkbox" style={{ marginRight: "1.5rem" }} />
+      <Text size="lg">On the way</Text>
+    </label>
+    <label style={{ display: "flex", alignItems: "center", marginBottom: "0.5rem" }}>
+      <input type="checkbox" style={{ marginRight: "1.5rem" }} />
+      <Text size="lg">Delivered</Text>
+    </label>
+    <label style={{ display: "flex", alignItems: "center", marginBottom: "0.5rem" }}>
+      <input type="checkbox" style={{ marginRight: "1.5rem" }} />
+      <Text size="lg">Cancelled</Text>
+    </label>
+    <label style={{ display: "flex", alignItems: "center", marginBottom: "0.5rem" }}>
+      <input type="checkbox" style={{ marginRight: "1.5rem" }} />
+      <Text size="lg">Returned</Text>
+    </label>
+    </div>
+    <hr className="h-px my-8 bg-gray-200 border-0 dark:bg-gray-700"></hr>
+    <Text size="xlg" fz="lg" weight={500} style={{ color: "black", marginBottom: "0.5rem" }} className="mt-3">
+      ORDER TIME
+      </Text>
+
+      <div style={{ display: "flex", flexDirection: "column" }}>
+    <label style={{ display: "flex", alignItems: "center", marginBottom: "0.5rem" }}>
+      <input type="checkbox" style={{ marginRight: "1.5rem" }} />
+      <Text size="lg">Last 30 days</Text>
+    </label>
+    <label style={{ display: "flex", alignItems: "center", marginBottom: "0.5rem" }}>
+      <input type="checkbox" style={{ marginRight: "1.5rem" }} />
+      <Text size="lg">2022</Text>
+    </label>
+    <label style={{ display: "flex", alignItems: "center", marginBottom: "0.5rem" }}>
+      <input type="checkbox" style={{ marginRight: "1.5rem" }} />
+      <Text size="lg">2021</Text>
+    </label>
+    <label style={{ display: "flex", alignItems: "center", marginBottom: "0.5rem" }}>
+      <input type="checkbox" style={{ marginRight: "1.5rem" }} />
+      <Text size="lg">2020</Text>
+    </label>
+    </div>
+
+      {/* ... */}
+    </Card>
       <Modal opened={showModal} onClose={handleClose} size="40%" 
       title="Cancel Order">
         <Center>
@@ -152,89 +207,97 @@ function Order() {
         </div>
       
       </Modal>
+      <div style={{ flex: 4, display: 'flex', flexDirection: 'column' }}>
+
+        {/* Search Bar */}
+      <input
+        type="text"
+        placeholder="Search Orders..."
+        style={{
+          width: '100%',
+          padding: '0.5rem',
+          marginBottom: '1rem',
+        }}
+      />
 
       {orderData &&
         paginatedItems?.map((item, index) =>
           item?.products?.map((product, index) => (
-            <Card key={index} shadow="sm" padding="lg" mt="xl">
-             
-              <Card.Section withBorder inheritPadding py="xs">
-                <Group position="apart">
-                  <Image src={product?.image} width={100} height={100} />
+            <Card key={index} shadow="sm" padding="lg" mt="lg">
+  <Card.Section withBorder inheritPadding py="xs">
+    <Group position="apart">
+      <Image src={product?.image} width={100} height={100} />
+      <div className="mt-7">
+        <Text size="xl" weight={500} style={{ marginBottom: "0.5rem" }}>
+          {product?.name}
+        </Text>
+        <Text size="lg" fz="lg" style={{ color: "black", marginBottom: "0.5rem" }}>
+          Quantity: {product?.quantity}
+        </Text>
+        {item.status === "Shipping in Progress" && (
+          <Button
+            variant="outline"
+            color="red"
+            size="lg"
+            radius="xl"
+            mb="md"
+            style={{ marginRight: "1rem" }}
+            onClick={() => handleOpen(item.id, product.id)}
+            disabled={product?.cancel}
+          >
+            Cancel
+          </Button>
+        )}
+      </div>
+      <div className="mt-3">
+        <Text size="lg" style={{ color: "gray" }}>
+          
+        </Text>
+        <Text size="lg" style={{ color: "black" }} className="mt-0" weight={500}>
+          ₹{product?.price}
+        </Text>
+     
+      </div>
+      <div>
+      <div className="text-center">
+      <Text size="lg" style={{ color: "gray", marginTop: "1rem" }}>
+          Order Date
+        </Text>
+        <Text size="lg" style={{ color: "gray" }}>
+          {dayjs(item?.created_at).format("DD/MM/YYYY")}
+        </Text>
+        <Text size="lg" style={{ color: "gray" }}>
+          Order ID
+        </Text>
+        <Text size="lg" style={{ color: "gray" }}>
+          #{item?.order_id}
+        </Text>
 
-                  <Group position="apart">
-                    <div>
-                      <Text size="lg" style={{ color: "gray" }}>
-                        Order Date
-                      </Text>
-                      <Text size="lg" style={{ color: "gray" }}>
-                        {dayjs(item?.created_at).format("DD/MM/YYYY")}
-                      </Text>
-                    </div>
-                    <div>
-                      <Text size="lg" style={{ color: "gray" }}>
-                        Order ID
-                      </Text>
-                      <Text size="lg" style={{ color: "gray" }}>
-                        #{item?.order_id}
-                      </Text>
-                    </div>
+      </div>
+        <div className="status-badge">
+  {product?.cancel && (
+    <Badge className="badge-red">
+      Cancelled
+    </Badge>
+  )}
+  {product?.cancel === false && (
+    <Badge className="badge-green">
+      {item?.status}
+    </Badge>
+  )}
+</div>
 
-                    <div>
-                      <Text size="lg" style={{ color: "gray" }}>
-                        Order Price
-                      </Text>
-                      <Text size="lg" style={{ color: "gray" }}>
-                        ₹{product?.price}
-                      </Text>
-                    </div>
-                  </Group>
-                </Group>
-              </Card.Section>
-              <Group position="apart">
-                <div>
-                  <Text size="xl" weight={500} style={{ marginBottom: "1rem" }}>
-                    {product?.name}
-                  </Text>
-                  <Text
-                    size="lg"
-                    fz="lg"
-                    style={{ color: "black", marginBottom: "1rem" }}
-                  >
-                    Quantity: {product?.quantity}
-                  </Text>
-                </div>
-                {item.status === "Shipping in Progress" && (
-                  <Button
-                    variant="outline"
-                    color="red"
-                    size="lg"
-                    radius="xl"
-                    mb="md"
-                    style={{ marginRight: "1rem" }}
-                    onClick={() => handleOpen(item.id, product.id)}
-                    disabled={product?.cancel}
-                  >
-                    cancel
-                  </Button>
-                )}
-              </Group>
-              {product?.cancel && (
-                <Badge fz="xl" p="xl" color="red">
-                  Cancelled
-                </Badge>
-              )}
-              {product?.cancel == false && (
-                <Badge fz="xl" p="xl" color="green">
-                  {item?.status}
-                </Badge>
-              )}
-            </Card>
+        
+      </div>
+    </Group>
+  </Card.Section>
+</Card>
+
           ))
         )}
       {orderData?.length === 0 && (
         <Card shadow="sm" padding="lg" mt="xl">
-          <Card.Section withBorder inheritPadding py="xs">
+          <Card.Section withBorder inheritPadding py="xs" className="text-center">
             <Group position="apart">
               <Text size="xl" fz="xl" fw="bold" style={{ color: "gray" }}>
                 No Orders
@@ -246,15 +309,15 @@ function Order() {
               color="teal"
               size="lg"
               radius="xl"
-              m={80}
               style={{ marginRight: "1rem" }}
               onClick={() => navigate("/")}
             >
               Continue Shopping
             </Button>
           </Card.Section>
-        </Card>
-      )}
+
+        </Card>  
+      )} </div>
       <Group spacing={5} position="right">
         <Pagination
           my="lg"
@@ -268,6 +331,7 @@ function Order() {
           }}
         />
       </Group>
+      </div>
     </Container>
   );
 }
