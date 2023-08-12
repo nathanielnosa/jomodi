@@ -184,6 +184,7 @@ function Order() {
     <Container size="xl">
       <Modal opened={showModal} onClose={handleClose} size="40%"
         title="Cancel Order">
+
         <Center>
           <Title order={2} m="lg">Are you sure you want to cancel this order?</Title>
         </Center>
@@ -307,7 +308,7 @@ function Order() {
       </div>
       {orderData?.length === 0 && (
         <Card shadow="sm" padding="lg" mt="xl">
-          <Card.Section withBorder inheritPadding py="xs">
+          <Card.Section withBorder inheritPadding py="xs" className="text-center">
             <Group position="apart">
               <Text size="xl" fz="xl" fw="bold" style={{ color: "gray" }}>
                 No Orders
@@ -318,15 +319,15 @@ function Order() {
               color="teal"
               size="lg"
               radius="xl"
-              m={80}
               style={{ marginRight: "1rem" }}
               onClick={() => navigate("/")}
             >
               Continue Shopping
             </Button>
           </Card.Section>
-        </Card>
-      )}
+
+        </Card>  
+      )} </div>
       <Group spacing={5} position="right">
         <Pagination
           my="lg"
@@ -340,6 +341,7 @@ function Order() {
           }}
         />
       </Group>
+      </div>
     </Container>
   );
 }

@@ -24,6 +24,7 @@ import Register from '../pages/Register';
 import PrivateRoute from './PrivateRoute';
 import OTPVerification from '../pages/OTPVerification';
 import ProfilePage from '../pages/ProfilePage';
+import OrderDetailPage from '../pages/OrderDetails';
 import OrderProductSummary from '../pages/OrderProductSummary';
 import { useAuth } from '../context/auth-context';
 
@@ -87,6 +88,7 @@ function MainRoute() {
                 <Route path='/otp-verification' element={<OTPVerification />} />
                 <Route path="/register" element={<Register />} />
                 <Route path="*" element={<h1>Not Found</h1>} />
+                <Route path="/order-details" element={<OrderDetailPage/>}></Route>
             </Route>
         </Routes>
 

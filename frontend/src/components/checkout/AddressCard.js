@@ -50,6 +50,8 @@ function AddressCard({
   const [hideAdresses, setHideAddresses] = useState(false);
   const [opened, setOpened] = useState(false);
   const [showModal, setShowModal] = useState(false);
+  const [bgColor, setBgColor] = useState('white');
+  const [color, setColor] = useState('black');
 
   const handleOpenEdit = (address) => {
     setSelectedAddress(address);
@@ -65,11 +67,14 @@ function AddressCard({
   const handleOpen = (address) => {
     setSelectedAddress(address);
     setShowModal(true);
+    setColor('white')
+    setBgColor('red')
   };
 
   const handleClose = () => {
     setSelectedAddress(null);
     setShowModal(false);
+    setColor('white')
   };
 
   const handleDeleteAddress = (id) => {
@@ -412,9 +417,9 @@ function AddressCard({
       <Card shadow="sm">
        
             
-            <Card.Section m="5" p="sm"  style={{ backgroundColor: user && hideAdresses? "transparent" : "#d10024" }}>
+            <Card.Section m="5" p="sm"  style={{ backgroundColor: bgColor }}>
             <Group mt="xs">
-              <Text fz={30} weight={700} color={ hideAdresses ? "black" : "white"}>
+              <Text fz={30} weight={700} color={color}>
                 2. DELIVERY ADDRESS
               </Text>
               {hideAdresses && <IconCheckbox size={30} />}
@@ -440,6 +445,8 @@ function AddressCard({
                       </Text>
                       <Button onClick={() => {
                         setHideAddresses(false);
+                        setBgColor('#d10024')
+                        setColor('white')
                         setShowOrder(false)
                       }}
                         size="xl"
@@ -550,6 +557,8 @@ function AddressCard({
                           setSelectedAddress(address);
                           setHideAddresses(true);
                           setShowOrder(true)
+                          setBgColor('white')
+                          setColor('black')
                         }}
                           style={{
                             margin: "10px",
