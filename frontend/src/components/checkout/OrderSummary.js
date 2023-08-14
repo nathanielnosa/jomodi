@@ -188,12 +188,12 @@ function OrderSummary({ deliveyAddress, showOrder, showPayment }) {
                                                     </div>
 
                                                     <div className="row">
-                                                        <div className="col-md-6">
+                                                        {/* <div className="col-md-6">
                                                             <div className="card-body">
                                                                 <h1 className='card-title' style={{ marginBottom: '5px' }}>Description</h1>
                                                                 <p style={{ marginTop: '0', marginBottom: '0' }}>{item.description}</p>
                                                             </div>
-                                                        </div>
+                                                        </div> */}
                                                         <div className="col-md-3">
                                                             <div className="card-body">
                                                                 <h1 className='card-title' style={{ marginBottom: '5px' }}>Size</h1>

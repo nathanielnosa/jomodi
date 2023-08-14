@@ -28,6 +28,12 @@ function Checkout() {
     const [showOrder, setShowOrder] = useState(false);
     const [showPayment, setShowPayment] = useState(false);
     const [showModal, setShowModal] = useState(false);
+    const [cartTotal, setCartTotal] = useState(0);
+    const [couponCode, setCouponCode] = useState("");
+    const [couponID, setCouponID] = useState(null);
+    const [couponUsers, setCouponUsers] = useState([]);
+    const [numberAvailable, setNumberAvailable] = useState(0);
+
     const dispatch = useDispatch();
 
     const handleRemoveItems = () => {
@@ -49,15 +55,28 @@ function Checkout() {
             }))
         );
     }, []);
-    const cartTotal = cartItems.reduce(
-        (total, item) => total + item.quantity * item.price,
-        0
-    );
+
+
     const cartDiscount = cartItems.reduce(
         (total, item) => total + item.quantity * item.cancel_price,
         0
     );
     const productIds = cartItems?.map((item) => item.id);
+
+    useEffect(() => {
+        // Get the coupon code axios
+        axios
+            .get(`${API_URL}order/coupon/${couponID}`)
+            .then((res) => {
+                console.log(res.data);
+                setCouponUsers(res.data[0].users);
+                setNumberAvailable(res.data[0].number_available);
+            })
+            .catch((err) => {
+                console.log(err);
+            });
+    }, [couponCode]);
+
 
     const handleSubmit = (e) => {
 
@@ -90,10 +109,18 @@ function Checkout() {
                 paid: false,
                 total: cartTotal,
                 cancel: false,
+                shipped : false,
+                delivered : false,
+                out_for_delivery : false,
+                returned : false,
+                shipped_date : null,
+                delivered_date : null,
+                out_for_delivery_date : null,
                 payment_method: 'Payment on delivery',
                 discount: cartDiscount,
                 order_id: "ORD" + Math.floor(Math.random() * 1000000000),
                 order_data: cartItems,
+                coupon: couponCode,
                 status: "Shipping in Progress",
                 products: cartItems,
                 user: user?.user_id,
@@ -107,8 +134,23 @@ function Checkout() {
                     console.log(res.data);
                     handleRemoveItems();
                     navigate("/order-success");
+
+                    // Perform the PATCH request to update the coupon
+                    axios.patch(`${API_URL}order/coupon/${couponID}/`, {
+                        users: [...couponUsers, user?.user_id], 
+                        number_available : numberAvailable - 1
+                        // You need to provide an array of users here
+                    })
+                        .then((patchRes) => {
+                            console.log("Coupon updated:", patchRes.data);
+                        })
+                        .catch((patchErr) => {
+                            console.log("Error updating coupon:", patchErr);
+                        });
                 })
-                .catch((err) => console.log(err));
+                .catch((err) => {
+                    console.log(err);
+                });
         }
     };
 
@@ -151,10 +193,9 @@ function Checkout() {
                                         showOrder={showOrder}
                                         showPayment={setShowPayment}
                                     />
-                                    <PaymentMethod 
-                                    showPayment={showPayment}
+                                    <PaymentMethod
+                                        showPayment={showPayment}
                                     />
-
                                 </SimpleGrid>
                             </div>
 
@@ -164,10 +205,17 @@ function Checkout() {
                                     top: 100,
                                 }}
                             >
+                               
                                 <div className="section-title text-center">
                                     <h3 className="title">Your Order</h3>
                                 </div>
-                                <OrderDetail />
+                                <OrderDetail 
+                                cartTotal={cartTotal}
+                                setCartTotal={setCartTotal}
+                                couponCode={couponCode}
+                                setCouponCode={setCouponCode}
+                                setCouponID={setCouponID}
+                                />
 
                                 <div className="input-checkbox">
                                     <input type="checkbox" id="terms" checked={true} required />
@@ -193,16 +241,16 @@ function Checkout() {
                                         >
                                             Place order
                                         </button>
-                                    )
+                                        )
                                     )
                                 }
                                 {
                                     cartItems.length === 0 && (
                                         <Link to="/store" className="primary-btn order-submit"
-                                        style={{
-                                            textDecoration: "none",
-                                            backgroundColor: "orange",
-                                        }}
+                                            style={{
+                                                textDecoration: "none",
+                                                backgroundColor: "orange",
+                                            }}
                                         >
                                             Shop Now For Products
                                         </Link>

@@ -375,7 +375,7 @@ function Product() {
             <div>
                 <div className="container">
                     <div className="flex flex-wrap -mx-4">
-                       
+
 
                         <div className="col-md-1 h-20 md:col-md-1  md:h-auto">
                             {/* Change the Carousel orientation to horizontal on small screens */}
@@ -507,11 +507,9 @@ function Product() {
                                         {showFullDescription ? "See Less" : "See More"}
                                     </span>
                                 )}
-
                                 <div className="product-options">
                                     {
                                         product?.show_size && (
-
                                             <Group variant="filled" mb="sm" mt="xs" style={{ display: 'flex', flexWrap: 'wrap' }}>
                                                 <Text variant="label" style={{ marginRight: '10px' }}>Size
                                                 </Text>
