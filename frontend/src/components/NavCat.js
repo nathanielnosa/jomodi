@@ -7,6 +7,7 @@ import { Menu } from '@mantine/core';
 function NavCat() {
     const [categories, setCategories] = useState([]);
     const [brand, setBrand] = useState([]);
+    const [subcategories, setSubCategories] = useState([]);
     const [openDropdown, setOpenDropdown] = useState(null);
 
     useEffect(() => {
@@ -20,6 +21,19 @@ function NavCat() {
                 console.log(err);
             });
     }, []);
+
+    useEffect(() => {
+        axios
+            .get(API_URL + 'category/subcategory-detail/')
+            .then((res) => {
+                console.log(res.data.results[0]?.id);
+                setSubCategories(res.data.results);
+            })
+            .catch((err) => {
+                console.log(err);
+            });
+    }, []);
+    
 
     useEffect(() => {
         axios
@@ -67,16 +81,14 @@ function NavCat() {
                                 style={{
                                     position: 'relative', // Add position relative to each category item
                                 }}
-
                             >
-
                                 <Link
                                     to={`/category/${category?.id}/${category?.name}`}
                                     style={{
                                         textDecoration: 'none',
                                     }}
                                 >
-                                    {category.name}
+                                    {category.name?.toUpperCase()}
                                 </Link>
 
                                 {openDropdown == category?.id && (
@@ -95,11 +107,11 @@ function NavCat() {
                                         }}
                                     >
                                         <ul style={{ listStyle: 'none', margin: 0, padding: 0 }}>
-                                            {brand
-                                                .filter((brandItem) => brandItem?.category?.id == category?.id)
-                                                .map((brandItem) => (
+                                            {subcategories
+                                                .filter((item) => item?.category?.id == category?.id)
+                                                .map((item) => (
                                                     <li
-                                                        key={brandItem?.id}
+                                                        key={item?.id}
                                                         style={{
                                                             fontWeight: '500',
                                                             fontSize: '1.4rem',
@@ -110,14 +122,14 @@ function NavCat() {
                                                         }}
                                                         className='brand-item'
                                                     >
-                                                        <Link to={`/brand/${brandItem?.id}/${brandItem?.name}`}
+                                                        <Link to={`/subcategory/${item?.id}/${item?.name}`}
                                                             style={{
                                                                 textDecoration: 'none',
                                                                 pointer: 'cursor',
 
                                                             }}
                                                         >
-                                                            {brandItem?.name}
+                                                            {item?.name?.toUpperCase()}
                                                         </Link>
                                                     </li>
                                                 ))}

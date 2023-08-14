@@ -514,19 +514,19 @@ function Product() {
                                                 <Text variant="label" style={{ marginRight: '10px' }}>Size
                                                 </Text>
                                                 {
-                                                    (product?.size?.split(','))?.map((siz, index) => (
+                                                    product?.size?.map((siz, index) => (
                                                         <Badge
                                                             key={index}
                                                             variant={
-                                                                selectedSize == siz ? 'dot' : 'light'
+                                                                selectedSize == siz.size ? 'dot' : 'light'
                                                             }
                                                             radius="xl"
                                                             size="xl"
 
-                                                            onClick={() => setSelectedSize(siz)}
+                                                            onClick={() => setSelectedSize(siz.size)}
                                                             style={{
-                                                                fontWeight: selectedSize == siz ? 'bold' : 'normal',
-                                                                fontSize: selectedSize == siz ? '10px' : '15px',
+                                                                fontWeight: selectedSize == siz.size ? 'bold' : 'normal',
+                                                                fontSize: selectedSize == siz.size ? '10px' : '15px',
                                                                 borderRadius: '50%',
                                                                 height: '50px',
                                                                 width: '50px',
@@ -534,7 +534,7 @@ function Product() {
                                                             }}
                                                         >
 
-                                                            {siz}
+                                                            {siz.size}
                                                         </Badge>
                                                     ))
                                                 }
@@ -562,21 +562,19 @@ function Product() {
                                                     Color
                                                 </Text>
                                                 {
-                                                    [...new Set(colorImage.map(color => color.color))].map((uniqueColor, index) => (
+                                                    product?.color?.map((color, index) => (
                                                         <Badge
                                                             key={index}
                                                             radius="xl"
                                                             size="xl"
                                                             style={{
-                                                                width: '45px',
-                                                                height: '45px',
+                                                                width: '40px',
+                                                                height: '40px',
                                                                 borderRadius: '50%',
-                                                                backgroundColor: uniqueColor,
+                                                                backgroundColor: color.color,
                                                                 cursor: 'pointer',
                                                             }}
-                                                            onClick={() => setSelectedColor(uniqueColor)}
-                                                            onMouseEnter={() => setZoomImage(colorImage.find(color => color.color === uniqueColor).image)}
-                                                            onMouseLeave={() => setZoomImage("")}
+                                                            onClick={() => setSelectedColor(color.color)}
                                                         ></Badge>
                                                     ))
                                                 }
