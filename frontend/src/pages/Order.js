@@ -7,19 +7,31 @@ import {
   Group,
   Container,
   Image,
+  Grid,
+  SimpleGrid,
   Button,
+  Notification,
   Pagination,
   Modal,
   Title,
   Center,
+<<<<<<< HEAD
+  CardSection
+=======
   TextInput
+>>>>>>> 01668559bfe1399f41ad270e126082230da95c72
 } from "@mantine/core";
 import axios from "axios";
 import { API_URL } from "../constants";
 import dayjs from "dayjs";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/auth-context";
+<<<<<<< HEAD
+import { IconCheck, IconX, IconPointFilled } from '@tabler/icons-react';
+
+=======
 import OrderFilter from "../components/order/OrderFilter";
+>>>>>>> 01668559bfe1399f41ad270e126082230da95c72
 
 function Order() {
   const navigate = useNavigate();
@@ -224,6 +236,158 @@ function Order() {
           )
         }
 
+<<<<<<< HEAD
+        {/* Search Bar */}
+      <input
+        type="text"
+        placeholder="Search Orders..."
+        style={{
+          width: '100%',
+          padding: '0.5rem',
+          marginBottom: '1rem',
+        }}
+      />
+      
+      <form>
+  <div className="flex">
+    <div className="relative w-full">
+      <input
+        type="search"
+        id=""
+        className="block p-5 w-full z-20 text-sm text-gray-900 bg-gray-50 rounded-r-lg border-l-gray-50 border-l-2 border-tl-rounded border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-l-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:border-blue-500"
+        placeholder="Search"
+        required
+        style={{ borderColor: 'gray' }}
+      />
+      <button
+        type="submit"
+        className="absolute top-0 right-0 p-3 text-sm font-medium h-full text-white bg-blue-700 rounded-r-lg border border-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+      >
+        <svg
+          className="w-20 h-4"
+          aria-hidden="true"
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 20 20"
+          
+        >
+          <path
+            stroke="currentColor"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth="2"
+            d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"
+          />
+        </svg>
+        <span className="sr-only">Search</span>
+      </button>
+    </div>
+  </div>
+</form>
+
+
+      
+
+      {orderData &&
+        paginatedItems?.map((item, index) =>
+          item?.products?.map((product, index) => (
+            <Card key={index} shadow="sm" padding="lg" mt="lg">
+              <CardSection withBorder inheritPadding py="xs">
+              <Grid>
+              <Grid.Col md={3}>
+              <Image src={product?.image} width={100} height={100} style={{marginTop:'2rem'}} />
+            </Grid.Col>
+            <Grid.Col md={3}>
+            <div className="mt-7">
+        <Text size="xl" weight={500} style={{ marginBottom: "0.5rem" }}>
+          {product?.name}
+        </Text>
+        <Text size="lg" fz="lg" style={{ color: "black", marginBottom: "0.5rem" }}>
+          Quantity: {product?.quantity}
+        </Text>
+        {item.status === "Shipping in Progress" && (
+          <Button
+            variant="outline"
+            color="red"
+            size="lg"
+            radius="xl"
+            mb="md"
+            style={{ marginRight: "1rem" }}
+            onClick={() => handleOpen(item.id, product.id)}
+            disabled={product?.cancel}
+          >
+            Cancel
+          </Button>
+        )}
+      </div>
+            </Grid.Col>
+            <Grid.Col md={3}>
+            <div className="mt-7">
+        <Text size="lg" style={{ color: "gray" }}>
+          
+        </Text>
+        <Text size="lg" style={{ color: "black" }} className="mt-0 text-center" weight={500}>
+          ₹{product?.price}
+        </Text>
+     
+      </div>
+            </Grid.Col>
+            <Grid.Col md={3}>
+             {/* <div className="text-center">
+      <Text size="lg" style={{ color: "gray", marginTop: "1rem" }}>
+          Order Date
+        </Text>
+        <Text size="lg" style={{ color: "gray" }}>
+          {dayjs(item?.created_at).format("DD/MM/YYYY")}
+        </Text>
+        <Text size="lg" style={{ color: "gray" }}>
+          Order ID
+        </Text>
+        <Text size="lg" style={{ color: "gray" }}>
+          #{item?.order_id}
+        </Text>  
+
+        </div> */}
+        <div className="mt-7">
+  {product?.cancel && (
+    <div style={{ display: 'flex', alignItems: 'center' }}>
+    <IconPointFilled color="red" title="" style={{ color: 'red', marginRight: '0.5rem' }} />
+    Cancelled
+   
+  
+    
+  </div>
+  )}
+  {product?.cancel === false && (
+  <div style={{ display: 'flex', alignItems: 'center' }}>
+  <IconPointFilled color="green" title="" style={{ color: 'green', marginRight: '0.5rem' }} />
+  {item?.status}
+ 
+
+  
+</div>
+
+
+)}
+
+
+</div>
+            </Grid.Col>
+              </Grid>
+
+              </CardSection>
+  <Card.Section withBorder inheritPadding py="xs">
+            
+    <Group position="apart">
+               
+     
+    </Group>
+  </Card.Section>
+</Card>
+
+          ))
+        )}
+=======
         <div className="col-md-9">
           {
             paginatedItems?.length > 0 && (
@@ -324,6 +488,7 @@ function Order() {
             )}
         </div>
       </div>
+>>>>>>> 01668559bfe1399f41ad270e126082230da95c72
       {orderData?.length === 0 && (
         <Card shadow="sm" padding="lg" mt="xl">
           <Card.Section withBorder inheritPadding py="xs" className="text-center">
