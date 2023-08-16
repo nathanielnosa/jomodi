@@ -27,10 +27,159 @@
   
   /* Custom container width */
 .custom-container {
-    max-width: 1100px; 
+    max-width: 1400px; 
     margin: 0 auto; 
   }
 
+  .vertical-line {
+    width: 1px;
+    background-color: #ccc;
+    margin: none;
+    padding: none;
+    align-self: center;
+    height: 100%; /* Adjust this value as needed */
+  }
+
+  .vertical-line-col {
+    display: none;
+  }
+  .delivery-address {
+    display: flex;
+    align-items: center;
+  }
+  
+  @media (min-width: 768px) {
+    .vertical-line-col {
+      display: block;
+    }
+  }
+
+
+/* order-status */
+.gradient-custom-2 {
+  /* fallback for old browsers */
+  
+  }
+  
+  #progressbar-1 {
+  color: #455A64;
+  }
+  
+  #progressbar-1 li {
+  list-style-type: none;
+  font-size: 13px;
+  width: 33.33%;
+  float: left;
+  position: relative;
+  }
+  
+  #progressbar-1 #step1:before {
+  content: "1";
+  color: #fff;
+  width: 29px;
+  margin-left: 22px;
+  padding-left: 11px;
+  }
+  
+  #progressbar-1 #step2:before {
+  content: "2";
+  color: #fff;
+  width: 29px;
+  }
+  
+  #progressbar-1 #step3:before {
+  content: "3";
+  color: #fff;
+  width: 29px;
+  margin-right: 22px;
+  text-align: center;
+  }
+  
+  #progressbar-1 li:before {
+  line-height: 29px;
+  display: block;
+  font-size: 12px;
+  background: #455A64;
+  border-radius: 50%;
+  margin: auto;
+  }
+  
+  #progressbar-1 li:after {
+  content: '';
+  width: 121%;
+  height: 2px;
+  background: #455A64;
+  position: absolute;
+  left: 0%;
+  right: 0%;
+  top: 15px;
+  z-index: -1;
+  }
+  
+  #progressbar-1 li:nth-child(2):after {
+  left: 50%
+  }
+  
+  #progressbar-1 li:nth-child(1):after {
+  left: 25%;
+  width: 121%
+  }
+  
+  #progressbar-1 li:nth-child(3):after {
+  left: 25%;
+  width: 50%;
+  }
+  
+  #progressbar-1 li.active:before,
+  #progressbar-1 li.active:after {
+  background: #1266f1;
+  }
+  
+  .card-stepper {
+  z-index: 0
+  }
+
+/* order-progress */
+.tracking-progress-bar {
+  margin: 10px 0;
+}
+
+.tracking-progress-bar__item {
+  background: #E5E7ED;
+  border-radius: 50%;
+  color: #768CAD;
+  display: inline-block;
+  font-family: sans-serif;
+  font-size: 17px;
+  height: 30px;
+  line-height: 30px;
+  position: relative;
+  text-align: center;
+  width: 31px;
+  z-index: 9;
+}
+
+.tracking-progress-bar__item__bar {
+  background: #E5E7ED;
+  display: inline-block;
+  margin: 0 -5px;
+  height: 12px;
+  width: 170px;
+  z-index: 2;
+}
+
+.tracking-progress-bar__item__bar--active {
+  background: green;
+}
+
+.tracking-progress-bar__item--first {
+  margin-left: 0;
+}
+
+.tracking-progress-bar__item--active {
+  background: green;
+  color: #fff;
+}
 
 
 
