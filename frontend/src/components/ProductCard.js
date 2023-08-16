@@ -291,9 +291,9 @@ function ProductCard({ product, index }) {
                         >
                             {cartItems.find((item) => item.id === product.id) ? (
                                 <span
-                                    onClick={() => handleRemoveFromCart(product.id)}
+                                    onClick={() => navigate('/cart')}
                                 >
-                                    <i className="fa fa-check-circle"></i> In Cart
+                                    <i className="fa fa-check-circle"></i> Go to Cart
                                 </span>
                             ) : (
                                 (product?.show_size || product?.show_color) ? (

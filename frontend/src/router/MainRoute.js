@@ -25,6 +25,8 @@ import PrivateRoute from './PrivateRoute';
 import OTPVerification from '../pages/OTPVerification';
 import ProfilePage from '../pages/ProfilePage';
 import OrderDetailPage from '../pages/OrderDetails';
+import OrderProductSummary from '../pages/OrderProductSummary';
+import SubCategory from '../pages/SubCategory';
 import { useAuth } from '../context/auth-context';
 
 function MainRoute() {
@@ -69,12 +71,14 @@ function MainRoute() {
                         </PrivateRoute>
                     }
                 />
+                <Route path='/order-product-summary' element={<OrderProductSummary />} />
                 <Route path='/checkout' element={<Checkout />} />
                 <Route path='/wishlistcheckout' element={<WishListCheckOut />} />
                 <Route path='/product-checkout/:id/:slug' element={<ProductCheckout />} />
                 <Route path="/cart" element={<CartPage />} />
                 <Route path="/product/:id/:slug" element={<Product />} />
                 <Route path="/category/:id/:slug" element={<Category />} />
+                <Route path="/subcategory/:id/:slug" element={<SubCategory />} />
                 <Route path="search/:keyword/:categoryid" element={<SearchPage />} />
                 <Route path="/brand/:id/:slug" element={<Brand />} />
                 <Route path="/help" element={<HelpPage />} />

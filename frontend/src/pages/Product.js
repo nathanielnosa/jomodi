@@ -375,7 +375,7 @@ function Product() {
             <div>
                 <div className="container">
                     <div className="flex flex-wrap -mx-4">
-                       
+
 
                         <div className="col-md-1 h-20 md:col-md-1  md:h-auto">
                             {/* Change the Carousel orientation to horizontal on small screens */}
@@ -507,28 +507,26 @@ function Product() {
                                         {showFullDescription ? "See Less" : "See More"}
                                     </span>
                                 )}
-
                                 <div className="product-options">
                                     {
                                         product?.show_size && (
-
                                             <Group variant="filled" mb="sm" mt="xs" style={{ display: 'flex', flexWrap: 'wrap' }}>
                                                 <Text variant="label" style={{ marginRight: '10px' }}>Size
                                                 </Text>
                                                 {
-                                                    (product?.size?.split(','))?.map((siz, index) => (
+                                                    product?.size?.map((siz, index) => (
                                                         <Badge
                                                             key={index}
                                                             variant={
-                                                                selectedSize == siz ? 'dot' : 'light'
+                                                                selectedSize == siz.size ? 'dot' : 'light'
                                                             }
                                                             radius="xl"
                                                             size="xl"
 
-                                                            onClick={() => setSelectedSize(siz)}
+                                                            onClick={() => setSelectedSize(siz.size)}
                                                             style={{
-                                                                fontWeight: selectedSize == siz ? 'bold' : 'normal',
-                                                                fontSize: selectedSize == siz ? '10px' : '15px',
+                                                                fontWeight: selectedSize == siz.size ? 'bold' : 'normal',
+                                                                fontSize: selectedSize == siz.size ? '10px' : '15px',
                                                                 borderRadius: '50%',
                                                                 height: '50px',
                                                                 width: '50px',
@@ -536,7 +534,7 @@ function Product() {
                                                             }}
                                                         >
 
-                                                            {siz}
+                                                            {siz.size}
                                                         </Badge>
                                                     ))
                                                 }
@@ -564,21 +562,19 @@ function Product() {
                                                     Color
                                                 </Text>
                                                 {
-                                                    [...new Set(colorImage.map(color => color.color))].map((uniqueColor, index) => (
+                                                    product?.color?.map((color, index) => (
                                                         <Badge
                                                             key={index}
                                                             radius="xl"
                                                             size="xl"
                                                             style={{
-                                                                width: '45px',
-                                                                height: '45px',
+                                                                width: '40px',
+                                                                height: '40px',
                                                                 borderRadius: '50%',
-                                                                backgroundColor: uniqueColor,
+                                                                backgroundColor: color.color,
                                                                 cursor: 'pointer',
                                                             }}
-                                                            onClick={() => setSelectedColor(uniqueColor)}
-                                                            onMouseEnter={() => setZoomImage(colorImage.find(color => color.color === uniqueColor).image)}
-                                                            onMouseLeave={() => setZoomImage("")}
+                                                            onClick={() => setSelectedColor(color.color)}
                                                         ></Badge>
                                                     ))
                                                 }
@@ -630,9 +626,9 @@ function Product() {
                                             >
                                                 {cartItems.find((item) => item.id === product.id) ? (
                                                     <span
-                                                        onClick={() => handleRemoveFromCart(product.id)}
+                                                        onClick={() => navigate('/cart')}
                                                     >
-                                                        <i className="fa fa-check-circle"></i> Added to Cart
+                                                        <i className="fa fa-check-circle"></i> Go to Cart
                                                     </span>
                                                 ) : (
                                                     <span
@@ -879,9 +875,9 @@ function Product() {
                                         >
                                             {cartItems.find((item) => item.id === product.id) ? (
                                                 <span
-                                                    onClick={() => handleRemoveFromCart(product.id)}
+                                                    onClick={() => navigate('/cart')}
                                                 >
-                                                    <i className="fa fa-check-circle"></i> In Cart
+                                                    <i className="fa fa-check-circle"></i> Go to Cart
                                                 </span>
                                             ) : (
                                                 <span onClick={() => handleAddToCart(product)}>

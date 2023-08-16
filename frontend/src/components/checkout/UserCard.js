@@ -272,16 +272,13 @@ function UserCard() {
                             </Group>
                         )
                     ) : (
-
                         <Group position="apart">
                             <form>
-                              
                                 {
                                     submitting && (
                                         <Loader size="xl" variant="bars" />
                                     )
                                 }
-
                                 <div>
                                     <TextInput placeholder="Phone Number"
                                         size="lg"
@@ -360,7 +357,7 @@ function UserCard() {
                                                     backgroundColor: "orange",
                                                 }}
                                             >
-                                                LOGIN
+                                                LOGIN 
                                             </button>
                                             <Text size="lg" align="left" m="xl">
                                                 By Continuing, you agree to the
@@ -402,17 +399,10 @@ function UserCard() {
 
                                     )
                                 }
-
-
-
-
                             </form>
-
                         </Group>
                     )
                 }
-
-
             </Card.Section>
 
         </Card>

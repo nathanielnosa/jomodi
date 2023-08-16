@@ -18,7 +18,7 @@ function CartPage() {
   const [quantity, setQuantity] = useState(1);
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [showModal, setShowModal] = useState(false);
-      const [colorImage, setColorImage] = useState([]);
+  const [colorImage, setColorImage] = useState([]);
   useEffect(() => {
     // Update cart items in local storage
     localStorage.setItem('cartItems', JSON.stringify(cartItems));
@@ -175,7 +175,7 @@ function CartPage() {
                               }>{item.name.toUpperCase()}</Link>
                           </h4>
                           <p className="card-text" style={{
-                            marginBottom: '10px', 
+                            marginBottom: '10px',
                           }}>-{item.category.name}</p>
                           <Group position="left" >
                             <del className="product-old-price" style={{
@@ -198,18 +198,18 @@ function CartPage() {
                           <Group position="left">
                             {item.show_size && (
                               <>
-                              <label style={{
-                                marginBottom: '10px',
-                              }}>Size:</label>
+                                <label style={{
+                                  marginBottom: '10px',
+                                }}>Size:</label>
                                 <select className="form-control" style={{ width: '80px', marginHorizontal: '10px', height: "32px", }}>
-                                {item?.size?.split(',').map((size, index) => (
-                                  <option key={index} value={size.trim().toUpperCase()}>
-                                    {size.trim().toUpperCase()}
-                                  </option>
-                                ))}
-                              </select>
+                                  {item?.size?.map((size, index) => (
+                                    <option key={index} value={size?.size?.trim().toUpperCase()}>
+                                      {size?.size?.trim().toUpperCase()}
+                                    </option>
+                                  ))}
+                                </select>
                               </>
-                              
+
                             )}
                           </Group>
                         </div>

@@ -39,6 +39,7 @@ function OrderDetailPage() {
  
 
   return (
+<<<<<<< HEAD
    
     <Container maxWidth="lg" className="custom-container">
       <Card shadow="sm" padding="lg" radius="md" withBorder>
@@ -73,6 +74,9 @@ function OrderDetailPage() {
       <Grid.Col sm={0} md={1} className="vertical-line-col">
       <div className="vertical-line"></div>
       </Grid.Col>
+=======
+    <Container size="" className="custom-container">
+>>>>>>> 01668559bfe1399f41ad270e126082230da95c72
       
       <Grid.Col sm={12} md={3}>
         <Text size="xlg" fz="xlg" weight={500}>More Actions</Text>

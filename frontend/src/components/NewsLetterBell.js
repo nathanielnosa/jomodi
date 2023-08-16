@@ -46,7 +46,9 @@ function NewsLetterBell() {
                {/* <IconBell size={30} color='white' onClick={() => setShowNewsletterForm(!showNewsletterForm)} />*/}
                <div>
                 <h1></h1>
-                <span class="bell fa fa-bell" style={{color:'white'}}></span>
+                <span class="bell fa fa-bell" style={{color:'white'}}
+                        onClick={() => setShowNewsletterForm(!showNewsletterForm)} 
+                ></span>
                 </div>
 
             </div>
@@ -102,6 +104,12 @@ function NewsLetterBell() {
                                 <input type="submit" value="Subscribe" style={{backgroundColor:'#d10024'}} />
                             </div>
                         </form>
+                        <button
+                        onClick={() => setShowNewsletterForm(!showNewsletterForm)}
+                        >
+                            <i class="fas fa-time"></i>
+                            Cancel
+                        </button>
                         <div class="footer">
                             Don't worry, we don't spam
                         </div>
