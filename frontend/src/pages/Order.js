@@ -15,23 +15,14 @@ import {
   Modal,
   Title,
   Center,
-<<<<<<< HEAD
-  CardSection
-=======
-  TextInput
->>>>>>> 01668559bfe1399f41ad270e126082230da95c72
 } from "@mantine/core";
 import axios from "axios";
 import { API_URL } from "../constants";
 import dayjs from "dayjs";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/auth-context";
-<<<<<<< HEAD
 import { IconCheck, IconX, IconPointFilled } from '@tabler/icons-react';
-
-=======
 import OrderFilter from "../components/order/OrderFilter";
->>>>>>> 01668559bfe1399f41ad270e126082230da95c72
 
 function Order() {
   const navigate = useNavigate();
@@ -235,8 +226,6 @@ function Order() {
             />
           )
         }
-
-<<<<<<< HEAD
         {/* Search Bar */}
       <input
         type="text"
@@ -387,7 +376,6 @@ function Order() {
 
           ))
         )}
-=======
         <div className="col-md-9">
           {
             paginatedItems?.length > 0 && (
@@ -488,7 +476,6 @@ function Order() {
             )}
         </div>
       </div>
->>>>>>> 01668559bfe1399f41ad270e126082230da95c72
       {orderData?.length === 0 && (
         <Card shadow="sm" padding="lg" mt="xl">
           <Card.Section withBorder inheritPadding py="xs" className="text-center">
