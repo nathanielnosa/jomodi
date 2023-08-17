@@ -15,6 +15,8 @@ import {
   Modal,
   Title,
   Center,
+  CardSection,
+  TextInput
 } from "@mantine/core";
 import axios from "axios";
 import { API_URL } from "../constants";

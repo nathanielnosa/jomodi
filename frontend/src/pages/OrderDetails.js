@@ -73,7 +73,7 @@ function OrderDetailPage() {
       <Grid.Col sm={0} md={1} className="vertical-line-col">
       <div className="vertical-line"></div>
       </Grid.Col>
-    <Container size="" className="custom-container">
+    <Container size="" className="custom-container"/>
       
       <Grid.Col sm={12} md={3}>
         <Text size="xlg" fz="xlg" weight={500}>More Actions</Text>
