@@ -125,23 +125,8 @@ function Checkout() {
             currency: currency,
             name: "Jomodi",
             description: "Test Transaction",
-            order_id: orderId,;
+            order_id: orderId,
             callback_url: API_URL + "order/razorpay_callback",
-            // handler: async function (response) {
-            //     try {
-
-            //         const callbackResponse = await axios.post(API_URL + 'order/razorpay_callback')
-
-            //         if (callbackResponse.data.status === 'Payment Done') {
-            //             navigate('/order-success'); 
-            //             handleRemoveItems();
-            //         } else {
-            //             navigate('/checkout')
-            //         }
-            //     } catch (error) {
-            //         console.log('error', error)
-            //     }
-            // },
             redirect: true,
             prefill: {
                 name: "",
