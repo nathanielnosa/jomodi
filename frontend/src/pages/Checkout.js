@@ -22,7 +22,7 @@ function Checkout() {
     const { login, logout, user } = useAuth();
     const [cartItems, setCartItems] = useState([]);
     const [address, setAddress] = useState({});
-    const [paymentMethod, setPaymentMethod] = useState("razor-pay");
+    const [paymentMethod, setPaymentMethod] = useState("");
     const [addresses, setAddresses] = useState([]);
     const [deliveryAddress, setDeliveryAddress] = useState(null);
     const [showOrder, setShowOrder] = useState(false);
@@ -35,7 +35,7 @@ function Checkout() {
     const [numberAvailable, setNumberAvailable] = useState(0);
 
     const dispatch = useDispatch();
-
+    
 
     const handleRemoveItems = () => {
         // Call this function when you want to remove the items from the store
@@ -124,7 +124,7 @@ function Checkout() {
     }
 
     //function will get called when clicked on the pay button.
-    async function displayRazorpayPaymentSdk(order, name) {
+    async function displayRazorpayPaymentSdk() {
         const res = await loadRazorpayScript(
             "https://checkout.razorpay.com/v1/checkout.js"
         );
@@ -135,10 +135,10 @@ function Checkout() {
         }
 
         // creating a new order and sending order ID to backend
-        const result = await axios.post(API_URL + "order/razorpay_order", {
-            "order_id": order,
+        const result = await axios.post(API_URL+"order/razorpay_order", {
+            "order_id": 3,
             'amount': cartTotal,
-            'name': name
+            'name': 'Jomodi'
 
         });
 
@@ -231,15 +231,9 @@ function Checkout() {
                 .post(`${API_URL}order/order/`, details)
                 .then((res) => {
                     console.log(res.data);
-                    if (paymentMethod == 'razor-pay') {
-                        displayRazorpayPaymentSdk(res.id, "Jomodi")
-                        handleRemoveItems();
-                        navigate("/order-success");
-                    }
-                    else {
-                        handleRemoveItems();
-                        navigate("/order-success");
-                    }
+                    handleRemoveItems();
+                    navigate("/order-success");
+
                     // Perform the PATCH request to update the coupon
                     axios.patch(`${API_URL}order/coupon/${couponID}/`, {
                         users: [...couponUsers, user?.user_id],
@@ -349,7 +343,7 @@ function Checkout() {
                                             color: "white",
                                             backgroundColor: "#d10024",
                                         }}
-                                        onClick={displayRazorpayPaymentSdk}
+                                        onClick={displayRazorpayPaymentSdk }
                                     >
                                         Place order
                                     </button>
