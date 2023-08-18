@@ -20,9 +20,11 @@ function OrderDetail({cartTotal, setCartTotal, couponCode, setCouponCode,setCoup
     const [applyCoupon, setApplyCoupon] = useState(false)
     const [couponError, setCouponError] = useState(false)
     const [couponSuccess, setCouponSuccess] = useState(false)
+    const [errorMessages, setErrorMessages] = useState('')
     const [couponApplied, setCouponApplied] = useState(false)
     const [couponAmountError, setCouponAmountError] = useState(false)
     const [coupon, setCoupon] = useState(null)
+    const [couponDiscount, setCouponDiscount] = useState(0)
     const dispatch = useDispatch();
     const [quantity, setQuantity] = useState(1);
 
@@ -89,6 +91,7 @@ function OrderDetail({cartTotal, setCartTotal, couponCode, setCouponCode,setCoup
                     setCouponID(coupon_res?.id);
                     // Perform additional checks on the coupon price and discounted price
                     const couponPrice = coupon_res?.discount;
+                    setCouponDiscount(couponPrice);
                     // const discountedPrice = calculateDiscountedPrice(); // You should replace this with your own logic to calculate discounted price
                     const priceDifference = cartTotal - couponPrice;
                     if (priceDifference >= 0 && cartTotal / couponPrice >= 5) {
@@ -108,6 +111,7 @@ function OrderDetail({cartTotal, setCartTotal, couponCode, setCouponCode,setCoup
                     }
                 } else {
                     setCouponError(true);
+                    setErrorMessages('Coupon Code is Already Used')
                     setCouponSuccess(false);
                 }
             })
@@ -198,7 +202,7 @@ function OrderDetail({cartTotal, setCartTotal, couponCode, setCouponCode,setCoup
                                 {
                                     couponError && (
                                         <Text color="red" size='lg'>
-                                            Coupon Code is Inactive
+                                            {errorMessages}
                                         </Text>
                                     )
                                 }
@@ -254,6 +258,18 @@ function OrderDetail({cartTotal, setCartTotal, couponCode, setCouponCode,setCoup
                         <strong>FREE</strong>
                     </div>
                 </div>
+                {
+                    couponApplied && (
+                        <div className="order-col">
+                            <strong>Coupon discount</strong>
+                            <div>
+                                <strong>
+                                    {couponDiscount > 0 ? `-₹${couponDiscount.toFixed(2)}` : '₹0.00'}
+                                </strong>
+                            </div>
+                        </div>
+                    )
+                }
                 <div className="order-col">
                     <div>
                         <strong>TOTAL</strong>

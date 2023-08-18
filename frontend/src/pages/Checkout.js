@@ -35,7 +35,7 @@ function Checkout() {
     const [numberAvailable, setNumberAvailable] = useState(0);
 
     const dispatch = useDispatch();
-    
+
 
     const handleRemoveItems = () => {
         // Call this function when you want to remove the items from the store
@@ -92,7 +92,21 @@ function Checkout() {
         });
     }
 
-    //function will get called when clicked on the pay button.
+
+    // const handlePaymentSuccess = async (response) => {
+    //     try {
+    //         const res = await `${API_URL}order/payment/razorpay_callback`
+    //         console.log("-----------------------------------")
+    //         console.log(res.data);
+
+
+    //         navigate("/order-success");
+
+    //     } catch (error) {
+    //         console.log(console.error());
+    //     }
+    // };
+
     async function displayRazorpayPaymentSdk(order) {
         const res = await loadRazorpayScript(
             "https://checkout.razorpay.com/v1/checkout.js"
@@ -104,7 +118,7 @@ function Checkout() {
         }
 
         // creating a new order and sending order ID to backend
-        const result = await axios.post(API_URL+"order/razorpay_order", {
+        const result = await axios.post(API_URL + "order/razorpay_order", {
             "order_id": order,
             'amount': cartTotal,
             'name': 'Jomodi'
@@ -126,6 +140,7 @@ function Checkout() {
             name: "Jomodi",
             description: "Test Transaction",
             order_id: orderId,
+            image: "https://jomodi.com/img/jomo.jpg",
             callback_url: API_URL + "order/razorpay_callback",
             redirect: true,
             prefill: {
@@ -142,6 +157,7 @@ function Checkout() {
         };
 
         const paymentObject = new window.Razorpay(options);
+
         paymentObject.open();
     }
 
@@ -199,16 +215,15 @@ function Checkout() {
             axios
                 .post(`${API_URL}order/order/`, details)
                 .then((res) => {
-                    console.log("sdfsdfsdfsdf======================================")
-                    console.log(res.data);
+
                     if (res.data.payment_method == 'razor-pay') {
                         displayRazorpayPaymentSdk(res.data.id)
                     }
-                    else{
+                    else {
                         handleRemoveItems();
                         navigate("/order-success");
                     }
-                    
+
                     axios.patch(`${API_URL}order/coupon/${couponID}/`, {
                         users: [...couponUsers, user?.user_id],
                         number_available: numberAvailable - 1
@@ -285,7 +300,7 @@ function Checkout() {
 
                             <div className="section-title text-center">
                                 <h3 className="title">Your Order</h3>
-                              
+
                             </div>
                             <OrderDetail
                                 cartTotal={cartTotal}
@@ -315,7 +330,7 @@ function Checkout() {
                                             color: "white",
                                             backgroundColor: "#d10024",
                                         }}
-                                        onClick={handleSubmit }
+                                        onClick={handleSubmit}
                                     >
                                         Place order
                                     </button>
