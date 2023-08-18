@@ -2,8 +2,8 @@ import React, { useState } from "react";
 import { Group, Card, Text, Radio } from "@mantine/core";
 import { IconCheckbox } from "@tabler/icons-react";
 
-function PaymentMethod({ showPayment }) {
-  const [paymentMethod, setPaymentMethod] = useState("Cash on Delivery");
+function PaymentMethod({ showPayment, setPaymentMethod, paymentMethod }) {
+  // const [paymentMethod, setPaymentMethod] = useState("Cash on Delivery");
   const [showPaymentMethod, setShowPaymentMethod] = useState(false);
 
   return (
@@ -35,7 +35,7 @@ function PaymentMethod({ showPayment }) {
               <Text>Cash on Delivery</Text>
             </Group>
             <Group mt="xs">
-              <Radio value="UPI" size="lg" disabled />
+              <Radio value="razor-pay" size="lg" />
               <Text>Online Payment</Text>
             </Group>
           </Radio.Group>
