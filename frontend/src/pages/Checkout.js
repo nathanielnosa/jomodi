@@ -22,7 +22,7 @@ function Checkout() {
     const { login, logout, user } = useAuth();
     const [cartItems, setCartItems] = useState([]);
     const [address, setAddress] = useState({});
-    const [paymentMethod, setPaymentMethod] = useState("");
+    const [paymentMethod, setPaymentMethod] = useState("razor-pay");
     const [addresses, setAddresses] = useState([]);
     const [deliveryAddress, setDeliveryAddress] = useState(null);
     const [showOrder, setShowOrder] = useState(false);

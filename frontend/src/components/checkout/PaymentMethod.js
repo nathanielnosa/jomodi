@@ -31,13 +31,14 @@ function PaymentMethod({ showPayment, setPaymentMethod, paymentMethod }) {
             size="xl"
           >
             <Group mt="xs">
-              <Radio value="Cash on Delivery" size="lg" />
-              <Text>Cash on Delivery</Text>
-            </Group>
-            <Group mt="xs">
               <Radio value="razor-pay" size="lg" />
               <Text>Online Payment</Text>
             </Group>
+            <Group mt="xs">
+              <Radio value="Cash on Delivery" size="lg" />
+              <Text>Cash on Delivery</Text>
+            </Group>
+
           </Radio.Group>
         )}
       </div>
