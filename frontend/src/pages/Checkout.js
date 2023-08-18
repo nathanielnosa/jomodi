@@ -22,7 +22,7 @@ function Checkout() {
     const { login, logout, user } = useAuth();
     const [cartItems, setCartItems] = useState([]);
     const [address, setAddress] = useState({});
-    const [paymentMethod, setPaymentMethod] = useState("");
+    const [paymentMethod, setPaymentMethod] = useState("razor-pay");
     const [addresses, setAddresses] = useState([]);
     const [deliveryAddress, setDeliveryAddress] = useState(null);
     const [showOrder, setShowOrder] = useState(false);
@@ -78,37 +78,6 @@ function Checkout() {
             });
     }, [couponCode]);
 
-    // const amount = cartTotal * 100;
-    // const paymentHandler = async (e) => {
-    //     e.preventDefault();
-    //     const orderUrl = `${API_URL}order`;
-    //     const response = await axios.get(orderUrl);
-    //     const { data } = response;
-    //     const options = {
-    //         key: "rzp_test_no6wvyoP4nQF2v",
-    //         name: "Jomodi",
-    //         description: "Some Description",
-    //         amount : amount,
-    //         order_id: data.id,
-    //         handler: async (response) => {
-    //             try {
-    //                 const paymentId = response.razorpay_payment_id;
-    //                 const url = `${API_URL}order/${paymentId}`;
-    //                 const captureResponse = await axios.post(url, {})
-    //                 console.log(captureResponse.data);
-    //             } catch (err) {
-    //                 console.log(err);
-    //             }
-    //         },
-    //         theme: {
-    //             color: "#686CFD",
-    //         },
-    //     };
-    //     const rzp1 = new window.Razorpay(options);
-    //     rzp1.open();
-    // };
-    // displayRazorpayPaymentSdk
-    //Function to load razorpay script for the display of razorpay payment SDK.
     function loadRazorpayScript(src) {
         return new Promise((resolve) => {
             const script = document.createElement("script");
@@ -124,7 +93,7 @@ function Checkout() {
     }
 
     //function will get called when clicked on the pay button.
-    async function displayRazorpayPaymentSdk() {
+    async function displayRazorpayPaymentSdk(order) {
         const res = await loadRazorpayScript(
             "https://checkout.razorpay.com/v1/checkout.js"
         );
@@ -136,7 +105,7 @@ function Checkout() {
 
         // creating a new order and sending order ID to backend
         const result = await axios.post(API_URL+"order/razorpay_order", {
-            "order_id": 3,
+            "order_id": order,
             'amount': cartTotal,
             'name': 'Jomodi'
 
@@ -160,9 +129,9 @@ function Checkout() {
             callback_url: API_URL + "order/razorpay_callback",
             redirect: true,
             prefill: {
-                name: "Swapnil Pawar",
-                email: "swapnil@example.com",
-                contact: "9999999999",
+                name: "",
+                email: "",
+                contact: "",
             },
             notes: {
                 address: "None",
@@ -215,7 +184,7 @@ function Checkout() {
                 shipped_date: null,
                 delivered_date: null,
                 out_for_delivery_date: null,
-                payment_method: 'Payment on delivery',
+                payment_method: paymentMethod,
                 discount: cartDiscount,
                 order_id: "ORD" + Math.floor(Math.random() * 1000000000),
                 order_data: cartItems,
@@ -230,15 +199,20 @@ function Checkout() {
             axios
                 .post(`${API_URL}order/order/`, details)
                 .then((res) => {
+                    console.log("sdfsdfsdfsdf======================================")
                     console.log(res.data);
-                    handleRemoveItems();
-                    navigate("/order-success");
-
-                    // Perform the PATCH request to update the coupon
+                    if (res.data.payment_method == 'razor-pay') {
+                        displayRazorpayPaymentSdk(res.data.id)
+                    }
+                    else{
+                        // handleRemoveItems();
+                        navigate("/order-success");
+                    }
+                    
                     axios.patch(`${API_URL}order/coupon/${couponID}/`, {
                         users: [...couponUsers, user?.user_id],
                         number_available: numberAvailable - 1
-                        // You need to provide an array of users here
+
                     })
                         .then((patchRes) => {
                             console.log("Coupon updated:", patchRes.data);
@@ -311,9 +285,7 @@ function Checkout() {
 
                             <div className="section-title text-center">
                                 <h3 className="title">Your Order</h3>
-                                <h3>
-                                    {paymentMethod}
-                                </h3>
+                              
                             </div>
                             <OrderDetail
                                 cartTotal={cartTotal}
@@ -343,7 +315,7 @@ function Checkout() {
                                             color: "white",
                                             backgroundColor: "#d10024",
                                         }}
-                                        onClick={displayRazorpayPaymentSdk }
+                                        onClick={handleSubmit }
                                     >
                                         Place order
                                     </button>
