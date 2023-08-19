@@ -320,7 +320,6 @@ function Order() {
         <Text size="lg" style={{ color: "black" }} className="mt-0 text-center" weight={500}>
           ₹{product?.price * product?.quantity}
         </Text>
-     
       </div>
             </Grid.Col>
             <Grid.Col md={3}>

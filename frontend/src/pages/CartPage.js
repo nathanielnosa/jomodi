@@ -201,12 +201,40 @@ function CartPage() {
                                 <label style={{
                                   marginBottom: '10px',
                                 }}>Size:</label>
+
                                 <select className="form-control" style={{ width: '80px', marginHorizontal: '10px', height: "32px", }}>
-                                  {item?.size?.map((size, index) => (
-                                    <option key={index} value={size?.size?.trim().toUpperCase()}>
-                                      {size?.size?.trim().toUpperCase()}
-                                    </option>
-                                  ))}
+                                  <option value="">
+                                    {item.selected_size}
+                                  </option>
+                                  {item?.size?.filter((s) => s.size !== item.selected_size).
+                                    map((size, index) => (
+                                      <option key={index} value={size?.size?.trim().toUpperCase()}>
+                                        {size?.size?.trim().toUpperCase()}
+                                      </option>
+                                    ))}
+                                </select>
+                              </>
+
+                            )}
+                            {item.show_color && (
+                              <>
+                                <label style={{
+                                  marginBottom: '10px',
+                                }}>Color:</label>
+
+                                <select className="form-control" style={{ width: '80px', marginHorizontal: '10px', height: "32px", }}>
+                                  <option value="">
+                                    {item.selected_color}
+                                  </option>
+                                  {
+                                    item?.color?.filter((c) => c.color !== item.selected_color).
+                                      map((color, index) => (
+                                        <option key={index} value={color.color}>
+                                          {color.color}
+                                        </option>
+                                      ))
+
+                                  }
                                 </select>
                               </>
 

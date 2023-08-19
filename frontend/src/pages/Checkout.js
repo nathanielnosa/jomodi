@@ -33,6 +33,7 @@ function Checkout() {
     const [couponID, setCouponID] = useState(null);
     const [couponUsers, setCouponUsers] = useState([]);
     const [numberAvailable, setNumberAvailable] = useState(0);
+    const [orderID, setOrderID] = useState(null);
 
     const dispatch = useDispatch();
 
@@ -93,20 +94,6 @@ function Checkout() {
     }
 
 
-    // const handlePaymentSuccess = async (response) => {
-    //     try {
-    //         const res = await `${API_URL}order/payment/razorpay_callback`
-    //         console.log("-----------------------------------")
-    //         console.log(res.data);
-
-
-    //         navigate("/order-success");
-
-    //     } catch (error) {
-    //         console.log(console.error());
-    //     }
-    // };
-
     async function displayRazorpayPaymentSdk(order) {
         const res = await loadRazorpayScript(
             "https://checkout.razorpay.com/v1/checkout.js"
@@ -157,12 +144,12 @@ function Checkout() {
         };
 
         const paymentObject = new window.Razorpay(options);
-
         paymentObject.open();
+        return result;
     }
 
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
 
         e.preventDefault();
         if (deliveryAddress == null) {
@@ -210,19 +197,17 @@ function Checkout() {
                 user: user?.user_id,
                 // address: deliveryAddress,
             };
-            console.log(details);
-
-            axios
+            await axios
                 .post(`${API_URL}order/order/`, details)
-                .then((res) => {
-
+                .then((res) => {    
+                    console.log(res.data);
+                    setOrderID(res.data.id);
                     if (res.data.payment_method == 'razor-pay') {
                         displayRazorpayPaymentSdk(res.data.id)
-                        handleRemoveItems();
                     }
                     else {
-                        handleRemoveItems();
                         navigate("/order-success");
+                        handleRemoveItems();
                     }
 
                     axios.patch(`${API_URL}order/coupon/${couponID}/`, {
@@ -240,11 +225,9 @@ function Checkout() {
                 .catch((err) => {
                     console.log(err);
                 });
+
         }
     };
-
-
-
 
 
     return (
