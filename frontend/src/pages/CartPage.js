@@ -158,12 +158,7 @@ function CartPage() {
                       </div>
                       <div className="col-md-8">
                         <Group position="right">
-                          <p className="card-title"> Delivery by {getDeliveryDate()} | Free </p>
-                        </Group>
-                        <div className="card-body">
-                          <h4 className="card-title" style={{
-                            marginBottom: '10px',
-                          }}>
+                          <h4 className="card-title">
                             <Link to={`/product/${item.id}/${item.name}`}
                               target='_blank'
                               style={
@@ -174,9 +169,21 @@ function CartPage() {
                                 }
                               }>{item.name.toUpperCase()}</Link>
                           </h4>
-                          <p className="card-text" style={{
-                            marginBottom: '10px',
-                          }}>-{item.category.name}</p>
+                          <p className="card-title"> Delivery by {getDeliveryDate()} | Free </p>
+                        </Group>
+                        <div className="card-body">
+                         <Group>
+                            <p className="card-text" style={{
+                              marginBottom: '10px',
+                            }}>{item?.category?.name}</p>
+                            <p className="card-text" style={{
+                              marginBottom: '10px',
+                            }}>{item?.subcategory?.name}</p>
+                            <p className="card-text" style={{
+                              marginBottom: '10px',
+                            }}>{item?.brand?.name}</p>
+                         </Group>
+                         
                           <Group position="left" >
                             <del className="product-old-price" style={{
                               marginBottom: '10px',

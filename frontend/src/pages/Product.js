@@ -58,26 +58,50 @@ function Product() {
     const errorColor = selectedColor == "";
 
     const handleAddToCart = (product) => {
-        dispatch(addToCart(product, quantity, false, selectedSize, selectedGender, selectedColor));
-        notifications.show({
-            title: 'Successfully Added to Cart',
-            styles: (theme) => ({
-                root: {
-                    backgroundColor: theme.colors.green[6],
-                    borderColor: theme.colors.green[6],
-                    height: '100px',
-                    width: 'auto',
-                    '&::before': { backgroundColor: theme.white },
-                },
+        if ((product?.show_size && selectedSize != "") || (product?.show_color && selectedColor != "") ) {
 
-                title: { color: theme.white, fontSize: '20px' },
-                description: { color: theme.white },
-                closeButton: {
-                    color: theme.white,
-                    '&:hover': { backgroundColor: theme.colors.green[7] },
-                },
-            }),
-        })
+            dispatch(addToCart(product, quantity, false, selectedSize, selectedGender, selectedColor));
+
+            notifications.show({
+                title: 'Successfully Added to Cart',
+                styles: (theme) => ({
+                    root: {
+                        backgroundColor: theme.colors.green[6],
+                        borderColor: theme.colors.green[6],
+                        height: '100px',
+                        width: 'auto',
+                        '&::before': { backgroundColor: theme.white },
+                    },
+
+                    title: { color: theme.white, fontSize: '20px' },
+                    description: { color: theme.white },
+                    closeButton: {
+                        color: theme.white,
+                        '&:hover': { backgroundColor: theme.colors.green[7] },
+                    },
+                }),
+            })
+        }
+        else {
+            notifications.show({
+                title: 'Select Size and Color',
+                styles: (theme) => ({
+                    root: {
+                        backgroundColor: theme.colors.red[6],
+                        borderColor: theme.colors.red[6],
+                        height: '100px',
+                        width: 'auto',
+                        '&::before': { backgroundColor: theme.white },
+                    },
+                    title: { color: theme.white, fontSize: '20px' },
+                    description: { color: theme.white },
+                    closeButton: {
+                        color: theme.white,
+                        '&:hover': { backgroundColor: theme.colors.red[7] },
+                    },
+                }),
+            })
+        }
     };
 
     const handleAddToCart2 = (product) => {
@@ -316,6 +340,7 @@ function Product() {
     const toggleDescription = () => {
         setShowFullDescription(!showFullDescription);
     };
+    console.log(product)
 
     return (
         <div>
@@ -347,7 +372,7 @@ function Product() {
                                 </li>
                                 <li>
                                     <Link
-                                        to={`/category/${product?.category?.id}`}
+                                        to={`/category/${product?.category?.id}/${product?.category?.name}`}
                                         style={{
                                             textDecoration: "none",
                                         }}
@@ -357,7 +382,17 @@ function Product() {
                                 </li>
                                 <li>
                                     <Link
-                                        to={`/category/${product?.category?.id}`}
+                                        to={`/subcategory/${product?.subcategory?.id}/${product?.subcategory?.name}`}
+                                        style={{
+                                            textDecoration: "none",
+                                        }}
+                                    >
+                                        {product?.subcategory?.name}
+                                    </Link>
+                                </li>
+                                <li>
+                                    <Link
+                                        to={`/category/${product?.brand?.id}/${product?.brand?.name}`}
                                         style={{
                                             textDecoration: "none",
                                         }}
@@ -477,7 +512,11 @@ function Product() {
                                                     Available Qty: {product?.available_quantity}
                                                 </span>
                                             ) : (
-                                                <span>
+                                                <span
+                                                    style={{
+                                                        color: 'red',
+                                                    }}
+                                                >
                                                     Out of Stock
                                                 </span>
                                             )}
@@ -486,6 +525,7 @@ function Product() {
                                     <ul className="product-links">
                                         <li>Category:</li>
                                         <li>{product?.category?.name}, </li>
+                                        <li>{product?.subcategory?.name}, </li>
                                         <li>{product?.brand?.name}</li>
                                     </ul>
                                 </div>
