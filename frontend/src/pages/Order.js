@@ -285,7 +285,7 @@ function Order() {
           
         </Text>
         <Text size="lg" style={{ color: "black" }} className="mt-0 text-center" weight={500}>
-          ₹{product?.price}
+          ₹{product?.price * product?.quantity}
         </Text>
      
       </div>

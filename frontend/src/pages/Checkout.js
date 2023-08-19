@@ -218,6 +218,7 @@ function Checkout() {
 
                     if (res.data.payment_method == 'razor-pay') {
                         displayRazorpayPaymentSdk(res.data.id)
+                        handleRemoveItems();
                     }
                     else {
                         handleRemoveItems();
