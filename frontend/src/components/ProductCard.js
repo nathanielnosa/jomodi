@@ -286,8 +286,8 @@ function ProductCard({ product, index }) {
                         </div>
                     </div>
                     <div className="add-to-cart">
-                       {
-                        product.available_quantity > 0 ? (
+                        {
+                            product.available_quantity > 0 ? (
                                 <button
                                     className="add-to-cart-btn"
                                 >
@@ -310,22 +310,22 @@ function ProductCard({ product, index }) {
 
                                     )}
                                 </button>
-                        ) :
-                        (
+                            ) :
+                                (
                                     <button
                                         className="add-to-cart-btn"
                                         style={{
                                             backgroundColor: 'orange',
                                         }}
                                     >
-                                    
-                                                <span>
-                                                    <i className="fa fa-shopping-cart"></i> Out of Stock
-                                                </span>
+
+                                        <span>
+                                            <i className="fa fa-shopping-cart"></i> Out of Stock
+                                        </span>
 
                                     </button>
-                        )
-                       }
+                                )
+                        }
                     </div>
                 </div>
             </div>

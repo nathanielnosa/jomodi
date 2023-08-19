@@ -179,7 +179,7 @@ function OrderSummary({ deliveyAddress, showOrder, showPayment }) {
                                                         <p className="card-title"> Delivery by {getDeliveryDate()} | Free </p>
                                                     </Group>
                                                     <div className="card-body">
-                                                        
+
                                                         <Group position="left">
                                                             <del className="product-old-price" style={{ marginBottom: '10px' }}>
                                                                 ₹{item?.cancel_price}
@@ -191,7 +191,7 @@ function OrderSummary({ deliveyAddress, showOrder, showPayment }) {
                                                     </div>
 
                                                     <div className="row">
-                                                       {
+                                                        {
                                                             item?.show_size && (
                                                                 <div className="col-md-3">
                                                                     <div className="card-body">
@@ -204,21 +204,21 @@ function OrderSummary({ deliveyAddress, showOrder, showPayment }) {
                                                                             <option>
                                                                                 {item.selected_size}
                                                                             </option>
-                                                
+
                                                                             {
                                                                                 item?.size?.filter((s) => s.size !== item.selected_size).
-                                                                                map((size, index) => (
-                                                                                    <option key={index} value={size.size}>
-                                                                                        {size.size}
-                                                                                    </option>
-                                                                                ))
+                                                                                    map((size, index) => (
+                                                                                        <option key={index} value={size.size}>
+                                                                                            {size.size}
+                                                                                        </option>
+                                                                                    ))
 
                                                                             }
                                                                         </select>
                                                                     </div>
                                                                 </div>
                                                             )
-                                                       }
+                                                        }
                                                         {
                                                             item?.show_color && (
                                                                 <div className="col-md-3">
@@ -236,11 +236,11 @@ function OrderSummary({ deliveyAddress, showOrder, showPayment }) {
                                                                             </option>
                                                                             {
                                                                                 item?.color?.filter((c) => c.color !== item.selected_color).
-                                                                                map((color, index) => (
-                                                                                    <option key={index} value={color.color}>
-                                                                                        {color.color}
-                                                                                    </option>
-                                                                                ))
+                                                                                    map((color, index) => (
+                                                                                        <option key={index} value={color.color}>
+                                                                                            {color.color}
+                                                                                        </option>
+                                                                                    ))
 
                                                                             }
                                                                         </select>
@@ -274,7 +274,12 @@ function OrderSummary({ deliveyAddress, showOrder, showPayment }) {
                                                                             margin: '0 5px',
                                                                         }}
                                                                     />
-                                                                    <Button radius="xl" size="md" onClick={() => handleQuantityChange(index, item.quantity + 1)} variant="outline" color="red">
+                                                                    <Button radius="xl" size="md"
+                                                                        onClick={() => {
+                                                                            const max = item.available_quantity;
+                                                                            handleQuantityChange(index, max > item.quantity ? item.quantity + 1 : item.quantity)
+                                                                        }}
+                                                                        variant="outline" color="red">
                                                                         + </Button>
                                                                 </Group>
                                                             </UnstyledButton>

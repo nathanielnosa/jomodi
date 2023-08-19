@@ -220,77 +220,77 @@ function Order() {
       </Modal>
       <Grid>
         <Grid.Col md={2} >
-        {
-          paginatedItems?.length > 0 && (
-            <OrderFilter
-              selectedOrderStatus={selectedOrderStatus}
-              setSelectedOrderStatus={setSelectedOrderStatus}
-              selectedOrderTime={selectedOrderTime}
-              setSelectedOrderTime={setSelectedOrderTime}
-            />
-          )
-        }
+          {
+            paginatedItems?.length > 0 && (
+              <OrderFilter
+                selectedOrderStatus={selectedOrderStatus}
+                setSelectedOrderStatus={setSelectedOrderStatus}
+                selectedOrderTime={selectedOrderTime}
+                setSelectedOrderTime={setSelectedOrderTime}
+              />
+            )
+          }
 
         </Grid.Col>
 
         <Grid.Col md={10}>
-        <div className="px-3">
+          <div className="px-3">
 
-        {/* Search Bar */}
-        <SearchBar/>
-      
-      
-      
+            {/* Search Bar */}
+            <SearchBar />
 
 
-      
 
-      {orderData &&
-        paginatedItems?.map((item, index) =>
-          item?.products?.map((product, index) => (
-            <Card key={index} shadow="sm" padding="lg" mt="lg" className="px-5">
-              <div onClick={() => navigate(`/order-product-summary`, { state: { order: item, product: product } })}>
-              <CardSection withBorder inheritPadding py="xs">
-              <Grid>
-              <Grid.Col md={3}>
-              <Image src={product?.image} width={100} height={100} style={{marginTop:'2rem'}} />
-            </Grid.Col>
-            <Grid.Col md={3}>
-            <div className="mt-7">
-        <Text size="xl" weight={500} style={{ marginBottom: "0.5rem" }}>
-          {product?.name}
-        </Text>
-        <Text size="lg" fz="lg" style={{ color: "black", marginBottom: "0.5rem" }}>
-          Quantity: {product?.quantity}
-        </Text>
-        {item.status === "Shipping in Progress" && (
-          <Button
-            variant="outline"
-            color="red"
-            size="lg"
-            radius="xl"
-            mb="md"
-            style={{ marginRight: "1rem" }}
-            onClick={() => handleOpen(item.id, product.id)}
-            disabled={product?.cancel}
-          >
-            Cancel
-          </Button>
-        )}
-      </div>
-            </Grid.Col>
-            <Grid.Col md={3}>
-            <div className="mt-7">
-        <Text size="lg" style={{ color: "gray" }}>
-          
-        </Text>
-        <Text size="lg" style={{ color: "black" }} className="mt-0 text-center" weight={500}>
-          ₹{product?.price * product?.quantity}
-        </Text>
-      </div>
-            </Grid.Col>
-            <Grid.Col md={3}>
-             {/* <div className="text-center">
+
+
+
+
+            {orderData &&
+              paginatedItems?.map((item, index) =>
+                item?.products?.map((product, index) => (
+                  <Card key={index} shadow="sm" padding="lg" mt="lg" className="px-5">
+                    <div>
+                      <CardSection withBorder inheritPadding py="xs">
+                        <Grid>
+                          <Grid.Col md={3}>
+                            <Image src={product?.image} width={100} height={100} style={{ marginTop: '2rem' }} />
+                          </Grid.Col>
+                          <Grid.Col md={3}>
+                            <div className="mt-7">
+                              <Text size="xl" weight={500} style={{ marginBottom: "0.5rem" }}>
+                                {product?.name}
+                              </Text>
+                              <Text size="lg" fz="lg" style={{ color: "black", marginBottom: "0.5rem" }}>
+                                Quantity: {product?.quantity}
+                              </Text>
+                              {item.status === "Shipping in Progress" && (
+                                <Button
+                                  variant="outline"
+                                  color="red"
+                                  size="lg"
+                                  radius="xl"
+                                  mb="md"
+                                  style={{ marginRight: "1rem" }}
+                                  onClick={() => handleCancel(item.id, product.id)}
+                                  disabled={product?.cancel}
+                                >
+                                  Cancel
+                                </Button>
+                              )}
+                            </div>
+                          </Grid.Col>
+                          <Grid.Col md={3}>
+                            <div className="mt-7">
+                              <Text size="lg" style={{ color: "gray" }}>
+
+                              </Text>
+                              <Text size="lg" style={{ color: "black" }} className="mt-0 text-center" weight={500}>
+                                ₹{product?.price * product?.quantity}
+                              </Text>
+                            </div>
+                          </Grid.Col>
+                          <Grid.Col md={3}>
+                            {/* <div className="text-center">
       <Text size="lg" style={{ color: "gray", marginTop: "1rem" }}>
           Order Date
         </Text>
@@ -305,183 +305,176 @@ function Order() {
         </Text>  
 
         </div> */}
-        <div className="mt-7">
-  {product?.cancel && (
-    <div style={{ display: 'flex', alignItems: 'center' }}>
-    <IconPointFilled color="red" title="" style={{ color: 'red', marginRight: '0.5rem' }} />
-    Cancelled
-   
-  
-    
-  </div>
-  )}
-  {product?.cancel === false && (
-  <div style={{ display: 'flex', alignItems: 'center' }}>
-  <IconPointFilled color="green" title="" style={{ color: 'green', marginRight: '0.5rem' }} />
-  {item?.status}
- 
+                            <div className="mt-7">
+                              {product?.cancel && (
+                                <div style={{ display: 'flex', alignItems: 'center' }}>
+                                  <IconPointFilled color="red" title="" style={{ color: 'red', marginRight: '0.5rem' }} />
+                                  Cancelled
+                                </div>
+                              )}
+                              <div style={{ display: 'flex', alignItems: 'center' }}>
+                                {product?.cancel === false && (
+                                  <div>
+                                    <IconPointFilled color="green" title="" style={{ color: 'green', marginRight: '0.5rem' }} />
+                                    {item?.status}
+                                  </div>
+                                )}
+                                <button onClick={() => navigate(`/order-product-summary`, { state: { order: item, product: product } })} className="btn btn-primary btn-sm ml-3">View Details</button>
+                              </div>
+                            </div>
+                          </Grid.Col>
+                        </Grid>
 
-  
-</div>
+                      </CardSection>
+                      <Card.Section withBorder inheritPadding py="xs">
+
+                        <Group position="apart">
 
 
-)}
+                        </Group>
+                      </Card.Section>
+                    </div>
+                  </Card>
 
+                ))
+              )}
+            <div className="col-md-9 hidden">
+              {
+                paginatedItems?.length > 0 && (
+                  <TextInput placeholder="Search" size="xl"
+                    value={keyword}
+                    onChange={(e) => setKeyword(e.target.value)}
+                  />
+                )
 
-</div>
-            </Grid.Col>
-              </Grid>
+              }
 
-              </CardSection>
-  <Card.Section withBorder inheritPadding py="xs">
-            
-    <Group position="apart">
-               
-     
-    </Group>
-  </Card.Section>
-              </div>
-</Card>
+              {
+                (filteredOrders && selectedOrderStatus != 'All' && filteredOrders?.length === 0) && (
+                  <Text size={40} fw="bold" style={{ color: "gray" }}>
+                    No Orders for this Status
+                  </Text>
+                )
 
-          ))
-        )}
-        <div className="col-md-9 hidden">
-          {
-            paginatedItems?.length > 0 && (
-              <TextInput placeholder="Search" size="xl"
-                value={keyword}
-                onChange={(e) => setKeyword(e.target.value)}
-              />
-            )
+              }
 
-          }
+              {paginatedItems?.length > 0 &&
+                filteredPaginatedItems?.map((item, index) =>
+                  item?.products?.map((product, index) => (
+                    <Card key={index} shadow="sm" padding="lg" mt="xl">
+                      <Card.Section withBorder inheritPadding py="xs">
+                        <Group position="apart"
+                          onClick={() => navigate(`/order-product-summary`, { state: { order: item, product: product } })}>
 
-          {
-            (filteredOrders && selectedOrderStatus != 'All' && filteredOrders?.length === 0) && (
-              <Text size={40} fw="bold" style={{ color: "gray" }}>
-                No Orders for this Status
-              </Text>
-            )
-
-          }
-
-          {paginatedItems?.length > 0 &&
-            filteredPaginatedItems?.map((item, index) =>
-              item?.products?.map((product, index) => (
-                <Card key={index} shadow="sm" padding="lg" mt="xl">
-                  <Card.Section withBorder inheritPadding py="xs">
-                    <Group position="apart"
-                      onClick={() => navigate(`/order-product-summary`, { state: { order: item, product: product } })}>
-
-                      <Image src={product?.image} width={100} height={100} />
+                          <Image src={product?.image} width={100} height={100} />
+                          <Group position="apart">
+                            <div>
+                              <Text size="lg" style={{ color: "gray" }}>
+                                Order Date
+                              </Text>
+                              <Text size="lg" style={{ color: "gray" }}>
+                                {dayjs(item?.created_at).format("DD/MM/YYYY")}
+                              </Text>
+                            </div>
+                            <div>
+                              <Text size="lg" style={{ color: "gray" }}>
+                                Order ID
+                              </Text>
+                              <Text size="lg" style={{ color: "gray" }}>
+                                #{item?.order_id}
+                              </Text>
+                            </div>
+                            <div>
+                              <Text size="lg" style={{ color: "gray" }}>
+                                Order Price
+                              </Text>
+                              <Text size="lg" style={{ color: "gray" }}>
+                                ₹{product?.price}
+                              </Text>
+                            </div>
+                          </Group>
+                        </Group>
+                      </Card.Section>
                       <Group position="apart">
                         <div>
-                          <Text size="lg" style={{ color: "gray" }}>
-                            Order Date
+                          <Text size="xl" weight={500} style={{ marginBottom: "1rem" }}>
+                            {product?.name}
                           </Text>
-                          <Text size="lg" style={{ color: "gray" }}>
-                            {dayjs(item?.created_at).format("DD/MM/YYYY")}
-                          </Text>
-                        </div>
-                        <div>
-                          <Text size="lg" style={{ color: "gray" }}>
-                            Order ID
-                          </Text>
-                          <Text size="lg" style={{ color: "gray" }}>
-                            #{item?.order_id}
+                          <Text
+                            size="lg"
+                            fz="lg"
+                            style={{ color: "black", marginBottom: "1rem" }}
+                          >
+                            Quantity: {product?.quantity}
                           </Text>
                         </div>
-                        <div>
-                          <Text size="lg" style={{ color: "gray" }}>
-                            Order Price
-                          </Text>
-                          <Text size="lg" style={{ color: "gray" }}>
-                            ₹{product?.price}
-                          </Text>
-                        </div>
+                        {item.status === "Shipping in Progress" && (
+                          <Button
+                            variant="outline"
+                            color="red"
+                            size="lg"
+                            radius="xl"
+                            mb="md"
+                            style={{ marginRight: "1rem" }}
+                            onClick={() => handleOpen(item.id, product.id)}
+                            disabled={product?.cancel}
+                          >
+                            cancel
+                          </Button>
+                        )}
                       </Group>
-                    </Group>
-                  </Card.Section>
-                  <Group position="apart">
-                    <div>
-                      <Text size="xl" weight={500} style={{ marginBottom: "1rem" }}>
-                        {product?.name}
-                      </Text>
-                      <Text
-                        size="lg"
-                        fz="lg"
-                        style={{ color: "black", marginBottom: "1rem" }}
-                      >
-                        Quantity: {product?.quantity}
-                      </Text>
-                    </div>
-                    {item.status === "Shipping in Progress" && (
-                      <Button
-                        variant="outline"
-                        color="red"
-                        size="lg"
-                        radius="xl"
-                        mb="md"
-                        style={{ marginRight: "1rem" }}
-                        onClick={() => handleOpen(item.id, product.id)}
-                        disabled={product?.cancel}
-                      >
-                        cancel
-                      </Button>
-                    )}
-                  </Group>
-                  {product?.cancel && (
-                    <Badge fz="xl" p="xl" color="red">
-                      Cancelled
-                    </Badge>
-                  )}
-                  {product?.cancel == false && (
-                    <Badge fz="xl" p="xl" color="green">
-                      {item?.status}
-                    </Badge>
-                  )}
-                </Card>
-              ))
-            )}
-        </div>
-      </div>
-      {orderData?.length === 0 && (
-        <Card shadow="sm" padding="lg" mt="xl">
-          <Card.Section withBorder inheritPadding py="xs" className="text-center">
-            <Group position="apart">
-              <Text size="xl" fz="xl" fw="bold" style={{ color: "gray" }}>
-                No Orders
-              </Text>
-            </Group>
-            <Button
-              variant="outline"
-              color="teal"
-              size="lg"
-              radius="xl"
-              style={{ marginRight: "1rem" }}
-              onClick={() => navigate("/")}
-            >
-              Continue Shopping
-            </Button>
-          </Card.Section>
+                      {product?.cancel && (
+                        <Badge fz="xl" p="xl" color="red">
+                          Cancelled
+                        </Badge>
+                      )}
+                      {product?.cancel == false && (
+                        <Badge fz="xl" p="xl" color="green">
+                          {item?.status}
+                        </Badge>
+                      )}
+                    </Card>
+                  ))
+                )}
+            </div>
+          </div>
+          {orderData?.length === 0 && (
+            <Card shadow="sm" padding="lg" mt="xl">
+              <Card.Section withBorder inheritPadding py="xs" className="text-center">
+                <Group position="apart">
+                  <Text size="xl" fz="xl" fw="bold" style={{ color: "gray" }}>
+                    No Orders
+                  </Text>
+                </Group>
+                <Button
+                  variant="outline"
+                  color="teal"
+                  size="lg"
+                  radius="xl"
+                  style={{ marginRight: "1rem" }}
+                  onClick={() => navigate("/")}
+                >
+                  Continue Shopping
+                </Button>
+              </Card.Section>
 
-        </Card>
-      )}
-      <Group spacing={5} position="right">
-        <Pagination
-          my="lg"
-          total={totalPages}
-          value={page}
-          onChange={handlePageChange}
-          color="red"
-          style={{
-            display: "flex",
-            fontSize: "1.6rem",
-          }}
-        />
-      </Group>     
+            </Card>
+          )}
+          <Group spacing={5} position="right">
+            <Pagination
+              my="lg"
+              total={totalPages}
+              value={page}
+              onChange={handlePageChange}
+              color="red"
+              style={{
+                display: "flex",
+                fontSize: "1.6rem",
+              }}
+            />
+          </Group>
         </Grid.Col>
-      
+
       </Grid>
     </div >
   );

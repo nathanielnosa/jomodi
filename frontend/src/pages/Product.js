@@ -58,7 +58,55 @@ function Product() {
     const errorColor = selectedColor == "";
 
     const handleAddToCart = (product) => {
-        if ((product?.show_size && selectedSize != "") && (product?.show_color && selectedColor != "") ) {
+        if ((product?.show_size && product?.show_color) && (selectedSize != "" && selectedColor != "") ) {
+
+            dispatch(addToCart(product, quantity, false, selectedSize, selectedGender, selectedColor));
+
+            notifications.show({
+                title: 'Successfully Added to Cart',
+                styles: (theme) => ({
+                    root: {
+                        backgroundColor: theme.colors.green[6],
+                        borderColor: theme.colors.green[6],
+                        height: '100px',
+                        width: 'auto',
+                        '&::before': { backgroundColor: theme.white },
+                    },
+
+                    title: { color: theme.white, fontSize: '20px' },
+                    description: { color: theme.white },
+                    closeButton: {
+                        color: theme.white,
+                        '&:hover': { backgroundColor: theme.colors.green[7] },
+                    },
+                }),
+            })
+        }
+        else if ((product?.show_size && selectedSize != "")) {
+
+            dispatch(addToCart(product, quantity, false, selectedSize, selectedGender, selectedColor));
+
+            notifications.show({
+                title: 'Successfully Added to Cart',
+                styles: (theme) => ({
+                    root: {
+                        backgroundColor: theme.colors.green[6],
+                        borderColor: theme.colors.green[6],
+                        height: '100px',
+                        width: 'auto',
+                        '&::before': { backgroundColor: theme.white },
+                    },
+
+                    title: { color: theme.white, fontSize: '20px' },
+                    description: { color: theme.white },
+                    closeButton: {
+                        color: theme.white,
+                        '&:hover': { backgroundColor: theme.colors.green[7] },
+                    },
+                }),
+            })
+        }
+        else if ((product?.show_color && selectedColor != "")) {
 
             dispatch(addToCart(product, quantity, false, selectedSize, selectedGender, selectedColor));
 
@@ -95,7 +143,6 @@ function Product() {
                         width: 'auto',
                         '&::before': { backgroundColor: theme.white },
                     },
-
                     title: { color: theme.white, fontSize: '20px' },
                     description: { color: theme.white },
                     closeButton: {
@@ -107,7 +154,7 @@ function Product() {
         }
         else {
             notifications.show({
-                title: 'Select Size and Color',
+                title: `Please select a ${(product.show_color && selectedColor == "") ? "color" : " "} ${((product.show_color && selectedColor == "") && (product.show_size && selectedSize == '')) ? 'and ' : ''}  ${(product.show_size && selectedSize == '') ? "size" : " "}`  ,
                 styles: (theme) => ({
                     root: {
                         backgroundColor: theme.colors.red[6],
@@ -521,55 +568,7 @@ function Product() {
                                             ""
                                         )}
                                     </h4>
-                                    <div>
-                                        <h4 className="product-price"
-                                            style={{
-                                                color: 'green',
-                                                fontWeight: 'bold',
-                                                fontSize: '15px',
-                                                marginLeft: '10px',
-                                            }}
-                                        >
-                                            {product?.available_quantity > 0 ? (
-                                                <span className="product-discount">
-                                                    Available Qty: {product?.available_quantity}
-                                                </span>
-                                            ) : (
-                                                <span
-                                                    style={{
-                                                        color: 'red',
-                                                    }}
-                                                >
-                                                    Out of Stock
-                                                </span>
-                                            )}
-                                        </h4>
-                                    </div>
-                                    <ul className="product-links">
-                                        <li>Category:</li>
-                                        <li>{product?.category?.name}, </li>
-                                        <li>{product?.subcategory?.name}, </li>
-                                        <li>{product?.brand?.name}</li>
-                                    </ul>
-                                </div>
-
-                                <Text variant="label" size="xl" style={{ fontWeight: 'bold' }}>Description</Text>
-                                <p
-                                    style={{
-                                        whiteSpace: "pre-wrap",
-                                        wordWrap: "break-word",
-                                    }}
-                                >
-                                    {showFullDescription ? product?.description : truncatedDescription}
-                                </p>
-                                {words?.length > 100 && (
-                                    <span
-                                        style={{ cursor: "pointer", color: "blue" }}
-                                        onClick={toggleDescription}
-                                    >
-                                        {showFullDescription ? "See Less" : "See More"}
-                                    </span>
-                                )}
+                                   
                                 <div className="product-options">
                                     {
                                         product?.show_size && (
@@ -756,6 +755,55 @@ function Product() {
                                     </li>
                                 </ul>
                             </div>
+                                <div>
+                                    <h4 className="product-price"
+                                        style={{
+                                            color: 'green',
+                                            fontWeight: 'bold',
+                                            fontSize: '15px',
+                                            marginLeft: '10px',
+                                        }}
+                                    >
+                                        {product?.available_quantity > 0 ? (
+                                            <span className="product-discount">
+                                                Available Qty: {product?.available_quantity}
+                                            </span>
+                                        ) : (
+                                            <span
+                                                style={{
+                                                    color: 'red',
+                                                }}
+                                            >
+                                                Out of Stock
+                                            </span>
+                                        )}
+                                    </h4>
+                                </div>
+                                <ul className="product-links">
+                                    <li>Category:</li>
+                                    <li>{product?.category?.name}, </li>
+                                    <li>{product?.subcategory?.name}, </li>
+                                    <li>{product?.brand?.name}</li>
+                                </ul>
+                            </div>
+
+                            <Text variant="label" size="xl" style={{ fontWeight: 'bold' }}>Description</Text>
+                            <p
+                                style={{
+                                    whiteSpace: "pre-wrap",
+                                    wordWrap: "break-word",
+                                }}
+                            >
+                                {showFullDescription ? product?.description : truncatedDescription}
+                            </p>
+                            {words?.length > 100 && (
+                                <span
+                                    style={{ cursor: "pointer", color: "blue" }}
+                                    onClick={toggleDescription}
+                                >
+                                    {showFullDescription ? "See Less" : "See More"}
+                                </span>
+                            )}
                         </div>
                         <div className="col-md-12">
                             <div id="product-tab">

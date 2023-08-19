@@ -57,7 +57,7 @@ function CartPage() {
     return total;
   }, 0);
 
-  const handleQuantityChange = (index, newQuantity) => {
+  const handleQuantityChange = (index, newQuantity, max) => {
     if (newQuantity > 0) {
       const updatedItems = [...cartItems];
       updatedItems[index] = { ...updatedItems[index], quantity: newQuantity };
@@ -272,7 +272,10 @@ function CartPage() {
                                     margin: '0 5px',
                                   }}
                                 />
-                                <Button radius="xl" size="md" onClick={() => handleQuantityChange(index, item.quantity + 1)} variant="outline" color="red">
+                                <Button radius="xl" size="md" onClick={() =>{
+                                  const max = item.available_quantity;
+                                  handleQuantityChange(index, max>item.quantity?item.quantity + 1:item.quantity )
+                                }} variant="outline" color="red">
                                   + </Button>
                               </Group>
                             </UnstyledButton>
