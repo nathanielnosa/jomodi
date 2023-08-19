@@ -58,8 +58,31 @@ function Product() {
     const errorColor = selectedColor == "";
 
     const handleAddToCart = (product) => {
-        if ((product?.show_size && selectedSize != "") || (product?.show_color && selectedColor != "") ) {
+        if ((product?.show_size && selectedSize != "") && (product?.show_color && selectedColor != "") ) {
 
+            dispatch(addToCart(product, quantity, false, selectedSize, selectedGender, selectedColor));
+
+            notifications.show({
+                title: 'Successfully Added to Cart',
+                styles: (theme) => ({
+                    root: {
+                        backgroundColor: theme.colors.green[6],
+                        borderColor: theme.colors.green[6],
+                        height: '100px',
+                        width: 'auto',
+                        '&::before': { backgroundColor: theme.white },
+                    },
+
+                    title: { color: theme.white, fontSize: '20px' },
+                    description: { color: theme.white },
+                    closeButton: {
+                        color: theme.white,
+                        '&:hover': { backgroundColor: theme.colors.green[7] },
+                    },
+                }),
+            })
+        }
+        else if (product?.show_size == false && product?.show_color == false) {
             dispatch(addToCart(product, quantity, false, selectedSize, selectedGender, selectedColor));
 
             notifications.show({

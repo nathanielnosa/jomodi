@@ -108,7 +108,8 @@ function Checkout() {
         const result = await axios.post(API_URL + "order/razorpay_order", {
             "order_id": order,
             'amount': cartTotal,
-            'name': 'Jomodi'
+            'name': 'Jomodi',
+            'user': user?.user_id,
 
         });
 
@@ -199,8 +200,26 @@ function Checkout() {
             };
             await axios
                 .post(`${API_URL}order/order/`, details)
-                .then((res) => {    
+                .then((res) => {
                     console.log(res.data);
+                    const productID = res.data.products.map((item) => {
+                        return {
+                            id: item.id,
+                            available_quantity: item.available_quantity,
+                        };
+                    });
+                    productID?.map((product) => {
+                        axios
+                            .patch(`${API_URL}product/product/${product.id}/`, {
+                                available_quantity: product.available_quantity - cartItems.find((item) => item.id == product.id).quantity,
+                            })
+                            .then((res) => {
+                                console.log(res.data);
+                            })
+                            .catch((err) => {
+                                console.log(err);
+                            });
+                    });
                     setOrderID(res.data.id);
                     if (res.data.payment_method == 'razor-pay') {
                         displayRazorpayPaymentSdk(res.data.id)
