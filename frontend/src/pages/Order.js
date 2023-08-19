@@ -25,6 +25,7 @@ import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/auth-context";
 import { IconCheck, IconX, IconPointFilled } from '@tabler/icons-react';
 import OrderFilter from "../components/order/OrderFilter";
+import SearchBar from "../components/search/SearchBar";
 
 function Order() {
   const navigate = useNavigate();
@@ -186,7 +187,7 @@ function Order() {
 
 
   return (
-    <Container size="xl">
+    <div size="xl" className="py-3 px-9">
       <Modal opened={showModal} onClose={handleClose} size="40%"
         title="Cancel Order">
         <Center>
@@ -217,7 +218,8 @@ function Order() {
           </Button>
         </div>
       </Modal>
-      <div className="row">
+      <Grid>
+        <Grid.Col md={2} >
         {
           paginatedItems?.length > 0 && (
             <OrderFilter
@@ -228,53 +230,17 @@ function Order() {
             />
           )
         }
+
+        </Grid.Col>
+
+        <Grid.Col md={10}>
+        <div className="px-3">
+
         {/* Search Bar */}
-      <input
-        type="text"
-        placeholder="Search Orders..."
-        style={{
-          width: '100%',
-          padding: '0.5rem',
-          marginBottom: '1rem',
-        }}
-      />
+        <SearchBar/>
       
-      <form>
-  <div className="flex">
-    <div className="relative w-full">
-      <input
-        type="search"
-        id=""
-        className="block p-5 w-full z-20 text-sm text-gray-900 bg-gray-50 rounded-r-lg border-l-gray-50 border-l-2 border-tl-rounded border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-l-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:border-blue-500"
-        placeholder="Search"
-        required
-        style={{ borderColor: 'gray' }}
-      />
-      <button
-        type="submit"
-        className="absolute top-0 right-0 p-3 text-sm font-medium h-full text-white bg-blue-700 rounded-r-lg border border-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-      >
-        <svg
-          className="w-20 h-4"
-          aria-hidden="true"
-          xmlns="http://www.w3.org/2000/svg"
-          fill="none"
-          viewBox="0 0 20 20"
-          
-        >
-          <path
-            stroke="currentColor"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth="2"
-            d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"
-          />
-        </svg>
-        <span className="sr-only">Search</span>
-      </button>
-    </div>
-  </div>
-</form>
+      
+      
 
 
       
@@ -282,7 +248,8 @@ function Order() {
       {orderData &&
         paginatedItems?.map((item, index) =>
           item?.products?.map((product, index) => (
-            <Card key={index} shadow="sm" padding="lg" mt="lg">
+            <Card key={index} shadow="sm" padding="lg" mt="lg" className="px-5">
+              <div onClick={() => navigate(`/order-product-summary`, { state: { order: item, product: product } })}>
               <CardSection withBorder inheritPadding py="xs">
               <Grid>
               <Grid.Col md={3}>
@@ -374,11 +341,12 @@ function Order() {
      
     </Group>
   </Card.Section>
+              </div>
 </Card>
 
           ))
         )}
-        <div className="col-md-9">
+        <div className="col-md-9 hidden">
           {
             paginatedItems?.length > 0 && (
               <TextInput placeholder="Search" size="xl"
@@ -512,8 +480,11 @@ function Order() {
             fontSize: "1.6rem",
           }}
         />
-      </Group>
-    </Container >
+      </Group>     
+        </Grid.Col>
+      
+      </Grid>
+    </div >
   );
 }
 
