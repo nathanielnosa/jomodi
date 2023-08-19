@@ -1,7 +1,7 @@
 import React from 'react'
 import { useLocation } from 'react-router-dom';
-import { Card, Grid, Text, Image, Group, Timeline, TimelineItem } from '@mantine/core';
-import { IconGitBranch, IconGitPullRequest, IconGitCommit, IconMessageDots } from '@tabler/icons-react';
+import { Card, Grid, Text, Image, Group, Timeline, TimelineItem, ActionIcon, Button } from '@mantine/core';
+import { IconGitBranch, IconGitPullRequest, IconGitCommit, IconMessageDots, IconFileTypePdf } from '@tabler/icons-react';
 import dayjs from 'dayjs';
 
 function OrderProductSummary() {
@@ -19,11 +19,11 @@ function OrderProductSummary() {
                             borderRight: "1px solid #e0e0e0"
                         }}
                     >
-                        <Text size={35} fw={500} mt="xl">Delivery Address</Text>
+                        <Text size={30} fw={500} mt="xl">Delivery Address</Text>
                         <Text size={25} fw={500} mt="xl">
                             {order?.user_address?.full_name} {" "}
                         </Text>
-                        <Text size={25} fw={500} mt="xl">
+                        <Text size={20} fw={500} mt="xl">
                             {order?.user_address?.state} {" "}
                             {order?.user_address?.city} {" "}
                             {order?.user_address?.address} {" "}
@@ -31,7 +31,7 @@ function OrderProductSummary() {
                             {order?.user_address?.landmark} {" "}
                             {order?.user_address?.pincode} {" "}
                         </Text>
-                        <Text size={30} fw={500} mt="xl">Phone Number</Text>
+                        <Text size={25} fw={500} mt="xl">Phone Number</Text>
                         <strong>
                             {order?.user_address?.phone_number} {" "}
                         </strong>
@@ -43,19 +43,30 @@ function OrderProductSummary() {
                             borderRight: "1px solid #e0e0e0"
                         }}
                     >
-                        <Text size={35} fw={500} mt="xl">Your reward </Text>
+                        <Text size={30} fw={500} mt="xl">Your reward </Text>
                     </Grid.Col>
                     <Grid.Col span={3}
                         style={{
                             borderRight: "1px solid #e0e0e0"
                         }}
                     >
-                        <Text size={35} fw={500} mt="xl">More Actions</Text>
+                        <Text size={30} fw={500} mt="xl">More Actions</Text>
                     </Grid.Col>
                     <Grid.Col span={3}>
-                        <Text size={35} fw={500} mt="xl">
-                            Download
-                        </Text>
+                    <Text size={30} fw={500} mt="xl">Download</Text>
+        <div className="delivery-address mt-6">
+              <ActionIcon variant="transparent"><IconFileTypePdf size="10rem" style={{ marginRight: '8px'}}/></ActionIcon>
+              <Text size="xlg" fz="xlg" weight={500}>Invoice</Text>
+                <Button style={{
+                  backgroundColor:'#d10024',
+                  marginLeft:'5rem',
+                  height: '2.5rem',
+                  paddingLeft: '4rem',
+                  paddingRight: '4rem',
+                }}
+               
+                >Download</Button>
+            </div>
 
                     </Grid.Col>
                 </Grid>

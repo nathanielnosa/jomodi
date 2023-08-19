@@ -46,7 +46,7 @@ function OrderFilter({ selectedOrderStatus, setSelectedOrderStatus, selectedOrde
 
 
     return (
-        <div id="aside" className="col-md-3">
+        <div id="aside" className="">
 
 
             <div className="aside">
