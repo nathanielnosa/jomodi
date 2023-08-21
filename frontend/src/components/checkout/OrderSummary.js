@@ -113,6 +113,8 @@ function OrderSummary({ deliveyAddress, showOrder, showPayment }) {
         })
     };
 
+    console.log(cartItems);
+
     return (
         <Card shadow="sm">
             <Card.Section m="5" p="sm" style={{ backgroundColor: showSummary && showOrder ? "#d10024" : "white" }}>
@@ -161,11 +163,8 @@ function OrderSummary({ deliveyAddress, showOrder, showPayment }) {
                                                     />
                                                 </div>
                                                 <div className="col-md-8">
-                                                    <Group position="right">
-                                                        <p className="card-title"> Delivery by {getDeliveryDate()} | Free </p>
-                                                    </Group>
-                                                    <div className="card-body">
-                                                        <h5 className="card-title" style={{ marginBottom: '10px' }}>
+                                                    <Group position="apart">
+                                                        <h5 className="card-title">
                                                             <Link
                                                                 to={`/product/${item.id}/${item.name}`}
                                                                 target='_blank'
@@ -177,6 +176,10 @@ function OrderSummary({ deliveyAddress, showOrder, showPayment }) {
                                                                 {item.name.toUpperCase()}
                                                             </Link>
                                                         </h5>
+                                                        <p className="card-title"> Delivery by {getDeliveryDate()} | Free </p>
+                                                    </Group>
+                                                    <div className="card-body">
+
                                                         <Group position="left">
                                                             <del className="product-old-price" style={{ marginBottom: '10px' }}>
                                                                 ₹{item?.cancel_price}
@@ -188,33 +191,63 @@ function OrderSummary({ deliveyAddress, showOrder, showPayment }) {
                                                     </div>
 
                                                     <div className="row">
-                                                        {/* <div className="col-md-6">
-                                                            <div className="card-body">
-                                                                <h1 className='card-title' style={{ marginBottom: '5px' }}>Description</h1>
-                                                                <p style={{ marginTop: '0', marginBottom: '0' }}>{item.description}</p>
-                                                            </div>
-                                                        </div> */}
-                                                        <div className="col-md-3">
-                                                            <div className="card-body">
-                                                                <h1 className='card-title' style={{ marginBottom: '5px' }}>Size</h1>
-                                                                <select
-                                                                    className="form-select" // Apply styling classes here
-                                                                    value={selectedSize}
-                                                                    onChange={(e) => handleSizeChange(e.target.value)}
-                                                                >
-                                                                    <option value="small">Small</option>
-                                                                    <option value="medium">Medium</option>
-                                                                    <option value="large">Large</option>
-                                                                    {/* Add more size options as needed */}
-                                                                </select>
-                                                            </div>
-                                                        </div>
-                                                        <div className="col-md-3">
-                                                            <div className="card-body">
-                                                                <h1 className='card-title' style={{ marginBottom: '5px' }}>Color</h1>
-                                                                <p style={{ marginTop: '0', marginBottom: '0' }}>{'red'}</p>
-                                                            </div>
-                                                        </div>
+                                                        {
+                                                            item?.show_size && (
+                                                                <div className="col-md-3">
+                                                                    <div className="card-body">
+                                                                        <h1 className='card-title' style={{ marginBottom: '5px' }}>Size</h1>
+                                                                        <select
+                                                                            className="form-select" // Apply styling classes here
+                                                                            value={selectedSize}
+                                                                            onChange={(e) => handleSizeChange(e.target.value)}
+                                                                        >
+                                                                            <option>
+                                                                                {item.selected_size}
+                                                                            </option>
+
+                                                                            {
+                                                                                item?.size?.filter((s) => s.size !== item.selected_size).
+                                                                                    map((size, index) => (
+                                                                                        <option key={index} value={size.size}>
+                                                                                            {size.size}
+                                                                                        </option>
+                                                                                    ))
+
+                                                                            }
+                                                                        </select>
+                                                                    </div>
+                                                                </div>
+                                                            )
+                                                        }
+                                                        {
+                                                            item?.show_color && (
+                                                                <div className="col-md-3">
+                                                                    <div className="card-body">
+                                                                        <h1 className='card-title' style={{ marginBottom: '5px' }}>
+                                                                            Color
+                                                                        </h1>
+                                                                        <select
+                                                                            className="form-select" // Apply styling classes here
+                                                                            value={selectedSize}
+                                                                            onChange={(e) => handleSizeChange(e.target.value)}
+                                                                        >
+                                                                            <option value="">
+                                                                                {item.selected_color}
+                                                                            </option>
+                                                                            {
+                                                                                item?.color?.filter((c) => c.color !== item.selected_color).
+                                                                                    map((color, index) => (
+                                                                                        <option key={index} value={color.color}>
+                                                                                            {color.color}
+                                                                                        </option>
+                                                                                    ))
+
+                                                                            }
+                                                                        </select>
+                                                                    </div>
+                                                                </div>
+                                                            )
+                                                        }
                                                     </div>
                                                 </div>
 
@@ -241,7 +274,12 @@ function OrderSummary({ deliveyAddress, showOrder, showPayment }) {
                                                                             margin: '0 5px',
                                                                         }}
                                                                     />
-                                                                    <Button radius="xl" size="md" onClick={() => handleQuantityChange(index, item.quantity + 1)} variant="outline" color="red">
+                                                                    <Button radius="xl" size="md"
+                                                                        onClick={() => {
+                                                                            const max = item.available_quantity;
+                                                                            handleQuantityChange(index, max > item.quantity ? item.quantity + 1 : item.quantity)
+                                                                        }}
+                                                                        variant="outline" color="red">
                                                                         + </Button>
                                                                 </Group>
                                                             </UnstyledButton>

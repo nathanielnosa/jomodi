@@ -256,20 +256,21 @@ function Order() {
             </Grid>
       <Grid>
         <Grid.Col md={2} >
-        {
-          paginatedItems?.length > 0 && (
-            <OrderFilter
-              selectedOrderStatus={selectedOrderStatus}
-              setSelectedOrderStatus={setSelectedOrderStatus}
-              selectedOrderTime={selectedOrderTime}
-              setSelectedOrderTime={setSelectedOrderTime}
-            />
-          )
-        }
+          {
+            paginatedItems?.length > 0 && (
+              <OrderFilter
+                selectedOrderStatus={selectedOrderStatus}
+                setSelectedOrderStatus={setSelectedOrderStatus}
+                selectedOrderTime={selectedOrderTime}
+                setSelectedOrderTime={setSelectedOrderTime}
+              />
+            )
+          }
 
         </Grid.Col>
 
         <Grid.Col md={10}>
+
         <div className="px-3">
 
         {/* Search Bar */}
@@ -402,7 +403,7 @@ function Order() {
         />
       </Group>     
         </Grid.Col>
-      
+
       </Grid>
     </div >
   );

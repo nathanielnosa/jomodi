@@ -57,7 +57,7 @@ function CartPage() {
     return total;
   }, 0);
 
-  const handleQuantityChange = (index, newQuantity) => {
+  const handleQuantityChange = (index, newQuantity, max) => {
     if (newQuantity > 0) {
       const updatedItems = [...cartItems];
       updatedItems[index] = { ...updatedItems[index], quantity: newQuantity };
@@ -158,12 +158,7 @@ function CartPage() {
                       </div>
                       <div className="col-md-8">
                         <Group position="right">
-                          <p className="card-title"> Delivery by {getDeliveryDate()} | Free </p>
-                        </Group>
-                        <div className="card-body">
-                          <h4 className="card-title" style={{
-                            marginBottom: '10px',
-                          }}>
+                          <h4 className="card-title">
                             <Link to={`/product/${item.id}/${item.name}`}
                               target='_blank'
                               style={
@@ -174,9 +169,21 @@ function CartPage() {
                                 }
                               }>{item.name.toUpperCase()}</Link>
                           </h4>
-                          <p className="card-text" style={{
-                            marginBottom: '10px',
-                          }}>-{item.category.name}</p>
+                          <p className="card-title"> Delivery by {getDeliveryDate()} | Free </p>
+                        </Group>
+                        <div className="card-body">
+                         <Group>
+                            <p className="card-text" style={{
+                              marginBottom: '10px',
+                            }}>{item?.category?.name}</p>
+                            <p className="card-text" style={{
+                              marginBottom: '10px',
+                            }}>{item?.subcategory?.name}</p>
+                            <p className="card-text" style={{
+                              marginBottom: '10px',
+                            }}>{item?.brand?.name}</p>
+                         </Group>
+                         
                           <Group position="left" >
                             <del className="product-old-price" style={{
                               marginBottom: '10px',
@@ -201,12 +208,40 @@ function CartPage() {
                                 <label style={{
                                   marginBottom: '10px',
                                 }}>Size:</label>
+
                                 <select className="form-control" style={{ width: '80px', marginHorizontal: '10px', height: "32px", }}>
-                                  {item?.size?.map((size, index) => (
-                                    <option key={index} value={size?.size?.trim().toUpperCase()}>
-                                      {size?.size?.trim().toUpperCase()}
-                                    </option>
-                                  ))}
+                                  <option value="">
+                                    {item.selected_size}
+                                  </option>
+                                  {item?.size?.filter((s) => s.size !== item.selected_size).
+                                    map((size, index) => (
+                                      <option key={index} value={size?.size?.trim().toUpperCase()}>
+                                        {size?.size?.trim().toUpperCase()}
+                                      </option>
+                                    ))}
+                                </select>
+                              </>
+
+                            )}
+                            {item.show_color && (
+                              <>
+                                <label style={{
+                                  marginBottom: '10px',
+                                }}>Color:</label>
+
+                                <select className="form-control" style={{ width: '80px', marginHorizontal: '10px', height: "32px", }}>
+                                  <option value="">
+                                    {item.selected_color}
+                                  </option>
+                                  {
+                                    item?.color?.filter((c) => c.color !== item.selected_color).
+                                      map((color, index) => (
+                                        <option key={index} value={color.color}>
+                                          {color.color}
+                                        </option>
+                                      ))
+
+                                  }
                                 </select>
                               </>
 
@@ -237,7 +272,10 @@ function CartPage() {
                                     margin: '0 5px',
                                   }}
                                 />
-                                <Button radius="xl" size="md" onClick={() => handleQuantityChange(index, item.quantity + 1)} variant="outline" color="red">
+                                <Button radius="xl" size="md" onClick={() =>{
+                                  const max = item.available_quantity;
+                                  handleQuantityChange(index, max>item.quantity?item.quantity + 1:item.quantity )
+                                }} variant="outline" color="red">
                                   + </Button>
                               </Group>
                             </UnstyledButton>

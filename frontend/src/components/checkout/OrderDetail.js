@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { addToCart, removeFromCart } from '../../actions/cartActions';
 import { addToWishlist, removeFromWishlist } from '../../actions/wishActions';
-import { Button, Divider, Group, Input, TextInput } from '@mantine/core';
+import { Button, Divider, Group, Input, TextInput, Modal, Card } from '@mantine/core';
 import { UnstyledButton, Text } from '@mantine/core';
 import { notifications } from '@mantine/notifications';
 import { updateCartItemQuantity } from '../../actions/cartActions';
@@ -12,7 +12,7 @@ import axios from 'axios';
 import { API_URL } from '../../constants';
 import dayjs from 'dayjs';
 
-function OrderDetail({cartTotal, setCartTotal, couponCode, setCouponCode,setCouponID
+function OrderDetail({ cartTotal, setCartTotal, couponCode, setCouponCode, setCouponID
 }) {
     const { login, logout, user } = useAuth();
     const cartItems = useSelector((state) => state.cart.cartItems);
@@ -27,6 +27,7 @@ function OrderDetail({cartTotal, setCartTotal, couponCode, setCouponCode,setCoup
     const [couponDiscount, setCouponDiscount] = useState(0)
     const dispatch = useDispatch();
     const [quantity, setQuantity] = useState(1);
+    const [showModal, setShowModal] = useState(false);
 
 
     useEffect(() => {
@@ -95,9 +96,9 @@ function OrderDetail({cartTotal, setCartTotal, couponCode, setCouponCode,setCoup
                     // const discountedPrice = calculateDiscountedPrice(); // You should replace this with your own logic to calculate discounted price
                     const priceDifference = cartTotal - couponPrice;
                     if (priceDifference >= 0 && cartTotal / couponPrice >= 5) {
-                        setCartTotal(priceDifference)
-                        setCouponApplied(true)
-                        setApplyCoupon(false)
+                        // setCartTotal(priceDifference)
+                        // setCouponApplied(true)
+                        // setApplyCoupon(false)
                         setCouponSuccess(true);
                         setCouponError(false);
                     } else {
@@ -122,6 +123,18 @@ function OrderDetail({cartTotal, setCartTotal, couponCode, setCouponCode,setCoup
             });
     };
 
+
+    const applyCouponAction = () => {
+        const couponPrice = coupon?.discount;
+        const priceDifference = cartTotal - couponPrice;
+        if (priceDifference >= 0 && cartTotal / couponPrice >= 5) {
+            setCartTotal(priceDifference)
+            setCouponApplied(true)
+            setApplyCoupon(false)
+            setCouponSuccess(true);
+            setCouponError(false);
+        }
+    }
 
     const getDeliveryDate = () => {
         const today = dayjs();
@@ -164,24 +177,21 @@ function OrderDetail({cartTotal, setCartTotal, couponCode, setCouponCode,setCoup
 
                     applyCoupon ?
                         (
-                            <div>
-                                <Group position="left">
+                            <Modal opened={showModal}
+                                size="30%"
+                                onClose={() => {
+                                    setShowModal(false)
+                                    setApplyCoupon(false)
+                                }} title="Apply Coupon">
+
+                                <Group position="apart">
                                     <TextInput
                                         size='xl'
-                                        placeholder='Coupon Code'
+                                        placeholder='Enter Coupon Code'
                                         value={couponCode}
                                         onChange={(e) => setCouponCode(e.target.value)}
+                                        rightSection={<Text color='red' onClick={() => handleCouponSubmit(couponCode)}>Check</Text>}
                                     />
-                                    <Button size='xl'
-                                        mt="mt"
-                                        color="blue"
-                                        onClick={() => handleCouponSubmit(couponCode)}
-                                        style={{
-                                            backgroundColor: 'blue'
-                                        }}
-                                    >
-                                        Submit
-                                    </Button>
                                 </Group>
                                 {
                                     couponSuccess && (
@@ -206,11 +216,45 @@ function OrderDetail({cartTotal, setCartTotal, couponCode, setCouponCode,setCoup
                                         </Text>
                                     )
                                 }
-                            </div>
+
+                                <Card shadow="sm" radius="md"
+                                    style={{
+                                        backgroundColor: 'white',
+                                        marginTop: '130px'
+                                    }}
+                                >
+                                    <Group position="apart">
+                                     <div>
+                                            <Text size='lg' weight={700} color="black">
+                                                Maximum Savings
+                                            </Text>
+                                            <Text size='lg' weight={700} color="black">
+                                             ₹{coupon?.discount || 0}
+                                            </Text>
+                                     </div>
+                                        <Button size='xl'
+                                            mt="mt"
+                                            color="blue"
+                                            onClick={() => applyCouponAction()}
+                                            style={{
+                                                backgroundColor: 'red',
+                                                width: '200px'
+                                            }}
+                                        >
+                                            APPLY
+                                        </Button>
+                                    </Group>
+                                </Card>
+
+
+                            </Modal>
                         ) : (
                             <Button size='xl'
                                 color="blue"
-                                onClick={() => setApplyCoupon(true)}
+                                onClick={() => {
+                                    setShowModal(true)
+                                    setApplyCoupon(true)
+                                }}
                                 style={{
                                     backgroundColor: 'blue'
                                 }}

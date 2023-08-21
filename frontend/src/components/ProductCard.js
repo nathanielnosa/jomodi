@@ -286,28 +286,46 @@ function ProductCard({ product, index }) {
                         </div>
                     </div>
                     <div className="add-to-cart">
-                        <button
-                            className="add-to-cart-btn"
-                        >
-                            {cartItems.find((item) => item.id === product.id) ? (
-                                <span
-                                    onClick={() => navigate('/cart')}
+                        {
+                            product.available_quantity > 0 ? (
+                                <button
+                                    className="add-to-cart-btn"
                                 >
-                                    <i className="fa fa-check-circle"></i> Go to Cart
-                                </span>
-                            ) : (
-                                (product?.show_size || product?.show_color) ? (
-                                    <span onClick={() => handleOpen(product)}>
-                                        <i className="fa fa-shopping-cart"></i> Add to Cart
-                                    </span>
-                                ) : (
-                                    <span onClick={() => handleAddToCart(product)}>
-                                        <i className="fa fa-shopping-cart"></i> Add to Cart
-                                    </span>
-                                )
+                                    {cartItems.find((item) => item.id === product.id) ? (
+                                        <span
+                                            onClick={() => navigate('/cart')}
+                                        >
+                                            <i className="fa fa-check-circle"></i> Go to Cart
+                                        </span>
+                                    ) : (
+                                        (product?.show_size || product?.show_color) ? (
+                                            <span onClick={() => handleOpen(product)}>
+                                                <i className="fa fa-shopping-cart"></i> Add to Cart
+                                            </span>
+                                        ) : (
+                                            <span onClick={() => handleAddToCart(product)}>
+                                                <i className="fa fa-shopping-cart"></i> Add to Cart
+                                            </span>
+                                        )
 
-                            )}
-                        </button>
+                                    )}
+                                </button>
+                            ) :
+                                (
+                                    <button
+                                        className="add-to-cart-btn"
+                                        style={{
+                                            backgroundColor: 'orange',
+                                        }}
+                                    >
+
+                                        <span>
+                                            <i className="fa fa-shopping-cart"></i> Out of Stock
+                                        </span>
+
+                                    </button>
+                                )
+                        }
                     </div>
                 </div>
             </div>
