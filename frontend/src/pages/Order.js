@@ -266,6 +266,17 @@ function Order() {
               />
             )
           }
+          
+
+              {
+                (filteredOrders && selectedOrderStatus != 'All' && filteredOrders?.length === 0) && (
+                  <Text size={40} fw="bold" style={{ color: "gray" }}>
+                    No Orders for this Status
+                  </Text>
+                )
+
+              }
+
 
         </Grid.Col>
 
@@ -283,7 +294,7 @@ function Order() {
       
 
       {orderData &&
-        paginatedItems?.map((item, index) =>
+        filteredPaginatedItems?.map((item, index) =>
           item?.products?.map((product, index) => (
             <Card key={index} shadow="sm" padding="lg" mt="lg" className="px-5">
               <div>
@@ -320,7 +331,7 @@ function Order() {
 </Grid.Col>
 
             <Grid.Col md={3}>
-            <div className="mt-7">
+            <div className="mt-7" onClick={() => navigate(`/order-product-summary`, { state: { order: item, product: product } })}>
         <Text size="lg" style={{ color: "gray" }}>
           
           
@@ -337,7 +348,7 @@ function Order() {
             </Grid.Col>
                 <Grid.Col md={4}>
                         
-                    <div className="mt-7 mx-12">
+                    <div className="mt-7 mx-12" onClick={() => navigate(`/order-product-summary`, { state: { order: item, product: product } })}>
               {product?.cancel && (
                 <div style={{ display: 'flex', alignItems: 'center' }}>
                 <IconPointFilled color="red" title="" style={{ color: 'red', marginRight: '0.5rem' }} />
