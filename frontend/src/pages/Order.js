@@ -285,11 +285,14 @@ function Order() {
         paginatedItems?.map((item, index) =>
           item?.products?.map((product, index) => (
             <Card key={index} shadow="sm" padding="lg" mt="lg" className="px-5">
-              <div onClick={() => navigate(`/order-product-summary`, { state: { order: item, product: product } })}>
+              <div>
               <CardSection withBorder inheritPadding py="xs">
               <Grid>
               <Grid.Col md={4} className="flex items-center">
-  <Image src={product?.image} width={150} height={150} className="m-4" />
+                <div onClick={() => navigate(`/order-product-summary`, { state: { order: item, product: product } })}>
+                <Image src={product?.image} width={150} height={150} className="m-4" />
+                </div>
+  
   <div className="mt-7 ml-4">
     <Text size="xl" weight={500} style={{ marginBottom: '0.5rem' }}>
       {product?.name}
@@ -312,6 +315,7 @@ function Order() {
       </Button>
     )}
   </div>
+  
 </Grid.Col>
 
             <Grid.Col md={3}>
