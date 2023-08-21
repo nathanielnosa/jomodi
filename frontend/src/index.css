@@ -8,7 +8,12 @@
     align-items: center;
     margin-top: 1rem;
   }
+  .step-success{
+    
+  }
+ .step{
   
+ }
   .badge-red {
     font-size: 1rem;
     padding: 0.5rem 1rem;
@@ -140,48 +145,9 @@
   }
 
 /* order-progress */
-.tracking-progress-bar {
-  margin: 10px 0;
+.step-success{
+  
 }
-
-.tracking-progress-bar__item {
-  background: #E5E7ED;
-  border-radius: 50%;
-  color: #768CAD;
-  display: inline-block;
-  font-family: sans-serif;
-  font-size: 17px;
-  height: 30px;
-  line-height: 30px;
-  position: relative;
-  text-align: center;
-  width: 31px;
-  z-index: 9;
-}
-
-.tracking-progress-bar__item__bar {
-  background: #E5E7ED;
-  display: inline-block;
-  margin: 0 -5px;
-  height: 12px;
-  width: 170px;
-  z-index: 2;
-}
-
-.tracking-progress-bar__item__bar--active {
-  background: green;
-}
-
-.tracking-progress-bar__item--first {
-  margin-left: 0;
-}
-
-.tracking-progress-bar__item--active {
-  background: green;
-  color: #fff;
-}
-
-
 
 /* bell notification */  
   .bell{
