@@ -218,6 +218,42 @@ function Order() {
           </Button>
         </div>
       </Modal>
+      <Grid mt={8}>
+            <Grid.Col span={12}>
+                        
+                        <nav class="flex" aria-label="Breadcrumb">
+                          <ol class="inline-flex items-center space-x-1 md:space-x-3">
+                            <li class="inline-flex items-center">
+                              <a href="/" class="inline-flex items-center text-sm font-medium text-gray-700 hover:text-blue-600 dark:text-gray-400 dark:hover:text-white">
+                                <svg class="w-3 h-3 mr-2.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                                  <path d="m19.707 9.293-2-2-7-7a1 1 0 0 0-1.414 0l-7 7-2 2a1 1 0 0 0 1.414 1.414L2 10.414V18a2 2 0 0 0 2 2h3a1 1 0 0 0 1-1v-4a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v4a1 1 0 0 0 1 1h3a2 2 0 0 0 2-2v-7.586l.293.293a1 1 0 0 0 1.414-1.414Z"/>
+                                </svg>
+                                <Text size={20} weight={400}>Home</Text>
+                              </a>
+                            </li>
+                            <li>
+                              <div class="flex items-center">
+                                <svg class="w-3 h-3 text-gray-400 mx-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
+                                  <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 9 4-4-4-4"/>
+                                </svg>
+                                <a href="/profile" class="ml-1 text-sm font-medium text-gray-700 hover:text-blue-600 md:ml-2 dark:text-gray-400 dark:hover:text-white"> <Text size={20} weight={400}>My Account</Text></a>
+                              </div>
+                            </li>
+                            
+                            <li aria-current="page">
+                              <div class="flex items-center">
+                                <svg class="w-3 h-3 text-gray-400 mx-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
+                                  <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 9 4-4-4-4"/>
+                                </svg>
+                                <span class="ml-1 text-sm font-medium text-gray-500 md:ml-2 dark:text-gray-400"> <Text size={20} weight={400}>My orders</Text></span>
+                              </div>
+                            </li>
+                          </ol>
+                        </nav>
+                        
+                        
+                                            </Grid.Col>
+            </Grid>
       <Grid>
         <Grid.Col md={2} >
           {
@@ -230,124 +266,7 @@ function Order() {
               />
             )
           }
-
-        </Grid.Col>
-
-        <Grid.Col md={10}>
-          <div className="px-3">
-
-            {/* Search Bar */}
-            <SearchBar />
-
-
-
-
-
-
-
-            {orderData &&
-              paginatedItems?.map((item, index) =>
-                item?.products?.map((product, index) => (
-                  <Card key={index} shadow="sm" padding="lg" mt="lg" className="px-5">
-                    <div>
-                      <CardSection withBorder inheritPadding py="xs">
-                        <Grid>
-                          <Grid.Col md={3}>
-                            <Image src={product?.image} width={100} height={100} style={{ marginTop: '2rem' }} />
-                          </Grid.Col>
-                          <Grid.Col md={3}>
-                            <div className="mt-7">
-                              <Text size="xl" weight={500} style={{ marginBottom: "0.5rem" }}>
-                                {product?.name}
-                              </Text>
-                              <Text size="lg" fz="lg" style={{ color: "black", marginBottom: "0.5rem" }}>
-                                Quantity: {product?.quantity}
-                              </Text>
-                              {item.status === "Shipping in Progress" && (
-                                <Button
-                                  variant="outline"
-                                  color="red"
-                                  size="lg"
-                                  radius="xl"
-                                  mb="md"
-                                  style={{ marginRight: "1rem" }}
-                                  onClick={() => handleCancel(item.id, product.id)}
-                                  disabled={product?.cancel}
-                                >
-                                  Cancel
-                                </Button>
-                              )}
-                            </div>
-                          </Grid.Col>
-                          <Grid.Col md={3}>
-                            <div className="mt-7">
-                              <Text size="lg" style={{ color: "gray" }}>
-
-                              </Text>
-                              <Text size="lg" style={{ color: "black" }} className="mt-0 text-center" weight={500}>
-                                ₹{product?.price * product?.quantity}
-                              </Text>
-                            </div>
-                          </Grid.Col>
-                          <Grid.Col md={3}>
-                            {/* <div className="text-center">
-      <Text size="lg" style={{ color: "gray", marginTop: "1rem" }}>
-          Order Date
-        </Text>
-        <Text size="lg" style={{ color: "gray" }}>
-          {dayjs(item?.created_at).format("DD/MM/YYYY")}
-        </Text>
-        <Text size="lg" style={{ color: "gray" }}>
-          Order ID
-        </Text>
-        <Text size="lg" style={{ color: "gray" }}>
-          #{item?.order_id}
-        </Text>  
-
-        </div> */}
-                            <div className="mt-7">
-                              {product?.cancel && (
-                                <div style={{ display: 'flex', alignItems: 'center' }}>
-                                  <IconPointFilled color="red" title="" style={{ color: 'red', marginRight: '0.5rem' }} />
-                                  Cancelled
-                                </div>
-                              )}
-                              <div style={{ display: 'flex', alignItems: 'center' }}>
-                                {product?.cancel === false && (
-                                  <div>
-                                    <IconPointFilled color="green" title="" style={{ color: 'green', marginRight: '0.5rem' }} />
-                                    {item?.status}
-                                  </div>
-                                )}
-                                <button onClick={() => navigate(`/order-product-summary`, { state: { order: item, product: product } })} className="btn btn-primary btn-sm ml-3">View Details</button>
-                              </div>
-                            </div>
-                          </Grid.Col>
-                        </Grid>
-
-                      </CardSection>
-                      <Card.Section withBorder inheritPadding py="xs">
-
-                        <Group position="apart">
-
-
-                        </Group>
-                      </Card.Section>
-                    </div>
-                  </Card>
-
-                ))
-              )}
-            <div className="col-md-9 hidden">
-              {
-                paginatedItems?.length > 0 && (
-                  <TextInput placeholder="Search" size="xl"
-                    value={keyword}
-                    onChange={(e) => setKeyword(e.target.value)}
-                  />
-                )
-
-              }
+          
 
               {
                 (filteredOrders && selectedOrderStatus != 'All' && filteredOrders?.length === 0) && (
@@ -358,121 +277,146 @@ function Order() {
 
               }
 
-              {paginatedItems?.length > 0 &&
-                filteredPaginatedItems?.map((item, index) =>
-                  item?.products?.map((product, index) => (
-                    <Card key={index} shadow="sm" padding="lg" mt="xl">
-                      <Card.Section withBorder inheritPadding py="xs">
-                        <Group position="apart"
-                          onClick={() => navigate(`/order-product-summary`, { state: { order: item, product: product } })}>
 
-                          <Image src={product?.image} width={100} height={100} />
-                          <Group position="apart">
-                            <div>
-                              <Text size="lg" style={{ color: "gray" }}>
-                                Order Date
-                              </Text>
-                              <Text size="lg" style={{ color: "gray" }}>
-                                {dayjs(item?.created_at).format("DD/MM/YYYY")}
-                              </Text>
-                            </div>
-                            <div>
-                              <Text size="lg" style={{ color: "gray" }}>
-                                Order ID
-                              </Text>
-                              <Text size="lg" style={{ color: "gray" }}>
-                                #{item?.order_id}
-                              </Text>
-                            </div>
-                            <div>
-                              <Text size="lg" style={{ color: "gray" }}>
-                                Order Price
-                              </Text>
-                              <Text size="lg" style={{ color: "gray" }}>
-                                ₹{product?.price}
-                              </Text>
-                            </div>
-                          </Group>
-                        </Group>
-                      </Card.Section>
-                      <Group position="apart">
-                        <div>
-                          <Text size="xl" weight={500} style={{ marginBottom: "1rem" }}>
-                            {product?.name}
-                          </Text>
-                          <Text
-                            size="lg"
-                            fz="lg"
-                            style={{ color: "black", marginBottom: "1rem" }}
-                          >
-                            Quantity: {product?.quantity}
-                          </Text>
-                        </div>
-                        {item.status === "Shipping in Progress" && (
-                          <Button
-                            variant="outline"
-                            color="red"
-                            size="lg"
-                            radius="xl"
-                            mb="md"
-                            style={{ marginRight: "1rem" }}
-                            onClick={() => handleOpen(item.id, product.id)}
-                            disabled={product?.cancel}
-                          >
-                            cancel
-                          </Button>
-                        )}
-                      </Group>
-                      {product?.cancel && (
-                        <Badge fz="xl" p="xl" color="red">
-                          Cancelled
-                        </Badge>
-                      )}
-                      {product?.cancel == false && (
-                        <Badge fz="xl" p="xl" color="green">
-                          {item?.status}
-                        </Badge>
-                      )}
-                    </Card>
-                  ))
-                )}
+        </Grid.Col>
+
+        <Grid.Col md={10}>
+
+        <div className="px-3">
+
+        {/* Search Bar */}
+        <SearchBar/>
+      
+      
+      
+
+
+      
+
+      {orderData &&
+        filteredPaginatedItems?.map((item, index) =>
+          item?.products?.map((product, index) => (
+            <Card key={index} shadow="sm" padding="lg" mt="lg" className="px-5">
+              <div>
+              <CardSection withBorder inheritPadding py="xs">
+              <Grid>
+              <Grid.Col md={4} className="flex items-center">
+                <div onClick={() => navigate(`/order-product-summary`, { state: { order: item, product: product } })}>
+                <Image src={product?.image} width={150} height={150} className="m-4" />
+                </div>
+  
+  <div className="mt-7 ml-4">
+    <Text size="xl" weight={500} style={{ marginBottom: '0.5rem' }}>
+      {product?.name}
+    </Text>
+    <Text size="lg" fz="lg" style={{ color: 'black', marginBottom: '0.5rem' }}>
+      Quantity: {product?.quantity}
+    </Text>
+    {item.status === 'Shipping in Progress' && (
+      <Button
+        variant="outline"
+        color="red"
+        size="lg"
+        radius="xl"
+        mb="md"
+        style={{ marginRight: '1rem' }}
+        onClick={() => handleOpen(item.id, product.id)}
+        disabled={product?.cancel}
+      >
+        Cancel
+      </Button>
+    )}
+  </div>
+  
+</Grid.Col>
+
+            <Grid.Col md={3}>
+            <div className="mt-7" onClick={() => navigate(`/order-product-summary`, { state: { order: item, product: product } })}>
+        <Text size="lg" style={{ color: "gray" }}>
+          
+          
+        </Text>
+        <Text size="lg" style={{ color: "gray" }}>
+         
+          
+        </Text>
+        <Text size="lg" style={{ color: "black" }} className="mt-0 text-center" weight={500}>
+          ₹{product?.price * product?.quantity}
+        </Text>
+     
+      </div>
+            </Grid.Col>
+                <Grid.Col md={4}>
+                        
+                    <div className="mt-7 mx-12" onClick={() => navigate(`/order-product-summary`, { state: { order: item, product: product } })}>
+              {product?.cancel && (
+                <div style={{ display: 'flex', alignItems: 'center' }}>
+                <IconPointFilled color="red" title="" style={{ color: 'red', marginRight: '0.5rem' }} />
+                Cancelled
+              
+              
+                
+              </div>
+              )}
+              {product?.cancel === false && (
+              <div style={{ display: 'flex', alignItems: 'center' }}>
+              <IconPointFilled color="green" title="" style={{ color: 'green', marginRight: '0.5rem' }} />
+              {item?.status}
+            
+
+              
             </div>
-          </div>
-          {orderData?.length === 0 && (
-            <Card shadow="sm" padding="lg" mt="xl">
-              <Card.Section withBorder inheritPadding py="xs" className="text-center">
-                <Group position="apart">
-                  <Text size="xl" fz="xl" fw="bold" style={{ color: "gray" }}>
-                    No Orders
-                  </Text>
-                </Group>
-                <Button
-                  variant="outline"
-                  color="teal"
-                  size="lg"
-                  radius="xl"
-                  style={{ marginRight: "1rem" }}
-                  onClick={() => navigate("/")}
-                >
-                  Continue Shopping
-                </Button>
-              </Card.Section>
 
-            </Card>
-          )}
-          <Group spacing={5} position="right">
-            <Pagination
-              my="lg"
-              total={totalPages}
-              value={page}
-              onChange={handlePageChange}
-              color="red"
-              style={{
-                display: "flex",
-                fontSize: "1.6rem",
-              }}
-            />
-          </Group>
+
+            )}
+
+
+            </div>
+              </Grid.Col>
+              </Grid>
+
+              </CardSection>
+              </div>
+</Card>
+
+          ))
+        )}
+        </div>
+      {orderData?.length === 0 && (
+        <Card shadow="sm" padding="lg" mt="xl">
+          <Card.Section withBorder inheritPadding py="xs" className="text-center">
+            <Group position="apart">
+              <Text size="xl" fz="xl" fw="bold" style={{ color: "gray" }}>
+                No Orders
+              </Text>
+            </Group>
+            <Button
+              variant="outline"
+              color="teal"
+              size="lg"
+              radius="xl"
+              style={{ marginRight: "1rem" }}
+              onClick={() => navigate("/")}
+            >
+              Continue Shopping
+            </Button>
+          </Card.Section>
+
+        </Card>
+      )}
+      <Group spacing={5} position="right">
+        <Pagination
+          my="lg"
+          total={totalPages}
+          value={page}
+          onChange={handlePageChange}
+          color="red"
+          style={{
+            display: "flex",
+            fontSize: "1.6rem",
+          }}
+        />
+      </Group>     
         </Grid.Col>
 
       </Grid>
