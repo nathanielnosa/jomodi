@@ -216,7 +216,7 @@ function OrderDetailPage() {
                     <Text weight={500} size={25}>Rate your experence</Text>
 
                     <div className="mt-4">
-                      <a><p>How was your delivery experence?</p></a>
+                      <a href="#"><p>How was your delivery experence?</p></a>
                     </div>
 
 
