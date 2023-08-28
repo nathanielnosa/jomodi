@@ -130,15 +130,13 @@ function OrderProductSummary() {
         <div className="ml-4 mt-3">
         <p>
           {product?.name}<br />
-          {product?.selected_color}<br />
-          {product?.selected_size}<br />
-          QTY:{product?.quantity}<br/>
+          <div className='mt-2'>₹{product?.price}<br /></div>
+          <div className='mt-2'>Color:{product?.selected_color}<br /></div>
+          <div className='mt-1'>Size:{product?.selected_size}<br /></div>
+          <div className='mt-1'>QTY:{product?.quantity}<br/></div>
           
         </p>
-        <p className='mt-5'>
-          ₹{product?.price}<br />
-
-        </p>
+        
         
 
       </div>
@@ -239,13 +237,13 @@ function OrderProductSummary() {
                     <div style={{ display: 'flex', alignItems: 'center' }}>
                 <IconJewishStarFilled style={{color:'#d10024'}}/>
                 <span>
-                    <Link style={{ color: 'blue', marginLeft: '.5rem' }}>Rate & Review Product</Link>
+                    <Link to="/" style={{ color: 'blue', marginLeft: '.5rem' }}>Rate & Review Product</Link>
                 </span>
                 </div>
                 <div style={{ display: 'flex', alignItems: 'center' }} className='pt-4'>
                 <IconHelpSquareFilled style={{color:'#d10024'}} />
                 <span>
-                    <Link style={{ color: 'blue', marginLeft: '5px' }}>Need help?</Link>
+                    <Link to="/" style={{ color: 'blue', marginLeft: '5px' }}>Need help?</Link>
                 </span>
                 </div>
 
