@@ -10,11 +10,14 @@ import axios from 'axios'
 import NewsLetter from '../components/NewsLetter'
 import Store from './Store'
 import HomeProduct from '../components/HomeProduct'
+import TopCategory from '../components/TopCategory'
+import Headers from '../components/header/Headers'
 
 function Home() {
     return (
         <div>
             <HomeTop />
+            <TopCategory/>
             <TopSelling />
             <HotDeal />
             <NewProduct />

@@ -28,11 +28,14 @@ function AppFooter() {
                         <div className="col-md-3 col-xs-6">
                             <div className="footer">
                                 <h3 className="footer-title">About Us</h3>
-                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut.</p>
+                                <p>Discover a world of online shopping convenience with us! 
+From trending fashion to cutting-edge electronics, we offer seamless 
+browsing, secure transactions, and doorstep delivery. Elevate your 
+shopping experience at Jomodi - where choices meet convenience.</p>
                                 <ul className="footer-links">
-                                    <li><a href="#"><i className="fa fa-map-marker"></i>1734 Stonecoal Road</a></li>
-                                    <li><a href="#"><i className="fa fa-phone"></i>+021-95-51-84</a></li>
-                                    <li><a href="#"><i className="fa fa-envelope-o"></i>email@email.com</a></li>
+                                    <li><a href="#"><i className="fa fa-map-marker"></i>VSS Nagar, Bhubaneswar</a></li>
+                                    <li><a href="#"><i className="fa fa-phone"></i>+91 1203546270</a></li>
+                                    <li><a href="#"><i className="fa fa-envelope-o"></i>contact@jomodi.com</a></li>
                                 </ul>
                             </div>
                         </div>
@@ -105,7 +108,7 @@ function AppFooter() {
                             </ul>
                             <span className="copyright">
 
-                                Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i className="fa fa-heart-o" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a>
+                                Copyright &copy;<script>document.write(new Date().getFullYear());</script>2023 All rights reserved | Jomodi Team<i className="fa fa-heart-o" aria-hidden="true"></i><a href="" target="_blank"></a>
 
                             </span>
                         </div>
