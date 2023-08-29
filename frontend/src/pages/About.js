@@ -35,9 +35,12 @@ function About() {
                 At Jomodi, we believe that shopping should be a delightful experience, and we work tirelessly to make it so. Shop with confidence, knowing that we are dedicated to exceeding your expectations at every turn.
             </Text>
 
-            <Text align="justify" style={{ marginBottom: '1.5rem' }}>
+            <Text align="justify" style={{ marginBottom: '1rem' }}>
 
                 We look forward to serving you and being a part of your shopping journey!
+            </Text>
+            <Text align="center" weight={700} style={{ fontSize: '1.2rem', marginBottom: '1.5rem' }}>
+            Owned by: Biswajit Barik
             </Text>
 
             <Text align="center" weight={700} style={{ fontSize: '1.2rem' }}>
