@@ -12,17 +12,21 @@ import Store from './Store'
 import HomeProduct from '../components/HomeProduct'
 import TopCategory from '../components/TopCategory'
 import Headers from '../components/header/Headers'
-
+import EssentialsCard from '../components/Essentials'
+import NewStylesCard from '../components/NewStyles'
 function Home() {
     return (
         <div>
             <HomeTop />
             <TopCategory/>
+            <EssentialsCard/>
+            <NewStylesCard/>
             <TopSelling />
             <HotDeal />
             <NewProduct />
             <TopSellingChip />
             <HomeProduct />
+
         </div>
     )
 }

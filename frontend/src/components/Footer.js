@@ -25,7 +25,7 @@ function AppFooter() {
                 <div className="container">
 
                     <div className="row">
-                        <div className="col-md-3 col-xs-6">
+                        <div className="col-md-5 col-xs-6">
                             <div className="footer">
                                 <h3 className="footer-title">About Us</h3>
                                 <p>Discover a world of online shopping convenience with us! 
@@ -39,7 +39,7 @@ shopping experience at Jomodi - where choices meet convenience.</p>
                                 </ul>
                             </div>
                         </div>
-                        <div className="col-md-3 col-xs-6">
+                        <div className="col-md-2 col-xs-6">
                             <div className="footer">
                                 <h3 className="footer-title">Categories</h3>
                                 <ul className="footer-links">
@@ -75,7 +75,7 @@ shopping experience at Jomodi - where choices meet convenience.</p>
                             </div>
                         </div>
 
-                        <div className="col-md-3 col-xs-6">
+                        <div className="col-md-2 col-xs-6">
                             <div className="footer">
                                 <h3 className="footer-title">Service</h3>
                                 <ul className="footer-links">
