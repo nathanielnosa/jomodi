@@ -25,355 +25,60 @@ function TopProductCard() {
     return(
         <div>
             <Grid>
-                <Grid.Col span={6} className="" style={{paddingLeft:'18rem'}}>
-                <Card shadow="sm" padding="" px={35} radius="lg" withBorder style={{width:'400px'}}>
+  <Grid.Col xs={12} className="text-center">
+    <div style={{ width: '85%', margin: '0 auto' }} className="pt-4">
+      <Card shadow="sm" padding="lg" radius="lg" withBorder
+      className="pt-14"
+      style={{
+        background: 'linear-gradient(to right top, #f86e7e, #e694a5, #d0bad2, #bac0f8, #a6c5ff)',
+      }}
+      >
+        <Grid>
+            <Grid.Col md={5}>
+                <img src="https://images.meesho.com/images/marketing/1678691686252_400.webp"/>
+
+            </Grid.Col>
+
+            <Grid.Col md={7}>
                 <Grid>
-                        <Grid.Col span={12}>
-                            <div className="text-center">
-                            <Text size={27} weight={500}>Women's store</Text>
-                            </div>
-                        </Grid.Col>
-                        <Grid.Col span={6}>
-                        <Card shadow="sm" padding="sm" radius="lg" withBorder style={{backgroundColor:'#e4e4e7'}}>
 
-                        <Card.Section>
-                            
-                            <Center  mx="">
-                                <div className="py-4 px-1">
-                                <Image
-                            src="https://images.unsplash.com/photo-1527004013197-933c4bb611b3?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=720&q=80"
-                            height={160}
-                            
-                            
-                            alt="Norway"
-                            />
-                                </div>
-
-                            </Center>
-                        </Card.Section>
-                        </Card>
-                        <div className="text-center">
-                        <Text size={22} weight={500}>Fine Bag</Text>
-
-                        </div>
-                        </Grid.Col>
-
-                        <Grid.Col span={6}>
-                        <Card shadow="sm" padding="lg" radius="lg" withBorder style={{backgroundColor:'#e4e4e7'}}>
-
-                        <Card.Section>
-                            
-                            <Center  mx="">
-                                <div className="py-4 mx-1">
-                                <Image
-                            src="https://images.unsplash.com/photo-1527004013197-933c4bb611b3?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=720&q=80"
-                            height={160}
-                            
-                            alt="Norway"
-                            />
-                                </div>
-
-                            </Center>
-                        </Card.Section>
-                        </Card>
-                        <div className="text-center">
-                        <Text size={22} weight={500}>Fine Bag</Text>
-
-                        </div>
-                        </Grid.Col>
-
-                        <Grid.Col span={6}>
-                        <Card shadow="sm" padding="lg" radius="lg" withBorder style={{backgroundColor:'#e4e4e7'}}>
-
-                        <Card.Section>
-                            
-                            <Center  mx="">
-                                <div className="py-6 px-1">
-                                <Image
-                            src="https://images.unsplash.com/photo-1527004013197-933c4bb611b3?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=720&q=80"
-                            height={160}
-                            
-                            alt="Norway"
-                            />
-                                </div>
-
-                            </Center>
-                        </Card.Section>
-                        </Card>
-                        <div className="text-center">
-                        <Text size={22} weight={500}>Fine Bag</Text>
-
-                        </div>
-                        </Grid.Col>
-
-                        <Grid.Col span={6}>
-                        <Card shadow="sm" padding="lg" radius="lg" withBorder style={{backgroundColor:'#e4e4e7'}}>
-
-                        <Card.Section>
-                            
-                            <Center  mx="1">
-                                <div className="py-6">
-                                <Image
-                            src="https://images.unsplash.com/photo-1527004013197-933c4bb611b3?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=720&q=80"
-                            height={160}
-                            
-                            alt="Norway"
-                            />
-                            
-                                </div>
-                               
-
-                            </Center>
-                        </Card.Section>
-                        
-                        </Card>
-                        <div className="text-center">
-                        <Text size={22} weight={500}>Fine Bag</Text>
-
-                        </div>
-                        </Grid.Col>
-
-                    </Grid>
-                </Card>
+                <Grid.Col>
+                    <div className="pt-19">
+                    <Text className="" size={60} weight={500}>Be Fashion Forward</Text>
+                    </div>
                 </Grid.Col>
-
-
-
-                <Grid.Col span={4} className="" style={{marginTop:''}}>
-                    
-                    <Grid>
-                        <Grid.Col>
-                            <div className="text-center">
-                            <Text size={40} weight={700}>Be Fashion Forward</Text>
-
-                            </div>
-                        </Grid.Col>
-                        <Grid.Col md={6}>
-                        <Card shadow="sm" padding="" px={35} radius="lg" withBorder style={{width:'210px', backgroundColor:'#F8F8FA'}}>
-                <Grid>
-                        <Grid.Col span={12}>
-                            <div className="text-center">
-                            <Text size={27} weight={500}>Men's store</Text>
-                            </div>
-                        </Grid.Col>
-                        <Grid.Col span={6}>
-                        <Card shadow="sm" padding="sm" radius="lg" withBorder style={{backgroundColor:'#e4e4e7'}}>
-
-                        <Card.Section>
-                            
-                            <Center  mx="">
-                                <div className="py-4 px-1">
-                                <Image
-                            src="https://images.unsplash.com/photo-1527004013197-933c4bb611b3?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=720&q=80"
-                            height={100}
-                            
-                            
-                            alt="Norway"
-                            />
-                                </div>
-
-                            </Center>
-                        </Card.Section>
-                        </Card>
-                        <div className="text-center">
-                        <Text size={22} weight={500}>Fine Bag</Text>
-
-                        </div>
-                        </Grid.Col>
-
-                        <Grid.Col span={6}>
-                        <Card shadow="sm" padding="lg" radius="lg" withBorder style={{backgroundColor:'#e4e4e7'}}>
-
-                        <Card.Section>
-                            
-                            <Center  mx="">
-                                <div className="py-4 mx-1">
-                                <Image
-                            src="https://images.unsplash.com/photo-1527004013197-933c4bb611b3?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=720&q=80"
-                            height={100}
-                            
-                            alt="Norway"
-                            />
-                                </div>
-
-                            </Center>
-                        </Card.Section>
-                        </Card>
-                        <div className="text-center">
-                        <Text size={22} weight={500}>Fine Bag</Text>
-
-                        </div>
-                        </Grid.Col>
-
-                        <Grid.Col span={6}>
-                        <Card shadow="sm" padding="lg" radius="lg" withBorder style={{backgroundColor:'#e4e4e7'}}>
-
-                        <Card.Section>
-                            
-                            <Center  mx="">
-                                <div className="py-6 px-1">
-                                <Image
-                            src="https://images.unsplash.com/photo-1527004013197-933c4bb611b3?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=720&q=80"
-                            height={100}
-                            
-                            alt="Norway"
-                            />
-                                </div>
-
-                            </Center>
-                        </Card.Section>
-                        </Card>
-                        <div className="text-center">
-                        <Text size={22} weight={500}>Fine Bag</Text>
-
-                        </div>
-                        </Grid.Col>
-
-                        <Grid.Col span={6}>
-                        <Card shadow="sm" padding="lg" radius="lg" withBorder style={{backgroundColor:'#e4e4e7'}}>
-
-                        <Card.Section>
-                            
-                            <Center  mx="1">
-                                <div className="py-6">
-                                <Image
-                            src="https://images.unsplash.com/photo-1527004013197-933c4bb611b3?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=720&q=80"
-                            height={100}
-                            
-                            alt="Norway"
-                            />
-                                </div>
-
-                            </Center>
-                        </Card.Section>
-                        </Card>
-                        <div className="text-center">
-                        <Text size={22} weight={500}>Fine Bag</Text>
-
-                        </div>
-                        </Grid.Col>
-
-                    </Grid>
-                </Card>
-                        </Grid.Col>
-
-
-                        <Grid.Col md={4}>
-                        <Card shadow="sm" padding="" px={35} radius="lg" withBorder style={{width:'210px', backgroundColor:'#F8F8FA'}}>
-                <Grid>
-                        <Grid.Col span={12}>
-                            <div className="text-center">
-                            <Text size={27} weight={500}>Kid's store</Text>
-                            </div>
-                        </Grid.Col>
-                        <Grid.Col span={6}>
-                        <Card shadow="sm" padding="sm" radius="lg" withBorder style={{backgroundColor:'#e4e4e7'}}>
-
-                        <Card.Section>
-                            
-                            <Center  mx="">
-                                <div className="py-4 px-1">
-                                <Image
-                            src="https://images.unsplash.com/photo-1527004013197-933c4bb611b3?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=720&q=80"
-                            height={100}
-                            
-                            
-                            alt="Norway"
-                            />
-                                </div>
-
-                            </Center>
-                        </Card.Section>
-                        </Card>
-                        <div className="text-center">
-                        <Text size={22} weight={500}>Fine Bag</Text>
-
-                        </div>
-                        </Grid.Col>
-
-                        <Grid.Col span={6}>
-                        <Card shadow="sm" padding="lg" radius="lg" withBorder style={{backgroundColor:'#e4e4e7'}}>
-
-                        <Card.Section>
-                            
-                            <Center  mx="">
-                                <div className="py-4 mx-1">
-                                <Image
-                            src="https://images.unsplash.com/photo-1527004013197-933c4bb611b3?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=720&q=80"
-                            height={100}
-                            
-                            alt="Norway"
-                            />
-                                </div>
-
-                            </Center>
-                        </Card.Section>
-                        </Card>
-                        <div className="text-center">
-                        <Text size={22} weight={500}>Fine Bag</Text>
-
-                        </div>
-                        </Grid.Col>
-
-                        <Grid.Col span={6}>
-                        <Card shadow="sm" padding="lg" radius="lg" withBorder style={{backgroundColor:'#e4e4e7'}}>
-
-                        <Card.Section>
-                            
-                            <Center  mx="">
-                                <div className="py-6 px-1">
-                                <Image
-                            src="https://images.unsplash.com/photo-1527004013197-933c4bb611b3?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=720&q=80"
-                            height={100}
-                            
-                            alt="Norway"
-                            />
-                                </div>
-
-                            </Center>
-                        </Card.Section>
-                        </Card>
-                        <div className="text-center">
-                        <Text size={22} weight={500}>Fine Bag</Text>
-
-                        </div>
-                        </Grid.Col>
-
-                        <Grid.Col span={6}>
-                        <Card shadow="sm" padding="lg" radius="lg" withBorder style={{backgroundColor:'#e4e4e7'}}>
-
-                        <Card.Section>
-                            
-                            <Center  mx="1">
-                                <div className="py-6">
-                                <Image
-                            src="https://images.unsplash.com/photo-1527004013197-933c4bb611b3?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=720&q=80"
-                            height={100}
-                            
-                            alt="Norway"
-                            />
-                                </div>
-
-                            </Center>
-                        </Card.Section>
-                        </Card>
-                        <div className="text-center">
-                        <Text size={22} weight={500}>Fine Bag</Text>
-
-                        </div>
-                        </Grid.Col>
-
-                    </Grid>
-                </Card>
-                        </Grid.Col>
-
-                        
-                    </Grid>
-                </Grid.Col>
+                <Grid.Col md={6} className="mt-14">
                 
                 
+                <div className="pt-10">
+                <img src="https://images.meesho.com/images/marketing/1678691699680_300.webp"
                 
-            </Grid>
+                />
+                </div>
+                
+            </Grid.Col>
+
+            <Grid.Col md={6} className="mt-14">
+                
+                
+                <div className="pt-10">
+                <img src="https://images.meesho.com/images/marketing/1678691712594_300.webp" />
+
+                </div>
+                
+            </Grid.Col>
+                </Grid>
+
+            </Grid.Col>
+            
+        </Grid>
+      </Card>
+    </div>
+  </Grid.Col>
+</Grid>
+
+
+
         </div>
     )
 
