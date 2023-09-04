@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { API_URL } from '../constants';
 import { Link } from 'react-router-dom';
+import { Text } from '@mantine/core';
 
 function AppFooter() {
     const [categories, setCategories] = useState([]);
@@ -26,13 +27,13 @@ function AppFooter() {
 
                     <div className="row">
                         <div className="col-md-5 col-xs-6">
-                            <div className="footer">
+                            <div className="mt-10">
                                 <h3 className="footer-title">About Us</h3>
-                                <p>Discover a world of online shopping convenience with us! 
+                                <Text size={22} className='mt-5'>Discover a world of online shopping convenience with us! 
 From trending fashion to cutting-edge electronics, we offer seamless 
 browsing, secure transactions, and doorstep delivery. Elevate your 
-shopping experience at Jomodi - where choices meet convenience.</p>
-                                <ul className="footer-links">
+shopping experience at Jomodi - where choices meet convenience.</Text>
+                                <ul className="footer-links mt-4">
                                     <li><a href="#"><i className="fa fa-map-marker"></i>VSS Nagar, Bhubaneswar</a></li>
                                     <li><a href="#"><i className="fa fa-phone"></i>+91 1203546270</a></li>
                                     <li><a href="#"><i className="fa fa-envelope-o"></i>contact@jomodi.com</a></li>
@@ -40,9 +41,9 @@ shopping experience at Jomodi - where choices meet convenience.</p>
                             </div>
                         </div>
                         <div className="col-md-2 col-xs-6">
-                            <div className="footer">
+                            <div className="mt-10">
                                 <h3 className="footer-title">Categories</h3>
-                                <ul className="footer-links">
+                                <ul className="footer-links mt-5">
                                     {
                                         categories?.map((category) => (
                                             <li key={category.id}> <Link to={`/category/${category.id}/${category.name}`}>{category.name}</Link></li>
@@ -56,9 +57,9 @@ shopping experience at Jomodi - where choices meet convenience.</p>
                         <div className="clearfix visible-xs"></div>
 
                         <div className="col-md-3 col-xs-6">
-                            <div className="footer">
+                            <div className="mt-10">
                                 <h3 className="footer-title">Information</h3>
-                                <ul className="footer-links">
+                                <ul className="footer-links mt-5">
                                     <li><Link to="/about-us">About Us</Link></li>
                                     <li><Link to="/contact-us">Contact Us</Link></li>
                                     <li><Link to="/privacy-policy">Privacy Policy</Link></li>
@@ -76,9 +77,9 @@ shopping experience at Jomodi - where choices meet convenience.</p>
                         </div>
 
                         <div className="col-md-2 col-xs-6">
-                            <div className="footer">
+                            <div className="mt-10">
                                 <h3 className="footer-title">Service</h3>
-                                <ul className="footer-links">
+                                <ul className="footer-links mt-5">
                                     <li><Link to="/profile">My Account</Link></li>
                                     <li><Link to="/cart">View Cart</Link></li>
                                     <li><Link to="/wishlist">Wishlist</Link></li>

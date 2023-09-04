@@ -19,6 +19,7 @@ function HotDeal() {
              const lastItem = res.data.results[res.data.results.length - 1];
             // Set the 'banner' state to the last item
             setBanner(lastItem);
+            console.log(lastItem)
             })
             .catch((err) => {
                 console.log(err);
@@ -66,7 +67,7 @@ function HotDeal() {
         <div
             id="hot-deal"
             className="section"
-            style={{
+            style={{ 
                 backgroundImage: `url(${banner?.image})`,
             }}
         >

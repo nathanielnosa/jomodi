@@ -18,13 +18,12 @@ function Home() {
     return (
         <div>
             <HomeTop />
-            <TopCategory/>
-            <EssentialsCard/>
-            <NewStylesCard/>
+            <TopCategory />
+            <EssentialsCard />
             <TopSelling />
             <HotDeal />
+            <NewStylesCard/>
             <NewProduct />
-            <TopSellingChip />
             <HomeProduct />
 
         </div>
