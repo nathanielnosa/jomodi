@@ -37,7 +37,7 @@ function HomeTop() {
                                             backgroundImage: `url(${category.image})`,
                                             backgroundSize: 'cover', // Make sure the background image covers the container
                                             backgroundPosition: 'center', // Center the background image
-                                            transition: 'background-size 0.3s', // Add a smooth transition effect
+                                            transition: 'background-size 0.2s', // Add a smooth transition effect
                                             width: '100%', // Set the width of the container
                                             height: '200px', // Set the height of the container
                                         }}

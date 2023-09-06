@@ -102,7 +102,7 @@ function HotDeal() {
                                 </li>
                             </ul>
                             <h2 className="text-uppercase">hot deal this week</h2>
-                            <p>New Collection Up to 50% OFF</p>
+                            <p>New Collection Up to 70% OFF</p>
                             <Link className="primary-btn cta-btn" to="/store" style={{
                                 textDecoration: 'none',
                             }}>

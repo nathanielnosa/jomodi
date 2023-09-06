@@ -256,10 +256,10 @@ function OrderDetail({ cartTotal, setCartTotal, couponCode, setCouponCode, setCo
                                     setApplyCoupon(true)
                                 }}
                                 style={{
-                                    backgroundColor: 'blue'
+                                    backgroundColor: "rgb(209, 0, 36)",
                                 }}
-                            >
-                                Apply Coupon
+                            >   
+                            Apply Coupon
                             </Button>
                         )
                 )
