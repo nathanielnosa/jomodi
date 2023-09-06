@@ -19,8 +19,8 @@ function Home() {
         <div>
             <HomeTop />
             <TopCategory />
-            <TopSelling />
             <HotDeal />
+            <TopSelling />
             <EssentialsCard />
             <NewProduct/>
             <NewStylesCard/>
