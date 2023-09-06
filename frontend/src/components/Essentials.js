@@ -26,7 +26,7 @@ function EssentialsCard() {
         <div>
             <Grid>
   <Grid.Col xs={12} className="text-center">
-    <div style={{ width: '85%', margin: '0 auto' }} className="pt-10">
+    <div style={{ width: '100%', margin: 'auto' }} className="pt-10">
       <Card shadow="sm" padding="lg" radius="lg" withBorder
       className="pt-14"
       style={{

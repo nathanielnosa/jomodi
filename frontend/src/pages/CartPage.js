@@ -157,7 +157,7 @@ function CartPage() {
                         />
                       </div>
                       <div className="col-md-8">
-                        <Group position="right">
+                        <Group position="left">
                           <h4 className="card-title">
                             <Link to={`/product/${item.id}/${item.name}`}
                               target='_blank'
@@ -169,10 +169,10 @@ function CartPage() {
                                 }
                               }>{item.name.toUpperCase()}</Link>
                           </h4>
-                          <p className="card-title"> Delivery by {getDeliveryDate()} | Free </p>
+                          {/* <p className="card-title"> Delivery by {getDeliveryDate()} | Free </p> */}
                         </Group>
                         <div className="card-body">
-                         <Group>
+                         {/* <Group>
                             <p className="card-text" style={{
                               marginBottom: '10px',
                             }}>{item?.category?.name}</p>
@@ -182,9 +182,9 @@ function CartPage() {
                             <p className="card-text" style={{
                               marginBottom: '10px',
                             }}>{item?.brand?.name}</p>
-                         </Group>
+                         </Group> */}
                          
-                          <Group position="left" >
+                          <Group position="left">
                             <del className="product-old-price" style={{
                               marginBottom: '10px',
                             }}>₹{item?.cancel_price}</del>
@@ -193,16 +193,17 @@ function CartPage() {
                             }}> ₹{
                                 item.price.toFixed(2)
                               }</p>
-                            <p className="card-title" style={{
-                              marginBottom: '10px',
-                              color: 'red'
-                            }}>-{getDiscount(item.price, item.cancel_price)}%</p>
-                            <p className="card-title" style={{
+                            {/* <p className="card-title" style={{
                               marginBottom: '10px',
                               color: 'green'
-                            }}>You Save ₹{item.cancel_price - item.price}</p>
-                          </Group>
-                          <Group position="left">
+                            }}>You Save ₹{item.cancel_price - item.price}</p> */}
+
+                            {/* <p className="card-title" style={{
+                              marginBottom: '10px',
+                              marginRight:'10px',
+                              color: 'green'
+                            }}>You Save ₹{item.cancel_price - item.price}</p> */}
+
                             {item.show_size && (
                               <>
                                 <label style={{
@@ -246,6 +247,7 @@ function CartPage() {
                               </>
 
                             )}
+                            
                           </Group>
                         </div>
                       </div>

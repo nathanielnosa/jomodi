@@ -26,7 +26,7 @@ function NewStylesCard() {
         <div>
             <Grid>
   <Grid.Col xs={12} className="text-center">
-    <div style={{ width: '85%', margin: '0 auto' }} className="pt-6">
+    <div style={{ width: '100%', margin: '0 auto' }} className="pt-6">
       <Card shadow="sm" padding="lg" radius="lg" withBorder
       className="pt-14"
       style={{
@@ -54,7 +54,7 @@ function NewStylesCard() {
                 
                 </div>
                     <div className="pt-2">
-                    <Button className="" style={{backgroundColor:'black', color:'white', height:'40px'}}>Home Decor</Button>
+                    <Button className="" style={{backgroundColor:'black', color:'white', height:'40px'}}>Asscessories</Button>
                         </div>                
             </Grid.Col>
 
@@ -66,7 +66,7 @@ function NewStylesCard() {
 
                 </div>
                 <div className="pt-2">
-                    <Button className="" style={{backgroundColor:'black', color:'white', height:'40px'}}>Kitchen Appliances</Button>
+                    <Button className="" style={{backgroundColor:'black', color:'white', height:'40px'}}>Footer</Button>
                         </div>   
                 
             </Grid.Col>
@@ -78,7 +78,7 @@ function NewStylesCard() {
 
                 </div>
                 <div className="pt-2">
-                    <Button className="" style={{backgroundColor:'black', color:'white', height:'40px'}}>Health Care</Button>
+                    <Button className="" style={{backgroundColor:'black', color:'white', height:'40px'}}>Electronics</Button>
                         </div>   
                 
             </Grid.Col>

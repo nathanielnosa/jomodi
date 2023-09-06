@@ -26,7 +26,7 @@ function TopProductCard() {
         <div>
             <Grid>
   <Grid.Col xs={12} className="text-center">
-    <div style={{ width: '85%', margin: '0 auto' }} className="pt-4">
+    <div style={{ width: '100%', margin: 'auto' }} className="pt-4">
       <Card shadow="sm" padding="lg" radius="lg" withBorder
       className="pt-14"
       style={{
@@ -35,11 +35,11 @@ function TopProductCard() {
       >
         <Grid>
             <Grid.Col md={5}>
-                <img src="https://images.meesho.com/images/marketing/1678691686252_400.webp"/>
+                <img style={{ width: '520px', height:'410px', margin: 'auto' }} src="https://images.meesho.com/images/marketing/1678691686252_400.webp"/>
 
             </Grid.Col>
 
-            <Grid.Col md={7}>
+            <Grid.Col md={6}>
                 <Grid>
 
                 <Grid.Col>
@@ -47,22 +47,22 @@ function TopProductCard() {
                     <Text className="" size={60} weight={500}>Be Fashion Forward</Text>
                     </div>
                 </Grid.Col>
-                <Grid.Col md={6} className="mt-14">
+                <Grid.Col md={6}>
                 
                 
-                <div className="pt-10">
-                <img src="https://images.meesho.com/images/marketing/1678691699680_300.webp"
+                <div >
+                <img style={{ width: '520px', height:'340px', margin: 'auto' }} src="https://images.meesho.com/images/marketing/1678691699680_300.webp"
                 
                 />
                 </div>
                 
             </Grid.Col>
 
-            <Grid.Col md={6} className="mt-14">
+            <Grid.Col md={6}>
                 
                 
-                <div className="pt-10">
-                <img src="https://images.meesho.com/images/marketing/1678691712594_300.webp" />
+                <div>
+                <img style={{ width: '520px', height:'340px', margin: 'auto' }} src="https://images.meesho.com/images/marketing/1678691712594_300.webp" />
 
                 </div>
                 

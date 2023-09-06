@@ -19,11 +19,13 @@ function Home() {
         <div>
             <HomeTop />
             <TopCategory />
-            <EssentialsCard />
             <TopSelling />
             <HotDeal />
+            <EssentialsCard />
+            <NewProduct/>
             <NewStylesCard/>
-            <NewProduct />
+            <br></br>
+            <br></br>
             <HomeProduct />
 
         </div>

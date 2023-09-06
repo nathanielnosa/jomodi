@@ -190,7 +190,7 @@ function OrderSummary({ deliveyAddress, showOrder, showPayment }) {
                                                         </Group>
                                                     </div>
 
-                                                    <div className="row">
+                                                    {/* <div className="row">
                                                         {
                                                             item?.show_size && (
                                                                 <div className="col-md-3">
@@ -248,7 +248,7 @@ function OrderSummary({ deliveyAddress, showOrder, showPayment }) {
                                                                 </div>
                                                             )
                                                         }
-                                                    </div>
+                                                    </div> */}
                                                 </div>
 
                                                 <div className="col-md-12">
