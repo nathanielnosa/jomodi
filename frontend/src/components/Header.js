@@ -10,94 +10,111 @@ function Header() {
             <div className="cont cont-1">
                 <div className="flex-container">
                     <div className="flex-col-1">
-                        <h2 className="logo">jomodi</h2>
+                        <h2 className="logo">Jomodi</h2>
                     </div>
                     <div className="flex-col-2">
-                        <div id="search" className="input-group search">
+                        <div id="search" className=" search">
                             <button type="button" className="button-search"><i className="fa-solid fa-magnifying-glass"></i></button>
-                            <input id="filter_name" type="text" name="search" value="" placeholder="Try Saree, Kurti or Search by Product Code" className="form-cont" />
+                            <input id="filter_name" type="text" nae="search" value="" placeholder="Try Saree, Kurti or Search by Product Code" className="form-cont"/>
                         </div>
 
                     </div>
                     <div className="flex-col-3">
-                        <div className="flex-cont">
-                            <div className="">
-                                <div className="desktop-item">
-                                    <ul className="navbar-nav nav-linksss">
-                                        <li className="dropdown">
-
-                                            <a className="d-flex" href="#" data-bs-toggle="dropdown">
-                                                <span className="mr-5">
-                                                    <i className="fa-solid fa-mobile icon"></i>
-                                                </span>
-                                                Download </a>
-                                            <ul className="dropdown-menu">
-                                                <li><a className="dropdown-item" href="#"> Download from</a></li>
-                                                <li><img src="/img/playstore.jpg" alt="" width="100%" style={{
-                                                    marginTop: "-10px"
-                                                }} /></li>
+                    <div className="flex-cont">
+                        <div className="">
+                          <nav className="navbarr-main navbar-expnd-lg">
+                            <div className="" id="navbarTogglerDemo01">
+                              <ul className=" nav-links">
+                                <li className="nav-item">
+                                  <div className="desktop-item">
+                                    <a className="" href="#"> 
+                                      <span className="">
+                                        <i className="fa-solid fa-mobile icon"></i>                           
+                                      </span>
+                                       Download </a>
+                                  </div>
+                                    <div className="megaa-box">
+                                      <div className="content">
+                                        <div className="flex-cnt">
+                                          <div className="">
+                                            <header className="sub-headerr">Download from</header>
+                                            <ul className="mega-linkss">
+                                            <li><img src="/img/playstore.jpg" alt="" width="80%" style={{marginTop: "-10px", marginLeft: "34px"}} /></li>
                                             </ul>
-                                        </li>
-
-                                    </ul>
-                                </div>
+                                          </div>           
+                                        </div>
+                                   </div>
+                                    </div>
+                                </li>
+                              </ul>
                             </div>
-                            <div className=" nav-linksss">
-                                <div className="vl">
-                                    <li>
-                                        <a>Become a Supplier</a>
-                                    </li>
-                                </div>
-                            </div>
+                        </nav>
+                        </div>
+                        <div className="nav-linksss">
+                            <div className="vl">
+                              <li>
+                                <a>Become a Supplier</a>
+                              </li>
+                              </div>
                         </div>
                     </div>
+                    </div>
                     <div className="flex-col-4">
-                        <div className="flex-cont ">
-                            <div className="">
-                                <div className="desktop-itemm">
-                                    <ul className="navar-nav mr-auto nav-linkss">
-                                        <li className=" dropdown">
-
-                                            <a className="" href="#" data-bs-toggle="dropdown">
-                                                <i className="fa-regular fa-user d-flex justify-content-center"></i>
-                                                <p>Profile</p>
-                                            </a>
-                                            <ul className="dropdown-menu menu">
-                                                <li><a className="dropdown-item " href="#"> Hello User</a></li>
-                                                <li><a className="dropdown-item pr-3">To access your Meesho account</a></li>
-                                                <button type="button" className="btn btn-primary btn-lg m-3"><a className="p-3 text-light" href="">Sign up</a></button>
-                                                <hr />
-                                                <li>
-                                                    <a className="dropdown-item" href="">
-                                                        <span>
-                                                            <i className="fa-solid fa-bag-shopping ml-5"></i>
-                                                            My orders
-                                                        </span>
-                                                    </a>
-
-                                                </li>
-                                            </ul>
-                                        </li>
-                                    </ul>
-
+                    <div className="flex-cont">
+                      <div className="">
+                        <nav className="navbarr-main">
+                          <div className="">
+                            <ul className=" nav-linkest">
+                              <li className="nav-item">
+                                <div className="desktop-item">
+                                  <a className="" href="#"> 
+                                    <i className="fa-regular fa-user"></i>
+                                <p>Profile</p>
+                               </a>
                                 </div>
-                            </div>
-                            <div className="nav-linksss">
-                                <div className="vll">
-                                    <i className="fa-solid fa-cart-shopping d-flex justify-content-center"></i>
-                                    <p>Cart</p>
-                                </div>
-                            </div>
+                                  <div className="megaa-box">
+                                    <div className="content">
+                                      <div className="">
+                                        <div className="sub-headerrr">
+                                          <ul className="mega-linkss">
+                                            <li><a className="">Hello User</a></li>
+                                            <li><a className="">To access your Jomodi account</a></li>
+                                            <li><button type="button" className="sign-up"><a className="sign" href="">Signup / Login</a></button></li>
+                                           
+                                            <li>
+                                              <a className="dropdown-item" href="">
+                                              <span>
+                                                <i className="fa-solid fa-bag-shopping"></i>
+                                                  My orders
+                                                </span>
+                                              </a>
+                                             </li>
+                                          </ul>
+                                        </div>           
+                                      </div>
+                                 </div>
+                                  </div>
+                              </li>
+                            </ul>
+                          </div>
+                      </nav>
+                      </div>
+                        <div className="nav-linksss">
+                            <div className="vll" style={{fontSize: "15px"}}>
+                              <i className="fa-solid fa-cart-shopping"></i>
+                                <p>Cart</p>
+                              </div>
                         </div>
+                    </div>
                     </div>
                 </div>
 
             </div>
-            <div className="cont cont-2">
+            <div className="cnt cont-2">
 
-                <nav className="navbar navbar-expand-lg">
+                <nav className="navbarr navbar-expand-lg">
                     <div className="" id="navbarTogglerDemo01">
-                        <ul className="navbar-nav mt-2 nav-links">
+                        <ul className="nav-links">
                             <li className="nav-item">
                                 <div className="desktop-item">
                                     <a href="#" className="">Women Ethnic</a>
@@ -344,7 +361,7 @@ function Header() {
                                 </div>
                             </li>
                             <li className="nav-item">
-                                <div className="">
+                                <div className="desktop-item">
                                     <a href="#" className="">Home & Kitchen </a>
                                 </div>
                                 <div className="mega-box">
@@ -556,6 +573,7 @@ function Header() {
                 </nav>
             </div>
         </header>
+        
     );
 }
 
