@@ -50,7 +50,7 @@ function Header() {
                             </div>
                         </nav>
                         </div>
-                        <div className="nav-linksss">
+                        <div className="nav-linksss line">
                             <div className="vl">
                               <li>
                                 <a>Become a Supplier</a>
@@ -59,7 +59,7 @@ function Header() {
                         </div>
                     </div>
                     </div>
-                    <div className="flex-col-4">
+                    <div className="flex-col-4 linee">
                     <div className="flex-cont">
                       <div className="">
                         <nav className="navbarr-main">
@@ -100,7 +100,7 @@ function Header() {
                       </nav>
                       </div>
                         <div className="nav-linksss">
-                            <div className="vll" style={{fontSize: "15px"}}>
+                            <div className="vll" style={{fontSize: "16px"}}>
                               <i className="fa-solid fa-cart-shopping"></i>
                                 <p>Cart</p>
                               </div>
