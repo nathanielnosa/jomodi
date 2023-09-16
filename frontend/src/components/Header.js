@@ -10,7 +10,7 @@ function Header() {
             <div className="cont cont-1">
                 <div className="flex-container">
                     <div className="flex-col-1">
-                        <h2 className="logo">Jomodi</h2>
+                    <a className="" href='/'><h2 className="logo">Jomodi</h2></a>
                     </div>
                     <div className="flex-col-2">
                         <div id="search" className=" search">
@@ -53,9 +53,9 @@ function Header() {
                         <div className="nav-linksss line">
                             <div className="vl">
                               <li>
-                                <a>Become a Supplier</a>
+                                <a>Become a Seller</a>
                               </li>
-                              </div>
+                              </div>   
                         </div>
                     </div>
                     </div>
@@ -79,16 +79,16 @@ function Header() {
                                           <ul className="mega-linkss">
                                             <li><a className="">Hello User</a></li>
                                             <li><a className="">To access your Jomodi account</a></li>
-                                            <li><button type="button" className="sign-up"><a className="sign" href="">Signup / Login</a></button></li>
+                                            <li><button type="button" className="sign-up"><a className="sign" href="/login">Signup / Login</a></button></li>
                                            
-                                            <li>
+                                            {/* <li>
                                               <a className="dropdown-item" href="">
                                               <span>
                                                 <i className="fa-solid fa-bag-shopping"></i>
                                                   My orders
                                                 </span>
                                               </a>
-                                             </li>
+                                             </li> */}
                                           </ul>
                                         </div>           
                                       </div>
