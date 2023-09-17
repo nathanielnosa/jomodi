@@ -12,14 +12,28 @@ function HotDeal() {
         seconds: 0,
     });
 
+    // useEffect(() => {
+    //     axios
+    //         .get(API_URL + 'product/home_banner_image/')
+    //         .then((res) => {
+    //          const lastItem = res.data.results[res.data.results.length - 1];
+    //         // Set the 'banner' state to the last item
+    //         setBanner(lastItem);
+    //         console.log(lastItem)
+    //         })
+    //         .catch((err) => {
+    //             console.log(err);
+    //         });
+    // }, []);
+
     useEffect(() => {
         axios
-            .get(API_URL + 'product/home_banner_image/')
+            .get(API_URL + 'product/home_banner_image/?filter=true')
             .then((res) => {
-             const lastItem = res.data.results[res.data.results.length - 1];
-            // Set the 'banner' state to the last item
-            setBanner(lastItem);
-            console.log(lastItem)
+                const lastItem = res.data.results[0];
+                // Set the 'banner' state to the last item
+                setBanner(lastItem);
+                console.log(lastItem)
             })
             .catch((err) => {
                 console.log(err);
