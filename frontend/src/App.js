@@ -13,9 +13,6 @@ import MainRoute from './router/MainRoute';
 import store from './actions/store';
 import { Notifications } from '@mantine/notifications';
 import { AuthProvider } from '../src/context/auth-context';
-import { IconBell } from '@tabler/icons-react';
-import { API_URL } from './constants';
-import axios from 'axios';
 import NewsLetterBell from './components/NewsLetterBell';
 
 function App() {
