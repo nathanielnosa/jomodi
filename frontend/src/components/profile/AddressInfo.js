@@ -48,6 +48,9 @@ function AddressInfo() {
     const [hideAdresses, setHideAddresses] = useState(false);
     const [opened, setOpened] = useState(false);
     const [showModal, setShowModal] = useState(false);
+    const [pinAddress, setPinAddress] = useState({});
+    const [pinError, setPinError] = useState(false);
+    const [pinErrorMessage, setPinErrorMessage] = useState("");
 
     const handleOpenEdit = (address) => {
         setSelectedAddress(address);
@@ -89,6 +92,27 @@ function AddressInfo() {
     console.log(selectedAddress);
 
     useEffect(() => {
+        // Check if pincode has a length of 6 before making the API request
+        if (pincode.length === 6) {
+            axios
+                .get(`${API_URL}order/pincode_address/?zipcode=${pincode}`)
+                .then((res) => {
+                    console.log(res.data);
+                    setPinAddress(res.data);
+                    setPinError(false);
+                    setPinErrorMessage("");
+                })
+                .catch((err) => {
+                    console.log(err);
+                    setPinError(true);
+                    setPinErrorMessage(err.response.data.message);
+                });
+        }
+    }, [pincode]);
+
+
+
+    useEffect(() => {
         axios
             .get(`${API_URL}order/address-fetch/?user_id=${user?.user_id}`)
             .then((res) => {
@@ -108,10 +132,10 @@ function AddressInfo() {
                 user: user?.user_id,
                 full_name: fullNames,
                 phone_number: phoneNumbers,
-                locality: locality,
+                locality: pinAddress?.Area,
                 address: address,
-                city: city,
-                state: state,
+                city: pinAddress?.district,
+                state: pinAddress?.state,
                 pincode: pincode,
                 landmark: landmark,
                 alternate_phone_number: alternatePhone,
@@ -122,6 +146,9 @@ function AddressInfo() {
                 console.log(res.data);
                 setOpenModal(false);
                 setAddresses([...addresses, res.data]);
+                setPinAddress({});
+                setPinError(false);
+                setPinErrorMessage("");
             })
             .catch((err) => {
                 console.log(err);
@@ -181,18 +208,14 @@ function AddressInfo() {
                 >
                     <TextInput size="xl" label="Full Name" placeholder="Full Name" onChange={(e) => setFullNames(e.target.value)} />
                     <TextInput size="xl" label="Phone Number" placeholder="Phone Number" onChange={(e) => setPhoneNumbers(e.target.value)} />
-                    <TextInput size="xl" label="Locality" placeholder="Locality" onChange={(e) => setLocality(e.target.value)} />
-                    <TextInput size="xl" label="Address" placeholder="Address" onChange={(e) => setAddress(e.target.value)} />
-                    <TextInput size="xl" label="City" placeholder="City" onChange={(e) => setCity(e.target.value)} />
-                    {/* <TextInput size="xl" label="State" placeholder="State" onChange={(e) => setState(e.target.value)} /> */}
-                    <Select
-                        size="xl"
-                        label="State"
-                        placeholder="State"
-                        data={statesList}
-                        onChange={(e) => setState(e)}
+                    <TextInput size="xl" label="Pincode" placeholder="Pincode" onChange={(e) => setPincode(e.target.value)}
+                        error={pinError && pinErrorMessage}
+                        errorLabel={pinErrorMessage}
                     />
-                    <TextInput size="xl" label="Pincode" placeholder="Pincode" onChange={(e) => setPincode(e.target.value)} />
+                    <TextInput size="xl" label="State" placeholder="State" value={pinAddress?.state} onChange={(e) => setState(e.target.value)} />
+                    <TextInput size="xl" label="Locality" placeholder="Locality" value={pinAddress?.Area} onChange={(e) => setLocality(e.target.value)} />
+                    <TextInput size="xl" label="Address" placeholder="Address" onChange={(e) => setAddress(e.target.value)} />
+                    <TextInput size="xl" label="City" placeholder="City" value={pinAddress?.district} onChange={(e) => setCity(e.target.value)} />
                     <TextInput size="xl" label="Landmark" placeholder="Landmark" onChange={(e) => setLandmark(e.target.value)} />
                     <TextInput size="xl" label="Alternate Phone Number" placeholder="Alternate Phone Number" onChange={(e) => setAlternatePhone(e.target.value)} />
                     <Radio.Group
@@ -479,7 +502,7 @@ function AddressInfo() {
                                     marginTop: "10px",
                                 }}>
                                     <Group mt="xs">
-                        
+
                                         <Text>
                                             {address.full_name}
                                         </Text>
@@ -533,17 +556,14 @@ function AddressInfo() {
                                 >
                                     <TextInput size="xl" label="Full Name" placeholder="Full Name" onChange={(e) => setFullNames(e.target.value)} />
                                     <TextInput size="xl" label="Phone Number" placeholder="Phone Number" onChange={(e) => setPhoneNumbers(e.target.value)} />
-                                    <TextInput size="xl" label="Locality" placeholder="Locality" onChange={(e) => setLocality(e.target.value)} />
-                                    <TextInput size="xl" label="Address" placeholder="Address" onChange={(e) => setAddress(e.target.value)} />
-                                    <TextInput size="xl" label="City" placeholder="City" onChange={(e) => setCity(e.target.value)} />
-                                    <Select
-                                        size="xl"
-                                        label="State"
-                                        placeholder="State"
-                                        data={statesList}
-                                        onChange={(e) => setState(e)}
+                                    <TextInput size="xl" label="Pincode" placeholder="Pincode" onChange={(e) => setPincode(e.target.value)}
+                                        error={pinError && pinErrorMessage}
+                                        errorLabel={pinErrorMessage}
                                     />
-                                    <TextInput size="xl" label="Pincode" placeholder="Pincode" onChange={(e) => setPincode(e.target.value)} />
+                                    <TextInput size="xl" label="State" placeholder="State" value={pinAddress?.state} onChange={(e) => setState(e.target.value)} />
+                                    <TextInput size="xl" label="Locality" placeholder="Locality" value={pinAddress?.Area} onChange={(e) => setLocality(e.target.value)} />
+                                    <TextInput size="xl" label="Address" placeholder="Address" onChange={(e) => setAddress(e.target.value)} />
+                                    <TextInput size="xl" label="City" placeholder="City" value={pinAddress?.district} onChange={(e) => setCity(e.target.value)} />
                                     <TextInput size="xl" label="Landmark" placeholder="Landmark" onChange={(e) => setLandmark(e.target.value)} />
                                     <TextInput size="xl" label="Alternate Phone Number" placeholder="Alternate Phone Number" onChange={(e) => setAlternatePhone(e.target.value)} />
                                     <Radio.Group
