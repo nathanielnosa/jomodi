@@ -32,7 +32,9 @@ function MainLayout(props) {
                 <AppFooter />
             }
         >
-            <section class="p-3 p-md-5">
+            <section class="p-3 p-md-5" style={{
+                marginTop: "100px"
+            }}>
             <Outlet />
             </section>
         </AppShell>
