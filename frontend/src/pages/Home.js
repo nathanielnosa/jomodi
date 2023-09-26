@@ -21,9 +21,9 @@ function Home() {
             <TopCategory />
             <HotDeal />
             <TopSelling />
-            <EssentialsCard />
+            {/* <EssentialsCard /> */}
             <NewProduct/>
-            <NewStylesCard/>
+            {/* <NewStylesCard/> */}
             <br></br>
             <br></br>
             <HomeProduct />

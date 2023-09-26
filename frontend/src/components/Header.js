@@ -173,18 +173,16 @@ export default function Header() {
             </div>
             <div className="cont cont-2">
 
-                <nav className="navbar navbar-expand-lg" style={{
-                    zIndex: 1
-                }}>
+                <nav className="navbar navbar-expand-lg">
                     <div className="" id="navbarTogglerDemo01">
                         <ul className="navbar-nav mt-2 nav-links">
                             {
                                 categories?.map((category, index) => (
                                     <li className="nav-item">
                                         <div className="desktop-item">
-                                            <a href="#" className=""
+                                            <Link to={`/category/${category.id}/${category.name}`} className=""
                                                 onMouseEnter={() => setCategoryID(category.id)}
-                                            >{category?.name}</a>
+                                            >{category?.name}</Link>
                                         </div>
                                         <div className="mega-box">
                                             <div className="content">
@@ -192,7 +190,7 @@ export default function Header() {
                                                     <div className="">
                                                         <header className="sub-header">All       {category?.name}</header>
                                                         <ul className="mega-links">
-                                                            <li className="pr-5"><a href="#">View All</a></li>
+                                                            <li className="pr-5"><Link to="">View All</Link></li>
                                                         </ul>
                                                     </div>
                                                     {
@@ -204,10 +202,10 @@ export default function Header() {
                                                                         {categoryType?.name}
                                                                     </header>
                                                                     <ul className="mega-links">
-                                                                        <li><a href="#">All {categoryType?.name}</a></li>
+                                                                        <li><Link to=''>All {categoryType?.name}</Link></li>
                                                                         {
                                                                             categoryType?.subcategories?.map((subCategory, index) => (
-                                                                                <li><a href="#">{subCategory?.name}</a></li>
+                                                                                <li><Link to={`/subcategory/${subCategory.id}/${subCategory.name}`}>{subCategory?.name}</Link></li>
                                                                             ))
                                                                         }
 
