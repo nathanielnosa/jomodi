@@ -65,51 +65,74 @@ export default function Header() {
         <header className="header" style={{
             zIndex: 1
         }}>
+
             <div className="cont cont-1">
                 <div className="flex-container">
-                    <div className="flex-col-1">
+                    <div className="">
                         <Link to='/'>
-                        <h2 className="logo">Jomodi</h2>
+                            <h2 className="logo">Jomodi</h2>
                         </Link>
                     </div>
-                    <div className="flex-col-2">
-                        <div id="search" className="input-group search">
-                            <button type="button" className="button-search"><i className="fa-solid fa-magnifying-glass"></i></button>
-                            <input id="filter_name" type="text" name="search" value="" placeholder="Try Saree, Kurti or Search by Product Code" className="form-cont" />
-                        </div>
-
+                    <div id="search" className="input-group search">
+                        <button type="button" className="button-search"><i className="fa-solid fa-magnifying-glass"></i></button>
+                        <input id="filter_name" type="text" name="search" value="" placeholder="Try Saree, Kurti or Search by Product Code" className="form-cont" />
                     </div>
+
                     <div className="flex-col-3">
-                        <div className="flex-cont">
-                            <div className="">
-                                <div className="desktop-item">
-                                    <ul className="navbar-nav nav-linksss">
-                                        <li className="dropdown">
+                        <ul className="navbar-nav">
+                            <li className="download">
+                                <a href="#" className=""> <i className="fa-solid fa-mobile icon"></i>Download</a>
+                                <ul className='dropdown'>
+                                    <li><a className="" href="#"> Download from</a></li>
+                                    <li><img src="/img/playstore.jpg" alt="" width="100%" /></li>
+                                </ul>
+                            </li>
+                            <li className='download'>
+                                <a href="">Become a Supplier</a>
+                            </li>
+                            <li className="download">
+                                <a href="#" className="d-flex">
+                                    <i className="fa-regular fa-user d-flex justify-content-center"></i>
+                                    Profile</a>
+                                <ul className='dropdown'>
+                                    {
+                                        user ? (
+                                            <>
+                                                <li><Link to='' className="dropdown-item"> Hello</Link></li>
+                                                <li><Link to='/order' className="dropdown-item "> My Orders</Link></li>
+                                                <li><Link to='/profile' className="dropdown-item "> My Profile</Link></li>
+                                                <li><Link to='/wishlist' className="dropdown-item "> My Wishlist</Link></li>
+                                                <hr />
+                                                <li>
+                                                    <p className="dropdown-item" href="">
+                                                        <span onClick={() => logout()}>
+                                                            <i className="fa-solid fa-bag-shopping ml-5"></i>
+                                                            Sign Out
+                                                        </span>
 
-                                            <a className="d-flex" href="#" data-bs-toggle="dropdown">
-                                                <span className="mr-5">
-                                                    <i className="fa-solid fa-mobile icon"></i>
-                                                </span>
-                                                Download </a>
-                                            <ul className="dropdown-menu">
-                                                <li><a className="dropdown-item" href="#"> Download from</a></li>
-                                                <li><img src="/img/playstore.jpg" alt="" width="100%" style={{ marginTop: '-10px' }} /></li>
-                                            </ul>
-                                        </li>
+                                                    </p>
 
-                                    </ul>
-                                </div>
-                            </div>
-                            <div className=" nav-linksss">
-                                <div className="vl">
-                                    <li>
-                                        <a>Become a Supplier</a>
-                                    </li>
-                                </div>
-                            </div>
-                        </div>
+                                                </li>
+                                            </>
+
+                                        ) : (
+                                            <>
+                                                <li><a className="dropdown-item pr-3">To access your Jomodi account</a></li>
+                                                <button type="button" className="btn btn-primary btn-md m-3"><Link to='/login' className="p-3 text-light" href="">Sign up</Link></button>
+
+                                            </>
+
+                                        )
+                                    }
+
+                                </ul>
+                            </li>
+
+
+                        </ul>
+
                     </div>
-                    <div className="flex-col-4">
+                    {/* <div className="flex-col-4">
                         <div className="flex-cont ">
                             <div className="">
                                 <div className="desktop-itemm">
@@ -129,13 +152,13 @@ export default function Header() {
                                                             <li><Link to='/profile' className="dropdown-item "> My Profile</Link></li>
                                                             <li><Link to='/wishlist' className="dropdown-item "> My Wishlist</Link></li>
                                                             <hr />
-                                                         <li>
+                                                            <li>
                                                                 <p className="dropdown-item" href="">
                                                                     <span onClick={() => logout()}>
                                                                         <i className="fa-solid fa-bag-shopping ml-5"></i>
                                                                         Sign Out
                                                                     </span>
-                                                                
+
                                                                 </p>
 
                                                             </li>
@@ -161,13 +184,13 @@ export default function Header() {
                             <div className="nav-linksss">
                                 <div className="vll">
                                     <Link to='/cart'>
-                                    <i className="fa-solid fa-cart-shopping d-flex justify-content-center"></i>
-                                    <p>Cart</p>
+                                        <i className="fa-solid fa-cart-shopping d-flex justify-content-center"></i>
+                                        <p>Cart</p>
                                     </Link>
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </div> */}
                 </div>
 
             </div>
